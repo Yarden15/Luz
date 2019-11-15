@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile:sass": "node-sass sass/main.scss style/main.css -w"
   },
   "repository": {
     "type": "git",
@@ -16,8 +16,7 @@
     "url": "https://github.com/Yarden15/Luz/issues"
   },
   "homepage": "https://github.com/Yarden15/Luz#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "node-sass": "^4.13.0"
   }
 }
