@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Yarden15/Luz/issues"
   },
-  "homepage": "https://github.com/Yarden15/Luz#readme"
+  "homepage": "https://github.com/Yarden15/Luz#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "node-sass": "^4.13.0"
+  }
 }
