@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <Fragment className="App">
-        <h1>hello fdddrom react</h1>
+        <h1>hello from react</h1>
       </Fragment>
     );
 
