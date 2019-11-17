@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, {Fragment, Component} from 'react';
 import './App.css';
 
 class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <Fragment className="App">
         <h1>hello from react</h1>
-      </div>
+      </Fragment>
     );
 
   }
