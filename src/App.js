@@ -1,12 +1,13 @@
 import React, {Fragment, Component} from 'react';
 import './App.css';
+import Spinner from './components/layout/Spinner';
 
 class App extends Component {
 
   render() {
     return (
       <Fragment className="App">
-        <h1>hello from react</h1>
+           <Spinner />
       </Fragment>
     );
 
