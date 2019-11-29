@@ -10,8 +10,14 @@ export default class Schedule extends React.Component {
   render() {
     return (
       <FullCalendar
-        defaultView='dayGridWeek'
+        defaultView='timeGridWeek'
         plugins={[dayGridPlugin, timeGridPlugin]}
+        header={{
+          center: 'title',
+          left: '',
+          right: ''
+        }}
+        
       />
     );
   }
