@@ -7,14 +7,9 @@ import Calander from './components/calander/Calander';
 class App extends Component {
   render() {
     return (
-<<<<<<< HEAD
-      <div className="App" >
-           <Spinner />        
-=======
       <div className='App'>
         <Navbar />
         <Calander />
->>>>>>> 9fbc807295de369e20925b083563fc5697f11a82
       </div>
     );
   }
