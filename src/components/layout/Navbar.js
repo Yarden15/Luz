@@ -19,7 +19,7 @@ const Navbar = ({ icon, title }) => {
 
 Navbar.defaultProps = {
   title: 'LUZ ',
-  logo: 'fab fa-github'
+  icon: 'fab fa-github'
 };
 
 Navbar.propTypes = {
