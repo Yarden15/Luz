@@ -6,7 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 
 import '../../App.css'; // webpack must be configured to do this
 
-export default class Schedule extends React.Component {
+export default class ScheduleItem extends React.Component {
   render() {
     return (
       <div className='calendar-1'>
@@ -22,9 +22,9 @@ export default class Schedule extends React.Component {
           allDaySlot={false}
           minTime="07:00:00"
           maxTime="23:00:00"
-          
+
         />
       </div>
-    );
+    )
   }
 }
