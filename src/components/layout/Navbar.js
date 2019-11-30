@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import logo from './logo_black.png'
 
-const Navbar = ({ logo, title }) => {
+const Navbar = ({ icon, title }) => {
   return (
     <nav className='navbar'>
       <h1>
-        <i className={logo} />
-        {title}
+        <img src={logo} alt='logo' className='logo-small' />
       </h1>
       <ul>
         <li>Home</li>
         <li>About</li>
+        <li>Logout</li>
       </ul>
     </nav>
   );
