@@ -6,7 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 
 import '../../App.css'; // webpack must be configured to do this
 
-export default class Schedule extends React.Component {
+export default class ScheduleItem extends React.Component {
   render() {
     return (
       <FullCalendar
@@ -17,7 +17,6 @@ export default class Schedule extends React.Component {
           left: '',
           right: ''
         }}
-        
       />
     );
   }
