@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './styles/App.scss';
 //import Spinner from './components/layout/Spinner';
 import Navbar from './components/layout/Navbar';
 import ScheduleContainer from './components/calendar/ScheduleContainer';

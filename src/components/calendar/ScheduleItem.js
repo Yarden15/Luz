@@ -8,31 +8,31 @@ import PropTypes from 'prop-types'
 
 
 
-const ScheduleItem = ({title}) => {
-    return (
-      <div className='calendar-1'>
+const ScheduleItem = ({ title }) => {
+  return (
+    <div className='calendar-1'>
 
-    <h1 className='calendar-title'>{title}</h1>
-        <FullCalendar
-          defaultView='timeGridWeek'
-          plugins={[dayGridPlugin, timeGridPlugin]}
-          header={{
-            center: '',
-            left: '',
-            right: ''
-          }}
-          hiddenDays={[6]}
-          allDaySlot={false}
-           minTime="07:00:00"
-           maxTime="23:00:00"
-           height="auto"
-           titleFormat={{weekday: 'long'}}
-           columnHeaderFormat={{weekday:'long'}}
-        />
-      </div>
-    )
-  }
-  
+      <h1 className='calendar-title'>{title}</h1>
+      <FullCalendar
+        defaultView='timeGridWeek'
+        plugins={[dayGridPlugin, timeGridPlugin]}
+        header={{
+          center: '',
+          left: '',
+          right: ''
+        }}
+        hiddenDays={[6]}
+        allDaySlot={false}
+        minTime="07:00:00"
+        maxTime="23:00:00"
+        height="auto"
+        titleFormat={{ weekday: 'long' }}
+        columnHeaderFormat={{ weekday: 'long' }}
+      />
+    </div>
+  )
+}
+
 ScheduleItem.defaultProps = {
   title: 'Title - name of the schedule and etc..'
 }
