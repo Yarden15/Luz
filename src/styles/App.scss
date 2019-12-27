@@ -1,5 +1,7 @@
 @import "./sass/utils/variables";
-@import "./sass/main";
+@import "./sass/components/calendar";
+
+//full calendar styles
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
 @import '~@fullcalendar/timegrid/main.css';

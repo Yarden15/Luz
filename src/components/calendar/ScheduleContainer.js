@@ -11,9 +11,6 @@ const ScheduleContainer = () => {
            <ScheduleItem title={'נביאים'}/>
         </div>
       </div>
-
-      <ScheduleItem title={'קמפוס החרדי'}/>
-        
     </div>
   );
 };
