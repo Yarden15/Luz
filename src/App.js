@@ -3,15 +3,20 @@ import './styles/App.scss';
 //import Spinner from './components/layout/Spinner';
 import Navbar from './components/layout/Navbar';
 import ScheduleContainer from './components/calendar/ScheduleContainer';
+import { Provider } from 'react-redux';
+import store from './store'
 
-class App extends Component {
-  render() {
-    return (
+
+const App = () => {
+
+  return (
+    <Provider store={store}>
       <div className='App'>
         <Navbar />
         <ScheduleContainer />
       </div>
-    );
-  }
+    </Provider>
+  );
 }
+
 export default App;

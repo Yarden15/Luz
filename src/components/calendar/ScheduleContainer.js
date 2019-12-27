@@ -8,7 +8,7 @@ const ScheduleContainer = () => {
       <div className="row">
         <div className="col-sm-3"></div>
         <div className="col-sm-9">
-           <ScheduleItem title={'נביאים'}/>
+          <ScheduleItem title={'נביאים'} />
         </div>
       </div>
     </div>
