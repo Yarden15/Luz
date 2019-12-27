@@ -4,8 +4,8 @@ import ScheduleItem from './ScheduleItem';
 const ScheduleContainer = () => {
   return (
     <div>
-      <ScheduleItem/>
-      <ScheduleItem/>
+      <ScheduleItem title={'נביאים'}/>
+      <ScheduleItem title={'קמפוס החרדי'}/>
     </div>
   );
 };
