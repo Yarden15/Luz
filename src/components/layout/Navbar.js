@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import logo from './logo_black.png'
+import logo from '../../styles/assets/logo_white.png'
 
 const Navbar = ({ icon, title }) => {
   return (
