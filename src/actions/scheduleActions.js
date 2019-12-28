@@ -17,10 +17,7 @@ export const getLogs = () => async dispatch => {
       payload: error.response.data
     });
   }
-
-
 };
-
 
 //set loading to true
 export const setLoading = () => {

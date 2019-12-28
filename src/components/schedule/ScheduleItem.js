@@ -20,7 +20,7 @@ const ScheduleItem = ({ title }) => {
           left: '',
           right: ''
         }}
-        hiddenDays={[7]}
+        hiddenDays={[6]}
         allDaySlot={false}
         minTime="07:00:00"
         maxTime="23:00:00"
@@ -37,17 +37,7 @@ const ScheduleItem = ({ title }) => {
           alert('description:' + info.event.description);
           alert('View: ' + info.view.type);
         }}
-        events={[{ title: 'test', date: '2019-12-28' },
-        {
-          title: 'אלגוריתמים - ערן לונדון',
-          start: '2019-12-28T10:30:00',
-          end: '2019-12-28T11:45:00',
-          description: 'הרצאה',
-          extendedProps: {
-            department: 'מדעי המחשב'
-          }
-
-        }]}
+        events={[]}
       />
     </div>
   )
