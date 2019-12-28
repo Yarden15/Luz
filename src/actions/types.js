@@ -1,0 +1,6 @@
+export const GET_SCHEDULES = 'GET_SCHEDULES';
+export const ADD_SCHEDULE = 'ADD_SCHEDULE';
+export const DELETE_SCHEDULE = 'DELETE_SCHEDULE';
+export const SCHEDULE_ERROR = 'SCHEDULE_ERROR';
+export const SET_LOADING = 'SET_LOADING';
+
