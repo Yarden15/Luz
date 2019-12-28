@@ -1,5 +1,5 @@
 import { GET_SCHEDULES, SET_LOADING, SCHEDULES_ERROR } from './types'
-import thunk from 'redux-thunk'
+//import thunk from 'redux-thunk'
 //get schedules from db
 export const getLogs = () => async dispatch => {
   try {
