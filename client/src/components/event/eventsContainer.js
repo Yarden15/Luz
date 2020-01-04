@@ -4,7 +4,16 @@ import React, { Component } from 'react'
 export class eventsContainer extends Component {
 
   state = {
-    events: []
+    events: [    { title: "אלגוריתמים - ערן לונדון", id: "1" },
+    { title: "תכנות אינטרנט - סולנג' קרסנטי", id: "2" },
+    { title: "מערכות הפעלה - יורם ביברמן", id: "3" },
+    { title: "מסדני נתונים - שמחה רוזן", id: "4" },
+    { title: "פרוייקט גמר - יורם יקותיאלי", id: "5" },
+    { title: "אלגוריתמים - ערן לונדון", id: "6" },
+    { title: "תכנות אינטרנט - סולנג' קרסנטי", id: "7" },
+    { title: "מערכות הפעלה - יורם ביברמן", id: "8" },
+    { title: "מסדני נתונים - שמחה רוזן", id: "9" },
+    { title: "פרוייקט גמר - יורם יקותיאלי", id: "10" }]
   };
 
   componentDidMount() {
