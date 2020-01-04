@@ -5,14 +5,15 @@
   padding: 0.5rem 2rem;
   z-index: 1;
   width: 100%;
-  border-bottom: solid 7px var(--primary-color);
+  border-bottom: solid 1px black;
   opacity: 0.9;
   margin-bottom: 1rem;
   background: #a3a3a3;
+  border-radius: 10px;
 }
 .menu li {
   float: left;
-  padding-left: 186px;
+  padding-left: 150px;
   padding-right: 18px;
   border-right: 1px solid #000;
 }
@@ -39,5 +40,5 @@
 }
 
 .menu a:hover {
-  color: var(--light-color);
+  color: blue;
 }

@@ -6,22 +6,27 @@ import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
+import store from './store'
+import { Provider } from 'react-redux';
+
 
 import './styles/App.scss';
 
 const App = () => {
   return (
     <Router>
-      <Fragment>
-        <Navbar />
-        <div className='container'>
-          <Switch>
-            <Route exact path='/login' component={Login} />
-            <PrivateRoute exact path='/' component={Home} />
-            <Route exact path='/about' component={About} />
-          </Switch>
-        </div>
-      </Fragment>
+      <Provider store={store}>
+        <Fragment>
+          <Navbar />
+          <div className='container'>
+            <Switch>
+              <Route exact path='/login' component={Login} />
+              <PrivateRoute exact path='/' component={Home} />
+              <Route exact path='/about' component={About} />
+            </Switch>
+          </div>
+        </Fragment>
+      </Provider>
     </Router>
   );
 };
