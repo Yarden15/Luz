@@ -1,0 +1,44 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  z-index: 1;
+  width: 100%;
+  border-bottom: solid 7px var(--primary-color);
+  opacity: 0.9;
+  margin-bottom: 1rem;
+  background: #bbbbbb;
+
+}
+.menu li {
+  float: left;
+  padding-left: 186px;
+  padding-right: 18px;
+  border-right: 1px solid #000;
+}
+
+.menu li:last-child {
+  border-right: none;
+}
+
+.menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.menu .welcome span {
+  margin-right: 0.6rem;
+}
+.menu a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.menu a:hover {
+  color: var(--light-color);
+}

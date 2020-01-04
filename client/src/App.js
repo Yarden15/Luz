@@ -7,7 +7,7 @@ import Login from './components/auth/Login';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 
-import './App.css';
+import './styles/App.scss';
 
 const App = () => {
   return (

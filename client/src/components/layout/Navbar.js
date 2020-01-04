@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import AppLogo from '../../styles/logo_white.png';
+import AppLogo from '../../styles/assets/logo_white.png';
 
-const Navbar = ({ icon, title }) => {
+const Navbar = () => {
   // @todo - destruct isAuthenticated from the right component
   // for now its intialize by defaul to be false
   const isAuthenticated = true;
@@ -39,23 +38,13 @@ const Navbar = ({ icon, title }) => {
   return (
     // Default Navbar where we see the Icon & App name
     // also we will add an option for the organization Logo
-    <nav className='navbar bg-primary'>
+    <nav className='navbar'>
       <h1>
         <img src={AppLogo} alt='logo' className='logo-small' />
       </h1>
       <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </nav>
   );
-};
-
-Navbar.defaultProps = {
-  title: 'LUZ',
-  icon: 'fab fa-github'
-};
-
-Navbar.propTypes = {
-  title: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired
 };
 
 export default Navbar;

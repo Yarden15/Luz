@@ -12,7 +12,7 @@ const Home = () => {
         <div>
           <UserInfo />
         </div>
-        <div className='card bg-light text-right'>
+        <div className='card text-right'>
           <UserInfoMenu />
         </div>
       </div>
