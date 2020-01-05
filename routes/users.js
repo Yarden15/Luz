@@ -14,7 +14,9 @@ const User = require('../models/User');
 router.post(
   '/',
   [
+    // Middleware- Authorization function that gives acces to relevant users (manager)
     Authorization,
+    // Validations intialize for all form feilds
     [
       check('first_name', 'Please add first name')
         .not()
@@ -30,14 +32,14 @@ router.post(
     ]
   ],
   async (req, res) => {
-    // Check for validation errors in the form
+    // Validations f the form will take place here
     const errors = validationResult(req);
     // According to validation send errors if there are
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Pull from the req.body the fields to create new user
+    // Pull from the req.body the fields to create new user later on (instance)
     const {
       id_number,
       first_name,
@@ -47,6 +49,7 @@ router.post(
       role
     } = req.body;
 
+    // Try catch for a Promise
     try {
       // Check if there another user that have been created with the same email
       let user = await User.findOne({ email: email });
@@ -72,7 +75,7 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
       // Save user to Data Base
       await user.save();
-      // Response
+      // Response msg
       res.json({ msg: 'User added to Data Base' });
     } catch (err) {
       console.error(err.message);
@@ -83,14 +86,21 @@ router.post(
 // @route   GET api/users
 // @desc    Get all users in Data Base
 // @access  Private for Users with the role of 'Manager'
-router.get('/', Authorization, async (req, res) => {
-  try {
-    const users = await User.find({}).sort({ date: -1 });
-    res.json(users);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+router.get(
+  '/',
+  // Middleware- Authorization function that gives acces to relevant users (manager)
+  Authorization,
+  async (req, res) => {
+    // Try catch for a Promise
+    try {
+      // Get all users in db
+      const users = await User.find({}).sort({ date: -1 });
+      res.json(users);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
   }
-});
+);
 
 module.exports = router;

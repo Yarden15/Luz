@@ -21,7 +21,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/performance
+// @route   POST api/performances
 // @desc    Add performance to a user
 // @access  Private Only a Manager or Admin can do it
 router.post(
@@ -61,8 +61,8 @@ router.post(
   }
 );
 
-// @route   PUT api/memos/:id
-// @desc    Update memo
+// @route   PUT api/Performance/:id
+// @desc    Update Performance
 // @access  Private
 router.put('/:id', auth, async (req, res) => {
   const { name, title, item, rank } = req.body;
