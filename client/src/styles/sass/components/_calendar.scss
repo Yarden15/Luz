@@ -1,8 +1,9 @@
 .calendar-title{
   text-align: center;
+  filter: drop-shadow(2px 4px 6px black);
 }
 .fc-today {
-  background: #FFF !important;
+  background: $app_background !important;
   border: none !important;
   border-top: 1px solid #ddd !important;
   font-weight: bold;

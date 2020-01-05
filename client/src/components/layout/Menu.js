@@ -33,7 +33,7 @@ const Menu = ({ icon, title }) => {
   return (
     // Default Navbar where we see the Icon & App name
     // also we will add an option for the organization Logo
-    <nav className='menu bg-dark'>
+    <nav className='menu'>
       <h2></h2>
       <ul>{isAuthenticated ? managerLinks : userLinks}</ul>
     </nav>
