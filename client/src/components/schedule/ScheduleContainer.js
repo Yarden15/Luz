@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ScheduleItem from './ScheduleItem';
-import EventsContainer from '../event/eventsContainer';
+//import EventsContainer from '../event/eventsContainer';
 
 const ScheduleContainer = () => {
   return (
