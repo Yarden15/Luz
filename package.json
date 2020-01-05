@@ -29,6 +29,7 @@
     "config": "^3.2.4",
     "express": "^4.17.1",
     "express-validator": "^6.3.0",
+    "font-awesome": "^4.7.0",
     "fullcalendar": "^3.10.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.13",
