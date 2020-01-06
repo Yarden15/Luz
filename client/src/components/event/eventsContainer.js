@@ -3,11 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 export class eventsContainer extends Component {
-
-  // state = {
-  //   events: []
-  // };
-
   componentDidMount() {
     let draggableEl = document.getElementById("external-events");
     new Draggable(draggableEl, {
