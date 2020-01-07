@@ -5,19 +5,28 @@ const Navbar = () => {
   // @todo - destruct isAuthenticated from the right component
   // for now its intialize by defaul to be false
   const isAuthenticated = true;
-
   //   @todo - create the correct list to this method
   //   The Navbar will look diffrent if the user is Authenticated to site
   const authLinks = (
     <Fragment>
       <li>
-        <Link to='/'><i className="fa fa-home"></i>Home</Link>
+        <Link to='/'>
+          <i className='fa fa-home'></i>Home
+        </Link>
       </li>
       <li>
-        <Link to='/user'><i className="fas fa-user-cog"></i>User Name</Link>
+        <Link to='/user'>
+          <i className='fas fa-user-cog'></i>User Name
+        </Link>
       </li>
       <li>
+<<<<<<< HEAD
+        <Link to='/about'>
+          <i className='fas fa-question-circle'></i>About
+        </Link>
+=======
         <Link to='/about'><i class="fas fa-info-circle"></i>About</Link>
+>>>>>>> 17789b52f5795332f40e1be41c9a68c1d8b18237
       </li>
       <li>
         <i className='fas fa-sign-out-alt'></i>
