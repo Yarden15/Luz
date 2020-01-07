@@ -57,7 +57,6 @@ const eventClick = eventClick => {
       </tbody>
       </table>
       </div>`,
-
     showCancelButton: true,
     confirmButtonColor: "#d33",
     cancelButtonColor: "#3085d6",
