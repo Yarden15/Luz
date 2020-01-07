@@ -20,13 +20,9 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-<<<<<<< HEAD
         <Link to='/about'>
-          <i className='fas fa-question-circle'></i>About
-        </Link>
-=======
-        <Link to='/about'><i class="fas fa-info-circle"></i>About</Link>
->>>>>>> 17789b52f5795332f40e1be41c9a68c1d8b18237
+          <i class="fas fa-info-circle"></i>About
+          </Link>
       </li>
       <li>
         <i className='fas fa-sign-out-alt'></i>
