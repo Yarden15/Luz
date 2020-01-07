@@ -41,15 +41,14 @@ const ScheduleItem = ({ title }) => {
 
 const eventClick = eventClick => {
   Alert.fire({
-    title: eventClick.event.title,
+    title: eventClick.event.title + '\n ID: '+eventClick.event.id ,
     html:
       `<div class="table-responsive">
       <table class="table">
       <tbody>
       <tr >
-      <td>id</td>
       <td><strong>` +
-      eventClick.event.id +
+      //סידור עבודה של אותו אלמנט
       `</strong></td>
       </tr>
       <tr >
