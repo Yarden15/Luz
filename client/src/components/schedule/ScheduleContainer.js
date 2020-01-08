@@ -11,14 +11,8 @@ export class ScheduleContainer extends Component {
   render() {
     return (
       <Fragment>
-        <div>
-          <ul>
-            <li onClick={() => createCalendar('yarden2')}>create</li>
-          </ul>
-        </div>
-
         {this.props.scheduleObj.schedules.map((schedule) =>
-          <div key='1'>{schedule}</div>)}
+          <div key={schedule.id}>{schedule.calendar}</div>)}
       </Fragment>
     );
   };

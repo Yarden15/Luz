@@ -9,7 +9,7 @@ export class SchedulesBar extends Component {
       <div id='schedules-bar'>
         <ul>
           {this.props.scheduleObj.schedules.map(schedule => (
-            <li>1</li>
+            <li>{schedule.title}</li>
           ))}
           <li onClick={() => createCalendar('yarden2')}>create new calendar</li>
         </ul>

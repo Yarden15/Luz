@@ -6,6 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import React from 'react';
 import store from '../store';
+import nextId from 'react-id-generator';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -67,6 +68,7 @@ export const eventClick = eventClick => {
 
 //create new schedule and push him to array
 export const createCalendar = (title) => {
+  let id = nextId();
   let calendar = <div className='calendar'>
     <h1 className='calendar-title'>{title}</h1>
     <FullCalendar
@@ -97,6 +99,6 @@ export const createCalendar = (title) => {
 
   store.dispatch( {
     type: CREATE_CALENDAR,
-    payload: calendar
+    payload: {calendar,title,id}
   });
 }
