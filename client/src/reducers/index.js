@@ -3,5 +3,6 @@ import scheduleReducer from './scheduleReducer';
 import eventReducer from './eventsContainerReducer';
 
 export default combineReducers({
-  event: eventReducer
+  event: eventReducer,
+  schedule: scheduleReducer
 });

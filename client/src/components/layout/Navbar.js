@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import AppLogo from '../../styles/assets/logo_white.png';
+
 const Navbar = () => {
   // @todo - destruct isAuthenticated from the right component
   // for now its intialize by defaul to be false
@@ -16,17 +17,18 @@ const Navbar = () => {
       </li>
       <li>
         <Link to='/user'>
-          <i className='fas fa-user-cog'></i>User Name
+          <i className='fas fa-user-cog'></i>User Settings
         </Link>
       </li>
       <li>
         <Link to='/about'>
-          <i class="fas fa-info-circle"></i>About
+          <i className="fas fa-info-circle"></i>About
           </Link>
       </li>
       <li>
-        <i className='fas fa-sign-out-alt'></i>
-        <span className='hide-sm'>Logout</span>
+        <Link to='/login'>
+        <i className='fas fa-sign-out-alt'></i>Logout
+        </Link>
       </li>
     </Fragment>
   );
