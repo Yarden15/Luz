@@ -1,0 +1,16 @@
+#schedules-bar {
+
+  li {
+    margin-left: 10px;
+    display: inline;
+
+    &:after {
+      content: "";
+      display: inline;
+      width: 1px;
+      top: 0;
+      bottom: 0;
+      position: absolute;
+    }
+  }
+}

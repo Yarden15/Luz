@@ -31,8 +31,5 @@ const mapStateToProps = state => {
 };
 
 
-
-
-
 export default connect(mapStateToProps,{createCalendar})(ScheduleContainer);
 

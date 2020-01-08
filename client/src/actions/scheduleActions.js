@@ -4,7 +4,6 @@ import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Fragment } from 'react';
 import React from 'react';
 import store from '../store';
 
@@ -35,6 +34,7 @@ export const setLoading = () => {
   }
 }
 
+//popup window when the user clicking on the event into the calendar
 export const eventClick = eventClick => {
   Alert.fire({
     title: eventClick.event.title + '\n ID: ' + eventClick.event.id,
@@ -65,8 +65,8 @@ export const eventClick = eventClick => {
   });
 };
 
+//create new schedule and push him to array
 export const createCalendar = (title) => {
-  console.log("im here");
   let calendar = <div className='calendar'>
     <h1 className='calendar-title'>{title}</h1>
     <FullCalendar
@@ -91,7 +91,7 @@ export const createCalendar = (title) => {
       editable={true}
       droppable={true}
       eventLimit={true}
-
+      eventClick={eventClick}
       events={[]} />
   </div>
 

@@ -1,5 +1,5 @@
 import { GET_EVENTS, SET_LOADING, EVENT_ERROR, CREATE_DRAGGABLE } from '../actions/types';
-import React from 'react';
+
 
 const initialState = {
   events: [
