@@ -22,12 +22,12 @@ const Navbar = () => {
       </li>
       <li>
         <Link to='/about'>
-          <i className="fas fa-info-circle"></i>About
-          </Link>
+          <i className='fas fa-info-circle'></i>About
+        </Link>
       </li>
       <li>
         <Link to='/login'>
-        <i className='fas fa-sign-out-alt'></i>Logout
+          <i className='fas fa-sign-out-alt'></i>Logout
         </Link>
       </li>
     </Fragment>

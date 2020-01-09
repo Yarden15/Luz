@@ -8,18 +8,18 @@ const PerformanceSchema = mongoose.Schema({
       ref: 'users'
     }
   ],
-  catalog_number: {
+  catalog_num: {
     type: Number
   },
-  name: {
+  title: {
     type: String,
     required: true
   },
-  time: {
+  week_hours: {
     type: Number,
     required: true
   },
-  additional_time: {
+  ex_hours: {
     type: Number,
     required: true
   },
