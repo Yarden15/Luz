@@ -25,7 +25,8 @@ export class eventsContainer extends Component {
         <div>
           {this.props.eventObj.events.map(event => (
             <div className="fc-event druggable" title={event.title} data={event.id} key={event.id}>
-              {event.title}
+              <div>{event.title}</div>
+              <div>ID: {event.id}</div>
             </div>
           ))}
         </div>

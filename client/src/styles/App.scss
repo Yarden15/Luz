@@ -2,10 +2,12 @@
 
 @import "./sass/abstract/variables";
 @import "./sass/abstract/utilities";
+@import "./sass/base/scroll_bar";
 
 @import "./sass/base/base";
 
 @import "./sass/components/calendar";
+@import "./sass/components/calendarBar";
 @import "./sass/components/eventsContainer";
 @import "./sass/components/menu";
 

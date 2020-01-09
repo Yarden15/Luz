@@ -1,7 +1,7 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR } from '../actions/types'
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR } from '../actions/types';
 
 const initialState = {
-  schedules: null,
+  schedules: [],
   current: null,
   loading: false,
   error: null
@@ -15,6 +15,11 @@ export default (state = initialState, action) => {
         schedules: action.payload,
         loading: false
       };
+    case CREATE_CALENDAR:  
+    return {
+        ...state,
+        schedules: state.schedules.concat(action.payload)
+      }
     case SET_LOADING:
       return {
         ...state,

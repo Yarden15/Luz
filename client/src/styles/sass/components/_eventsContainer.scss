@@ -1,11 +1,18 @@
 #external-events {
+  position: fixed;
   padding: 10px;
-  width: 80%;
   filter: drop-shadow(2px 4px 6px black);
-  margin-left: 2rem;
+  margin-left: .5rem;
+
   p {
     text-align: center;
     font-size: 2rem;
+  }
+
+  &>div {
+    overflow: auto;
+    height: 460px;
+    padding-right: 8px;
   }
 }
 
@@ -14,5 +21,9 @@
   margin-bottom: 5px;
   width: 250px;
   text-align: center;
+
+  &>div {
+    margin-top: 4px;
+  }
 }
 

@@ -1,14 +1,29 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ScheduleItem from './ScheduleItem';
-//import EventsContainer from '../event/eventsContainer';
+import { connect } from 'react-redux';
+import {createCalendar} from '../../actions/scheduleActions';
 
-const ScheduleContainer = () => {
-  return (
-    <Fragment>
-      <ScheduleItem title={'נביאים'} />
-    </Fragment>
-  );
+export class ScheduleContainer extends Component {
+  create(){
+    this.props.createCalendar('sdada');
+  }
+
+  render() {
+    return (
+      <Fragment>
+        {this.props.scheduleObj.schedules.map((schedule) =>
+          <div key={schedule.id}>{schedule.calendar}</div>)}
+      </Fragment>
+    );
+  };
+}
+
+const mapStateToProps = state => {
+  return {
+    scheduleObj: state.schedule
+  };
 };
 
-export default ScheduleContainer;
+
+export default connect(mapStateToProps,{createCalendar})(ScheduleContainer);
+
