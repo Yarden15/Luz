@@ -43,11 +43,11 @@ router.post(
     const { name, title, item, rank } = req.body;
 
     try {
-      const newMemo = new Memo({
+      const newPerform = new Performance({
         name,
-        title,
-        item,
-        rank,
+        week_hours,
+        ex_hours,
+        location,
         user: req.user.id
       });
 
@@ -101,23 +101,19 @@ router.put('/:id', auth, async (req, res) => {
 // @desc    Delete memo
 // @access  Private
 router.delete('/:id', auth, async (req, res) => {
-  try {
-    let memo = await Memo.findById(req.params.id);
-
-    if (!memo) return res.status(404).json({ msg: 'Memo not found' });
-
-    // Make sure user owns memo
-    if (memo.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'Not authorized' });
-    }
-
-    await Memo.findByIdAndRemove(req.params.id);
-
-    res.json({ msg: 'Memo Removed' });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
+  // try {
+  //   let memo = await Memo.findById(req.params.id);
+  //   if (!memo) return res.status(404).json({ msg: 'Memo not found' });
+  //   // Make sure user owns memo
+  //   if (memo.user.toString() !== req.user.id) {
+  //     return res.status(401).json({ msg: 'Not authorized' });
+  //   }
+  //   await Memo.findByIdAndRemove(req.params.id);
+  //   res.json({ msg: 'Memo Removed' });
+  // } catch (err) {
+  //   console.error(err.message);
+  //   res.status(500).send('Server Error');
+  // }
 });
 
 module.exports = router;
