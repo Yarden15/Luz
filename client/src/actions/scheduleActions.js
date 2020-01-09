@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR,SELECT_CALENDAR } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -96,9 +96,15 @@ export const createCalendar = (title) => {
       eventClick={eventClick}
       events={[]} />
   </div>
-
   store.dispatch( {
     type: CREATE_CALENDAR,
     payload: {calendar,title,id}
+  });
+}
+
+export const selectCalendar = (id) => {
+  store.dispatch( {
+    type: SELECT_CALENDAR,
+    payload: id 
   });
 }
