@@ -1,24 +1,24 @@
-// import { GET_EVENTS, SET_LOADING, EVENT_ERROR, CREATE_DRAGGABLE } from './types'
+import { GET_EVENTS, SET_LOADING, EVENT_ERROR, CREATE_DRAGGABLE } from './types'
 
-//import thunk from 'redux-thunk'
-//get event from db
-// export const getLogs = () => async dispatch => {
-//   try {
+import thunk from 'redux-thunk'
+//get events from db
+ export const getLogs = () => async dispatch => {
+   try {
 //     setLoading();
-//     const res = await fetch('schedules');
-//     const data = await res.json();
+     const res = await fetch('schedules');
+     const data = await res.json();
 
-//     dispatch({
-//       type: GET_EVENTS,
-//       payload: data
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: EVENT_ERROR,
-//       payload: error.response.data
-//     });
-//   }
-// };
+     dispatch({
+       type: GET_EVENTS,
+       payload: data
+     });
+   } catch (error) {
+     dispatch({
+       type: EVENT_ERROR,
+       payload: error.response.data
+     });
+   }
+ };
 
 // //set loading to true
 // export const setLoading = () => {

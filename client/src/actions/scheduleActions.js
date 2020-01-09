@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR,SELECT_CALENDAR } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -34,7 +34,6 @@ export const setLoading = () => {
     type: SET_LOADING
   }
 }
-
 //popup window when the user clicking on the event into the calendar
 export const eventClick = eventClick => {
   Alert.fire({
@@ -48,7 +47,7 @@ export const eventClick = eventClick => {
       //סידור עבודה של אותו אלמנט
       `</strong></td>
       </tr>
-      <tr >
+      <tr>
       </tr>
       </tbody>
       </table>
@@ -65,7 +64,6 @@ export const eventClick = eventClick => {
     }
   });
 };
-
 //create new schedule and push him to array
 export const createCalendar = (title) => {
   let id = nextId();
@@ -96,15 +94,30 @@ export const createCalendar = (title) => {
       eventClick={eventClick}
       events={[]} />
   </div>
-  store.dispatch( {
+  store.dispatch({
     type: CREATE_CALENDAR,
-    payload: {calendar,title,id}
+    payload: { calendar, title, id }
   });
 }
-
+//select calendar to display
 export const selectCalendar = (id) => {
-  store.dispatch( {
+  store.dispatch({
     type: SELECT_CALENDAR,
-    payload: id 
+    payload: id
   });
+}
+//popup message to insert title for the calendar
+export const enterNameSchedule = () => {
+  Alert.fire({
+    title: 'Enter title please',
+    input: 'text',
+    showCancelButton: true,
+    inputValidator: (result) => {
+      if (!result)
+        return 'You must insert input';
+    }
+  }).then(result => {
+    if (result.value)
+      createCalendar(result.value)
+  })
 }
