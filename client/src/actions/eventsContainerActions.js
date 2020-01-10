@@ -2,7 +2,7 @@ import { GET_EVENTS, SET_LOADING, EVENT_ERROR, CREATE_DRAGGABLE } from './types'
 
 import thunk from 'redux-thunk'
 //get events from db
- export const getLogs = () => async dispatch => {
+ export const getEvents = () => async dispatch => {
    try {
 //     setLoading();
      const res = await fetch('schedules');
