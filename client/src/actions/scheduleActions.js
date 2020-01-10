@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR,SELECT_CALENDAR } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -35,37 +35,6 @@ export const setLoading = () => {
   }
 }
 
-//popup window when the user clicking on the event into the calendar
-export const eventClick = eventClick => {
-  Alert.fire({
-    title: eventClick.event.title + '\n ID: ' + eventClick.event.id,
-    html:
-      `<div class="table-responsive">
-      <table class="table">
-      <tbody>
-      <tr >
-      <td><strong>` +
-      //סידור עבודה של אותו אלמנט
-      `</strong></td>
-      </tr>
-      <tr >
-      </tr>
-      </tbody>
-      </table>
-      </div>`,
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Remove Event",
-    cancelButtonText: "Close"
-  }).then(result => {
-    if (result.value) {
-      eventClick.event.remove(); // It will remove event from the calendar
-      Alert.fire("Deleted!", "The course has been deleted.", "success");
-    }
-  });
-};
-
 //create new schedule and push him to array
 export const createCalendar = (title) => {
   let id = nextId();
@@ -92,19 +61,88 @@ export const createCalendar = (title) => {
       selectHelper={true}
       editable={true}
       droppable={true}
+      drop={eventDrop}
       eventLimit={true}
       eventClick={eventClick}
       events={[]} />
   </div>
-  store.dispatch( {
+  store.dispatch({
     type: CREATE_CALENDAR,
-    payload: {calendar,title,id}
+    payload: { calendar, title, id }
+  });
+}
+//select calendar to display
+export const selectCalendar = (id) => {
+  store.dispatch({
+    type: SELECT_CALENDAR,
+    payload: id
   });
 }
 
-export const selectCalendar = (id) => {
-  store.dispatch( {
-    type: SELECT_CALENDAR,
-    payload: id 
+export const eventDrop = event => {
+  //check if this legal ation
+  console.log('event dropped');
+  //save on the DB/Schecdule
+}
+
+//popup window when the user clicking on the event into the calendar
+export const eventClick = eventClick => {
+  Alert.fire({
+    title: eventClick.event.title + '\n ID: ' + eventClick.event.id,
+    html:
+      `<div class="table-responsive">
+      <table class="table">
+      <tbody>
+      <tr >
+      <td><strong>` +
+      //סידור עבודה של אותו אלמנט
+      `</strong></td>
+      </tr>
+      <tr>
+      </tr>
+      </tbody>
+      </table>
+      </div>`,
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Remove Event",
+    cancelButtonText: "Close"
+  }).then(result => {
+    if (result.value) {
+      eventClick.event.remove(); // It will remove event from the calendar
+      Alert.fire("Deleted!", "The course has been deleted.", "success");
+    }
+  });
+};
+
+//popup message to insert title for the calendar
+export const enterNameSchedule = () => {
+  Alert.fire({
+    title: 'Enter title please',
+    input: 'text',
+    showCancelButton: true,
+    cancelButtonColor: "#3085d6",
+    inputValidator: (result) => {
+      if (!result)
+        return 'You must insert input';
+    }
+  }).then(result => {
+    if (result.value)
+      createCalendar(result.value)
+  })
+}
+
+export const deleteAlert = () => {
+  Alert.fire({
+    title: 'Are you sure you want to delete this schedule?',
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+  }).then(result => {
+    if (result.value) {
+      // It will remove event from the calendar
+      Alert.fire("Deleted!", "The schedule has been deleted.", "success");
+    }
   });
 }

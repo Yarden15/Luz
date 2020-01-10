@@ -1,21 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { createCalendar, selectCalendar } from '../../actions/scheduleActions';
-import nextId from 'react-id-generator';
+import { selectCalendar, enterNameSchedule, deleteAlert } from '../../actions/scheduleActions';
 
 export class SchedulesBar extends Component {
   render() {
-    let title = nextId();
     return (
       <div id='schedules-bar'>
-        <ul> {
-          Object.keys(this.props.scheduleObj.schedules).map(key => (
-            <li onClick={ () => selectCalendar(this.props.scheduleObj.schedules[key].id)} key={this.props.scheduleObj.schedules[key].id}>
-              {this.props.scheduleObj.schedules[key].title}</li>
+        <div className="tabset"> {
+          Object.keys(this.props.schedules).map(key => (
+            <Fragment key={this.props.schedules[key].id}>
+              <input onClick={() => selectCalendar(this.props.schedules[key].id)}
+                type="radio" name="tabset" id={this.props.schedules[key].id}
+                aria-controls={this.props.schedules[key].title} defaultChecked />
+              <label >{this.props.schedules[key].title}</label>
+              <i className="far fa-trash-alt" onClick={() => deleteAlert()}></i>
+            </Fragment>
           ))
         }
-          <li onClick={() => createCalendar(title)}>create new calendar</li>
-        </ul>
+          <span onClick={() => enterNameSchedule()}><i className="fas fa-plus"></i></span>
+        </div>
       </div>
     )
   }
@@ -23,11 +26,16 @@ export class SchedulesBar extends Component {
 
 const mapStateToProps = state => {
   return {
-    scheduleObj: state.schedule
+    schedules: state.schedule.schedules,
   };
 };
 
-export default connect(mapStateToProps, { createCalendar,selectCalendar })(SchedulesBar);
+export default connect(mapStateToProps, { selectCalendar })(SchedulesBar);
 
 
 
+
+// <li onClick={() => selectCalendar(this.props.schedules[key].id)} key={this.props.schedules[key].id}>
+//               {this.props.schedules[key].title}</li>
+
+// <li onClick={() => enterNameSchedule()}>create new calendar</li>
