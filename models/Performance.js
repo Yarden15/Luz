@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
 
 const PerformanceSchema = mongoose.Schema({
-  // Array of users that participate in the performance
-  user: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'users'
-    }
-  ],
   catalog_num: {
     type: Number
   },
