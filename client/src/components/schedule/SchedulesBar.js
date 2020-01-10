@@ -12,7 +12,7 @@ export class SchedulesBar extends Component {
               <input onClick={() => selectCalendar(this.props.schedules[key].id)}
                 type="radio" name="tabset" id={this.props.schedules[key].id}
                 aria-controls={this.props.schedules[key].title} defaultChecked />
-              <label >{this.props.schedules[key].title}</label>
+              <label for={this.props.schedules[key].id}>{this.props.schedules[key].title}</label>
               <i className="far fa-trash-alt" onClick={() => deleteAlert()}></i>
             </Fragment>
           ))
