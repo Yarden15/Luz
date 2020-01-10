@@ -34,36 +34,7 @@ export const setLoading = () => {
     type: SET_LOADING
   }
 }
-//popup window when the user clicking on the event into the calendar
-export const eventClick = eventClick => {
-  Alert.fire({
-    title: eventClick.event.title + '\n ID: ' + eventClick.event.id,
-    html:
-      `<div class="table-responsive">
-      <table class="table">
-      <tbody>
-      <tr >
-      <td><strong>` +
-      //סידור עבודה של אותו אלמנט
-      `</strong></td>
-      </tr>
-      <tr>
-      </tr>
-      </tbody>
-      </table>
-      </div>`,
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Remove Event",
-    cancelButtonText: "Close"
-  }).then(result => {
-    if (result.value) {
-      eventClick.event.remove(); // It will remove event from the calendar
-      Alert.fire("Deleted!", "The course has been deleted.", "success");
-    }
-  });
-};
+
 //create new schedule and push him to array
 export const createCalendar = (title) => {
   let id = nextId();
@@ -106,12 +77,45 @@ export const selectCalendar = (id) => {
     payload: id
   });
 }
+
+//popup window when the user clicking on the event into the calendar
+export const eventClick = eventClick => {
+  Alert.fire({
+    title: eventClick.event.title + '\n ID: ' + eventClick.event.id,
+    html:
+      `<div class="table-responsive">
+      <table class="table">
+      <tbody>
+      <tr >
+      <td><strong>` +
+      //סידור עבודה של אותו אלמנט
+      `</strong></td>
+      </tr>
+      <tr>
+      </tr>
+      </tbody>
+      </table>
+      </div>`,
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Remove Event",
+    cancelButtonText: "Close"
+  }).then(result => {
+    if (result.value) {
+      eventClick.event.remove(); // It will remove event from the calendar
+      Alert.fire("Deleted!", "The course has been deleted.", "success");
+    }
+  });
+};
+
 //popup message to insert title for the calendar
 export const enterNameSchedule = () => {
   Alert.fire({
     title: 'Enter title please',
     input: 'text',
     showCancelButton: true,
+    cancelButtonColor: "#3085d6",
     inputValidator: (result) => {
       if (!result)
         return 'You must insert input';
@@ -120,4 +124,18 @@ export const enterNameSchedule = () => {
     if (result.value)
       createCalendar(result.value)
   })
+}
+
+export const deleteAlert = () => {
+  Alert.fire({
+  title: 'Are you sure you want to delete this schedule?',
+  showCancelButton: true,
+  confirmButtonColor: "#d33",
+  cancelButtonColor: "#3085d6",
+  }).then(result => {
+    if (result.value) {
+       // It will remove event from the calendar
+      Alert.fire("Deleted!", "The schedule has been deleted.", "success");
+    }
+  }); 
 }
