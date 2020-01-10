@@ -8,16 +8,16 @@ export class SchedulesBar extends Component {
       <div id='schedules-bar'>
         <div className="tabset"> {
           Object.keys(this.props.schedules).map(key => (
-            <Fragment>
+            <Fragment key={this.props.schedules[key].id}>
               <input onClick={() => selectCalendar(this.props.schedules[key].id)}
                 type="radio" name="tabset" id={this.props.schedules[key].id}
-                aria-controls={this.props.schedules[key].title} checked />
-              <label for={this.props.schedules[key].id}>{this.props.schedules[key].title}</label>
-              <i class="far fa-trash-alt" onClick={() => deleteAlert()}></i>
+                aria-controls={this.props.schedules[key].title} defaultChecked />
+              <label >{this.props.schedules[key].title}</label>
+              <i className="far fa-trash-alt" onClick={() => deleteAlert()}></i>
             </Fragment>
           ))
         }
-          <span onClick={() => enterNameSchedule()}><i class="fas fa-plus"></i></span>
+          <span onClick={() => enterNameSchedule()}><i className="fas fa-plus"></i></span>
         </div>
       </div>
     )

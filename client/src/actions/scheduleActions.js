@@ -61,6 +61,7 @@ export const createCalendar = (title) => {
       selectHelper={true}
       editable={true}
       droppable={true}
+      drop={eventDrop}
       eventLimit={true}
       eventClick={eventClick}
       events={[]} />
@@ -76,6 +77,12 @@ export const selectCalendar = (id) => {
     type: SELECT_CALENDAR,
     payload: id
   });
+}
+
+export const eventDrop = event => {
+  //check if this legal ation
+  console.log('event dropped');
+  //save on the DB/Schecdule
 }
 
 //popup window when the user clicking on the event into the calendar
@@ -128,14 +135,14 @@ export const enterNameSchedule = () => {
 
 export const deleteAlert = () => {
   Alert.fire({
-  title: 'Are you sure you want to delete this schedule?',
-  showCancelButton: true,
-  confirmButtonColor: "#d33",
-  cancelButtonColor: "#3085d6",
+    title: 'Are you sure you want to delete this schedule?',
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
   }).then(result => {
     if (result.value) {
-       // It will remove event from the calendar
+      // It will remove event from the calendar
       Alert.fire("Deleted!", "The schedule has been deleted.", "success");
     }
-  }); 
+  });
 }
