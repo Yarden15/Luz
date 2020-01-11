@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -94,6 +94,7 @@ export const eventClick = eventClick => {
       <table class="table">
       <tbody>
       <tr >
+
       <td><strong>` +
       //סידור עבודה של אותו אלמנט
       `</strong></td>
@@ -133,16 +134,24 @@ export const enterNameSchedule = () => {
   })
 }
 
-export const deleteAlert = () => {
+export const deleteAlert = schedule => {
   Alert.fire({
-    title: 'Are you sure you want to delete this schedule?',
+    title: 'Are you sure you want to delete ' + schedule.title  + ' schedule?',
     showCancelButton: true,
     confirmButtonColor: "#d33",
     cancelButtonColor: "#3085d6",
   }).then(result => {
     if (result.value) {
-      // It will remove event from the calendar
+      // It will remove schedule 
+      deleteSchedule(schedule.id);
       Alert.fire("Deleted!", "The schedule has been deleted.", "success");
     }
+  });
+}
+
+export const deleteSchedule = id => {
+  store.dispatch({
+    type: DELETE_SCHEDULE,
+    payload: id
   });
 }

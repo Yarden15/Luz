@@ -4,16 +4,16 @@ import { selectCalendar, enterNameSchedule, deleteAlert } from '../../actions/sc
 
 export class SchedulesBar extends Component {
   render() {
+    const scheds = this.props.schedules;
     return (
       <div id='schedules-bar'>
         <div className="tabset"> {
-          Object.keys(this.props.schedules).map(key => (
-            <Fragment key={this.props.schedules[key].id}>
-              <input onClick={() => selectCalendar(this.props.schedules[key].id)}
-                type="radio" name="tabset" id={this.props.schedules[key].id}
-                aria-controls={this.props.schedules[key].title} defaultChecked />
-              <label htmlFor={this.props.schedules[key].id}>{this.props.schedules[key].title}</label>
-              <i className="far fa-trash-alt" onClick={() => deleteAlert()}></i>
+          Object.keys(scheds).map(key => (
+            <Fragment key={scheds[key].id}>
+              <input onClick={() => selectCalendar(scheds[key].id)} type="radio" name="tabset" 
+              id={scheds[key].id} aria-controls={scheds[key].title} defaultChecked />
+              <label htmlFor={scheds[key].id}>{scheds[key].title}</label>
+              <i className="far fa-trash-alt" onClick={() => {deleteAlert(scheds[key]); this.forceUpdate(); }}></i>
             </Fragment>
           ))
         }
@@ -31,11 +31,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { selectCalendar })(SchedulesBar);
-
-
-
-
-// <li onClick={() => selectCalendar(this.props.schedules[key].id)} key={this.props.schedules[key].id}>
-//               {this.props.schedules[key].title}</li>
-
-// <li onClick={() => enterNameSchedule()}>create new calendar</li>

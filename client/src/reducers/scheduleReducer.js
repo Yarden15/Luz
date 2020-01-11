@@ -1,7 +1,8 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE } from '../actions/types';
 
 const initialState = {
   schedules: {},
+  events: {},
   current: null,
   loading: false,
   error: null
@@ -28,6 +29,13 @@ export default (state = initialState, action) => {
           ...state,
           current: action.payload
         }
+        case DELETE_SCHEDULE:
+          let copyScheds = state.schedules;
+          delete copyScheds[action.payload]
+          return {
+            ...state,
+            schedules: copyScheds
+          }
     case SET_LOADING:
       return {
         ...state,
