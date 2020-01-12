@@ -4,11 +4,11 @@
   "description": "LUZ backend",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js npm run dev",
+    “dev”: “react-scripts start”,
+    “start”: “serve -s build”,
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "clientinstall": "npm install --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "clientinstall": "npm install --prefix client"   
   },
   "keywords": [],
   "author": "",
