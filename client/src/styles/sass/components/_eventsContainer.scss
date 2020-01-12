@@ -1,7 +1,6 @@
 #external-events {
   position: fixed;
   padding: 10px;
-  filter: drop-shadow(2px 4px 6px black);
   margin-left: .5rem;
 
   p {
@@ -11,13 +10,17 @@
 
   &>div {
     overflow: auto;
-    height: 460px;
+    height: 400px;
+    width: 300px;
+    align-items: center;
+    filter: drop-shadow(2px 4px 6px black);
     padding-right: 8px;
   }
 }
 
 .fc-event.druggable {
   height: 50px;
+  margin: 0 auto;
   margin-bottom: 5px;
   width: 250px;
   text-align: center;

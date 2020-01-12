@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -7,6 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import React from 'react';
 import store from '../store';
 import nextId from 'react-id-generator';
+
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -38,9 +39,11 @@ export const setLoading = () => {
 //create new schedule and push him to array
 export const createCalendar = (title) => {
   let id = nextId();
+  let calendarRef = React.createRef();
   let calendar = <div className='calendar'>
     <h1 className='calendar-title'>{title}</h1>
     <FullCalendar
+      ref={calendarRef}
       defaultView='timeGridWeek'
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
       header={{
@@ -61,14 +64,15 @@ export const createCalendar = (title) => {
       selectHelper={true}
       editable={true}
       droppable={true}
-      drop={eventDrop}
+      drop={function (info) { eventDrop(info, id); }}
+      eventResize={console.log("event resized")}
       eventLimit={true}
       eventClick={eventClick}
-      events={[]} />
+      events={[{ title: 'yarden', start: '2020-01-10T13:00', end: '2020-01-10T16:00' }]} />
   </div>
   store.dispatch({
     type: CREATE_CALENDAR,
-    payload: { calendar, title, id }
+    payload: { calendar, title, id, calendarRef }
   });
 }
 //select calendar to display
@@ -79,10 +83,15 @@ export const selectCalendar = (id) => {
   });
 }
 
-export const eventDrop = event => {
+export const eventDrop = (event, id) => {
   //check if this legal ation
-  console.log('event dropped');
+  
+
   //save on the DB/Schecdule
+  store.dispatch({
+    type: ADD_EVENT,
+    payload: { event, id }
+  })
 }
 
 //popup window when the user clicking on the event into the calendar
@@ -136,7 +145,7 @@ export const enterNameSchedule = () => {
 
 export const deleteAlert = schedule => {
   Alert.fire({
-    title: 'Are you sure you want to delete ' + schedule.title  + ' schedule?',
+    title: 'Are you sure you want to delete ' + schedule.title + ' schedule?',
     showCancelButton: true,
     confirmButtonColor: "#d33",
     cancelButtonColor: "#3085d6",
