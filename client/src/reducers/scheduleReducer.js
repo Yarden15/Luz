@@ -2,7 +2,7 @@ import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CAL
 
 const initialState = {
   schedules: {},
-  conunter: 0,
+  counter: 0,
   current: null,
   loading: false,
   error: null
@@ -28,13 +28,12 @@ export default (state = initialState, action) => {
         current: action.payload
       }
     case DELETE_SCHEDULE:
-      let copyScheds = state.schedules;
-      delete copyScheds[action.payload]
-      let num = state.counter+1;
+      const copyScheds = state.schedules;
+      delete copyScheds[action.payload]  
       return {
         ...state,
-        schedules: copyScheds,
-        counter: num
+        schedules: copyScheds,    
+        counter: state.counter+1  
       }
     case ADD_EVENT:
       const copySchedss = state.schedules;

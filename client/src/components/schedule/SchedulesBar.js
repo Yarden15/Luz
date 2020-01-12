@@ -9,11 +9,11 @@ export class SchedulesBar extends Component {
       <div id='schedules-bar'>
         <div className="tabset"> {
           Object.keys(scheds).map(key => (
-            <Fragment key={scheds[key].id}>
+            <Fragment key="bar">
               <input onClick={() => selectCalendar(scheds[key].id)} type="radio" name="tabset" 
               id={scheds[key].id} aria-controls={scheds[key].title} defaultChecked />
               <label htmlFor={scheds[key].id}>{scheds[key].title}</label>
-              <i className="far fa-trash-alt" onClick={() => {deleteAlert(scheds[key]); this.forceUpdate(); }}></i>
+              <i className="far fa-trash-alt" onClick={() => {this.forceUpdate(); deleteAlert(scheds[key]);  }}></i>
             </Fragment>
           ))
         }
@@ -27,6 +27,7 @@ export class SchedulesBar extends Component {
 const mapStateToProps = state => {
   return {
     schedules: state.schedule.schedules,
+    counter: state.schedule.counter
   };
 };
 

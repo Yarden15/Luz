@@ -65,7 +65,7 @@ export const createCalendar = (title) => {
       editable={true}
       droppable={true}
       drop={function (info) { eventDrop(info, id); }}
-      eventResize={console.log("event resized")}
+      eventResize={function (info) { eventDrop(info, id); }}
       eventLimit={true}
       eventClick={eventClick}
       events={[{ title: 'yarden', start: '2020-01-10T13:00', end: '2020-01-10T16:00' }]} />
@@ -84,13 +84,14 @@ export const selectCalendar = (id) => {
 }
 
 export const eventDrop = (event, id) => {
-  //check if this legal ation
+  //check if this legal action
   
-
   //save on the DB/Schecdule
   store.dispatch({
     type: ADD_EVENT,
-    payload: { event, id }
+    payload: 
+      {event: {title: event.draggedEl.title, id: event.draggedEl.id, start: event.date }
+      ,id: id} 
   })
 }
 

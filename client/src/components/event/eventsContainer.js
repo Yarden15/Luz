@@ -9,7 +9,7 @@ export class eventsContainer extends Component {
       itemSelector: '.fc-event',
       eventData: function(eventEl) {
         let title = eventEl.getAttribute('title');
-        let id = eventEl.getAttribute('data');
+        let id = eventEl.getAttribute('id');
         return {
           title: title,
           id: id
@@ -30,7 +30,7 @@ export class eventsContainer extends Component {
             <div
               className='fc-event druggable'
               title={event.title}
-              data={event.id}
+              id={event.id}
               key={event.id}
             >
               <div>{event.title}</div>
