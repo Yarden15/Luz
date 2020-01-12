@@ -27,9 +27,10 @@ router.get('/', authorization, async (req, res) => {
 // @access  Private
 router.get('/:id', auth, async (req, res) => {
   try {
+    // @todo - select from the id of performances the info of its
     // Get all the attached preformances to current User by it ID gotten
     // from the authentacation mIDdleware
-    const performance = await Performance.find({ user: req.user.id });
+    const performance = await User.findById(req.user.id).select('performances');
     // Response- performances related to current user
     res.json(performance);
   } catch (err) {
@@ -46,7 +47,7 @@ router.post(
   [
     authorization,
     [
-      check('catalog_num', 'Course ID is required')
+      check('serial_num', 'Course ID is required')
         .not()
         .isEmpty()
     ]
@@ -60,17 +61,26 @@ router.post(
     }
 
     // Pull from the req.body the fields to create new performance later on (instance)
-    const { catalog_num, title, week_hours, ex_hours, location } = req.body;
+    const {
+      serial_num,
+      title,
+      year,
+      semester,
+      course_hours,
+      ex_hours,
+      location
+    } = req.body;
 
     try {
       // Create new ModelSchema of performance
       const newPerformance = new Performance({
-        catalog_num,
+        serial_num,
         title,
-        week_hours,
+        year,
+        semester,
+        course_hours,
         ex_hours,
-        location,
-        user: req.user.id
+        location
       });
       // Promise- save performance to db
       const performance = await newPerformance.save();
@@ -88,13 +98,23 @@ router.post(
 // @access  Private- only manager
 router.put('/:id', authorization, async (req, res) => {
   // Pull from the req.body the fields to create new performance later on (instance)
-  const { catalog_num, title, week_hours, ex_hours, location } = req.body;
+  const {
+    serial_num,
+    title,
+    year,
+    semester,
+    course_hours,
+    ex_hours,
+    location
+  } = req.body;
 
   // Build constraint object
   const performanceFields = {};
-  if (catalog_num) performanceFields.catalog_num = catalog_num;
+  if (serial_num) performanceFields.serial_num = serial_num;
   if (title) performanceFields.title = title;
-  if (week_hours) performanceFields.week_hours = week_hours;
+  if (year) performanceFields.year = year;
+  if (semester) performanceFields.semester = semester;
+  if (course_hours) performanceFields.course_hours = course_hours;
   if (ex_hours) performanceFields.ex_hours = ex_hours;
   if (location) performanceFields.location = location;
 
@@ -105,10 +125,6 @@ router.put('/:id', authorization, async (req, res) => {
     if (!performance)
       return res.status(404).json({ msg: 'Performance not found' });
 
-    // The user isnt a 'Admin' or 'Manager'
-    if (req.user.role !== 'Admin' || req.user.role !== 'Manager') {
-      return res.status(401).json({ msg: 'Not Authorize to add performance' });
-    }
     // Promise- return an id of the performance to change if not exist
     // add this new performance
     performance = await Performance.findByIdAndUpdate(

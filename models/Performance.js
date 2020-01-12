@@ -1,20 +1,29 @@
 const mongoose = require('mongoose');
 
 const PerformanceSchema = mongoose.Schema({
-  catalog_num: {
-    type: Number
+  serial_num: {
+    type: Number,
+    required: true
   },
   title: {
     type: String,
     required: true
   },
-  week_hours: {
+  year: {
+    type: String,
+    required: true
+  },
+  semester: {
+    type: String,
+    required: true
+  },
+  course_hours: {
     type: Number,
     required: true
   },
   ex_hours: {
     type: Number,
-    required: true
+    default: '0'
   },
   location: {
     type: String,
