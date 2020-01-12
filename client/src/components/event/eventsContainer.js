@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 
 export class eventsContainer extends Component {
   componentDidMount() {
-    let draggableEl = document.getElementById("external-events");
+    let draggableEl = document.getElementById('external-events');
     new Draggable(draggableEl, {
-      itemSelector: ".fc-event",
-      eventData: function (eventEl) {
-        let title = eventEl.getAttribute("title");
-        let id = eventEl.getAttribute("data");
+      itemSelector: '.fc-event',
+      eventData: function(eventEl) {
+        let title = eventEl.getAttribute('title');
+        let id = eventEl.getAttribute('data');
         return {
           title: title,
           id: id
@@ -20,18 +20,26 @@ export class eventsContainer extends Component {
 
   render() {
     return (
-      <div id="external-events">
-        <p> <strong>Courses</strong> </p>
+      <div id='external-events'>
+        <p>
+          {' '}
+          <strong>Courses</strong>{' '}
+        </p>
         <div>
           {this.props.eventObj.events.map(event => (
-            <div className="fc-event druggable" title={event.title} data={event.id} key={event.id}>
+            <div
+              className='fc-event druggable'
+              title={event.title}
+              data={event.id}
+              key={event.id}
+            >
               <div>{event.title}</div>
               <div>ID: {event.id}</div>
             </div>
           ))}
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -48,4 +56,3 @@ const mapStateToProps = state => {
 // };
 
 export default connect(mapStateToProps)(eventsContainer);
-
