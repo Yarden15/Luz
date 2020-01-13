@@ -16,7 +16,7 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-        <Link to='/user'>
+        <Link to='/settings'>
           <i className='fas fa-user-cog'></i>User Settings
         </Link>
       </li>
