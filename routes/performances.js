@@ -140,8 +140,8 @@ router.put('/:id', authorization, async (req, res) => {
   }
 });
 
-// @route   DELETE api/memos/:id
-// @desc    Delete memo
+// @route   DELETE api/performance/:id
+// @desc    Delete performance
 // @access  Private- Manager only
 router.delete('/:id', authorization, async (req, res) => {
   try {

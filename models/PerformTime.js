@@ -1,15 +1,23 @@
 const mongoose = require('mongoose');
 
-const ExShowTimeSchema = mongoose.Schema({
+const PerformTimeSchema = mongoose.Schema({
   id_table_event: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'timeTables'
+  },
+  is_course: {
+    type: Boolean,
+    required: true
   },
   day: {
     type: String,
     required: true
   },
-  time: {
+  start_time: {
+    type: String,
+    required: true
+  },
+  end_time: {
     type: String,
     required: true
   },
@@ -19,4 +27,4 @@ const ExShowTimeSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('exShowTime', ExShowTimeSchema);
+module.exports = mongoose.model('performTime', PerformTimeSchema);
