@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
+import history from '../../utils/history';
 
 
-const Login = ({ props ,authObj }) => {
+const Login = ({ authObj }) => {
 
   useEffect(() => {
-    if (authObj.isAuthenticated){
-      props.history.push('/');
+    if (authObj.isAuthenticated) {
+      history.push('/');
     }
-  })
+
+    //eslint-disable-next-line
+  }, [null, authObj.isAuthenticated, history])
 
   const [user, setUser] = useState({
     email: '',

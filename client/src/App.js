@@ -7,6 +7,7 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Settings from './components/pages/Settings';
 import store from './store'
+import history from './utils/history'
 import { Provider } from 'react-redux';
 
 
@@ -20,7 +21,7 @@ const App = () => {
           <Navbar />
           <div className='container'>
             <Switch>
-              <Route exact path='/login' component={Login} />
+              <Route exact path='/login' component={Login} history={history} />
               <PrivateRoute exact path='/' component={Home} />
               <PrivateRoute exact path='/settings' component={Settings} />
               <PrivateRoute exact path='/about' component={About} />

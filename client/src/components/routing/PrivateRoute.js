@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
+import history from '../../utils/history'
 
 const PrivateRoute = ({ authObj, component: Component, ...rest }) => {
   return (
@@ -11,7 +12,7 @@ const PrivateRoute = ({ authObj, component: Component, ...rest }) => {
           <Redirect to='/login' />
         ) : (
         
-            <Component {...props} />
+            <Component {...history} />
           )
       }
     />
