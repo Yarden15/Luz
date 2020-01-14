@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
-import history from '../../utils/history';
+//import history from '../../utils/history';
 
-
-const Login = ({ authObj }) => {
-
+const Login = props => {
+  // If there a change in the props down then we will use it
   useEffect(() => {
-    if (authObj.isAuthenticated) {
-      history.push('/');
+    // If the user has been authenticated- Redirect to home page
+    if (props.authObj.isAuthenticated) {
+      props.history.push('/');
+    }
+    // If there is an error add to the state
+    if (props.authObj.error === 'Ivalid Credentials') {
+      // setAlert(error, 'danger');
+      // clearErrors();
+      console.log('Invalid Credentials');
     }
 
     //eslint-disable-next-line
-  }, [null, authObj.isAuthenticated, history])
+  }, [props.authObj.error, props.authObj.isAuthenticated, props.history]);
 
   const [user, setUser] = useState({
     email: '',
@@ -34,7 +40,6 @@ const Login = ({ authObj }) => {
       });
     }
   };
-
 
   return (
     <div className='form-container'>

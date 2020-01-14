@@ -1,14 +1,19 @@
-import React, {Fragment } from 'react';
+import React, { Fragment } from 'react';
 import SceduleContainer from '../schedule/ScheduleContainer';
 import EventsContainer from '../event/eventsContainer';
 import ScheduleBar from '../schedule/SchedulesBar';
 
-const Home = () => {
+const Home = ({ authObj: { isAuthenticated}, ) => {
+
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
   return (
     <Fragment>
       {/* <Menu /> */}
-      <ScheduleBar/>
-      <div className="row ">
+      <ScheduleBar />
+      <div className='row '>
         <div className='col-sm-3'>
           {/* <UserInfoMenu /> */}
           <EventsContainer />
@@ -18,7 +23,7 @@ const Home = () => {
           <SceduleContainer />
         </div>
       </div>
-    </Fragment >
+    </Fragment>
   );
 };
 

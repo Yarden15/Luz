@@ -12,6 +12,5 @@ export const CREATE_DRAGGABLE = 'CREATE_DRAGGABLE';
 export const SET_LOADING = 'SET_LOADING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
-export const LOADED_USER = 'LOADED_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
-
+export const USER_LOADED = 'USER_LOADED';

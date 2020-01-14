@@ -6,12 +6,15 @@ import Login from './components/auth/Login';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Settings from './components/pages/Settings';
-import store from './store'
-import history from './utils/history'
+import store from './store';
+import history from './utils/history';
 import { Provider } from 'react-redux';
-
-
+import setAuthToken from './utils/setAuthToken';
 import './styles/App.scss';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   return (
