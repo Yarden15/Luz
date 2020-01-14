@@ -9,18 +9,15 @@ const TimeTableSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'
   },
-  course_hrs: [
+  perform_time: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'courseShowTimes'
+      ref: 'performTimes'
     }
   ],
-  ex_hrs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'exShowTimes'
-    }
-  ],
+  group_name: {
+    type: String
+  },
   total_course: {
     type: Number,
     default: 0

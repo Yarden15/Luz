@@ -17,6 +17,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/performances', require('./routes/performances'));
 app.use('/api/constraints', require('./routes/constraints'));
+app.use('/api/timetables', require('./routes/timeTable'));
 
 // Set a Port to listen 5000 to dev and any other port that will init in ENV
 const PORT = process.env.PORT || 5000;

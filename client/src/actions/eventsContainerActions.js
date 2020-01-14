@@ -5,28 +5,20 @@ import {
   CREATE_DRAGGABLE
 } from './types';
 
-import axios from 'axios';
-
 import thunk from 'redux-thunk';
-//get events from db
+// Get events form DataBase
 export const getEvents = () => async dispatch => {
   try {
     //     setLoading();
-    const res = await fetch('schedules');
-    const data = await res.json();
-
-    // const config = {
-    //   headers: {
-    //     'x-auth-token':
-    //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWRlNzdmMTg2ZmQ1ZTEzNmU4YWY2ZjAwIn0sImlhdCI6MTU3ODgzMjU2NSwiZXhwIjoxNTc4ODY4NTY1fQ.CRhIQZESwo23e47A4PYlQdff00WGCXCHHclIsJ48QgQ'
-    //   }
-    // };
-    // const res = await axios.get('/api/performances', config);
+    // const res = await fetch('/api/performances');
     // const data = await res.json();
+
+    // Request to API get all events in DataBase
+    const res = await axios.get('/api/timetable');
 
     dispatch({
       type: GET_EVENTS,
-      payload: data
+      payload: res.data
     });
   } catch (error) {
     dispatch({

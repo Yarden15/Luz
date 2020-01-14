@@ -6,6 +6,7 @@ const config = require('config');
 const { check, validationResult } = require('express-validator');
 
 const Authorization = require('../middleware/authorization');
+const auth = require('../middleware/auth');
 const User = require('../models/User');
 
 // @route   POST api/users
@@ -96,6 +97,149 @@ router.get(
       // Get all users in db
       const users = await User.find({}).sort({ date: -1 });
       res.json(users);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+// @route   GET api/users/:id
+// @desc    Get current User detailes
+// @access  Private
+router.get(
+  '/',
+  // Middleware- Authorization function that gives acces to relevant users (manager)
+  auth,
+  async (req, res) => {
+    // Try catch for a Promise
+    try {
+      // Get all users in db
+      const users = await User.find({}).sort({ date: -1 });
+      res.json(users);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+// @route   PUT api/users/:id
+// @desc    Update password
+// @access  Private
+router.put(
+  '/:id',
+  [
+    auth,
+    [
+      check(
+        'password',
+        'Please enter a password with 6 or more characters'
+      ).isLength({ min: 6 })
+    ]
+  ],
+  async (req, res) => {
+    // Validations of the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { password } = req.body;
+
+    try {
+      let user = await User.findById(req.params.id);
+
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      // Make sure user try to change his own password
+      if (user._id.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'Not authorized' });
+      }
+
+      // Initialize salt (Part of bcrypt protocol to Hash)
+      const salt = await bcrypt.genSalt(10);
+      // Insert the User instance the Hash password
+      let hashPass = await bcrypt.hash(password, salt);
+
+      // Update in the array of courses in user Model the new course
+      await User.update(
+        { _id: req.params.id },
+        {
+          $set: { password: hashPass }
+        }
+      );
+
+      res.status(200).send('Password has been changed');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   PUT api/users/manage
+// @desc    Update password
+// @access  Private
+router.put(
+  '/manage/:id',
+  [
+    Authorization,
+    [
+      check('password', 'Password should contain at least 6 characters')
+        .if(check('password').exists())
+        .isLength({ min: 6 })
+    ]
+  ],
+  async (req, res) => {
+    // Validations of the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Pull from the req.body the fields to update user
+    const {
+      id_number,
+      first_name,
+      last_name,
+      email,
+      password,
+      role
+    } = req.body;
+
+    // Build user object
+    const userFields = {};
+    if (id_number) userFields.id_number = id_number;
+    if (first_name) userFields.first_name = first_name;
+    if (last_name) userFields.last_name = last_name;
+    if (email) userFields.email = email;
+    // Password will insert later if exist
+    if (role) userFields.role = role;
+
+    try {
+      let user = await User.findById(req.params.id);
+
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      // Id there is intend to change password
+      if (password) {
+        // Initialize salt (Part of bcrypt protocol to Hash)
+        const salt = await bcrypt.genSalt(10);
+        // Insert the User instance the Hash password
+        let hashPass = await bcrypt.hash(password, salt);
+        userFields.password = hashPass;
+      }
+
+      // Update in the array of courses in user Model the new course
+      await User.update(
+        { _id: req.params.id },
+        {
+          $set: userFields
+        }
+      );
+
+      res.status(200).send('User details has been changed');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

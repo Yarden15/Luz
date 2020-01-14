@@ -15,7 +15,18 @@ const Performance = require('../models/Performance');
 router.get('/', authorization, async (req, res) => {
   try {
     // Get all the timeTable events
-    const timeTable = await TimeTable.find({});
+    const timeTable = await TimeTable.find({})
+      .populate({
+        path: 'performance',
+        model: Performance,
+        select: 'serial_num title location'
+      })
+      .populate({
+        path: 'user',
+        model: User,
+        select: 'id_number first_name last_name'
+      });
+
     // Response- events in table
     res.json(timeTable);
   } catch (err) {
@@ -23,7 +34,7 @@ router.get('/', authorization, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-// @route   GET api/performances/:id
+// @route   GET api/timeTable/:id
 // @desc    Get all performances of a specific user
 // @access  Private
 router.get('/:id', auth, async (req, res) => {
@@ -32,15 +43,15 @@ router.get('/:id', auth, async (req, res) => {
     // from the authentacation mIDdleware
     const timeTable = await TimeTable.find({ user: req.user.id });
     // Response- performances related to current user
-    res.json(performance);
+    res.json(timeTable);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   POST api/performances
-// @desc    Add performance to a user
+// @route   POST api/timetables
+// @desc    Add an Event that connect between User to Performance
 // @access  Private Only a Manager or Admin can do it
 router.post(
   '/',
@@ -60,26 +71,35 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Pull from the req.body the fields to create new performance later on (instance)
-    const {
-      performance,
-      user,
-      course_hrs,
-      ex_hrs,
-      total_course,
-      total_ex
-    } = req.body;
+    // Pull from the req.body the fields to create new Event
+    const { id_number, serial_num, group_name } = req.body;
 
     try {
-      // Create new ModelSchema of performance
+      // Find user ID in DB to create the Event correctly
+      let user = await User.findOne({ id_number: id_number });
+      // User not exist
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+      // Find performance ID in DB to create the Event correctly
+      let performance = await Performance.findOne({ serial_num: serial_num });
+      // Performance not exist
+      if (!performance)
+        return res.status(404).json({ msg: 'Performance not found' });
+
+      // Update in the array of courses in user Model the new course
+      await User.update(
+        { _id: user._id },
+        {
+          $push: { performances: performance._id }
+        }
+      );
+
+      // Create new ModelSchema of event timeTable
       const newTimeTable = new TimeTable({
-        performance,
-        user,
-        course_hrs,
-        ex_hrs,
-        total_course,
-        total_ex
+        performance: performance._id,
+        user: user._id,
+        group_name
       });
+
       // Promise- save performance to db
       const timeTable = await newTimeTable.save();
       // Response- performance to client
