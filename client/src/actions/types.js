@@ -7,7 +7,11 @@ export const DELETE_SCHEDULE = 'DELETE_SCHEDULE';
 export const SCHEDULE_ERROR = 'SCHEDULE_ERROR';
 export const EVENT_ERROR = 'EVENT_ERROR';
 export const GET_EVENTS = 'GET_EVENTS';
-export const DELETE_EVENT = 'DELETE_SCHEDULE';
+export const DELETE_EVENT = 'DELETE_EVENT';
 export const CREATE_DRAGGABLE = 'CREATE_DRAGGABLE';
 export const SET_LOADING = 'SET_LOADING';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOADED_USER = 'LOADED_USER';
+export const AUTH_ERROR = 'AUTH_ERROR';
 

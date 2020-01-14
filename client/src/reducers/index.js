@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import scheduleReducer from './scheduleReducer';
 import eventReducer from './eventsContainerReducer';
+import authReducer from './authReducer';
 
 export default combineReducers({
   event: eventReducer,
-  schedule: scheduleReducer
+  schedule: scheduleReducer,
+  auth: authReducer
 });

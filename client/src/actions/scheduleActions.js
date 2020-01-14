@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -65,7 +65,7 @@ export const createCalendar = (title) => {
       editable={true}
       droppable={true}
       drop={function (info) { eventDrop(info, id); }}
-      eventResize={function (info) { eventDrop(info, id); }}
+      eventResize={console.log("resized event")}
       eventLimit={true}
       eventClick={eventClick}
       events={[{ title: 'yarden', start: '2020-01-10T13:00', end: '2020-01-10T16:00' }]} />
@@ -85,13 +85,15 @@ export const selectCalendar = (id) => {
 
 export const eventDrop = (event, id) => {
   //check if this legal action
-  
+
   //save on the DB/Schecdule
   store.dispatch({
     type: ADD_EVENT,
-    payload: 
-      {event: {title: event.draggedEl.title, id: event.draggedEl.id, start: event.date }
-      ,id: id} 
+    payload:
+    {
+      event: { title: event.draggedEl.title, id: event.draggedEl.id, start: event.date }
+      , id: id
+    }
   })
 }
 
@@ -121,6 +123,10 @@ export const eventClick = eventClick => {
     cancelButtonText: "Close"
   }).then(result => {
     if (result.value) {
+      store.dispatch({
+        type: DELETE_EVENT,
+        payload: {sched_id: eventClick.event , event_id: eventClick.event.id}
+      })
       eventClick.event.remove(); // It will remove event from the calendar
       Alert.fire("Deleted!", "The course has been deleted.", "success");
     }

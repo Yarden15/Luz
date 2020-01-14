@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
     case GET_EVENTS:
       return {
         ...state,
-        events: action.payload
+        events: [...state,action.payload]
       };
     case SET_LOADING:
       return {
