@@ -23,7 +23,7 @@ const App = () => {
               <Route exact path='/login' component={Login} />
               <PrivateRoute exact path='/' component={Home} />
               <PrivateRoute exact path='/settings' component={Settings} />
-              <Route exact path='/about' component={About} />
+              <PrivateRoute exact path='/about' component={About} />
             </Switch>
           </div>
         </Fragment>

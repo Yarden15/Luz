@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
 
 
-const Login = () => {
+const Login = ({ props ,authObj }) => {
+
+  useEffect(() => {
+    if (authObj.isAuthenticated){
+      props.history.push('/');
+    }
+  })
 
   const [user, setUser] = useState({
     email: '',
