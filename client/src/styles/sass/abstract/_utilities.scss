@@ -121,7 +121,6 @@
   margin: 3rem 0;
 }
 
-
 .btn {
   display: inline-block;
   background: var(--light-color);
@@ -146,46 +145,44 @@
   width: 100%;
 }
 
-
-
 .btn-primary,
 .bg-primary,
 .badge-primary,
 .alert-primary {
-  background: var(--primary-color);
-  color: #000;
+  background: $nav_background;
+  color: #fff;
 }
 
 .btn-light,
 .bg-light,
 .badge-light,
 .alert-light {
-  background: var(--light-color);
-  color: #333;
+  background: $nav_background;
+  color: #fff;
 }
 
 .btn-dark,
 .bg-dark,
 .badge-dark,
 .alert-dark {
-  background: var(--dark-color);
-  color: #000;
+  background: $sec_nav_background;
+  color: #fff;
 }
 
 .btn-danger,
 .bg-danger,
 .badge-danger,
 .alert-danger {
-  background: var(--danger-color);
-  color: #000;
+  background: rgb(185, 16, 16);
+  color: #fff;
 }
 
 .btn-success,
 .bg-success,
 .badge-success,
 .alert-success {
-  background: var(--success-color);
-  color: #000;
+  background: rgb(43, 255, 0);
+  color: #fff;
 }
 
 .btn-white,
@@ -201,8 +198,6 @@
   opacity: 0.8;
 }
 
-
-
 /* Forms */
 input {
   margin: 1.2rem 0;
@@ -214,10 +209,10 @@ input {
   color: #888;
 }
 
-input[type='text'],
-input[type='email'],
-input[type='password'],
-input[type='date'],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
 select,
 textarea {
   display: block;
@@ -227,7 +222,7 @@ textarea {
   border: 1px solid #ccc;
 }
 
-input[type='submit'],
+input[type="submit"],
 button {
   font: inherit;
 }
@@ -236,49 +231,19 @@ button {
   margin: 1.2rem 0;
 }
 
-.form-group input {
-  margin: 0.2rem 0;
-}
-
 .form-container {
   max-width: 500px;
   margin: 2rem auto;
   overflow: hidden;
   padding: 0 2rem;
-}
 
-.form-container h1,
-h2,
-h3 {
-  text-align: center;
-}
-
-table th,
-table td {
-  padding: 1rem;
-  text-align: left;
-}
-
-table th {
-  background: var(--light-color);
-}
-
-/* Mobile Styles */
-@media (max-width: 700px) {
-  .hide-sm {
-    display: none;
+  h1,
+  h2,
+  h3 {
+    text-align: center;
   }
 
-  /* Text Styles */
-  .x-large {
-    font-size: 3rem;
-  }
-
-  .large {
-    font-size: 2rem;
-  }
-
-  .lead {
-    font-size: 1rem;
+  input {
+    margin: 0.2rem 0;
   }
 }

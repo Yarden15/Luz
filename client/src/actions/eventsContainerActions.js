@@ -1,11 +1,11 @@
-import {
-  GET_EVENTS,
-  SET_LOADING,
-  EVENT_ERROR,
-  CREATE_DRAGGABLE
-} from './types';
+import { GET_EVENTS, SET_LOADING, EVENT_ERROR, CREATE_DRAGGABLE} from './types';
 
 import thunk from 'redux-thunk';
+
+// const createEvent = () => {
+//   const event
+// }
+
 // Get events form DataBase
 export const getEvents = () => async dispatch => {
   try {
@@ -40,17 +40,4 @@ export const getEvents = () => async dispatch => {
 //     type: CREATE_DRAGGABLE
 //   }
 // }
-// export const componentDidMount = () => {
-//   let draggableEl = document.getElementById("external-events");
-//   new Draggable(draggableEl, {
-//     itemSelector: ".fc-event",
-//     eventData: function (eventEl) {
-//       let title = eventEl.getAttribute("title");
-//       let id = eventEl.getAttribute("data");
-//       return {
-//         title,
-//         id
-//       }
-//     }
-//   });
-// }
+

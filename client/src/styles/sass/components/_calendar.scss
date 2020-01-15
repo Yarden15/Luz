@@ -1,4 +1,4 @@
-.calendar-title{
+.calendar-title {
   text-align: center;
 }
 .fc-today {
@@ -6,7 +6,11 @@
   border: none !important;
   border-top: 1px solid #ddd !important;
   font-weight: bold;
-} 
+}
 .fc-view-container {
   margin-bottom: 30px;
+}
+
+.fc-ltr .fc-time-grid .fc-event-container {
+  margin: 0 0.5% !important;
 }

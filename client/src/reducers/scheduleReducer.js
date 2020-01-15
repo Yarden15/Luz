@@ -10,6 +10,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+
     case GET_SCHEDULES:
       return {
         ...state,
@@ -28,24 +29,26 @@ export default (state = initialState, action) => {
         current: action.payload
       }
     case DELETE_SCHEDULE:
-      const copyScheds = state.schedules;
-      delete copyScheds[action.payload]  
+      const copySchedsDelete = state.schedules;
+      delete copySchedsDelete[action.payload]
       return {
         ...state,
-        schedules: copyScheds,    
-        counter: state.counter+1  
+        schedules: copySchedsDelete,
       }
     case ADD_EVENT:
-      const copySchedss = state.schedules;
-      copySchedss[action.payload.id].calendarRef.current.props.events.push(action.payload.event);
+      const AddCopyScheds = state.schedules;
+      AddCopyScheds[action.payload.id].calendarRef.current.props.events.push(action.payload.event);
       return {
         ...state,
-        schedules: copySchedss
+        schedules: AddCopyScheds
       }
-      case DELETE_EVENT:
-        return {
-          ...state
-        }
+    case DELETE_EVENT:
+      const copySchedsDeleteEvnet = state.schedules;
+      copySchedsDeleteEvnet[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event);
+      return {
+        ...state,
+        schedules: copySchedsDeleteEvnet
+      }
     case SET_LOADING:
       return {
         ...state,

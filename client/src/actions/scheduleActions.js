@@ -64,7 +64,7 @@ export const createCalendar = (title) => {
       selectHelper={true}
       editable={true}
       droppable={true}
-      drop={function (info) { eventDrop(info, id); }}
+      drop={function (info) { eventDrop(info, id) }}
       eventResize={console.log("resized event")}
       eventLimit={true}
       eventClick={eventClick}
@@ -83,16 +83,22 @@ export const selectCalendar = (id) => {
   });
 }
 
-export const eventDrop = (event, id) => {
+export const eventDrop = (info, id) => {
   //check if this legal action
-
+  info.draggedEl.schedId = id;
   //save on the DB/Schecdule
   store.dispatch({
     type: ADD_EVENT,
     payload:
     {
-      event: { title: event.draggedEl.title, id: event.draggedEl.id, start: event.date }
-      , id: id
+      event: {
+        title: info.draggedEl.title,
+        id: info.draggedEl.id,
+        start: info.date,
+        schedId: id
+      },
+      id: id,
+      info
     }
   })
 }
@@ -125,7 +131,7 @@ export const eventClick = eventClick => {
     if (result.value) {
       store.dispatch({
         type: DELETE_EVENT,
-        payload: {sched_id: eventClick.event , event_id: eventClick.event.id}
+        payload: { sched_id: eventClick, event_id: eventClick.event.id }
       })
       eventClick.event.remove(); // It will remove event from the calendar
       Alert.fire("Deleted!", "The course has been deleted.", "success");

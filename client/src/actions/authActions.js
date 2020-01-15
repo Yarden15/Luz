@@ -3,7 +3,7 @@ import store from '../store';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 
-const loadUser = async () => {
+export const loadUser = async () => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }

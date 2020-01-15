@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux'
-import history from '../../utils/history'
+import { connect } from 'react-redux';
+import history from '../../utils/history';
 
 const PrivateRoute = ({ authObj, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={() =>
         !authObj.isAuthenticated ? (
           <Redirect to='/login' />
         ) : (
@@ -24,6 +24,5 @@ const mapStateToProps = state => {
     authObj: state.auth
   };
 };
-
 
 export default connect(mapStateToProps)(PrivateRoute);
