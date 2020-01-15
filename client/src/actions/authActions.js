@@ -1,8 +1,18 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, AUTH_ERROR } from './types';
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGOUT
+} from './types';
 import store from '../store';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 
+<<<<<<< HEAD
+=======
+// Load User
+>>>>>>> a2b835de4d54c49ec8f17a4ee321d436d7ea1294
 export const loadUser = async () => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -20,7 +30,7 @@ export const loadUser = async () => {
     });
   }
 };
-
+// Login User
 export const login = async FormData => {
   const config = {
     headers: {
@@ -41,4 +51,9 @@ export const login = async FormData => {
       payload: err.response.data.msg
     });
   }
+};
+
+// Logout
+export const logout = () => {
+  store.dispatch({ type: LOGOUT });
 };

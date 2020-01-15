@@ -1,14 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import SceduleContainer from '../schedule/ScheduleContainer';
 import EventsContainer from '../event/eventsContainer';
 import ScheduleBar from '../schedule/SchedulesBar';
+import { connect } from 'react-redux';
+import { loadUser } from '../../actions/authActions';
 
-const Home = ({ authObj: { isAuthenticated}, ) => {
-
+const Home = () => {
+  // Load user in this component
   useEffect(() => {
     loadUser();
     // eslint-disable-next-line
   }, []);
+
   return (
     <Fragment>
       {/* <Menu /> */}
@@ -27,4 +30,10 @@ const Home = ({ authObj: { isAuthenticated}, ) => {
   );
 };
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    authObj: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(Home);

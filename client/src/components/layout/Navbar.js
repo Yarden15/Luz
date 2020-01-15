@@ -1,15 +1,19 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/authActions';
 import AppLogo from '../../styles/assets/logo_white.png';
 
-const Navbar = () => {
-  // @todo - destruct isAuthenticated from the right component
-  // for now its intialize by defaul to be false
-  const isAuthenticated = true;
-  //   @todo - create the correct list to this method
+const Navbar = props => {
+  const onLogout = () => {
+    logout();
+    // clearMemos();
+  };
+
   //   The Navbar will look diffrent if the user is Authenticated to site
   const authLinks = (
     <Fragment>
+      <li> Hello {props.authObj.user && props.authObj.user.first_name}</li>
       <li>
         <Link to='/'>
           <i className='fa fa-home'></i>Home
@@ -26,9 +30,11 @@ const Navbar = () => {
         </Link>
       </li>
       <li>
-        <Link to='/login'>
-          <i className='fas fa-sign-out-alt'></i>Logout
-        </Link>
+        <a onClick={onLogout} href='#!'>
+          <i className='fas fa-sign-out-alt'>
+            <span className='hide-sm'>LogOut</span>
+          </i>
+        </a>
       </li>
     </Fragment>
   );
@@ -50,9 +56,15 @@ const Navbar = () => {
       <h1>
         <img src={AppLogo} alt='logo' className='logo-small' />
       </h1>
-      <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
+      <ul>{props.authObj.isAuthenticated ? authLinks : guestLinks}</ul>
     </nav>
   );
 };
 
-export default Navbar;
+const mapStateToProps = state => {
+  return {
+    authObj: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(Navbar);
