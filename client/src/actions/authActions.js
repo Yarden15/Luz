@@ -9,10 +9,8 @@ import store from '../store';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 
-<<<<<<< HEAD
-=======
+
 // Load User
->>>>>>> a2b835de4d54c49ec8f17a4ee321d436d7ea1294
 export const loadUser = async () => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
