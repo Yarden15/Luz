@@ -10,12 +10,14 @@ connectDB();
 // Init middleware
 app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => res.json({ msg: 'Welcome to Memos Keeper API...' }));
+app.get('/', (req, res) => res.json({ msg: 'Welcome to Luz API...' }));
 
 // Define Routes
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/performance', require('./routes/performances'));
+app.use('/api/performances', require('./routes/performances'));
+app.use('/api/constraints', require('./routes/constraints'));
+app.use('/api/timetables', require('./routes/timeTable'));
 
 // Set a Port to listen 5000 to dev and any other port that will init in ENV
 const PORT = process.env.PORT || 5000;

@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
+  // Array of users that participate in the performance
+  performances: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'performances'
+    }
+  ],
   id_number: {
     type: String,
     required: true

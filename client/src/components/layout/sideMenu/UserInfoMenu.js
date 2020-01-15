@@ -3,9 +3,9 @@ import React from 'react';
 const UserInfoMenu = () => {
   return (
     <ul className='list'>
-      <li>הפרטים שלי</li>
-      <li>הפרטים שלנו</li>
-      <li>נו מה עוד</li>
+      <li>Account Details</li>
+      <li>Update Schedule</li>
+      <li>Security</li>
     </ul>
   );
 };

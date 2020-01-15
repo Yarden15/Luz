@@ -1,23 +1,39 @@
-import React, { useContext, useEffect, Fragment } from 'react';
-import Menu from '../layout/Menu';
-
-import UserInfo from '../userInfo/UserInfo';
-import UserInfoMenu from '../layout/sideMenu/UserInfoMenu';
+import React, { Fragment, useEffect } from 'react';
+import SceduleContainer from '../schedule/ScheduleContainer';
+import EventsContainer from '../event/eventsContainer';
+import ScheduleBar from '../schedule/SchedulesBar';
+import { connect } from 'react-redux';
+import { loadUser } from '../../actions/authActions';
 
 const Home = () => {
+  // Load user in this component
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <Fragment>
-      <Menu />
-      <div className='grid-2'>
-        <div>
-          <UserInfo />
+      {/* <Menu /> */}
+      <ScheduleBar />
+      <div className='row '>
+        <div className='col-sm-3'>
+          {/* <UserInfoMenu /> */}
+          <EventsContainer />
         </div>
-        <div className='card bg-light text-right'>
-          <UserInfoMenu />
+        <div className='col-sm-9'>
+          {/* <UserInfo /> */}
+          <SceduleContainer />
         </div>
       </div>
     </Fragment>
   );
 };
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    authObj: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(Home);
