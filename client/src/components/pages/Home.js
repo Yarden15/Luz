@@ -3,12 +3,7 @@ import SceduleContainer from '../schedule/ScheduleContainer';
 import EventsContainer from '../event/eventsContainer';
 import ScheduleBar from '../schedule/SchedulesBar';
 
-const Home = ({ authObj: { isAuthenticated}, ) => {
-
-  useEffect(() => {
-    loadUser();
-    // eslint-disable-next-line
-  }, []);
+const Home = () => {
   return (
     <Fragment>
       {/* <Menu /> */}
