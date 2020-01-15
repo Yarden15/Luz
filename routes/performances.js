@@ -1,37 +1,19 @@
 const express = require('express');
 const router = express.Router();
-
 const auth = require('../middleware/auth');
-const authorization = require('../middleware/authorization');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
 const Performance = require('../models/Performance');
 
 // @route   GET api/performances
-// @desc    Get all performances
-// @access  Private- Managers
-router.get('/', authorization, async (req, res) => {
-  try {
-    // Get all the preformances in db
-    const performance = await Performance.find({});
-    // Response- performances of all users
-    res.json(performance);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-// @route   GET api/performances/:id
-// @desc    Get all performances of a specific user
+// @desc    Get all user performances
 // @access  Private
-router.get('/:id', auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    // @todo - select from the id of performances the info of its
     // Get all the attached preformances to current User by it ID gotten
     // from the authentacation mIDdleware
-    const performance = await User.findById(req.user.id).select('performances');
-    // Response- performances related to current user
+    const performance = await Performance.find({ user: req.user.id });
     res.json(performance);
   } catch (err) {
     console.error(err.message);
@@ -39,53 +21,39 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   POST api/performances
+// @route   POST api/performance
 // @desc    Add performance to a user
 // @access  Private Only a Manager or Admin can do it
 router.post(
   '/',
   [
-    authorization,
+    auth,
     [
-      check('serial_num', 'Course ID is required')
+      check('name', 'Name is required')
         .not()
         .isEmpty()
     ]
   ],
   async (req, res) => {
-    // Validations f the form will take place here
     const errors = validationResult(req);
-    // According to validation send errors if there are
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Pull from the req.body the fields to create new performance later on (instance)
-    const {
-      serial_num,
-      title,
-      year,
-      semester,
-      course_hours,
-      ex_hours,
-      location
-    } = req.body;
+    const { name, title, item, rank } = req.body;
 
     try {
-      // Create new ModelSchema of performance
-      const newPerformance = new Performance({
-        serial_num,
+      const newMemo = new Memo({
+        name,
         title,
-        year,
-        semester,
-        course_hours,
-        ex_hours,
-        location
+        item,
+        rank,
+        user: req.user.id
       });
-      // Promise- save performance to db
-      const performance = await newPerformance.save();
-      // Response- performance to client
-      res.json(performance);
+
+      const memo = await newMemo.save();
+
+      res.json(memo);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -93,76 +61,59 @@ router.post(
   }
 );
 
-// @route   PUT api/Performance/:id
-// @desc    Update Performance by id
-// @access  Private- only manager
-router.put('/:id', authorization, async (req, res) => {
-  // Pull from the req.body the fields to create new performance later on (instance)
-  const {
-    serial_num,
-    title,
-    year,
-    semester,
-    course_hours,
-    ex_hours,
-    location
-  } = req.body;
+// @route   PUT api/memos/:id
+// @desc    Update memo
+// @access  Private
+router.put('/:id', auth, async (req, res) => {
+  const { name, title, item, rank } = req.body;
 
-  // Build constraint object
-  const performanceFields = {};
-  if (serial_num) performanceFields.serial_num = serial_num;
-  if (title) performanceFields.title = title;
-  if (year) performanceFields.year = year;
-  if (semester) performanceFields.semester = semester;
-  if (course_hours) performanceFields.course_hours = course_hours;
-  if (ex_hours) performanceFields.ex_hours = ex_hours;
-  if (location) performanceFields.location = location;
+  // Build memo object
+  const memoFields = {};
+  if (name) memoFields.name = name;
+  if (title) memoFields.title = title;
+  if (item) memoFields.item = item;
+  if (rank) memoFields.rank = rank;
 
   try {
-    // Find the performance in db by id
-    let performance = await Performance.findById(req.params.id);
-    // Performance not found
-    if (!performance)
-      return res.status(404).json({ msg: 'Performance not found' });
+    let memo = await Memo.findById(req.params.id);
 
-    // Promise- return an id of the performance to change if not exist
-    // add this new performance
-    performance = await Performance.findByIdAndUpdate(
+    if (!memo) return res.status(404).json({ msg: 'Memo not found' });
+
+    // Make sure user owns memo
+    if (memo.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    memo = await Memo.findByIdAndUpdate(
       req.params.id,
-      { $set: performanceFields },
+      { $set: memoFields },
       { new: true }
     );
-    // Response- the update performance
-    res.json(performance);
+
+    res.json(memo);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   DELETE api/performance/:id
-// @desc    Delete performance
-// @access  Private- Manager only
-router.delete('/:id', authorization, async (req, res) => {
+// @route   DELETE api/memos/:id
+// @desc    Delete memo
+// @access  Private
+router.delete('/:id', auth, async (req, res) => {
   try {
-    //   Find the performance by id
-    let performance = await Performance.findById(req.params.id);
-    // Not found constraint
-    if (!performance)
-      return res.status(404).json({ msg: 'Performance not found' });
+    let memo = await Memo.findById(req.params.id);
 
-    // The user isnt a 'Admin' or 'Manager'
-    if (req.user.role !== 'Admin' || req.user.role !== 'Manager') {
-      return res
-        .status(401)
-        .json({ msg: 'Not Authorize to delete performance' });
+    if (!memo) return res.status(404).json({ msg: 'Memo not found' });
+
+    // Make sure user owns memo
+    if (memo.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
     }
 
-    // Promise- find the Performance and remove it from db
-    await Performance.findByIdAndRemove(req.params.id);
+    await Memo.findByIdAndRemove(req.params.id);
 
-    // Response- msg to indicate that Performance has been removed
-    res.json({ msg: 'Performance removed' });
+    res.json({ msg: 'Memo Removed' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-const Menu = () => {
+const Menu = ({ icon, title }) => {
   // @todo - destruct isAuthenticated from the right component
   // for now its intialize by defaul to be false
   const isAuthenticated = false;
@@ -22,17 +24,17 @@ const Menu = () => {
 
   const userLinks = (
     <Fragment>
-      <li>Schedule</li>
-      <li>Users</li>
-      <li>Requests</li>
-      <li>Personal Area</li>
+      <li>מערכות שעות</li>
+      <li>משתמשים</li>
+      <li>בקשות</li>
+      <li>אישי</li>
     </Fragment>
   );
   return (
     // Default Navbar where we see the Icon & App name
     // also we will add an option for the organization Logo
-    <nav className='menu'>
-      {/* <h2></h2> */}
+    <nav className='menu bg-dark'>
+      <h2></h2>
       <ul>{isAuthenticated ? managerLinks : userLinks}</ul>
     </nav>
   );

@@ -20,9 +20,9 @@ module.exports = async function(req, res, next) {
     // data about user, check for the user role. Only Manager can add users
     let user = await User.findById(req.user.id).select('role');
 
-    // The user isnt a 'Admin' or 'Manager'
-    if (user.role !== 'Admin' && user.role !== 'Manager') {
-      return res.status(401).json({ msg: 'Not Authorize' });
+    // The user isnt a 'Admin'
+    if (user.role !== 'Admin') {
+      return res.status(401).json({ msg: 'Not Authorize to add profile' });
     }
 
     next();

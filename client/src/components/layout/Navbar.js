@@ -1,40 +1,27 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { logout } from '../../actions/authActions';
-import AppLogo from '../../styles/assets/logo_white.png';
+import AppLogo from '../../styles/logo_white.png';
 
-const Navbar = props => {
-  const onLogout = () => {
-    logout();
-    // clearMemos();
-  };
+const Navbar = ({ icon, title }) => {
+  // @todo - destruct isAuthenticated from the right component
+  // for now its intialize by defaul to be false
+  const isAuthenticated = true;
 
+  //   @todo - create the correct list to this method
   //   The Navbar will look diffrent if the user is Authenticated to site
   const authLinks = (
     <Fragment>
-      <li> Hello {props.authObj.user && props.authObj.user.first_name}</li>
       <li>
-        <Link to='/'>
-          <i className='fa fa-home'></i>Home
-        </Link>
+        <Link to='/about'>שם המשתמש</Link>
       </li>
       <li>
-        <Link to='/settings'>
-          <i className='fas fa-user-cog'></i>User Settings
-        </Link>
+        <Link to='/user'>עדכון פרטים</Link>
       </li>
       <li>
-        <Link to='/about'>
-          <i className='fas fa-info-circle'></i>About
-        </Link>
-      </li>
-      <li>
-        <a onClick={onLogout} href='#!'>
-          <i className='fas fa-sign-out-alt'>
-            <span className='hide-sm'>LogOut</span>
-          </i>
-        </a>
+        <i className='fas fa-sign-out-alt'>
+          <span className='hide-sm'>התנתק</span>
+        </i>
       </li>
     </Fragment>
   );
@@ -52,19 +39,23 @@ const Navbar = props => {
   return (
     // Default Navbar where we see the Icon & App name
     // also we will add an option for the organization Logo
-    <nav className='navbar'>
+    <nav className='navbar bg-primary'>
       <h1>
         <img src={AppLogo} alt='logo' className='logo-small' />
       </h1>
-      <ul>{props.authObj.isAuthenticated ? authLinks : guestLinks}</ul>
+      <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </nav>
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    authObj: state.auth
-  };
+Navbar.defaultProps = {
+  title: 'LUZ',
+  icon: 'fab fa-github'
 };
 
-export default connect(mapStateToProps)(Navbar);
+Navbar.propTypes = {
+  title: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired
+};
+
+export default Navbar;

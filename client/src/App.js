@@ -1,37 +1,27 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/routing/PrivateRoute';
+
 import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
-import Settings from './components/pages/Settings';
-import store from './store';
-import history from './utils/history';
-import { Provider } from 'react-redux';
-import setAuthToken from './utils/setAuthToken';
-import './styles/App.scss';
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
+import './App.css';
 
 const App = () => {
   return (
     <Router>
-      <Provider store={store}>
-        <Fragment>
-          <Navbar />
-          <div className='container'>
-            <Switch>
-              <Route exact path='/login' component={Login} history={history} />
-              <Route exact path='/' component={Home} />
-              <PrivateRoute exact path='/settings' component={Settings} />
-              <Route exact path='/about' component={About} />
-            </Switch>
-          </div>
-        </Fragment>
-      </Provider>
+      <Fragment>
+        <Navbar />
+        <div className='container'>
+          <Switch>
+            <Route exact path='/login' component={Login} />
+            <PrivateRoute exact path='/' component={Home} />
+            <Route exact path='/about' component={About} />
+          </Switch>
+        </div>
+      </Fragment>
     </Router>
   );
 };
