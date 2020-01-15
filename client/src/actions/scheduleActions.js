@@ -95,7 +95,7 @@ export const eventDrop = (info, id) => {
         title: info.draggedEl.title,
         id: info.draggedEl.id,
         start: info.date,
-        schedId: id
+        schedId: id 
       },
       id: id,
       info
@@ -131,7 +131,7 @@ export const eventClick = eventClick => {
     if (result.value) {
       store.dispatch({
         type: DELETE_EVENT,
-        payload: { sched_id: eventClick, event_id: eventClick.event.id }
+        payload: { sched_id: eventClick.event.extendedProps.schedId, event_id: eventClick.event.id }
       })
       eventClick.event.remove(); // It will remove event from the calendar
       Alert.fire("Deleted!", "The course has been deleted.", "success");

@@ -11,7 +11,7 @@ export class eventsContainer extends Component {
       eventData: function (eventEl) {
         let title = eventEl.getAttribute('title');
         let id = eventEl.getAttribute('id');
-        
+
         return {
           title: title,
           id: id,
@@ -37,7 +37,7 @@ export class eventsContainer extends Component {
               title={event.title}
               id={event.id}
               extendedprops={event.extendedprops}
-              key={"event - " + event.id}
+              key={event.id}
             >
               <div>{event.title}</div>
               <div>Id: {event.id}</div>

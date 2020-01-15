@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
       }
     case DELETE_EVENT:
       const copySchedsDeleteEvnet = state.schedules;
-      copySchedsDeleteEvnet[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event);
+      copySchedsDeleteEvnet[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event_id);
       return {
         ...state,
         schedules: copySchedsDeleteEvnet
