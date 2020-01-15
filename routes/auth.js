@@ -15,7 +15,6 @@ router.get('/', auth, async (req, res) => {
   try {
     // Promise to find if a user+passwoord exist in db
     const user = await User.findById(req.user.id).select('-password');
-    console.log(req.user);
     // Response with user information without password
     res.json(user);
   } catch (err) {

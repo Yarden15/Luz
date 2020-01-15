@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
-//import history from '../../utils/history';
 
 const Login = props => {
   // If there a change in the props down then we will use it
