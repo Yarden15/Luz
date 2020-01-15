@@ -132,5 +132,8 @@ body {
 }
 
 .tabset {
-  max-width: 65em;
+  height: 65px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
 }

@@ -11,14 +11,13 @@ export class eventsContainer extends Component {
       eventData: function (eventEl) {
         let title = eventEl.getAttribute('title');
         let id = eventEl.getAttribute('id');
+        let teacherid = eventEl.getAttribute('teacherid');
 
         return {
           title: title,
           id: id,
-          extendedProps: {
-            teacherId: '',
-            schedId: ''
-          }
+          teacherid: teacherid,
+
         };
       }
     });
@@ -33,10 +32,10 @@ export class eventsContainer extends Component {
         <div>
           {this.props.eventObj.events.map(event => (
             <div
-              className='fc-event druggable'
+              className='fc-event draggable'
               title={event.title}
               id={event.id}
-              extendedprops={event.extendedprops}
+              teacherid={event.teacherid}
               key={event.id}
             >
               <div>{event.title}</div>
