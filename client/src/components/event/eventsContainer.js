@@ -12,12 +12,13 @@ export class eventsContainer extends Component {
         let title = eventEl.getAttribute('title');
         let id = eventEl.getAttribute('id');
         let teacherid = eventEl.getAttribute('teacherid');
+        let courseid = eventEl.getAttribute('courseid');
 
         return {
           title: title,
           id: id,
           teacherid: teacherid,
-
+          courseid: courseid
         };
       }
     });
@@ -36,10 +37,11 @@ export class eventsContainer extends Component {
               title={event.title}
               id={event.id}
               teacherid={event.teacherid}
-              key={event.id}
+              courseid={event.courseid}
+              key={event.courseid}
             >
               <div>{event.title}</div>
-              <div>Id: {event.id}</div>
+              <div>Id: {event.courseid}</div>
             </div>
           ))}
         </div>

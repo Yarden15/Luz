@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, RESIZE_EVENT } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -65,10 +65,17 @@ export const createCalendar = (title) => {
       editable={true}
       droppable={true}
       drop={function (info) { eventDrop(info, id) }}
-      eventResize={console.log("resized event")}
+      eventResize={function (info) { eventResize(info, id) }}
       eventLimit={true}
+      eventTimeFormat={{ hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }}
       eventClick={eventClick}
-      events={[{ title: 'yarden', start: '2020-01-10T13:00', end: '2020-01-10T16:00' }]}
+      events={[{
+        title: 'yarden',
+        startTime: '10:00',
+        endTime: '14:00',
+        daysOfWeek: ['1']
+      }]}
+      editable={true}
       id={id} />
   </div>
   store.dispatch({
@@ -98,9 +105,11 @@ export const eventDrop = (info, id) => {
     {
       event: {
         title: info.draggedEl.title,
-        id: info.draggedEl.id,
-        start: info.date,
-        teacherid: info.draggedEl.getAttribute('teacherid')
+        id: nextId(),
+        start: info.date.time,
+        teacherid: info.draggedEl.getAttribute('teacherid'),
+        courseid: info.draggedEl.getAttribute('courseid'),
+        event: info
       },
       id: id,
     }
@@ -179,5 +188,17 @@ export const deleteSchedule = id => {
   store.dispatch({
     type: DELETE_SCHEDULE,
     payload: id
+  });
+}
+
+const eventResize = (info, schedId) => {
+  store.dispatch({
+    type: RESIZE_EVENT,
+    payload: {
+      schedId,
+      info,
+      start: info.event._instance.range.start,
+      end: info.event._def._instancr.range.start
+    }
   });
 }

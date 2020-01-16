@@ -18,11 +18,9 @@ const Home = () => {
       <ScheduleBar />
       <div className='row '>
         <div className='col-sm-3'>
-          {/* <UserInfoMenu /> */}
           <EventsContainer />
         </div>
         <div className='col-sm-9'>
-          {/* <UserInfo /> */}
           <SceduleContainer />
         </div>
       </div>

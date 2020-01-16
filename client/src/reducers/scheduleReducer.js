@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, RESIZE_EVENT } from '../actions/types';
 
 const initialState = {
   schedules: {},
@@ -43,6 +43,10 @@ export default (state = initialState, action) => {
         ...state,
         schedules: AddCopyScheds
       }
+      case RESIZE_EVENT:
+        return{
+          ...state
+        }
     case DELETE_EVENT:
       const copySchedsDeleteEvent = state.schedules;
      copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event_id);
