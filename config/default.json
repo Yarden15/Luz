@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://yarin15:yarden15@sqf-lutpe.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "secret"
+}
