@@ -34,7 +34,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         schedules: copySchedsDelete,
-        counter: state.counter + 1
       }
     case ADD_EVENT:
       const AddCopyScheds = state.schedules;
@@ -44,11 +43,11 @@ export default (state = initialState, action) => {
         schedules: AddCopyScheds
       }
     case DELETE_EVENT:
-      const copySchedsDeleteEvent = state.schedules;
-     copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event_id);
+      const copySchedsDeleteEvnet = state.schedules;
+      copySchedsDeleteEvnet[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event_id);
       return {
         ...state,
-        schedules: copySchedsDeleteEvent
+        schedules: copySchedsDeleteEvnet
       }
     case SET_LOADING:
       return {

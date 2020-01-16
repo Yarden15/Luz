@@ -9,7 +9,7 @@ export class SchedulesBar extends Component {
       <div id='schedules-bar'>
         <div className="tabset"> {
           Object.keys(scheds).map(key => (
-            <Fragment key={"bar-" + scheds[key].id}>
+            <Fragment key={"bar-"+scheds[key].id}>
               <input onClick={() => selectCalendar(scheds[key].id)} type="radio" name="tabset" 
               id={scheds[key].id} aria-controls={scheds[key].title} defaultChecked />
               <label htmlFor={scheds[key].id}>{scheds[key].title}</label>
