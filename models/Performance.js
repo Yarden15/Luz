@@ -1,27 +1,29 @@
 const mongoose = require('mongoose');
 
 const PerformanceSchema = mongoose.Schema({
-  // Array of users that participate in the performance
-  user: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'users'
-    }
-  ],
-  catalog_number: {
-    type: Number
+  serial_num: {
+    type: Number,
+    required: true
   },
-  name: {
+  title: {
     type: String,
     required: true
   },
-  time: {
+  year: {
+    type: String,
+    required: true
+  },
+  semester: {
+    type: String,
+    required: true
+  },
+  course_hours: {
     type: Number,
     required: true
   },
-  additional_time: {
+  ex_hours: {
     type: Number,
-    required: true
+    default: '0'
   },
   location: {
     type: String,

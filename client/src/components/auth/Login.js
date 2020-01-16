@@ -1,11 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { login } from '../../actions/authActions';
 
-const Login = () => {
+const Login = props => {
+  // If there a change in the props down then we will use it
+  useEffect(() => {
+    // If the user has been authenticated- Redirect to home page
+    if (props.authObj.isAuthenticated) {
+      props.history.push('/');
+    }
+    // If there is an error add to the state
+    if (props.authObj.error === 'Ivalid Credentials') {
+      // setAlert(error, 'danger');
+      // clearErrors();
+      console.log('Invalid Credentials');
+    }
+
+    //eslint-disable-next-line
+  }, [props.authObj.error, props.authObj.isAuthenticated, props.history]);
+
   const [user, setUser] = useState({
     email: '',
     password: ''
   });
+
   const { email, password } = user;
+
+  const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+
+  const onSubmit = e => {
+    e.preventDefault();
+    if (email === '' || password === '') {
+      console.log('empty fields');
+    } else {
+      login({
+        email,
+        password
+      });
+    }
+  };
 
   return (
     <div className='form-container'>
@@ -13,14 +46,14 @@ const Login = () => {
         {' '}
         Account <span className='text primary'>Login</span>
       </h1>
-      <form>
+      <form onSubmit={onSubmit}>
         <div className='form-group'>
           <label htmlFor='email'>Email Address</label>
           <input
             type='email'
             name='email'
             value={email}
-            // onChange={onChange}
+            onChange={onChange}
           ></input>
         </div>
         <div className='form-group'>
@@ -29,7 +62,7 @@ const Login = () => {
             type='password'
             name='password'
             value={password}
-            // onChange={onChange}
+            onChange={onChange}
           ></input>
         </div>
         <input
@@ -42,4 +75,10 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    authObj: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(Login);

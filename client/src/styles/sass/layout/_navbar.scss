@@ -1,0 +1,45 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+  width: 100%;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+  background: $nav_background;
+  background-image: linear-gradient(-100deg, $nav_background, $sec_nav_background);
+  border-bottom: solid 1px black;
+  color: white;
+
+  ul {
+    margin-right: 30px;
+  }
+
+  li {
+    display: inline;
+    padding-left: 10px;
+    top: 7px;
+    position: relative;
+  }
+
+  a {
+    padding: 0.45rem;
+    margin: 0 0.25rem;
+
+    &:hover {
+      color: var(--light-color);
+    }
+  }
+
+  .welcome {
+    span {
+      margin-right: 0.6rem;
+    }
+  }
+}
+
+.logo-small {
+  height: 40px;
+  margin: 10px 20px;
+  display: block;
+}
