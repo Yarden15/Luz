@@ -111,8 +111,9 @@ const addEvent = (info, id) => {
 
 //popup window when the user clicking on the event into the calendar
 export const eventClick = eventClick => {
+  console.log(eventClick)
   Alert.fire({
-    title: eventClick.event.title + '\n ID: ' + eventClick.event.id,
+    title: eventClick.event.title + '\n ID: ' + eventClick.event.extendedProps.courseid,
     html:
       `<div class="table-responsive">
       <table class="table">
