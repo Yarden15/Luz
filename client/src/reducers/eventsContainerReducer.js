@@ -7,18 +7,17 @@ import {
 
 const initialState = {
   events: [
-    { title: 'אלגוריתמים - ערן לונדון', courseid: '12263315', teacherid: '123456789'  },
-    { title: "תכנות אינטרנט - סולנג' קרסנטי", courseid: '12244878', teacherid: '123456789' },
-    { title: 'מערכות הפעלה - יורם ביברמן', courseid: '12254432', teacherid: '123456789' },
-    { title: 'מסדני נתונים - שמחה רוזן', courseid: '12284121', teacherid: '123456789' },
-    { title: 'פרוייקט גמר - יורם יקותיאלי', courseid: '11232551', teacherid: '123456789' },
-    { title: 'אלגוריתמים - ערן לונדון', courseid: '12263316', teacherid: '123456789' },
-    { title: "תכנות אינטרנט - סולנג' קרסנטי", courseid: '12244879', teacherid: '123456789' },
-    { title: 'מערכות הפעלה - יורם ביברמן', courseid: '12254433', teacherid: '123456789' },
-    { title: 'מסדני נתונים - שמחה רוזן', courseid: '122841211', teacherid: '123456789' },
-    { title: 'פרוייקט גמר - יורם יקותיאלי', courseid: '11232552', teacherid: '123456789' }
+    // { title: 'אלגוריתמים - ערן לונדון', courseid: '12263315', teacherid: '123456789'  },
+    // { title: "תכנות אינטרנט - סולנג' קרסנטי", courseid: '12244878', teacherid: '123456789' },
+    // { title: 'מערכות הפעלה - יורם ביברמן', courseid: '12254432', teacherid: '123456789' },
+    // { title: 'מסדני נתונים - שמחה רוזן', courseid: '12284121', teacherid: '123456789' },
+    // { title: 'פרוייקט גמר - יורם יקותיאלי', courseid: '11232551', teacherid: '123456789' },
+    // { title: 'אלגוריתמים - ערן לונדון', courseid: '12263316', teacherid: '123456789' },
+    // { title: "תכנות אינטרנט - סולנג' קרסנטי", courseid: '12244879', teacherid: '123456789' },
+    // { title: 'מערכות הפעלה - יורם ביברמן', courseid: '12254433', teacherid: '123456789' },
+    // { title: 'מסדני נתונים - שמחה רוזן', courseid: '122841211', teacherid: '123456789' },
+    // { title: 'פרוייקט גמר - יורם יקותיאלי', courseid: '11232552', teacherid: '123456789' }
   ],
-  current: null,
   loading: false,
   error: null
 };
@@ -31,7 +30,7 @@ export default (state = initialState, action) => {
     case GET_EVENTS:
       return {
         ...state,
-        events: [...state, action.payload]
+        //events: [...state, action.payload]
       };
     case SET_LOADING:
       return {

@@ -31,9 +31,7 @@ const Navbar = props => {
       </li>
       <li>
         <a onClick={onLogout} href='#!'>
-          <i className='fas fa-sign-out-alt'>
-            <span className='hide-sm'>LogOut</span>
-          </i>
+          <i className='fas fa-sign-out-alt'> </i>Logout
         </a>
       </li>
     </Fragment>
@@ -42,10 +40,14 @@ const Navbar = props => {
   const guestLinks = (
     <Fragment>
       <li>
-        <Link to='/about'>About</Link>
+        <Link to='/about'>
+          <i className='fas fa-info-circle'></i>About
+        </Link>
       </li>
       <li>
-        <Link to='/login'>Login</Link>
+        <Link to='/login'>
+          <i className="fas fa-sign-in-alt"></i>Login
+        </Link>
       </li>
     </Fragment>
   );

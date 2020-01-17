@@ -1,43 +1,27 @@
-import { GET_EVENTS, SET_LOADING, EVENT_ERROR, CREATE_DRAGGABLE} from './types';
+import { GET_EVENTS, EVENT_ERROR } from './types';
+import axios from 'axios';
+import store from '../store';
 
-import thunk from 'redux-thunk';
-
-// const createEvent = () => {
-//   const event
-// }
 
 // Get events form DataBase
-export const getEvents = () => async dispatch => {
+export const getEvents = async () => {
+  console.log('on get events function');
   try {
-    //     setLoading();
-    // const res = await fetch('/api/performances');
-    // const data = await res.json();
-
-    // Request to API get all events in DataBase
-    const res = await axios.get('/api/timetable');
-
-    dispatch({
+    const res = await axios.get('/api/timetables');
+    store.dispatch({
       type: GET_EVENTS,
       payload: res.data
     });
   } catch (error) {
-    dispatch({
+    store.dispatch({
       type: EVENT_ERROR,
       payload: error.response.data
     });
   }
 };
 
-// //set loading to true
-// export const setLoading = () => {
-//   return {
-//     type: SET_LOADING
-//   }
-// }
+//     setLoading();
+    // const res = await fetch('/api/performances');
+    // const data = await res.json();
 
-// export const creatDraggable = () => {
-//   return {
-//     type: CREATE_DRAGGABLE
-//   }
-// }
-
+    // Request to API get all events in DataBase

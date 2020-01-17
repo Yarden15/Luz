@@ -1,11 +1,13 @@
 import { Draggable } from '@fullcalendar/interaction'; // needed for dayClick
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getEvents } from '../../actions/eventsContainerActions';
 
 export class eventsContainer extends Component {
 
   componentDidMount() {
     let draggableEl = document.getElementById('external-events');
+    getEvents('123456789');
     new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {

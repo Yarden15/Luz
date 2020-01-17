@@ -1,10 +1,4 @@
-import {
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  USER_LOADED,
-  AUTH_ERROR,
-  LOGOUT
-} from './types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, AUTH_ERROR, LOGOUT } from './types';
 import store from '../store';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
