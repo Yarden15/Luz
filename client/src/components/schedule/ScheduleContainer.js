@@ -3,17 +3,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import { createCalendar } from '../../actions/scheduleActions';
 
+
+
+
 export class ScheduleContainer extends Component {
   render() {
     return (
       <Fragment>
         <div key={this.props.scheduleObj.current}>
-          {this.props.scheduleObj.schedules[this.props.scheduleObj.current] == null ? "" : this.props.scheduleObj.schedules[this.props.scheduleObj.current].calendar }
+          {this.props.scheduleObj.schedules[this.props.scheduleObj.current] == null ? "" : this.props.scheduleObj.schedules[this.props.scheduleObj.current].calendar}
         </div>
       </Fragment>
     );
   };
 }
+
 
 const mapStateToProps = state => {
   return {

@@ -18,7 +18,7 @@ export class eventsContainer extends Component {
           title: title,
           id: id,
           teacherid: teacherid,
-          courseid: courseid
+          courseid: courseid,
         };
       }
     });

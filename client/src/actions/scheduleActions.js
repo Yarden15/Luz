@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, RESIZE_EVENT } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -64,18 +64,12 @@ export const createCalendar = (title) => {
       selectHelper={true}
       editable={true}
       droppable={true}
-      drop={function (info) { eventDrop(info, id) }}
-      eventResize={function (info) { eventResize(info, id) }}
+      eventDrop={function (info) { eventChanged(info, id); forceSchedsUpdate(id); }}
+      eventReceive={function (info) { addEvent(info, id); forceSchedsUpdate(id); }}
+      eventResize={function (info) { eventChanged(info, id); forceSchedsUpdate(id); }}
       eventLimit={true}
-      eventTimeFormat={{ hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }}
       eventClick={eventClick}
-      events={[{
-        title: 'yarden',
-        startTime: '10:00',
-        endTime: '14:00',
-        daysOfWeek: ['1']
-      }]}
-      editable={true}
+      events={[]}
       id={id} />
   </div>
   store.dispatch({
@@ -91,27 +85,26 @@ export const selectCalendar = (id) => {
   });
 }
 
-export const eventDrop = (info, id) => {
+const addEvent = (info, id) => {
   //check if this legal action
   info.schedId = id;
-  console.log(info.draggedEl)
-
-
-
+  let eventId = nextId();
+  info.draggedEl.id = eventId;
   //save on the shcedule array
   store.dispatch({
     type: ADD_EVENT,
     payload:
     {
       event: {
+        id: eventId,
         title: info.draggedEl.title,
-        id: nextId(),
-        start: info.date.time,
         teacherid: info.draggedEl.getAttribute('teacherid'),
         courseid: info.draggedEl.getAttribute('courseid'),
-        event: info
+        startTime: getTimeFromEvent(info.event._instance.range.start, 'add'),
+        endTime: getTimeFromEvent(info.event._instance.range.end, 'add-end'),
+        daysOfWeek: [info.event._instance.range.start.getDay()]
       },
-      id: id,
+      schedId: id,
     }
   })
 }
@@ -191,14 +184,28 @@ export const deleteSchedule = id => {
   });
 }
 
-const eventResize = (info, schedId) => {
+const eventChanged = (info, schedId) => {
   store.dispatch({
-    type: RESIZE_EVENT,
+    type: EVENT_CHANGED,
     payload: {
       schedId,
-      info,
-      start: info.event._instance.range.start,
-      end: info.event._def._instancr.range.start
+      eventId: info.event._def.publicId,
+      startTime: getTimeFromEvent(info.event._instance.range.start),
+      endTime: getTimeFromEvent(info.event._instance.range.end),
+      daysOfWeek: info.event._instance.range.start.getDay()
     }
   });
+}
+
+const getTimeFromEvent = (time) => {
+  let minutes, hours;
+  minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+  hours = (time.getHours() - 2) < 10 ? '0' + (time.getHours() - 2) : (time.getHours() - 2);
+
+  return hours + ':' + minutes;
+}
+
+const forceSchedsUpdate = (id) => {
+  selectCalendar(null); 
+  selectCalendar(id);
 }

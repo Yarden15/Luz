@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, RESIZE_EVENT } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED } from '../actions/types';
 
 const initialState = {
   schedules: {},
@@ -29,27 +29,30 @@ export default (state = initialState, action) => {
         current: action.payload
       }
     case DELETE_SCHEDULE:
-      const copySchedsDelete = state.schedules;
-      delete copySchedsDelete[action.payload]
+      delete state.schedules[action.payload]
       return {
         ...state,
-        schedules: copySchedsDelete,
         counter: state.counter + 1
       }
     case ADD_EVENT:
-      const AddCopyScheds = state.schedules;
-      AddCopyScheds[action.payload.id].calendarRef.current.props.events.push(action.payload.event);
+      state.schedules[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);
       return {
-        ...state,
-        schedules: AddCopyScheds
+        ...state
       }
-      case RESIZE_EVENT:
-        return{
-          ...state
+    case EVENT_CHANGED:
+      state.schedules[action.payload.schedId].calendarRef.current.props.events.forEach(event => {
+        if (event.id === action.payload.eventId) {
+          event.endTime = action.payload.endTime;
+          event.startTime = action.payload.startTime;
+          event.daysOfWeek[0] = action.payload.daysOfWeek;
         }
+      });
+      return {
+        ...state
+      }
     case DELETE_EVENT:
       const copySchedsDeleteEvent = state.schedules;
-     copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event_id);
+      copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event_id);
       return {
         ...state,
         schedules: copySchedsDeleteEvent
@@ -66,6 +69,6 @@ export default (state = initialState, action) => {
         error: action.payload
       };
     default:
-      return state;
+      return { ...state };
   }
 }
