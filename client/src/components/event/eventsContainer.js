@@ -14,13 +14,15 @@ export class eventsContainer extends Component {
         let title = eventEl.getAttribute('title');
         let id = eventEl.getAttribute('id');
         let teacherid = eventEl.getAttribute('teacherid');
-        let courseid = eventEl.getAttribute('courseid');
+        let serial_num = eventEl.getAttribute('serial_num');
+        let name = eventEl.getAttribute('name');
 
         return {
           title: title,
           id: id,
           teacherid: teacherid,
-          courseid: courseid,
+          serial_num: serial_num,
+          name: name
         };
       }
     });
@@ -39,11 +41,11 @@ export class eventsContainer extends Component {
               title={event.title}
               id={event.id}
               teacherid={event.teacherid}
-              courseid={event.courseid}
-              key={event.courseid}
+              serial_num={event.serial_num}
+              key={event.serial_num}
             >
-              <div>{event.title}</div>
-              <div>Id: {event.courseid}</div>
+              <div>{event.title} - {event.name}</div>
+              <div>Id: {event.serial_num}</div>
             </div>
           ))}
         </div>

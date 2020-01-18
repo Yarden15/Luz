@@ -99,7 +99,7 @@ const addEvent = (info, id) => {
         id: eventId,
         title: info.draggedEl.title,
         teacherid: info.draggedEl.getAttribute('teacherid'),
-        courseid: info.draggedEl.getAttribute('courseid'),
+        serial_num: info.draggedEl.getAttribute('serial_num'),
         startTime: getTimeFromEvent(info.event._instance.range.start, 'add'),
         endTime: getTimeFromEvent(info.event._instance.range.end, 'add-end'),
         daysOfWeek: [info.event._instance.range.start.getDay()]
@@ -113,7 +113,7 @@ const addEvent = (info, id) => {
 export const eventClick = eventClick => {
   console.log(eventClick)
   Alert.fire({
-    title: eventClick.event.title + '\n ID: ' + eventClick.event.extendedProps.courseid,
+    title: eventClick.event.title + '\n ID: ' + eventClick.event.extendedProps.serial_num,
     html:
       `<div class="table-responsive">
       <table class="table">
