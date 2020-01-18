@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const PerformTimeSchema = mongoose.Schema({
-  id_table_event: {
+  id_timeTable: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'timeTables'
   },
@@ -9,15 +9,15 @@ const PerformTimeSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  day: {
+  daysOfWeek: {
     type: String,
     required: true
   },
-  start_time: {
+  startTime: {
     type: String,
     required: true
   },
-  end_time: {
+  endTime: {
     type: String,
     required: true
   },
