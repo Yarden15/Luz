@@ -21,20 +21,22 @@ const Login = props => {
 
   const [user, setUser] = useState({
     email: '',
+    organization: '',
     password: ''
   });
 
-  const { email, password } = user;
+  const { email,organization, password } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
-    if (email === '' || password === '') {
+    if (email === '' || organization === '' || password === '') {
       console.log('empty fields');
     } else {
       login({
         email,
+        organization,
         password
       });
     }
@@ -53,6 +55,15 @@ const Login = props => {
             type='email'
             name='email'
             value={email}
+            onChange={onChange}
+          ></input>
+        </div>
+        <div className='form-group'>
+          <label htmlFor='organization'>Organization</label>
+          <input
+            type='organization'
+            name='organization'
+            value={organization}
             onChange={onChange}
           ></input>
         </div>

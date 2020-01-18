@@ -98,7 +98,7 @@ const addEvent = (info, id) => {
       event: {
         id: eventId,
         title: info.draggedEl.title,
-        teacherid: info.draggedEl.getAttribute('teacherid'),
+        id_number: info.draggedEl.getAttribute('id_number'),
         serial_num: info.draggedEl.getAttribute('serial_num'),
         startTime: getTimeFromEvent(info.event._instance.range.start, 'add'),
         endTime: getTimeFromEvent(info.event._instance.range.end, 'add-end'),

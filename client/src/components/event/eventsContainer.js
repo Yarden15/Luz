@@ -2,6 +2,7 @@ import { Draggable } from '@fullcalendar/interaction'; // needed for dayClick
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEvents } from '../../actions/eventsContainerActions';
+import Spinner from '../layout/Spinner';
 
 export class eventsContainer extends Component {
 
@@ -11,6 +12,7 @@ export class eventsContainer extends Component {
     new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {
+        console.log(eventEl);
         let title = eventEl.getAttribute('title');
         let id = eventEl.getAttribute('id');
         let teacherid = eventEl.getAttribute('teacherid');
@@ -28,29 +30,43 @@ export class eventsContainer extends Component {
     });
   }
   render() {
-    return (
-      <div id='external-events'>
-        <p>
-          {' '}
-          <strong>Courses</strong>{' '}
-        </p>
-        <div>
-          {this.props.eventObj.events.map(event => (
-            <div
-              className='fc-event draggable'
-              title={event.title}
-              id={event.id}
-              teacherid={event.teacherid}
-              serial_num={event.serial_num}
-              key={event.serial_num}
-            >
-              <div>{event.title} - {event.name}</div>
-              <div>Id: {event.serial_num}</div>
-            </div>
-          ))}
+    if (this.props.eventObj.loading) {
+      return (
+        <div id='external-events'>
+          <p>
+            <strong>Courses</strong>
+          </p>
+          <Spinner id='spinner-events-container' />
         </div>
-      </div>
-    );
+      )
+    }
+    else {
+      return (
+        <div id='external-events'>
+          <p>
+            <strong>Courses</strong>
+          </p>
+          <div>
+            {this.props.eventObj.events.map(event => (
+              <div
+                className='fc-event draggable'
+                title={event.performance.title}
+                id={event.performance._id}
+                id_number={event.user.id_number}
+                serial_num={event.performance.serial_num}
+                key={event.performance._id}
+              >
+                <div>{event.performance.title} - {event.user.first_name} {event.user.last_name}</div>
+                <div>Id: {event.performance.serial_num}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+
+
   }
 }
 

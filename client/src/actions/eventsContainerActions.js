@@ -7,7 +7,7 @@ import store from '../store';
 export const getEvents = async () => {
   setLoading();
   try {
-    const res = await axios.get('/api/performances');
+    const res = await axios.get('/api/timetables');
     store.dispatch({
       type: GET_EVENTS,
       payload: res.data,
