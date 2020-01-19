@@ -1,6 +1,3 @@
-import App from './client/src/App';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
 // Bring in express
 const express = require('express');
 const connectDB = require('./config/db');
@@ -13,11 +10,7 @@ connectDB();
 // Init middleware
 app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => res.send(
-  data.replace(
-    '<div id="root"></div>',
-    `<div id="root">${ReactDOMServer.renderToString(<App />)}</div>`))
-  );
+app.get('/', (req, res) => res.json({ msg: 'Welcome to Luz API...' }));
 
 // Define Routes
 app.use('/api/users', require('./routes/users'));
