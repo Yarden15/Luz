@@ -65,8 +65,8 @@ export const createCalendar = (title) => {
       editable={true}
       droppable={true}
       eventDrop={function (info) { eventChanged(info, id); forceSchedsUpdate(id); }}
-      eventReceive={function (info) { addEvent(info, id); forceSchedsUpdate(id); }}
-      eventResize={function (info) { eventChanged(info, id); forceSchedsUpdate(id); }}
+      eventReceive={function (info) { addEvent(info, id); }}
+      eventResize={function (info) { eventChanged(info, id); }}
       eventLimit={true}
       eventClick={eventClick}
       events={[]}
@@ -207,6 +207,6 @@ const getTimeFromEvent = (time) => {
 }
 
 const forceSchedsUpdate = (id) => {
-  selectCalendar(null); 
+  selectCalendar(null);
   selectCalendar(id);
 }

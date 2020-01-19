@@ -2,10 +2,7 @@
   height: 85px;
 }
 
-#spinner-events-container {
-  transform: translateX(50%);
-  left: 50%;
-  display: block;
-  position: initial;
-  margin-top: 80px;
+div#external-events #spinner {
+  transform: translateX(-50%);
+  margin-left: 50%;
 }
