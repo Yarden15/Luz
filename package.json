@@ -4,7 +4,7 @@
   "description": "LUZ backend",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js\"concurrently \"npm run server\" \"npm run client\"\"npm install --prefix client",
+    "start": "npm run dev",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "clientinstall": "npm install --prefix client",
