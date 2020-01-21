@@ -12,7 +12,6 @@ export class eventsContainer extends Component {
     new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {
-        console.log(eventEl);
         //takes the information from the attribute to variables
         let title = eventEl.getAttribute('title');
         let id = eventEl.getAttribute('id');
@@ -68,10 +67,9 @@ export class eventsContainer extends Component {
                 id_number={event.user.id_number}
                 first_name={event.user.first_name}
                 last_name={event.user.last_name}
-                semester={event.performance.semester}
-                year={event.performance.year}
-                course_hours={event.performance.course_hours}
                 location={event.performance.location}
+                semester={event.performance.semester}
+                course_hours={event.performance.course_hours}
                 year={event.performance.year}
               >
                 <div>{event.performance.title} - {event.user.first_name} {event.user.last_name}</div>

@@ -44,6 +44,7 @@ export const createCalendar = (title) => {
     <h1 className='calendar-title'>{title}</h1>
     <FullCalendar
       ref={calendarRef}
+      id={id}
       defaultView='timeGridWeek'
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
       header={{
@@ -64,13 +65,12 @@ export const createCalendar = (title) => {
       selectHelper={true}
       editable={true}
       droppable={true}
-      eventDrop={function (info) { eventChanged(info, id); forceSchedsUpdate(id); }}
-      eventReceive={function (info) { addEvent(info, id); }}
+      eventDrop={function (info) { eventChanged(info, id); }}
+      eventReceive={function (info) { addEvent(info, id); forceSchedsUpdate(id); }}
       eventResize={function (info) { eventChanged(info, id); }}
       eventLimit={true}
       eventClick={eventClick}
-      events={[]}
-      id={id} />
+      events={[]} />
   </div>
   store.dispatch({
     type: CREATE_CALENDAR,
@@ -101,11 +101,12 @@ const addEvent = (info, id) => {
       schedId: id,
     }
   })
+
+  //chackOnServer(event);
 }
 
 //popup window when the user clicking on the event into the calendar
 export const eventClick = eventClick => {
-  console.log(eventClick)
   Alert.fire({
     title: eventClick.event.title + '\n ID: ' + eventClick.event.extendedProps.serial_num,
     html:
@@ -184,29 +185,26 @@ const eventChanged = (info, schedId) => {
 
   store.dispatch({
     type: EVENT_CHANGED,
-    payload: info
+    payload: event
   });
 
-  //console.log('asddasasd');
-  //chackOnServer();
+  //chackOnServer(event);
 }
 
-const chackOnServer = () => {
-  // let scedules = store.getState().rootReducer.scheduleReducer.scedules;
-  //console.log(scedules);
-
-  // try {
-  //   const res = await axios.post('', event);
-  //   store.dispatch({
-  //     type: 'CHECK_DROP',
-  //     payload: res.data
-  //   });
-  // } catch (error) {
-  //   store.dispatch({
-  //     type: 'EVENT_ERROR',
-  //     payload: error.response.data
-  //   });
-  // }
+const chackOnServer = async event => {
+  let scedules = store.getState().schedule.schedules;
+  try {
+    const res = await axios.get('', event, scedules);
+    store.dispatch({
+      type: 'STEP_CHECK',
+      payload: res.data
+    });
+  } catch (error) {
+    store.dispatch({
+      type: 'EVENT_ERROR',
+      payload: error.response.data
+    });
+  }
 }
 
 const getTimeFromEvent = (time) => {
@@ -224,11 +222,11 @@ const forceSchedsUpdate = (id) => {
 
 const createEventObj = (info, schedId, status) => {
   let event;
-
   if (status === 'create') {
     event = {
       schedId,
       eventId: info.event._def.publicId,
+      title: info.draggedEl.getAttribute('title'),
       id_number: info.draggedEl.getAttribute('id_number'),
       serial_num: info.draggedEl.getAttribute('serial_num'),
       first_name: info.draggedEl.getAttribute('first_name'),
@@ -241,17 +239,23 @@ const createEventObj = (info, schedId, status) => {
       endTime: getTimeFromEvent(info.event._instance.range.end),
       daysOfWeek: [info.event._instance.range.start.getDay()]
     };
-  }else if (status === 'change') {
-    console.log(info);
-    // event = {
-    //   schedId,
-    //   eventId: info.event._def.publicId,
-    //   id_number: info.draggedEl.getAttribute('id_number'),
-    //   serial_num: info.draggedEl.getAttribute('serial_num'),
-    //   startTime: getTimeFromEvent(info.event._instance.range.start),
-    //   endTime: getTimeFromEvent(info.event._instance.range.end),
-    //   daysOfWeek: info.event._instance.range.start.getDay()
-    // };
+  } else if (status === 'change') {
+    event = {
+      schedId,
+      eventId: info.event._def.extendedProps.eventId,
+      title: info.event._def.title,
+      id_number: info.event._def.extendedProps.id_number,
+      serial_num: info.event._def.extendedProps.serial_num,
+      first_name: info.event._def.extendedProps.first_name,
+      last_name: info.event._def.extendedProps.last_name,
+      semester: info.event._def.extendedProps.semester,
+      course_hours: info.event._def.extendedProps.course_hours,
+      year: info.event._def.extendedProps.year,
+      location: info.event._def.extendedProps.location,
+      startTime: getTimeFromEvent(info.event._instance.range.start),
+      endTime: getTimeFromEvent(info.event._instance.range.end),
+      daysOfWeek: [info.event._instance.range.start.getDay()]
+    };
   }
 
 
