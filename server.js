@@ -9,7 +9,7 @@ const app = express();
 connectDB();
 
 // Init middleware
-app.use(express.static(path.join(__dirname + '/client/public')));
+app.use(express.static(path.join(__dirname + '/public')));
 // app.get('/', (req, res) => res.json({ msg: 'Welcome to Luz API...' }));
 
 app.get('/', (req, res) => {
