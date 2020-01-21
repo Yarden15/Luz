@@ -13,22 +13,31 @@ export class eventsContainer extends Component {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {
         console.log(eventEl);
+        //takes the information from the attribute to variables
         let title = eventEl.getAttribute('title');
         let id = eventEl.getAttribute('id');
-        let teacherid = eventEl.getAttribute('teacherid');
+        let id_number = eventEl.getAttribute('id_number');
         let serial_num = eventEl.getAttribute('serial_num');
-        let name = eventEl.getAttribute('name');
-
+        let first_name = eventEl.getAttribute('first_name');
+        let last_name = eventEl.getAttribute('last_name');
+        let semester = eventEl.getAttribute('semester');
+        let location = eventEl.getAttribute('location');
+        let course_hours = eventEl.getAttribute('course_hours');
+        //the info that retrun from the events into the container to the events that dragging to the schedule
         return {
           title: title,
           id: id,
-          teacherid: teacherid,
+          id_number: id_number,
           serial_num: serial_num,
-          name: name
+          first_name: first_name,
+          last_name: last_name,
+          semester: semester,
+          location: location,
+          course_hours: course_hours
         };
       }
     });
-  }
+  }//if the courses still not arrived from the server we displaying spinner
   render() {
     if (this.props.eventObj.loading) {
       return (
@@ -39,8 +48,7 @@ export class eventsContainer extends Component {
           <Spinner id='spinner-events-container' />
         </div>
       )
-    }
-    else {
+    } else {//display the courses
       return (
         <div id='external-events'>
           <p>
@@ -48,13 +56,19 @@ export class eventsContainer extends Component {
           </p>
           <div>
             {this.props.eventObj.events.map(event => (
-              <div
+              <div 
                 className='fc-event draggable'
                 title={event.performance.title}
                 id={event.performance._id}
-                id_number={event.user.id_number}
                 serial_num={event.performance.serial_num}
                 key={event.performance._id}
+                id_number={event.user.id_number}
+                first_name={event.user.first_name}
+                last_name={event.user.last_name}
+                semester={event.performance.semester}
+                year={event.performance.year}
+                course_hours={event.performance.course_hours}
+                location={event.performance.location}
               >
                 <div>{event.performance.title} - {event.user.first_name} {event.user.last_name}</div>
                 <div>Id: {event.performance.serial_num}</div>
@@ -64,9 +78,6 @@ export class eventsContainer extends Component {
         </div>
       );
     }
-
-
-
   }
 }
 

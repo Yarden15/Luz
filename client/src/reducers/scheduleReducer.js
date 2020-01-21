@@ -35,18 +35,18 @@ export default (state = initialState, action) => {
         counter: state.counter + 1
       }
     case ADD_EVENT:
-      state.schedules[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);
+     // state.schedules[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);
       return {
         ...state
       }
     case EVENT_CHANGED:
-      state.schedules[action.payload.schedId].calendarRef.current.props.events.forEach(event => {
-        if (event.id === action.payload.eventId) {
-          event.endTime = action.payload.endTime;
-          event.startTime = action.payload.startTime;
-          event.daysOfWeek[0] = action.payload.daysOfWeek;
-        }
-      });
+      // state.schedules[action.payload.schedId].calendarRef.current.props.events.forEach(event => {
+      //   if (event.id === action.payload.eventId) {
+      //     event.endTime = action.payload.endTime;
+      //     event.startTime = action.payload.startTime;
+      //     event.daysOfWeek[0] = action.payload.daysOfWeek;
+      //   }
+      // });
       return {
         ...state
       }

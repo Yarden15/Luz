@@ -5,9 +5,9 @@ import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import React from 'react';
+import axios from 'axios';
 import store from '../store';
 import nextId from 'react-id-generator';
-
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -90,20 +90,14 @@ const addEvent = (info, id) => {
   info.schedId = id;
   let eventId = nextId();
   info.draggedEl.id = eventId;
+
+  let event = createEventObj(info, id, 'create');
   //save on the shcedule array
   store.dispatch({
     type: ADD_EVENT,
     payload:
     {
-      event: {
-        id: eventId,
-        title: info.draggedEl.title,
-        id_number: info.draggedEl.getAttribute('id_number'),
-        serial_num: info.draggedEl.getAttribute('serial_num'),
-        startTime: getTimeFromEvent(info.event._instance.range.start, 'add'),
-        endTime: getTimeFromEvent(info.event._instance.range.end, 'add-end'),
-        daysOfWeek: [info.event._instance.range.start.getDay()]
-      },
+      event: event,
       schedId: id,
     }
   })
@@ -186,16 +180,33 @@ export const deleteSchedule = id => {
 }
 
 const eventChanged = (info, schedId) => {
+  let event = createEventObj(info, schedId, 'change');
+
   store.dispatch({
     type: EVENT_CHANGED,
-    payload: {
-      schedId,
-      eventId: info.event._def.publicId,
-      startTime: getTimeFromEvent(info.event._instance.range.start),
-      endTime: getTimeFromEvent(info.event._instance.range.end),
-      daysOfWeek: info.event._instance.range.start.getDay()
-    }
+    payload: info
   });
+
+  //console.log('asddasasd');
+  //chackOnServer();
+}
+
+const chackOnServer = () => {
+  // let scedules = store.getState().rootReducer.scheduleReducer.scedules;
+  //console.log(scedules);
+
+  // try {
+  //   const res = await axios.post('', event);
+  //   store.dispatch({
+  //     type: 'CHECK_DROP',
+  //     payload: res.data
+  //   });
+  // } catch (error) {
+  //   store.dispatch({
+  //     type: 'EVENT_ERROR',
+  //     payload: error.response.data
+  //   });
+  // }
 }
 
 const getTimeFromEvent = (time) => {
@@ -209,4 +220,39 @@ const getTimeFromEvent = (time) => {
 const forceSchedsUpdate = (id) => {
   selectCalendar(null);
   selectCalendar(id);
+}
+
+const createEventObj = (info, schedId, status) => {
+  let event;
+
+  if (status === 'create') {
+    event = {
+      schedId,
+      eventId: info.event._def.publicId,
+      id_number: info.draggedEl.getAttribute('id_number'),
+      serial_num: info.draggedEl.getAttribute('serial_num'),
+      first_name: info.draggedEl.getAttribute('first_name'),
+      last_name: info.draggedEl.getAttribute('last_name'),
+      semseter: info.draggedEl.getAttribute('semester'),
+      location: info.draggedEl.getAttribute('location'),
+      course_hours: info.draggedEl.getAttribute('course_hours'),
+      startTime: getTimeFromEvent(info.event._instance.range.start),
+      endTime: getTimeFromEvent(info.event._instance.range.end),
+      daysOfWeek: [info.event._instance.range.start.getDay()]
+    };
+  }else if (status === 'change') {
+    console.log(info);
+    // event = {
+    //   schedId,
+    //   eventId: info.event._def.publicId,
+    //   id_number: info.draggedEl.getAttribute('id_number'),
+    //   serial_num: info.draggedEl.getAttribute('serial_num'),
+    //   startTime: getTimeFromEvent(info.event._instance.range.start),
+    //   endTime: getTimeFromEvent(info.event._instance.range.end),
+    //   daysOfWeek: info.event._instance.range.start.getDay()
+    // };
+  }
+
+
+  return event;
 }

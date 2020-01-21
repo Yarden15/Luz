@@ -3,9 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import { createCalendar } from '../../actions/scheduleActions';
 
-
-
-
 export class ScheduleContainer extends Component {
   render() {
     return (
