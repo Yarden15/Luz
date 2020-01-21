@@ -233,9 +233,10 @@ const createEventObj = (info, schedId, status) => {
       serial_num: info.draggedEl.getAttribute('serial_num'),
       first_name: info.draggedEl.getAttribute('first_name'),
       last_name: info.draggedEl.getAttribute('last_name'),
-      semseter: info.draggedEl.getAttribute('semester'),
+      semester: info.draggedEl.getAttribute('semester'),
       location: info.draggedEl.getAttribute('location'),
       course_hours: info.draggedEl.getAttribute('course_hours'),
+      year: info.draggedEl.getAttribute('year'),
       startTime: getTimeFromEvent(info.event._instance.range.start),
       endTime: getTimeFromEvent(info.event._instance.range.end),
       daysOfWeek: [info.event._instance.range.start.getDay()]

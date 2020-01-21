@@ -35,7 +35,7 @@ export default (state = initialState, action) => {
         counter: state.counter + 1
       }
     case ADD_EVENT:
-     // state.schedules[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);
+      state.schedules[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);
       return {
         ...state
       }

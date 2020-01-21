@@ -11,7 +11,6 @@ export default (state = initialState, action) => {
     case GET_EVENTS:
       let newEvents = [];
       action.payload.map(event => newEvents.push(event));
-      console.log(newEvents);
       return {
         ...state,
         events: newEvents,

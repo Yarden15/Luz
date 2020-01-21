@@ -23,17 +23,20 @@ export class eventsContainer extends Component {
         let semester = eventEl.getAttribute('semester');
         let location = eventEl.getAttribute('location');
         let course_hours = eventEl.getAttribute('course_hours');
+        let year = eventEl.getAttribute('year');
+
         //the info that retrun from the events into the container to the events that dragging to the schedule
         return {
-          title: title,
-          id: id,
-          id_number: id_number,
-          serial_num: serial_num,
-          first_name: first_name,
-          last_name: last_name,
-          semester: semester,
-          location: location,
-          course_hours: course_hours
+          title,
+          id,
+          id_number,
+          serial_num,
+          first_name,
+          last_name,
+          semester,
+          location,
+          course_hours,
+          year
         };
       }
     });
@@ -56,7 +59,7 @@ export class eventsContainer extends Component {
           </p>
           <div>
             {this.props.eventObj.events.map(event => (
-              <div 
+              <div
                 className='fc-event draggable'
                 title={event.performance.title}
                 id={event.performance._id}
@@ -69,6 +72,7 @@ export class eventsContainer extends Component {
                 year={event.performance.year}
                 course_hours={event.performance.course_hours}
                 location={event.performance.location}
+                year={event.performance.year}
               >
                 <div>{event.performance.title} - {event.user.first_name} {event.user.last_name}</div>
                 <div>Id: {event.performance.serial_num}</div>

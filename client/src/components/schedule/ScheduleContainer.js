@@ -15,13 +15,11 @@ export class ScheduleContainer extends Component {
   };
 }
 
-
 const mapStateToProps = state => {
   return {
     scheduleObj: state.schedule
   };
 };
-
 
 export default connect(mapStateToProps, { createCalendar })(ScheduleContainer);
 
