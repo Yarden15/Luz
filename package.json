@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "homepage": "https://https://luzzz.herokuapp.com/",
   "description": "LUZ backend",
   "main": "server.js",
   "scripts": {
