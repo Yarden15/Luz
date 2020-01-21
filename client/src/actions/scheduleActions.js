@@ -47,10 +47,18 @@ export const createCalendar = (title) => {
       id={id}
       defaultView='timeGridWeek'
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+      customButtons={{
+        save: {
+          text: 'Save',
+          click: function () {
+            alert('clicked the custom button!');
+          }
+        }
+      }}
       header={{
         center: '',
         left: '',
-        right: ''
+        right: 'save'
       }}
       hiddenDays={[6]}
       allDaySlot={false}
@@ -70,7 +78,9 @@ export const createCalendar = (title) => {
       eventResize={function (info) { eventChanged(info, id); }}
       eventLimit={true}
       eventClick={eventClick}
-      events={[]} />
+      events={[]}
+      locale='en'
+      dir='ltr' />
   </div>
   store.dispatch({
     type: CREATE_CALENDAR,
