@@ -13,8 +13,8 @@ app.use(express.json({ extended: false }));
 
 // app.get('/', (req, res) => res.json({ msg: 'Welcome to Luz API...' }));
 
-app.get('/', (req,res) =>{
-  res.sendFile(path.join(__dirname+'/client/public/index.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 // Define Routes
