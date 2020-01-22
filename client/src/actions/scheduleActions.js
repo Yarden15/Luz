@@ -266,6 +266,9 @@ const createEventObj = (info, schedId, status) => {
       endTime: getTimeFromEvent(info.event._instance.range.end),
       daysOfWeek: [info.event._instance.range.start.getDay()]
     };
+    
+  }else if (status === 'jaslsjlasdkjdaslasdjas'){
+    chackOnServer();
   }
 
 
