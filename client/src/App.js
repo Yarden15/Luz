@@ -1,5 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
-import { PropTypes } from "prop-types";
+import React, { Fragment } from 'react';
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -12,16 +11,12 @@ import history from './utils/history';
 import setAuthToken from './utils/setAuthToken';
 import './styles/App.scss';
 
+
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-const App = (props) => {
-
-  useEffect(() => {
-    document.dir = props.locale === "he" ? "rtl" : "ltr";
-  }, [props.locale]);
-
+const App = () => {
   return (
     <Router>
         <Fragment>
@@ -39,11 +34,4 @@ const App = (props) => {
   );
 };
 
-
-App.propTypes = {
-  locale: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => ({ locale: state.i18n.locale });
-
-export default connect(mapStateToProps)(App);
+export default connect()(App);
