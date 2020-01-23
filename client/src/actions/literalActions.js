@@ -1,6 +1,7 @@
 import store from '../store';
 import loadLang from '../i18n/index';
 import { LOAD_LITERALS } from './types';
+import { changeLangScheds } from './scheduleActions';
 
 export const loadLiterals = (literals, dir, lang) => {
   store.dispatch({
@@ -13,12 +14,14 @@ export const defineLang = (lang) => {
   switch (lang) {
     case 'en':
       loadLiterals(loadLang('en'), 'ltr', 'en');
-      return;
+      break;
     case 'he':
       loadLiterals(loadLang('he'), 'rtl', 'he');
-      return;
+      break;
     default:
       loadLiterals(loadLang('he'), 'rtl', 'he');
-      return;
+      break;
   }
+  changeLangScheds();
+
 }

@@ -17,3 +17,4 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 export const USER_LOADED = 'USER_LOADED';
 export const LOGOUT = 'LOGOUT';
 export const LOAD_LITERALS = "LOAD_LITERALS";
+export const CHANGE_LANG_SCHEDS = "CHANGE_LANG_SCHEDS";

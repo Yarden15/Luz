@@ -1,13 +1,16 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import allLocales from '@fullcalendar/core/locales-all';
 import React from 'react';
 import axios from 'axios';
 import store from '../store';
 import nextId from 'react-id-generator';
+
+
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -79,8 +82,9 @@ export const createCalendar = (title) => {
       eventLimit={true}
       eventClick={eventClick}
       events={[]}
-      locale='en'
-      dir='ltr' />
+      locales={allLocales}
+      locale={store.getState().literals.lang}
+      dir={store.getState().literals.dir} />
   </div>
   store.dispatch({
     type: CREATE_CALENDAR,
@@ -117,6 +121,7 @@ const addEvent = (info, id) => {
 
 //popup window when the user clicking on the event into the calendar
 export const eventClick = eventClick => {
+  let t = store.getState().literals.literals;
   Alert.fire({
     title: eventClick.event.title + '\n ID: ' + eventClick.event.extendedProps.serial_num,
     html:
@@ -137,8 +142,8 @@ export const eventClick = eventClick => {
     showCancelButton: true,
     confirmButtonColor: "#d33",
     cancelButtonColor: "#3085d6",
-    confirmButtonText: "Remove Event",
-    cancelButtonText: "Close"
+    confirmButtonText: t.remove_event,
+    cancelButtonText: t.cancel
   }).then(result => {
     if (result.value) {
       store.dispatch({
@@ -146,21 +151,24 @@ export const eventClick = eventClick => {
         payload: { sched_id: eventClick.event._calendar.component.context.options.id, event_id: eventClick.event.id }
       })
       eventClick.event.remove(); // It will remove event from the calendar
-      Alert.fire("Deleted!", "The course has been deleted.", "success");
+      Alert.fire(t.deleted , t.the_event_has_been_deleted, "success");
     }
   });
 };
 
 //popup message to insert title for the calendar
 export const enterNameSchedule = () => {
+  let t = store.getState().literals.literals;
   Alert.fire({
-    title: 'Enter title please',
+    title: t.enter_title_please,
     input: 'text',
     showCancelButton: true,
     cancelButtonColor: "#3085d6",
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel,
     inputValidator: (result) => {
       if (!result)
-        return 'You must insert input';
+        return t.you_must_insert_input;
     }
   }).then(result => {
     if (result.value)
@@ -169,16 +177,19 @@ export const enterNameSchedule = () => {
 }
 
 export const deleteAlert = schedule => {
+  let t = store.getState().literals.literals;
   Alert.fire({
-    title: 'Are you sure you want to delete ' + schedule.title + ' schedule?',
+    title: t.delete_schedule_title_part + schedule.title + '?',
     showCancelButton: true,
     confirmButtonColor: "#d33",
     cancelButtonColor: "#3085d6",
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel,
   }).then(result => {
     if (result.value) {
       // It will remove schedule 
       deleteSchedule(schedule.id);
-      Alert.fire("Deleted!", "The schedule has been deleted.", "success");
+      Alert.fire(t.deleted, t.the_schedule_has_been_deleted, "success");
     }
   });
 }
@@ -266,11 +277,19 @@ const createEventObj = (info, schedId, status) => {
       endTime: getTimeFromEvent(info.event._instance.range.end),
       daysOfWeek: [info.event._instance.range.start.getDay()]
     };
-    
-  }else if (status === 'jaslsjlasdkjdaslasdjas'){
+
+  } else if (status === 'jaslsjlasdkjdaslasdjas') {
     chackOnServer();
   }
 
 
   return event;
+}
+
+export const changeLangScheds = () => {
+  console.log("im in change lang sched function")
+  store.dispatch({
+    type: CHANGE_LANG_SCHEDS,
+    payload: { lang: store.getState().literals.lang, dir: store.getState().literals.dir }
+  })
 }

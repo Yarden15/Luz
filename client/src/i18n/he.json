@@ -10,5 +10,17 @@
   "password": "סיסמה",
   "email_address": "כתובת אימייל",
   "hello": "שלום",
-  "language": "שפה"
+  "language": "שפה",
+  "delete_schedule_title_part": "האם אתה בטוח שברצונך למחוק את ",
+  "deleted": "!נמחק",
+  "the_schedule_has_been_deleted": "לוח הזמנים נמחק",
+  "enter_title_please": "הכנס כותרת בבקשה",
+  "you_must_insert_input": "חייב להכניס כותרת",
+  "cancel": "ביטול",
+  "remove_event": "מחק אירוע",
+  "the_event_has_been_deleted": "האירוע נמחק",
+  "ok": "אישור",
+  "courses": "קורסים",
+  "serial_num": "מספר סידורי"
+ 
 }

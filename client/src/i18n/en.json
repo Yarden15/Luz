@@ -10,5 +10,16 @@
   "password": "Password",
   "email_address": "Email Address",
   "hello": "Hello",
-  "language": "Language"
+  "language": "Language",
+  "delete_schedule_title_part": "Are you sure you want to delete ",
+  "deleted": "Deleted!",
+  "the_schedule_has_been_deleted": "The schedule has been deleted.",
+  "enter_title_please": "Enter title please",
+  "you_must_insert_input": "You must insert input",
+  "cancel": "Cancel",
+  "remove_event": "Remove Event",
+  "the_event_has_been_deleted": "The event has been deleted.",
+  "ok": "Ok",
+  "courses": "Courses",
+  "serial_num": "Serial number"
 }

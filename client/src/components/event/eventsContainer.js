@@ -45,7 +45,7 @@ export class eventsContainer extends Component {
       return (
         <div id='external-events'>
           <p>
-            <strong>Courses</strong>
+            <strong>{this.props.t.courses}</strong>
           </p>
           <Spinner id='spinner-events-container' />
         </div>
@@ -54,7 +54,7 @@ export class eventsContainer extends Component {
       return (
         <div id='external-events'>
           <p>
-            <strong>Courses</strong>
+            <strong>{this.props.t.courses}</strong>
           </p>
           <div>
             {this.props.eventObj.events.map(event => (
@@ -73,7 +73,12 @@ export class eventsContainer extends Component {
                 year={event.performance.year}
               >
                 <div>{event.performance.title} - {event.user.first_name} {event.user.last_name}</div>
-                <div>Id: {event.performance.serial_num}</div>
+            <div>
+              {this.props.dir === 'ltr' ?
+              `${this.props.t.serial_num}: ${event.performance.serial_num}`
+              : 
+              `${event.performance.serial_num} :${this.props.t.serial_num}`
+              }</div>
               </div>
             ))}
           </div>
@@ -85,7 +90,9 @@ export class eventsContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    eventObj: state.event
+    eventObj: state.event,
+    t: state.literals.literals,
+    dir: state.literals.dir,
   };
 };
 

@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS } from '../actions/types';
 
 const initialState = {
   schedules: {},
@@ -62,10 +62,19 @@ export default (state = initialState, action) => {
         loading: true
       };
     case SCHEDULE_ERROR:
-      console.error(action.payload);
       return {
         ...state,
         error: action.payload
+      };
+    case CHANGE_LANG_SCHEDS:
+      for (let key in state.schedules) {
+        console.log(state.schedules[key]);
+        //state.schedules[key].calendarRef.current.setOption('locale', 'en-gb');
+        //state.schedules[key].calendarRef.current.props.dir = action.payload.dir;
+      }
+      return {
+        ...state,
+        counter: state.counter + 1
       };
     default:
       return { ...state };
