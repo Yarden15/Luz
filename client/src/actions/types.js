@@ -18,3 +18,5 @@ export const USER_LOADED = 'USER_LOADED';
 export const LOGOUT = 'LOGOUT';
 export const LOAD_LITERALS = "LOAD_LITERALS";
 export const CHANGE_LANG_SCHEDS = "CHANGE_LANG_SCHEDS";
+export const CLOSE_POPUP = "CLOSE_POPUP";
+export const POPUP_ALERT = "POPUP_ALERT";

@@ -9,6 +9,8 @@ import React from 'react';
 import axios from 'axios';
 import store from '../store';
 import nextId from 'react-id-generator';
+import {popupAlert} from './alertsActions';
+
 
 
 
@@ -90,6 +92,9 @@ export const createCalendar = (title) => {
     type: CREATE_CALENDAR,
     payload: { calendar, title, id, calendarRef }
   });
+  let t = store.getState().literals.literals;
+  popupAlert(t.schedule_added, t.well_done_schedule_was_added_successfully,'regular');
+  
 }
 //select calendar to display
 export const selectCalendar = (id) => {

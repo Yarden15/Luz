@@ -3,9 +3,9 @@
   "home": "בית",
   "user_settings": "הגדרות משתמש",
   "logout": "יציאה",
-  "login":"כניסה",
-  "login_button":"כניסה לחשבון שלי",
-  "account_login":"כניסה לחשבון",
+  "login": "כניסה",
+  "login_button": "כניסה לחשבון שלי",
+  "account_login": "כניסה לחשבון",
   "organization": "ארגון",
   "password": "סיסמה",
   "email_address": "כתובת אימייל",
@@ -21,6 +21,7 @@
   "the_event_has_been_deleted": "האירוע נמחק",
   "ok": "אישור",
   "courses": "קורסים",
-  "serial_num": "מספר סידורי"
- 
+  "serial_num": "מספר סידורי",
+  "schedule_added": "לוח שנה נוסף",
+  "well_done_schedule_was_added_successfully": "כל הכבוד, לוח השנה נוסף בהצלחה"
 }

@@ -21,5 +21,7 @@
   "the_event_has_been_deleted": "The event has been deleted.",
   "ok": "Ok",
   "courses": "Courses",
-  "serial_num": "Serial number"
+  "serial_num": "Serial number",
+  "schedule_added": "Schedule Added",
+  "well_done_schedule_was_added_successfully": "Well done schedule was added successfully"
 }

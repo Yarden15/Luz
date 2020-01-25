@@ -1,0 +1,26 @@
+#popup-container {
+  width: 300px;
+  height: 200px;
+  display: block;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  opacity: 0.8;
+  border: solid 5px $sec_nav_background;
+  z-index: 4;
+
+  h4 {
+    text-align: center;
+  }
+  div {
+    padding: 20px;
+  }
+
+  &.msg-danger {
+    border: solid 5px red;
+  }
+  &.msg-warning {
+    border: solid 5px rgb(255, 230, 0);
+  }
+}

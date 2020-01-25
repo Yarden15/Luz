@@ -10,6 +10,7 @@ import Settings from './components/pages/Settings';
 import history from './utils/history';
 import setAuthToken from './utils/setAuthToken';
 import './styles/App.scss';
+import PopupMessage  from './components/alerts/PopupMessage';
 
 
 if (localStorage.token) {
@@ -19,17 +20,18 @@ if (localStorage.token) {
 const App = () => {
   return (
     <Router>
-        <Fragment>
-          <Navbar />
-          <div className='container'>
-            <Switch>
-              <Route exact path='/login' component={Login} history={history} />
-              <PrivateRoute exact path='/' component={Home} />
-              <PrivateRoute exact path='/settings' component={Settings} />
-              <Route exact path='/about' component={About} />
-            </Switch>
-          </div>
-        </Fragment>
+      <Fragment>
+        <Navbar />
+        <PopupMessage />
+        <div className='container'>
+          <Switch>
+            <Route exact path='/login' component={Login} history={history} />
+            <PrivateRoute exact path='/' component={Home} />
+            <PrivateRoute exact path='/settings' component={Settings} />
+            <Route exact path='/about' component={About} />
+          </Switch>
+        </div>
+      </Fragment>
     </Router>
   );
 };

@@ -10,11 +10,10 @@ const Navbar = props => {
     logout();
     // clearMemos();
   };
-
   //   The Navbar will look diffrent if the user is Authenticated to site
   const authLinks = (
     <Fragment>
-      <li> {props.t.hello} {props.authObj.user && props.authObj.user.first_name}</li>
+      {/* <li> {props.t.hello} {props.authObj.user && props.authObj.user.first_name}</li> */}
       <li>
         <Link to='/'>
           <i className='fa fa-home'></i>{props.t.home}
@@ -31,7 +30,7 @@ const Navbar = props => {
         </Link>
       </li>
       <li onClick={() => defineLang('en')}>
-        <Link>
+        <Link to='/'>
           <i className='fas fa-globe'></i>{props.t.language}
         </Link>
       </li>
@@ -51,7 +50,7 @@ const Navbar = props => {
         </Link>
       </li>
       <li onClick={() => defineLang('en')}>
-        <Link>
+        <Link to='/'>
           <i className='fas fa-globe'></i>{props.t.language}
         </Link>
       </li>

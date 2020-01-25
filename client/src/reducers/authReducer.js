@@ -1,9 +1,4 @@
-import {
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  USER_LOADED,
-  LOGOUT
-} from '../actions/types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, LOGOUT } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
