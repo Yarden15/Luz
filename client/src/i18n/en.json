@@ -23,5 +23,6 @@
   "courses": "Courses",
   "serial_num": "Serial number",
   "schedule_added": "Schedule Added",
-  "well_done_schedule_was_added_successfully": "Well done schedule was added successfully"
+  "well_done_schedule_was_added_successfully": "Well done schedule was added successfully",
+  "invalid_credentials": "Invalid Credentials"
 }

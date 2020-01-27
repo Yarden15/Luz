@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, AUTH_ERROR, LOGOUT } from './types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, AUTH_ERROR, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT } from './types';
 import store from '../store';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
@@ -42,6 +42,7 @@ export const login = async FormData => {
       type: LOGIN_FAIL,
       payload: err.response.data.msg
     });
+    displayAlert();
   }
 };
 
@@ -49,3 +50,12 @@ export const login = async FormData => {
 export const logout = () => {
   store.dispatch({ type: LOGOUT });
 };
+
+const displayAlert = () => {
+  store.dispatch({ type: DISPLAY_ALERT });
+  setTimeout(closeAlert, 7000);
+}
+
+const closeAlert = () => {
+  store.dispatch({ type: CLOSE_ALERT });
+}

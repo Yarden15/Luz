@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
+import LoginAlert from './LoginAlert';
 
 const Login = (props) => {
   // If there a change in the props down then we will use it
@@ -75,6 +76,7 @@ const Login = (props) => {
             onChange={onChange}
           ></input>
         </div>
+        <LoginAlert />
         <input
           type='submit'
           value={props.t.login_button}

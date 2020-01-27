@@ -128,7 +128,7 @@ const addEvent = (info, id) => {
 export const eventClick = eventClick => {
   let t = store.getState().literals.literals;
   Alert.fire({
-    title: eventClick.event.title + '\n ID: ' + eventClick.event.extendedProps.serial_num,
+    title: eventClick.event.title + '\n SN: ' + eventClick.event.extendedProps.serial_num,
     html:
       `<div class="table-responsive">
       <table class="table">
