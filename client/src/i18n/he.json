@@ -23,5 +23,6 @@
   "courses": "קורסים",
   "serial_num": "מספר סידורי",
   "schedule_added": "לוח שנה נוסף",
-  "well_done_schedule_was_added_successfully": "כל הכבוד, לוח השנה נוסף בהצלחה"
+  "well_done_schedule_was_added_successfully": "כל הכבוד, לוח השנה נוסף בהצלחה",
+  "invalid_credentials": "הנתונים שהוזנו שגויים"
 }

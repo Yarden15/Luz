@@ -15,7 +15,7 @@ export const popupAlert = (title, msg, type, timeout = 10000) => {
       msg,
       type
     }
-  })
+  });
 
   setTimeout(closePopup, timeout);
 }
