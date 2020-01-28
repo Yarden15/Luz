@@ -9,7 +9,7 @@ import React from 'react';
 import axios from 'axios';
 import store from '../store';
 import nextId from 'react-id-generator';
-import {popupAlert} from './alertsActions';
+import { popupAlert } from './alertsActions';
 
 
 
@@ -17,9 +17,9 @@ import {popupAlert} from './alertsActions';
 //import thunk from 'redux-thunk'
 //get schedules from db
 export const getSchedules = () => async dispatch => {
+  setLoading();
   try {
-    setLoading();
-    const res = await fetch('schedules');
+    const res = await axios.get('/api/timetables');
     const data = await res.json();
 
     dispatch({
@@ -93,8 +93,8 @@ export const createCalendar = (title) => {
     payload: { calendar, title, id, calendarRef }
   });
   let t = store.getState().literals.literals;
-  popupAlert(t.schedule_added, t.well_done_schedule_was_added_successfully,'regular');
-  
+  popupAlert(t.schedule_added, t.well_done_schedule_was_added_successfully, 'regular');
+
 }
 //select calendar to display
 export const selectCalendar = (id) => {
@@ -156,7 +156,7 @@ export const eventClick = eventClick => {
         payload: { sched_id: eventClick.event._calendar.component.context.options.id, event_id: eventClick.event.id }
       })
       eventClick.event.remove(); // It will remove event from the calendar
-      Alert.fire(t.deleted , t.the_event_has_been_deleted, "success");
+      Alert.fire(t.deleted, t.the_event_has_been_deleted, "success");
     }
   });
 };
@@ -292,9 +292,9 @@ const createEventObj = (info, schedId, status) => {
 }
 
 export const changeLangScheds = () => {
-  console.log("im in change lang sched function")
   store.dispatch({
     type: CHANGE_LANG_SCHEDS,
     payload: { lang: store.getState().literals.lang, dir: store.getState().literals.dir }
   })
+
 }

@@ -17,6 +17,7 @@ export default (state = initialState, action) => {
         loading: false
       };
     case CREATE_CALENDAR:
+      console.log(state.schedules)
       return {
         ...state,
         current: action.payload.id,
@@ -67,10 +68,12 @@ export default (state = initialState, action) => {
         error: action.payload
       };
     case CHANGE_LANG_SCHEDS:
-      for (let key in state.schedules) {
-        console.log(state.schedules[key]);
-        //state.schedules[key].calendarRef.current.setOption('locale', 'en-gb');
-        //state.schedules[key].calendarRef.current.props.dir = action.payload.dir;
+      if (state.current) {
+        let calendarApi = state.schedules[state.current].calendarRef.current.getApi();
+        calendarApi.setOption('locale', 'en');
+        // calendarApi.setOption('dir', 'ltr');
+        calendarApi.theme.calendarOptions.locale='en';
+        console.log(calendarApi.theme.calendarOptions);
       }
       return {
         ...state,
