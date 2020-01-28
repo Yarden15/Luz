@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 });
 
 // Define Routes
+app.use('/api/schedules', require('./routes/schedules'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/performances', require('./routes/performances'));

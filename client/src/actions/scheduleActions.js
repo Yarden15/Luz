@@ -11,29 +11,36 @@ import store from '../store';
 import nextId from 'react-id-generator';
 import { popupAlert } from './alertsActions';
 
-
-
-
 //import thunk from 'redux-thunk'
 //get schedules from db
 export const getSchedules = () => async dispatch => {
   setLoading();
   try {
-    const res = await axios.get('/api/timetables');
+    const res = await axios.get('/api/schedules');
     const data = await res.json();
 
-    dispatch({
+    store.dispatch({
       type: GET_SCHEDULES,
       payload: data
     });
   } catch (error) {
-    dispatch({
+    store.dispatch({
       type: SCHEDULE_ERROR,
       payload: error.response.data
     });
-  }
-};
+  };
+}
 
+export const saveSchedules = (sched_id,title,events) => async dispatch => {
+  console.log("on save schedules");
+  try {
+    const res = await axios.post('/api/schedules',{sched_id,title,events});
+    console.log(res);
+  } catch (error) {
+    console.error(error)
+  }
+
+}
 //set loading to true
 export const setLoading = () => {
   return {
@@ -55,9 +62,7 @@ export const createCalendar = (title) => {
       customButtons={{
         save: {
           text: 'Save',
-          click: function () {
-            alert('clicked the custom button!');
-          }
+          click: saveSchedules(id, title, [1, 2, 3])
         }
       }}
       header={{

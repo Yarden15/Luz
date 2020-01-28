@@ -6,7 +6,7 @@ const authorization = require('../middleware/authorization');
 const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
-const Schdule = require('../models/Schdules');
+const Schedule = require('../models/Schedule');
 
 // @route   GET api/schedules
 // @desc    Get all schedules
@@ -14,10 +14,10 @@ const Schdule = require('../models/Schdules');
 router.get('/', authorization, async (req, res) => {
   try {
     // Get all the schedules in db
-    const schedules = await Schdule.find({});
+    const schedules = await Schedule.find({});
     // Response- schedules of all users
     res.json(schedules);
-    
+
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -41,7 +41,7 @@ router.get('/', authorization, async (req, res) => {
 //   }
 // });
 
-// @route   POST api/schedules
+// @route   POST /schedules
 // @desc    Add schedule to a user
 // @access  Private Only a Manager or Admin can do it
 router.post(
@@ -49,19 +49,18 @@ router.post(
   [
     authorization,
     [
-      check('sched_id', 'Schdule Id is required')
+      check('sched_id', 'Schedule Id is required')
         .not()
         .isEmpty()
     ]
   ],
   async (req, res) => {
     // Validations f the form will take place here
-    const errors = validationResult(req);
+    // const errors = validationResult(req);
     // According to validation send errors if there are
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
+    // if (!errors.isEmpty()) {
+      // return res.status(400).json({ errors: errors.array() });
+    // }
     // Pull from the req.body the fields to create new schedule later on (instance)
     const {
       sched_id,
@@ -76,6 +75,7 @@ router.post(
         title,
         events
       });
+      console.log(newSchedule.sched_id + " " + newSchedule.title + " " + newSchedule.events)
       // Promise- save schedule to db
       const schedule = await newSchedule.save();
       // Response- schedule to client
@@ -90,69 +90,69 @@ router.post(
 // @route   PUT api/schedule/:id
 // @desc    Update Schedule by id
 // @access  Private- only manager
-router.put('/:id', authorization, async (req, res) => {
-  // Pull from the req.body the fields to create new schedule later on (instance)
-  const {
-    sched_id,
-    title,
-    events
-  } = req.body;
+// router.put('/:id', authorization, async (req, res) => {
+//   // Pull from the req.body the fields to create new schedule later on (instance)
+//   const {
+//     sched_id,
+//     title,
+//     events
+//   } = req.body;
 
-  // Build constraint object
-  const scheduleFields = {};
-  if (sched_id) scheduleFields.sched_id = sched_id;
-  if (title) scheduleFields.title = title;
-  if (year) scheduleFields.events = events;
+//   // Build constraint object
+//   const scheduleFields = {};
+//   if (sched_id) scheduleFields.sched_id = sched_id;
+//   if (title) scheduleFields.title = title;
+//   if (events) scheduleFields.events = events;
 
-  try {
-    // Find the schedule in db by id
-    let schedule = await schedule.findById(req.params.id);
-    // Schedule not found
-    if (!schedule)
-      return res.status(404).json({ msg: 'Schedule not found' });
+//   try {
+//     // Find the schedule in db by id
+//     let schedule = await schedule.findById(req.params.id);
+//     // Schedule not found
+//     if (!schedule)
+//       return res.status(404).json({ msg: 'Schedule not found' });
 
-    // Promise- return an id of the schedule to change if not exist
-    // add this new schedule
-    schedule = await schedule.findByIdAndUpdate(
-      req.params.id,
-      { $set: scheduleFields },
-      { new: true }
-    );
-    // Response- the update schedule
-    res.json(schedule);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
+//     // Promise- return an id of the schedule to change if not exist
+//     // add this new schedule
+//     schedule = await schedule.findByIdAndUpdate(
+//       req.params.id,
+//       { $set: scheduleFields },
+//       { new: true }
+//     );
+//     // Response- the update schedule
+//     res.json(schedule);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 // @route   DELETE api/schedule/:id
 // @desc    Delete schedule
 // @access  Private- Manager only
-router.delete('/:id', authorization, async (req, res) => {
-  try {
-    //   Find the schedule by id
-    let schedule = await schedule.findById(req.params.id);
-    // Not found constraint
-    if (!schedule)
-      return res.status(404).json({ msg: 'schedule not found' });
+// router.delete('/:id', authorization, async (req, res) => {
+//   try {
+//     //   Find the schedule by id
+//     let schedule = await schedule.findById(req.params.id);
+//     // Not found constraint
+//     if (!schedule)
+//       return res.status(404).json({ msg: 'schedule not found' });
 
-    // The user isnt a 'Admin' or 'Manager'
-    if (req.user.role !== 'Admin' || req.user.role !== 'Manager') {
-      return res
-        .status(401)
-        .json({ msg: 'Not Authorize to delete schedule' });
-    }
+//     // The user isnt a 'Admin' or 'Manager'
+//     if (req.user.role !== 'Admin' || req.user.role !== 'Manager') {
+//       return res
+//         .status(401)
+//         .json({ msg: 'Not Authorize to delete schedule' });
+//     }
 
-    // Promise- find the schedule and remove it from db
-    await schedule.findByIdAndRemove(req.params.id);
+//     // Promise- find the schedule and remove it from db
+//     await schedule.findByIdAndRemove(req.params.id);
 
-    // Response- msg to indicate that schedule has been removed
-    res.json({ msg: 'schedule removed' });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
+//     // Response- msg to indicate that schedule has been removed
+//     res.json({ msg: 'schedule removed' });
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 module.exports = router;
