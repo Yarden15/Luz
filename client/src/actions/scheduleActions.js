@@ -13,7 +13,7 @@ import { popupAlert } from './alertsActions';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
-export const getSchedules = () => async dispatch => {
+export const getSchedules = async () => {
   setLoading();
   try {
     const res = await axios.get('/api/schedules');
@@ -31,10 +31,10 @@ export const getSchedules = () => async dispatch => {
   };
 }
 
-export const saveSchedules = (sched_id,title,events) => async dispatch => {
+const saveSchedules = async (sched_id, title, events) => {
   console.log("on save schedules");
   try {
-    const res = await axios.post('/api/schedules',{sched_id,title,events});
+    const res = await axios.post('/api/schedules', { sched_id, title, events });
     console.log(res);
   } catch (error) {
     console.error(error)
@@ -43,9 +43,9 @@ export const saveSchedules = (sched_id,title,events) => async dispatch => {
 }
 //set loading to true
 export const setLoading = () => {
-  return {
+  store.dispatch({
     type: SET_LOADING
-  }
+  });
 }
 
 //create new schedule and push him to array
@@ -62,7 +62,7 @@ export const createCalendar = (title) => {
       customButtons={{
         save: {
           text: 'Save',
-          click: saveSchedules(id, title, [1, 2, 3])
+          click: function () { saveButtonClicked() }
         }
       }}
       header={{
@@ -99,7 +99,6 @@ export const createCalendar = (title) => {
   });
   let t = store.getState().literals.literals;
   popupAlert(t.schedule_added, t.well_done_schedule_was_added_successfully, 'regular');
-
 }
 //select calendar to display
 export const selectCalendar = (id) => {
@@ -127,6 +126,16 @@ const addEvent = (info, id) => {
   })
 
   //chackOnServer(event);
+}
+
+const saveButtonClicked = () => {
+  let current = store.getState().schedule.current;
+  let schedule = store.getState().schedule.schedules[current];
+  saveSchedules(schedule.id, schedule.title, schedule.calendarRef.current.props.event);
+  console.log(schedule.calendarRef.current.props.events);
+  console.log(schedule.title);
+  console.log(schedule.id);
+
 }
 
 //popup window when the user clicking on the event into the calendar

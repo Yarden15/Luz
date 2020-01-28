@@ -2,8 +2,13 @@ import React, { Fragment, Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import { createCalendar } from '../../actions/scheduleActions';
+import {getSchedules} from '../../actions/scheduleActions';
 
 export class ScheduleContainer extends Component {
+  componentDidMount() {
+   // getSchedules();
+  }
+
   render() {
     return (
       <Fragment>
