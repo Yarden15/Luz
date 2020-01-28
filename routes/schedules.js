@@ -56,11 +56,11 @@ router.post(
   ],
   async (req, res) => {
     // Validations f the form will take place here
-    // const errors = validationResult(req);
+     const errors = validationResult(req);
     // According to validation send errors if there are
-    // if (!errors.isEmpty()) {
-      // return res.status(400).json({ errors: errors.array() });
-    // }
+     if (!errors.isEmpty()) {
+       return res.status(400).json({ errors: errors.array() });
+     }
     // Pull from the req.body the fields to create new schedule later on (instance)
     const {
       sched_id,
@@ -75,11 +75,10 @@ router.post(
         title,
         events
       });
-      console.log(newSchedule.sched_id + " " + newSchedule.title + " " + newSchedule.events)
       // Promise- save schedule to db
       const schedule = await newSchedule.save();
       // Response- schedule to client
-      res.json(schedule);
+      res.send('Schedule successfully saved');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

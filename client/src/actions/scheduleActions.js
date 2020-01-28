@@ -32,10 +32,10 @@ export const getSchedules = async () => {
 }
 
 const saveSchedules = async (sched_id, title, events) => {
-  console.log("on save schedules");
   try {
     const res = await axios.post('/api/schedules', { sched_id, title, events });
     console.log(res);
+    popupAlert('Congratulations!', res.data, 'regular');
   } catch (error) {
     console.error(error)
   }
@@ -132,10 +132,6 @@ const saveButtonClicked = () => {
   let current = store.getState().schedule.current;
   let schedule = store.getState().schedule.schedules[current];
   saveSchedules(schedule.id, schedule.title, schedule.calendarRef.current.props.event);
-  console.log(schedule.calendarRef.current.props.events);
-  console.log(schedule.title);
-  console.log(schedule.id);
-
 }
 
 //popup window when the user clicking on the event into the calendar
