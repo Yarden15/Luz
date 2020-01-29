@@ -3,14 +3,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import { createCalendar } from '../../actions/scheduleActions';
 import { getSchedules } from '../../actions/scheduleActions';
+import Spinner from '../layout/Spinner';
 
 export class ScheduleContainer extends Component {
   componentDidMount() {
-    // getSchedules();
+    console.log('on get schedules');
+     getSchedules();
   }
 
   render() {
-    if (this.props.scheduleObj.schedules[this.props.scheduleObj.current]) {
+    if(this.props.scheduleObj.loading){
+      return (
+        <div id='schedules-spinner'>
+          <Spinner id='spinner-events-container' />
+        </div>)
+    } else if (this.props.scheduleObj.schedules[this.props.scheduleObj.current]) {
       return (
         <Fragment>
           <div key={this.props.scheduleObj.current}>

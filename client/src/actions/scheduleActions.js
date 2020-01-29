@@ -15,13 +15,19 @@ import { popupAlert } from './alertsActions';
 //get schedules from db
 export const getSchedules = async () => {
   try {
+    setLoading();
     const res = await axios.get('/api/schedules');
-    const data = await res.json();
+    let schedules = res.data;
+    console.log(schedules.length);
 
+    for (let i = 0; i < schedules.length; i++) {
+      createCalendar(schedules[i].title, schedules[i].id, schedules[i].events, 1);
+    }
   } catch (error) {
 
   };
 }
+// schedules[res.date[key].sched_id] = createCalendar(res.data[key].title,res.data[key].id,res.data[key].events,0);
 
 const saveSchedule = async (sched_id, title, events) => {
   try {

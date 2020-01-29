@@ -20,7 +20,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         current: action.payload.id,
-        schedules: { ...state.schedules, [action.payload.id]: action.payload }
+        schedules: { ...state.schedules, [action.payload.id]: action.payload },
+        loading: false
       }
     case SELECT_CALENDAR:
       return {

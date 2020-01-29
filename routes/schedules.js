@@ -11,18 +11,38 @@ const Schedule = require('../models/Schedule');
 // @route   GET api/schedules
 // @desc    Get all schedules
 // @access  Private- Managers
+// router.get('/', authorization, async (req, res) => {
+//   try {
+//     // Get all the schedules in db
+//     const schedules = await Schedule.find({});
+//     // Response- schedules of all users
+//     res.json(schedules);
+
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
+
 router.get('/', authorization, async (req, res) => {
   try {
-    // Get all the schedules in db
-    const schedules = await Schedule.find({});
-    // Response- schedules of all users
-    res.json(schedules);
+    // Get all the timeTable events
+    const schedules = await Schedule.find({})
+      .populate({
+        path: 'schedules',
+        model: Schedule,
+        select: 'events sched_id title'
+      })
 
+    // Response- events in table
+    res.json(schedules);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
+
+
 // @route   GET api/schedules/:id
 // @desc    Get all schedules of a specific user
 // @access  Private
