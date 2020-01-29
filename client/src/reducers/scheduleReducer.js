@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from '../actions/types';
 
 const initialState = {
   schedules: {},
@@ -57,7 +57,7 @@ export default (state = initialState, action) => {
         ...state,
         schedules: copySchedsDeleteEvent
       }
-    case SET_LOADING:
+    case SET_LOADING_SCHED:
       return {
         ...state,
         loading: true

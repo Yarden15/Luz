@@ -7,12 +7,12 @@ import Spinner from '../layout/Spinner';
 
 export class ScheduleContainer extends Component {
   componentDidMount() {
-    console.log('on get schedules');
-     getSchedules();
+    if (Object.keys(this.props.scheduleObj.schedules).length === 0)
+      getSchedules();
   }
 
   render() {
-    if(this.props.scheduleObj.loading){
+    if (this.props.scheduleObj.loading) {
       return (
         <div id='schedules-spinner'>
           <Spinner id='spinner-events-container' />

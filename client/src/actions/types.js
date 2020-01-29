@@ -11,6 +11,7 @@ export const GET_EVENTS = 'GET_EVENTS';
 export const DELETE_EVENT = 'DELETE_EVENT';
 export const CREATE_DRAGGABLE = 'CREATE_DRAGGABLE';
 export const SET_LOADING = 'SET_LOADING';
+export const SET_LOADING_SCHED = 'SET_LOADING_SCHED';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const AUTH_ERROR = 'AUTH_ERROR';
