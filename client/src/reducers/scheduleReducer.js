@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from '../actions/types';
 
 const initialState = {
   schedules: {},
@@ -68,17 +68,16 @@ export default (state = initialState, action) => {
         error: action.payload
       };
     case CHANGE_LANG_SCHEDS:
-      if (state.current) {
-        let calendarApi = state.schedules[state.current].calendarRef.current.getApi();
-        calendarApi.setOption('locale', 'en');
-        // calendarApi.setOption('dir', 'ltr');
-        calendarApi.theme.calendarOptions.locale='en';
-        console.log(calendarApi.theme.calendarOptions);
-      }
+      return {
+        ...state,
+        schedules: action.payload
+      };
+    case RENAME_SCHED:
+      state.schedules[state.current].title = action.payload
       return {
         ...state,
         counter: state.counter + 1
-      };
+      }
     default:
       return { ...state };
   }

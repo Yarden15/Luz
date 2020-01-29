@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS } from './types';
+import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -14,24 +14,16 @@ import { popupAlert } from './alertsActions';
 //import thunk from 'redux-thunk'
 //get schedules from db
 export const getSchedules = async () => {
-  setLoading();
   try {
     const res = await axios.get('/api/schedules');
     const data = await res.json();
 
-    store.dispatch({
-      type: GET_SCHEDULES,
-      payload: data
-    });
   } catch (error) {
-    store.dispatch({
-      type: SCHEDULE_ERROR,
-      payload: error.response.data
-    });
+
   };
 }
 
-const saveSchedules = async (sched_id, title, events) => {
+const saveSchedule = async (sched_id, title, events) => {
   try {
     const res = await axios.post('/api/schedules', { sched_id, title, events });
     console.log(res);
@@ -49,11 +41,10 @@ export const setLoading = () => {
 }
 
 //create new schedule and push him to array
-export const createCalendar = (title) => {
-  let id = nextId();
+export const createCalendar = (title, id = nextId(), events = [], newSched = 1) => {
+  let t = store.getState().literals.literals;
   let calendarRef = React.createRef();
   let calendar = <div className='calendar'>
-    <h1 className='calendar-title'>{title}</h1>
     <FullCalendar
       ref={calendarRef}
       id={id}
@@ -61,14 +52,18 @@ export const createCalendar = (title) => {
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
       customButtons={{
         save: {
-          text: 'Save',
+          text: t.save,
           click: function () { saveButtonClicked() }
+        },
+        rename: {
+          text: t.rename,
+          click: function () { renameSched()}
         }
       }}
       header={{
         center: '',
         left: '',
-        right: 'save'
+        right: 'save rename'
       }}
       hiddenDays={[6]}
       allDaySlot={false}
@@ -88,17 +83,20 @@ export const createCalendar = (title) => {
       eventResize={function (info) { eventChanged(info, id); }}
       eventLimit={true}
       eventClick={eventClick}
-      events={[]}
+      events={events}
       locales={allLocales}
       locale={store.getState().literals.lang}
       dir={store.getState().literals.dir} />
   </div>
-  store.dispatch({
-    type: CREATE_CALENDAR,
-    payload: { calendar, title, id, calendarRef }
-  });
-  let t = store.getState().literals.literals;
-  popupAlert(t.schedule_added, t.well_done_schedule_was_added_successfully, 'regular');
+  if (newSched) {
+    store.dispatch({
+      type: CREATE_CALENDAR,
+      payload: { calendar, title, id, calendarRef }
+    });
+    popupAlert(t.schedule_added, t.well_done_schedule_was_added_successfully, 'regular');
+  } else {
+    return { calendar, title, id, calendarRef };
+  }
 }
 //select calendar to display
 export const selectCalendar = (id) => {
@@ -131,7 +129,7 @@ const addEvent = (info, id) => {
 const saveButtonClicked = () => {
   let current = store.getState().schedule.current;
   let schedule = store.getState().schedule.schedules[current];
-  saveSchedules(schedule.id, schedule.title, schedule.calendarRef.current.props.event);
+  saveSchedule(schedule.id, schedule.title, schedule.calendarRef.current.props.events);
 }
 
 //popup window when the user clicking on the event into the calendar
@@ -189,6 +187,29 @@ export const enterNameSchedule = () => {
     if (result.value)
       createCalendar(result.value)
   })
+}
+
+const renameSched = () => {
+  let t = store.getState().literals.literals;
+  Alert.fire({
+    title: t.enter_title_please,
+    input: 'text',
+    showCancelButton: true,
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel,
+    inputValidator: (result) => {
+      if (!result)
+        return t.you_must_insert_input;
+    }
+  }).then(result => {
+    if (result.value) {
+      store.dispatch({
+        type: RENAME_SCHED,
+        payload: result.value
+      });
+    }
+  });
 }
 
 export const deleteAlert = schedule => {
@@ -302,9 +323,16 @@ const createEventObj = (info, schedId, status) => {
 }
 
 export const changeLangScheds = () => {
+
+  let old_scheds = store.getState().schedule.schedules;
+  let new_scheds = {};
+
+  for (let key in old_scheds) {
+    new_scheds[old_scheds[key].id] = createCalendar(old_scheds[key].title, old_scheds[key].id, old_scheds[key].calendar.props.children[1].props.events, 0);
+  }
   store.dispatch({
     type: CHANGE_LANG_SCHEDS,
-    payload: { lang: store.getState().literals.lang, dir: store.getState().literals.dir }
+    payload: new_scheds
   })
 
 }
