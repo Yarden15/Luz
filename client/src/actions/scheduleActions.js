@@ -8,7 +8,7 @@ import allLocales from '@fullcalendar/core/locales-all';
 import React from 'react';
 import axios from 'axios';
 import store from '../store';
-import nextId from 'react-id-generator';
+import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
 
 //import thunk from 'redux-thunk'
@@ -26,7 +26,7 @@ export const getSchedules = async () => {
 const saveSchedule = async (sched_id, title, events) => {
   try {
     const res = await axios.post('/api/schedules', { sched_id, title, events });
-    console.log(res);
+
     popupAlert('Congratulations!', res.data, 'regular');
   } catch (error) {
     console.error(error)
@@ -41,7 +41,7 @@ export const setLoading = () => {
 }
 
 //create new schedule and push him to array
-export const createCalendar = (title, id = nextId(), events = [], newSched = 1) => {
+export const createCalendar = (title, id = uuid(), events = [], newSched = 1) => {
   let t = store.getState().literals.literals;
   let calendarRef = React.createRef();
   let calendar = <div className='calendar'>
@@ -57,7 +57,7 @@ export const createCalendar = (title, id = nextId(), events = [], newSched = 1) 
         },
         rename: {
           text: t.rename,
-          click: function () { renameSched()}
+          click: function () { renameSched() }
         }
       }}
       header={{
@@ -109,7 +109,7 @@ export const selectCalendar = (id) => {
 const addEvent = (info, id) => {
   //check if this legal action
   info.schedId = id;
-  let eventId = nextId();
+  let eventId = uuid();
   info.draggedEl.id = eventId;
 
   let event = createEventObj(info, id, 'create');
@@ -328,8 +328,9 @@ export const changeLangScheds = () => {
   let new_scheds = {};
 
   for (let key in old_scheds) {
-    new_scheds[old_scheds[key].id] = createCalendar(old_scheds[key].title, old_scheds[key].id, old_scheds[key].calendar.props.children[1].props.events, 0);
+    new_scheds[old_scheds[key].id] = createCalendar(old_scheds[key].title, old_scheds[key].id, old_scheds[key].calendar.props.children.props.events, 0);
   }
+
   store.dispatch({
     type: CHANGE_LANG_SCHEDS,
     payload: new_scheds

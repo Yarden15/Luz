@@ -22,7 +22,6 @@ export const defineLang = (lang) => {
       loadLiterals(loadLang('he'), 'rtl', 'he');
       break;
   }
-  console.log('before changeLangScheds')
   changeLangScheds();
 
 }

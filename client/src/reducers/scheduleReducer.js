@@ -17,7 +17,6 @@ export default (state = initialState, action) => {
         loading: false
       };
     case CREATE_CALENDAR:
-      console.log(state.schedules)
       return {
         ...state,
         current: action.payload.id,
