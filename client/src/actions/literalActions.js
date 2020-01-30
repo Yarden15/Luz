@@ -1,6 +1,6 @@
 import store from '../store';
 import loadLang from '../i18n/index';
-import { LOAD_LITERALS } from './types';
+import { LOAD_LITERALS, DISPLAY_LANG_MENU } from './types';
 import { changeLangScheds } from './scheduleActions';
 
 export const loadLiterals = (literals, dir, lang) => {
@@ -24,4 +24,10 @@ export const defineLang = (lang) => {
   }
   changeLangScheds();
 
+}
+
+export const displayMenu = () => {
+  store.dispatch({
+    type: DISPLAY_LANG_MENU
+  });
 }

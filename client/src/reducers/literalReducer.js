@@ -1,9 +1,10 @@
-import { LOAD_LITERALS } from '../actions/types'
+import { LOAD_LITERALS,DISPLAY_LANG_MENU } from '../actions/types'
 
 const initialState = {
   literals: {},
   dir: null,
-  lang: null
+  lang: null,
+  displayMenu: false
 };
 
 export default (state = initialState, action) => {
@@ -14,7 +15,13 @@ export default (state = initialState, action) => {
         literals: action.payload.literals,
         dir: action.payload.dir,
         lang: action.payload.lang,
+        displayMenu: false
       };
+      case DISPLAY_LANG_MENU: 
+      return{
+        ...state,
+        displayMenu: true
+      }
     default:
       return state;
   }

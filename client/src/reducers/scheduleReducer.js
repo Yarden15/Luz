@@ -32,7 +32,8 @@ export default (state = initialState, action) => {
       delete state.schedules[action.payload]
       return {
         ...state,
-        counter: state.counter + 1
+        counter: state.counter + 1,
+        // current: state.schedules[Object.keys(state.schedules)[0]].id
       }
     case ADD_EVENT:
       state.schedules[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);

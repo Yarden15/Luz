@@ -24,3 +24,4 @@ export const POPUP_ALERT = "POPUP_ALERT";
 export const CLOSE_ALERT = "CLOSE_ALERT";
 export const DISPLAY_ALERT = "DISPLAY_ALERT";
 export const RENAME_SCHED = "RENAME_SCHED";
+export const DISPLAY_LANG_MENU = "DISPLAY_LANG_MENU";

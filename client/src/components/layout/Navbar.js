@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authActions';
 import AppLogo from '../../styles/assets/logo_white.png';
-import { defineLang } from '../../actions/literalActions';
+import { defineLang, displayMenu } from '../../actions/literalActions';
+import LangMenu from './LangMenu';
 
 const Navbar = props => {
   const onLogout = () => {
@@ -29,10 +30,11 @@ const Navbar = props => {
           <i className='fas fa-info-circle'></i>{props.t.about}
         </Link>
       </li>
-      <li onClick={() => defineLang('en')}>
+      <li onClick={() => displayMenu()}>
         <Link to='/'>
           <i className='fas fa-globe'></i>{props.t.language}
         </Link>
+        <LangMenu />
       </li>
       <li>
         <a onClick={onLogout} href='#!'>
@@ -49,11 +51,12 @@ const Navbar = props => {
           <i className='fas fa-info-circle'></i>{props.t.about}
         </Link>
       </li>
-      <li onClick={() => defineLang('en')}>
+      <li onClick={() => displayMenu()}>
         <Link to='/'>
           <i className='fas fa-globe'></i>{props.t.language}
         </Link>
       </li>
+      <LangMenu />
       <li>
         <Link to='/login'>
           <i className="fas fa-sign-in-alt"></i>{props.t.login}

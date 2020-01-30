@@ -42,25 +42,6 @@ router.get('/', authorization, async (req, res) => {
   }
 });
 
-
-// @route   GET api/schedules/:id
-// @desc    Get all schedules of a specific user
-// @access  Private
-
-// router.get('/:id', auth, async (req, res) => {
-//   try {
-//     // @todo - select from the id of schedules the info of its
-//     // Get all the attached preformances to current User by it ID gotten
-//     // from the authentacation mIDdleware
-//     const schedule = await User.findById(req.user.id).select('schedules');
-//     // Response- schedules related to current user
-//     res.json(schedule);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
-// });
-
 // @route   POST /schedules
 // @desc    Add schedule to a user
 // @access  Private Only a Manager or Admin can do it
@@ -76,11 +57,11 @@ router.post(
   ],
   async (req, res) => {
     // Validations f the form will take place here
-     const errors = validationResult(req);
+    const errors = validationResult(req);
     // According to validation send errors if there are
-     if (!errors.isEmpty()) {
-       return res.status(400).json({ errors: errors.array() });
-     }
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     // Pull from the req.body the fields to create new schedule later on (instance)
     const {
       sched_id,
@@ -96,9 +77,18 @@ router.post(
         events
       });
       // Promise- save schedule to db
-      const schedule = await newSchedule.save();
-      // Response- schedule to client
-      res.send('Schedule successfully saved');
+
+      // Check if there another user that have been created with the same email
+      let sched = await Schedule.findOne({ sched_id: sched_id });
+
+      // If there is already a user with the email that entered
+      if (sched) {
+        await Schedule.updateOne({ sched_id: sched_id }, { $set: { events: events, title: title } });
+        res.send('Schedule successfully saved');
+      } else {
+        await newSchedule.save();
+        res.send('New schedule successfully saved');
+      }
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -106,72 +96,24 @@ router.post(
   }
 );
 
-// @route   PUT api/schedule/:id
-// @desc    Update Schedule by id
-// @access  Private- only manager
-// router.put('/:id', authorization, async (req, res) => {
-//   // Pull from the req.body the fields to create new schedule later on (instance)
-//   const {
-//     sched_id,
-//     title,
-//     events
-//   } = req.body;
-
-//   // Build constraint object
-//   const scheduleFields = {};
-//   if (sched_id) scheduleFields.sched_id = sched_id;
-//   if (title) scheduleFields.title = title;
-//   if (events) scheduleFields.events = events;
-
-//   try {
-//     // Find the schedule in db by id
-//     let schedule = await schedule.findById(req.params.id);
-//     // Schedule not found
-//     if (!schedule)
-//       return res.status(404).json({ msg: 'Schedule not found' });
-
-//     // Promise- return an id of the schedule to change if not exist
-//     // add this new schedule
-//     schedule = await schedule.findByIdAndUpdate(
-//       req.params.id,
-//       { $set: scheduleFields },
-//       { new: true }
-//     );
-//     // Response- the update schedule
-//     res.json(schedule);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
-// });
-
 // @route   DELETE api/schedule/:id
 // @desc    Delete schedule
 // @access  Private- Manager only
-// router.delete('/:id', authorization, async (req, res) => {
-//   try {
-//     //   Find the schedule by id
-//     let schedule = await schedule.findById(req.params.id);
-//     // Not found constraint
-//     if (!schedule)
-//       return res.status(404).json({ msg: 'schedule not found' });
-
-//     // The user isnt a 'Admin' or 'Manager'
-//     if (req.user.role !== 'Admin' || req.user.role !== 'Manager') {
-//       return res
-//         .status(401)
-//         .json({ msg: 'Not Authorize to delete schedule' });
-//     }
-
-//     // Promise- find the schedule and remove it from db
-//     await schedule.findByIdAndRemove(req.params.id);
-
-//     // Response- msg to indicate that schedule has been removed
-//     res.json({ msg: 'schedule removed' });
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
-// });
+router.delete('/:id', authorization, async (req, res) => {
+  try {
+    // The user isnt a 'Admin' or 'Manager'
+    // if (req.user.role !== 'Admin' || req.user.role !== 'Manager') {
+    //   return res.status(401).json({ msg: 'Not Authorize to delete schedule' });
+    // }
+    // Remove the schedule from db
+    await Schedule.deleteOne({ sched_id: req.params.id });
+    // Response- msg to indicate that schedule has been removed
+    res.send('Schedule successfully deleted');
+  }
+  catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

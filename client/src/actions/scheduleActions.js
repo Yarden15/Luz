@@ -18,13 +18,12 @@ export const getSchedules = async () => {
     setLoading();
     const res = await axios.get('/api/schedules');
     let schedules = res.data;
-    console.log(schedules.length);
 
     for (let i = 0; i < schedules.length; i++) {
-      createCalendar(schedules[i].title, schedules[i].id, schedules[i].events, 1);
+      createCalendar(schedules[i].title, schedules[i].sched_id, schedules[i].events, 1);
     }
   } catch (error) {
-
+    console.error(error)
   };
 }
 // schedules[res.date[key].sched_id] = createCalendar(res.data[key].title,res.data[key].id,res.data[key].events,0);
@@ -236,11 +235,19 @@ export const deleteAlert = schedule => {
   });
 }
 
-export const deleteSchedule = id => {
+export const deleteSchedule = async(sched_id) => {
+  try {
+    const res = await axios.delete(`/api/schedules/${sched_id}`);
+    popupAlert('Schedule deleted', res.data, 'regular');
+  } catch (error) {
+    console.error(error)
+  };  
   store.dispatch({
     type: DELETE_SCHEDULE,
-    payload: id
+    payload: sched_id
   });
+
+
 }
 
 const eventChanged = (info, schedId) => {

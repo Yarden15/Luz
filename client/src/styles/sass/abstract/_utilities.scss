@@ -248,3 +248,18 @@ button {
     margin: 0.2rem 0;
   }
 }
+
+.triangle-isosceles {
+  margin-top: 20px ;
+}
+.triangle-isosceles:after{
+  content: "";
+  display: block;
+  position: absolute;
+  top: -13px;
+  right: 56px;
+  width: 0;
+  border-width: 0 13px 13px;
+  border-style: solid;
+  border-color: white transparent;
+}
