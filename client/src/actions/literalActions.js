@@ -1,6 +1,6 @@
 import store from '../store';
 import loadLang from '../i18n/index';
-import { LOAD_LITERALS, DISPLAY_LANG_MENU } from './types';
+import { LOAD_LITERALS, OPEN_LANG_MENU, CLOSE_LANG_MENU } from './types';
 import { changeLangScheds } from './scheduleActions';
 
 export const loadLiterals = (literals, dir, lang) => {
@@ -26,8 +26,22 @@ export const defineLang = (lang) => {
 
 }
 
-export const displayMenu = () => {
+export const toggleLangMenu = () => {
+  if (!store.getState().literals.displayMenu) {
+    store.dispatch({
+      type: OPEN_LANG_MENU
+    });
+    document.addEventListener('click', closeLangMenu);
+  } else {
+    store.dispatch({
+      type: CLOSE_LANG_MENU
+    });
+  }
+}
+
+const closeLangMenu = (event) => {
   store.dispatch({
-    type: DISPLAY_LANG_MENU
+    type: CLOSE_LANG_MENU
   });
+  document.removeEventListener('click', closeLangMenu);
 }

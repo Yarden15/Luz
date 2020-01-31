@@ -1,4 +1,4 @@
-import { LOAD_LITERALS,DISPLAY_LANG_MENU } from '../actions/types'
+import { LOAD_LITERALS,OPEN_LANG_MENU, CLOSE_LANG_MENU } from '../actions/types'
 
 const initialState = {
   literals: {},
@@ -17,10 +17,15 @@ export default (state = initialState, action) => {
         lang: action.payload.lang,
         displayMenu: false
       };
-      case DISPLAY_LANG_MENU: 
+      case OPEN_LANG_MENU: 
       return{
         ...state,
         displayMenu: true
+      }
+      case CLOSE_LANG_MENU: 
+      return{
+        ...state,
+        displayMenu: false
       }
     default:
       return state;

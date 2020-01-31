@@ -98,7 +98,6 @@ export const createCalendar = (title, id = uuid(), events = [], newSched = 1) =>
       type: CREATE_CALENDAR,
       payload: { calendar, title, id, calendarRef }
     });
-    popupAlert(t.schedule_added, t.well_done_schedule_was_added_successfully, 'regular');
   } else {
     return { calendar, title, id, calendarRef };
   }

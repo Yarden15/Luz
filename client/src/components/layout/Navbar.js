@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authActions';
 import AppLogo from '../../styles/assets/logo_white.png';
-import { defineLang, displayMenu } from '../../actions/literalActions';
+import { toggleLangMenu } from '../../actions/literalActions';
 import LangMenu from './LangMenu';
 
 const Navbar = props => {
@@ -30,12 +30,10 @@ const Navbar = props => {
           <i className='fas fa-info-circle'></i>{props.t.about}
         </Link>
       </li>
-      <li onClick={() => displayMenu()}>
-        <Link to='/'>
-          <i className='fas fa-globe'></i>{props.t.language}
-        </Link>
-        <LangMenu />
+      <li onClick={() => toggleLangMenu()} className="lang-btn">
+        <i className='fas fa-globe'></i>{props.t.language}
       </li>
+      <LangMenu class='connected'/>
       <li>
         <a onClick={onLogout} href='#!'>
           <i className='fas fa-sign-out-alt'></i>{props.t.logout}
@@ -51,10 +49,8 @@ const Navbar = props => {
           <i className='fas fa-info-circle'></i>{props.t.about}
         </Link>
       </li>
-      <li onClick={() => displayMenu()}>
-        <Link to='/'>
-          <i className='fas fa-globe'></i>{props.t.language}
-        </Link>
+      <li onClick={() => toggleLangMenu()} className="lang-btn" >
+        <i className='fas fa-globe'></i>{props.t.language}
       </li>
       <LangMenu />
       <li>

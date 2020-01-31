@@ -5,10 +5,16 @@ import { defineLang } from '../../actions/literalActions';
 const LangMenu = props => {
     if (props.display) {
         return (
-            <div id="lang-menu" className="triangle-isosceles">
+            <div id="lang-menu" className={`triangle-isosceles ${props.class}`}>
                 <ul>
-                    <li> <i className="fas fa-check" ></i> English </li>
-                    <li>{props.lang === 'he' && <i className="fas fa-check"></i>} עברית </li>
+                    <li onClick={() => { defineLang('en') }}>
+                        <i className="fas fa-check" style={{ visibility: props.lang === 'en' ? 'visible' : 'hidden' }}>
+                        </i> English
+                    </li>
+                    <li onClick={() => { defineLang('he') }}>
+                        <i className="fas fa-check" style={{ visibility: props.lang === 'he' ? 'visible' : 'hidden' }} >
+                        </i> עברית
+                    </li>
                 </ul>
             </div>
         );
