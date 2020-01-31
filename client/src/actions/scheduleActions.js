@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from './types';
+import { SET_LOADING_SCHED, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from './types';
 import Alert from "sweetalert2";
 import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
@@ -26,7 +26,6 @@ export const getSchedules = async () => {
     console.error(error)
   };
 }
-// schedules[res.date[key].sched_id] = createCalendar(res.data[key].title,res.data[key].id,res.data[key].events,0);
 
 const saveSchedule = async (sched_id, title, events) => {
   try {
@@ -127,7 +126,7 @@ const addEvent = (info, id) => {
     }
   })
 
-  //chackOnServer(event);
+  chackOnServer(event);
 }
 
 const saveButtonClicked = () => {
@@ -234,13 +233,13 @@ export const deleteAlert = schedule => {
   });
 }
 
-export const deleteSchedule = async(sched_id) => {
+export const deleteSchedule = async (sched_id) => {
   try {
     const res = await axios.delete(`/api/schedules/${sched_id}`);
     popupAlert('Schedule deleted', res.data, 'regular');
   } catch (error) {
     console.error(error)
-  };  
+  };
   store.dispatch({
     type: DELETE_SCHEDULE,
     payload: sched_id
@@ -257,22 +256,16 @@ const eventChanged = (info, schedId) => {
     payload: event
   });
 
-  //chackOnServer(event);
+  chackOnServer(event);
 }
 
 const chackOnServer = async event => {
-  let scedules = store.getState().schedule.schedules;
+  let schedules = castToArray(store.getState().schedule.schedules);
   try {
-    const res = await axios.get('', event, scedules);
-    store.dispatch({
-      type: 'STEP_CHECK',
-      payload: res.data
-    });
+    const res = await axios.post('/api/validations', { event, schedules });
+    updateStatus(res.data);
   } catch (error) {
-    store.dispatch({
-      type: 'EVENT_ERROR',
-      payload: error.response.data
-    });
+    console.error(error);
   }
 }
 
@@ -306,7 +299,10 @@ const createEventObj = (info, schedId, status) => {
       year: info.draggedEl.getAttribute('year'),
       startTime: getTimeFromEvent(info.event._instance.range.start),
       endTime: getTimeFromEvent(info.event._instance.range.end),
-      daysOfWeek: [info.event._instance.range.start.getDay()]
+      daysOfWeek: [info.event._instance.range.start.getDay()],
+      borderColor: 'black',
+      color: '',
+      textColor: 'white'
     };
   } else if (status === 'change') {
     event = {
@@ -323,14 +319,12 @@ const createEventObj = (info, schedId, status) => {
       location: info.event._def.extendedProps.location,
       startTime: getTimeFromEvent(info.event._instance.range.start),
       endTime: getTimeFromEvent(info.event._instance.range.end),
-      daysOfWeek: [info.event._instance.range.start.getDay()]
+      daysOfWeek: [info.event._instance.range.start.getDay()],
+      borderColor: 'black',
+      color: '',
+      textColor: 'white'
     };
-
-  } else if (status === 'jaslsjlasdkjdaslasdjas') {
-    chackOnServer();
   }
-
-
   return event;
 }
 
@@ -348,4 +342,52 @@ export const changeLangScheds = () => {
     payload: new_scheds
   })
 
+}
+
+const castToArray = (schedules) => {
+  let schedsArray = [];
+  for (let key in schedules) {
+    schedsArray.push({ title: schedules[key].title, id: schedules[key].id, events: schedules[key].calendar.props.children.props.events });
+  }
+
+  return schedsArray;
+}
+
+const updateStatus = (res) => {
+  if (res.type === 'error' || res.type === 'warning') {
+    popupAlert(res.type, res.msg, res.type);
+
+    //update events
+    store.dispatch({
+      type: 'UPDATE_EVENT',
+      payload: {
+        color: 'red',
+        id1: res.event1.eventId,
+        id2: res.event2.eventId,
+        sched1Id: res.sched1Id,
+        sched2Id: res.sched2Id
+      }
+    })
+  }
+  else {
+    store.dispatch({
+      type: 'UPDATE_EVENT',
+      payload: {
+        color: '',
+        id1: res.event1.eventId,
+        id2: res.event1.eventId,
+        sched1Id: res.sched1Id,
+        sched2Id: res.sched1Id
+      }
+    })
+  }
+  forceSchedsUpdate(store.getState().schedule.current);
+}
+
+export const searchAndUpdate = (state, id, schedId, color) => {
+  let length = state.schedules[schedId].calendar.props.children.props.events.length;
+  for (let i = 0; i < length; i++) {
+    if (state.schedules[schedId].calendar.props.children.props.events[i].eventId === id)
+      state.schedules[schedId].calendar.props.children.props.events[i].borderColor = color;
+  }
 }

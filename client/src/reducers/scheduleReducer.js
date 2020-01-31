@@ -1,5 +1,5 @@
 import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from '../actions/types';
-
+import {searchAndUpdate} from '../actions/scheduleActions';
 const initialState = {
   schedules: {},
   counter: 0,
@@ -32,8 +32,7 @@ export default (state = initialState, action) => {
       delete state.schedules[action.payload]
       return {
         ...state,
-        counter: state.counter + 1,
-        // current: state.schedules[Object.keys(state.schedules)[0]].id
+        counter: state.counter + 1
       }
     case ADD_EVENT:
       state.schedules[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);
@@ -79,7 +78,16 @@ export default (state = initialState, action) => {
         ...state,
         counter: state.counter + 1
       }
+    case 'UPDATE_EVENT':
+      searchAndUpdate(state, action.payload.id1, action.payload.sched1Id, action.payload.color);
+      searchAndUpdate(state, action.payload.id2, action.payload.sched2Id, action.payload.color);
+      return {
+        ...state,
+        counter: state.counter + 1,
+        schedules: state.schedules
+      }
     default:
       return { ...state };
   }
 }
+
