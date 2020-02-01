@@ -50,14 +50,14 @@ router.post(
       let user = await User.findOne({ email });
       // User does not exist
       if (!user) {
-        return res.status(400).json({ msg: 'Ivalid Credentials' });
+        return res.status(400).json({ msg: 'invalid_credentials' });
       }
       // User exists in db- now we will compare given password to the one stored
       // in our db, the compare method hash the given to compare.
       const isMatch = await bcrypt.compare(password, user.password);
       // Given password do not match to the one in db
       if (!isMatch) {
-        return res.status(400).json({ msg: 'Ivalid Credentials' });
+        return res.status(400).json({ msg: 'invalid_credentials' });
       }
       // Construct payload with the id in db
       const payload = {

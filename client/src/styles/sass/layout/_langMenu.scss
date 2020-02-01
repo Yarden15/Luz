@@ -1,0 +1,29 @@
+#lang-menu {
+  background: white;
+  color: black;
+  position: absolute;
+  padding: 40px;
+  text-align: center;
+  filter: drop-shadow(8px 8px 10px black);
+  border-radius: 20px;
+  margin-left: 20px;
+  li {
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+}
+
+.lang-btn {
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+
+.connected {
+  right: 110px;
+}

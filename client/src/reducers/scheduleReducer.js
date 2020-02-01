@@ -1,5 +1,5 @@
-import { GET_SCHEDULES, SET_LOADING, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED } from '../actions/types';
-
+import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from '../actions/types';
+import {searchAndUpdate} from '../actions/scheduleActions';
 const initialState = {
   schedules: {},
   counter: 0,
@@ -10,7 +10,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-
     case GET_SCHEDULES:
       return {
         ...state,
@@ -21,7 +20,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         current: action.payload.id,
-        schedules: { ...state.schedules, [action.payload.id]: action.payload }
+        schedules: { ...state.schedules, [action.payload.id]: action.payload },
+        loading: false
       }
     case SELECT_CALENDAR:
       return {
@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
       }
     case EVENT_CHANGED:
       state.schedules[action.payload.schedId].calendarRef.current.props.events.forEach(event => {
-        if (event.id === action.payload.eventId) {
+        if (event.eventId === action.payload.eventId) {
           event.endTime = action.payload.endTime;
           event.startTime = action.payload.startTime;
           event.daysOfWeek[0] = action.payload.daysOfWeek;
@@ -57,18 +57,37 @@ export default (state = initialState, action) => {
         ...state,
         schedules: copySchedsDeleteEvent
       }
-    case SET_LOADING:
+    case SET_LOADING_SCHED:
       return {
         ...state,
         loading: true
       };
     case SCHEDULE_ERROR:
-      console.error(action.payload);
       return {
         ...state,
         error: action.payload
       };
+    case CHANGE_LANG_SCHEDS:
+      return {
+        ...state,
+        schedules: action.payload
+      };
+    case RENAME_SCHED:
+      state.schedules[state.current].title = action.payload
+      return {
+        ...state,
+        counter: state.counter + 1
+      }
+    case 'UPDATE_EVENT':
+      searchAndUpdate(state, action.payload.id1, action.payload.sched1Id, action.payload.color);
+      searchAndUpdate(state, action.payload.id2, action.payload.sched2Id, action.payload.color);
+      return {
+        ...state,
+        counter: state.counter + 1,
+        schedules: state.schedules
+      }
     default:
       return { ...state };
   }
 }
+

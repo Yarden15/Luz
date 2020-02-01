@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
+import LoginAlert from './LoginAlert';
 
-const Login = props => {
+const Login = (props) => {
   // If there a change in the props down then we will use it
   useEffect(() => {
     // If the user has been authenticated- Redirect to home page
@@ -21,20 +22,22 @@ const Login = props => {
 
   const [user, setUser] = useState({
     email: '',
+    organization: '',
     password: ''
   });
 
-  const { email, password } = user;
+  const { email, organization, password } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
-    if (email === '' || password === '') {
+    if (email === '' || organization === '' || password === '') {
       console.log('empty fields');
     } else {
       login({
         email,
+        organization,
         password
       });
     }
@@ -43,12 +46,11 @@ const Login = props => {
   return (
     <div className='form-container'>
       <h1>
-        {' '}
-        Account <span className='text primary'>Login</span>
+        {props.t.account_login}
       </h1>
       <form onSubmit={onSubmit}>
-        <div className='form-group'>
-          <label htmlFor='email'>Email Address</label>
+        <div className={`form-group ${props.dir}`}>
+          <label htmlFor='email'>{props.t.email_address}</label>
           <input
             type='email'
             name='email'
@@ -56,8 +58,17 @@ const Login = props => {
             onChange={onChange}
           ></input>
         </div>
-        <div className='form-group'>
-          <label htmlFor='password'>Password</label>
+        <div className={`form-group ${props.dir}`}>
+          <label htmlFor='organization'>{props.t.organization}</label>
+          <input
+            type='organization'
+            name='organization'
+            value={organization}
+            onChange={onChange}
+          ></input>
+        </div>
+        <div className={`form-group ${props.dir}`}>
+          <label htmlFor='password'>{props.t.password}</label>
           <input
             type='password'
             name='password'
@@ -65,9 +76,10 @@ const Login = props => {
             onChange={onChange}
           ></input>
         </div>
+        <LoginAlert />
         <input
           type='submit'
-          value='Login'
+          value={props.t.login_button}
           className='btn btn-primary btn-block'
         />
       </form>
@@ -77,7 +89,9 @@ const Login = props => {
 
 const mapStateToProps = state => {
   return {
-    authObj: state.auth
+    authObj: state.auth,
+    t: state.literals.literals,
+    dir: state.literals.dir
   };
 };
 

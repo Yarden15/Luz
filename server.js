@@ -1,5 +1,6 @@
 // Bring in express
 const express = require('express');
+const path = require('path');
 const connectDB = require('./config/db');
 // Initialize express
 const app = express();
@@ -9,10 +10,15 @@ connectDB();
 
 // Init middleware
 app.use(express.json({ extended: false }));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
-app.get('/', (req, res) => res.json({ msg: 'Welcome to Luz API...' }));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/public/index.html'));
+});
 
 // Define Routes
+app.use('/api/schedules', require('./routes/schedules'));
+app.use('/api/validations', require('./routes/validations'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/performances', require('./routes/performances'));

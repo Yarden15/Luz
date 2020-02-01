@@ -1,15 +1,11 @@
-import {
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  USER_LOADED,
-  LOGOUT
-} from '../actions/types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   user: null,
-  error: null
+  error: null,
+  displayAlert: false
 };
 
 export default (state = initialState, action) => {
@@ -26,7 +22,8 @@ export default (state = initialState, action) => {
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
-        isAuthenticated: true
+        isAuthenticated: true,
+        displayAlert: false
       };
     case LOGIN_FAIL:
     case LOGOUT:
@@ -38,6 +35,16 @@ export default (state = initialState, action) => {
         user: null,
         error: action.payload
       };
+    case DISPLAY_ALERT:
+      return {
+        ...state,
+        displayAlert: true
+      }
+    case CLOSE_ALERT:
+      return {
+        ...state,
+        displayAlert: false
+      }
     default:
       return { ...state };
   }

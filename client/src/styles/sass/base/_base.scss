@@ -31,3 +31,20 @@ i {
 label {
   margin-bottom: 0;
 }
+
+.rtl {
+  text-align: right;
+}
+
+.ltr {
+  text-align: left;
+}
+
+#login-alert {
+  color: red;
+  padding-bottom: 5px;
+
+  i {
+    margin-right: 5px;
+  }
+}

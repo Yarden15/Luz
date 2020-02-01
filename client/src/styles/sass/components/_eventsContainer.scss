@@ -2,6 +2,7 @@
   position: fixed;
   padding: 10px;
   margin-left: .5rem;
+  width: 300px;
 
   p {
     text-align: center;
@@ -28,5 +29,9 @@
   &>div {
     margin-top: 4px;
   }
+}
+
+.fc-time-grid .fc-event, .fc-time-grid .fc-bgevent {
+  border: solid 1.5px;
 }
 
