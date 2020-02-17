@@ -7,13 +7,13 @@ const LoginAlert = props => {
         if (props.dir === 'ltr') {
             return (
                 <div id="login-alert" className={`${props.dir}`}>
-                    <i className="fas fa-exclamation-triangle"></i> {props.msg}
+                    <i className="fas fa-exclamation-triangle"></i> {props.t[props.msg]}
                 </div>
             )
         } else {
             return (
                 <div id="login-alert" className={`${props.dir}`}>
-                    {props.msg} <i className="fas fa-exclamation-triangle"></i>
+                    {props.t[props.msg]} <i className="fas fa-exclamation-triangle"></i>
                 </div>
             )
         }

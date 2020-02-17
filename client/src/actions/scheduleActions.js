@@ -278,8 +278,10 @@ const getTimeFromEvent = (time) => {
 }
 
 const forceSchedsUpdate = (id) => {
+  var t = window.scrollY;
   selectCalendar(null);
   selectCalendar(id);
+  window.scrollTo(0, t);
 }
 
 const createEventObj = (info, schedId, status) => {
