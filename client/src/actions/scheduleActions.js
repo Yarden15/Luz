@@ -31,7 +31,7 @@ const saveSchedule = async (sched_id, title, events) => {
   try {
     const res = await axios.post('/api/schedules', { sched_id, title, events });
 
-    popupAlert('Congratulations!', res.data, 'regular');
+    popupAlert('congratulations', res.data, 'regular');
   } catch (error) {
     console.error(error)
   }
@@ -97,6 +97,7 @@ export const createCalendar = (title, id = uuid(), events = [], newSched = 1) =>
       type: CREATE_CALENDAR,
       payload: { calendar, title, id, calendarRef }
     });
+    // popupAlert('congratulations', 'new_schedule_successfully_added','regular');
   } else {
     return { calendar, title, id, calendarRef };
   }
@@ -128,7 +129,7 @@ const addEvent = (info, id) => {
 
   chackOnServer(event);
 }
-
+//this method works when the user clicks on the save button
 const saveButtonClicked = () => {
   let current = store.getState().schedule.current;
   let schedule = store.getState().schedule.schedules[current];
@@ -236,7 +237,7 @@ export const deleteAlert = schedule => {
 export const deleteSchedule = async (sched_id) => {
   try {
     const res = await axios.delete(`/api/schedules/${sched_id}`);
-    popupAlert('Schedule deleted', res.data, 'regular');
+    popupAlert('schedule_deleted', res.data, 'regular');
   } catch (error) {
     console.error(error)
   };

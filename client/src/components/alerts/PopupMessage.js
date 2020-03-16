@@ -9,8 +9,8 @@ const PopupMessage = props => {
     return (
       <div id='popup-container' className={`popup-msg msg-${props.type} ${props.dir}`}>
         <i className="fas fa-times" onClick={closePopup}></i>
-        <h4>{props.title}</h4>
-        <div>{props.msg}</div>
+        <h4>{props.t[props.title]}</h4>
+        <div>{props.t[props.msg]}</div>
       </div>
     )
   }
@@ -25,7 +25,8 @@ const mapStateToProps = state => {
     title: state.alerts.title,
     msg: state.alerts.msg,
     type: state.alerts.type,
-    dir: state.literals.dir
+    dir: state.literals.dir,
+    t: state.literals.literals,
   };
 };
 

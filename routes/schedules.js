@@ -84,10 +84,10 @@ router.post(
       // If there is already a user with the email that entered
       if (sched) {
         await Schedule.updateOne({ sched_id: sched_id }, { $set: { events: events, title: title } });
-        res.send('Schedule successfully saved');
+        res.send('schedule_successfully_saved');
       } else {
         await newSchedule.save();
-        res.send('New schedule successfully saved');
+        res.send('new_schedule_successfully_saved');
       }
     } catch (err) {
       console.error(err.message);
@@ -108,7 +108,7 @@ router.delete('/:id', authorization, async (req, res) => {
     // Remove the schedule from db
     await Schedule.deleteOne({ sched_id: req.params.id });
     // Response- msg to indicate that schedule has been removed
-    res.send('Schedule successfully deleted');
+    res.send('schedule_successfully_deleted');
   }
   catch (err) {
     console.error(err.message);
