@@ -4,7 +4,6 @@ import FullCalendar from '@fullcalendar/react';
 import interactionPlugin from '@fullcalendar/interaction' // needed for dayClick
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import allLocales from '@fullcalendar/core/locales-all';
 import React from 'react';
 import axios from 'axios';
 import store from '../store';
@@ -88,7 +87,6 @@ export const createCalendar = (title, id = uuid(), events = [], newSched = 1) =>
       eventLimit={true}
       eventClick={eventClick}
       events={events}
-      locales={allLocales}
       locale={store.getState().literals.lang}
       dir={store.getState().literals.dir} />
   </div>
@@ -97,7 +95,6 @@ export const createCalendar = (title, id = uuid(), events = [], newSched = 1) =>
       type: CREATE_CALENDAR,
       payload: { calendar, title, id, calendarRef }
     });
-    // popupAlert('congratulations', 'new_schedule_successfully_added','regular');
   } else {
     return { calendar, title, id, calendarRef };
   }
@@ -127,7 +124,7 @@ const addEvent = (info, id) => {
     }
   })
 
-  chackOnServer(event);
+  checkOnServer(event);
 }
 //this method works when the user clicks on the save button
 const saveButtonClicked = () => {
@@ -165,9 +162,12 @@ export const eventClick = eventClick => {
     if (result.value) {
       store.dispatch({
         type: DELETE_EVENT,
-        payload: { sched_id: eventClick.event._calendar.component.context.options.id, event_id: eventClick.event.id }
+        payload: {
+          sched_id: eventClick.event._calendar.component.context.options.id,
+          event_id: eventClick.event._def.extendedProps.eventId
+        }
       })
-      eventClick.event.remove(); // It will remove event from the calendar
+      forceSchedsUpdate(store.getState().schedule.current);
       Alert.fire(t.deleted, t.the_event_has_been_deleted, "success");
     }
   });
@@ -257,14 +257,16 @@ const eventChanged = (info, schedId) => {
     payload: event
   });
 
-  chackOnServer(event);
+  checkOnServer(event);
+  forceSchedsUpdate(store.getState().schedule.current);
 }
 
-const chackOnServer = async event => {
+const checkOnServer = async event => {
   let schedules = castToArray(store.getState().schedule.schedules);
   try {
     const res = await axios.post('/api/validations', { event, schedules });
-    updateStatus(res.data);
+    if (res.data.event1 !== undefined && res.data.event2 !== undefined)
+      updateStatus(res.data);
   } catch (error) {
     console.error(error);
   }
@@ -304,10 +306,12 @@ const createEventObj = (info, schedId, status) => {
       endTime: getTimeFromEvent(info.event._instance.range.end),
       daysOfWeek: [info.event._instance.range.start.getDay()],
       borderColor: 'black',
-      color: '',
+      color: info.draggedEl.getAttribute('backgroundcolor'),
       textColor: 'white'
     };
   } else if (status === 'change') {
+    let start = getTimeFromEvent(info.event._instance.range.start);
+    start < "07:00" ? start = "07:00" : start = getTimeFromEvent(info.event._instance.range.start);
     event = {
       schedId,
       eventId: info.event._def.extendedProps.eventId,
@@ -320,14 +324,15 @@ const createEventObj = (info, schedId, status) => {
       course_hours: info.event._def.extendedProps.course_hours,
       year: info.event._def.extendedProps.year,
       location: info.event._def.extendedProps.location,
-      startTime: getTimeFromEvent(info.event._instance.range.start),
+      startTime: start,
       endTime: getTimeFromEvent(info.event._instance.range.end),
       daysOfWeek: [info.event._instance.range.start.getDay()],
       borderColor: 'black',
-      color: '',
+      color: info.event._def.extendedProps.backgroundColor,
       textColor: 'white'
     };
   }
+
   return event;
 }
 

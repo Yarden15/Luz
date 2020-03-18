@@ -19,12 +19,12 @@ router.get('/', authorization, async (req, res) => {
       .populate({
         path: 'performance',
         model: Performance,
-        select: 'serial_num title location'
+        select: 'serial_num title location semester year'
       })
       .populate({
         path: 'user',
         model: User,
-        select: 'id_number first_name last_name'
+        select: 'id_number first_name last_name color'
       });
 
     // Response- events in table
