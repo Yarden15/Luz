@@ -1,7 +1,6 @@
 {
   "about": "אודות",
   "home": "בית",
-  "user_settings": "הגדרות משתמש",
   "logout": "יציאה",
   "login": "כניסה",
   "login_button": "כניסה לחשבון שלי",
@@ -34,5 +33,10 @@
   "new_schedule_successfully_saved": "לוח זמנים חדש נשמר בהצלחה",
   "schedule_successfully_deleted": "לוח הזמנים נמחק בהצלחה",
   "schedule_deleted": "לוח הזמנים נמחק",
-  "new_schedule_successfully_added": "לוח הזמנים נוסף בהצלחה"
+  "new_schedule_successfully_added": "לוח הזמנים נוסף בהצלחה",
+  "create_user": "צור מתשמש",
+  "my_schedule": "מערכת השעות שלי",
+  "create_course": "צור קורס",
+  "user_settings": "הגדרות משתמש",
+  "message_board": "לוח מודעות"
 }

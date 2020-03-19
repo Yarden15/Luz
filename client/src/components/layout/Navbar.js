@@ -21,11 +21,6 @@ const Navbar = props => {
         </Link>
       </li>
       <li>
-        <Link to='/settings'>
-          <i className='fas fa-user-cog'></i>{props.t.user_settings}
-        </Link>
-      </li>
-      <li>
         <Link to='/about'>
           <i className='fas fa-info-circle'></i>{props.t.about}
         </Link>

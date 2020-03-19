@@ -44,3 +44,11 @@ label {
 .container {
   margin-top: 75px;
 }
+
+.center {
+  transform: translateX(50%);
+}
+
+dl, ol, ul {
+  margin-bottom: 0;
+}
