@@ -26,5 +26,13 @@
   "well_done_schedule_was_added_successfully": "כל הכבוד, לוח השנה נוסף בהצלחה",
   "invalid_credentials": "הנתונים שהוזנו שגויים",
   "save": "שמור",
-  "rename": "שינוי שם"
+  "rename": "שינוי שם",
+  "events_colide": "יש התנגשות בין שני אירועים",
+  "error": "שגיאה",
+  "congratulations": "כל הכבוד",
+  "schedule_successfully_saved": "לוח הזמנים נשמר בהצלחה",
+  "new_schedule_successfully_saved": "לוח זמנים חדש נשמר בהצלחה",
+  "schedule_successfully_deleted": "לוח הזמנים נמחק בהצלחה",
+  "schedule_deleted": "לוח הזמנים נמחק",
+  "new_schedule_successfully_added": "לוח הזמנים נוסף בהצלחה"
 }

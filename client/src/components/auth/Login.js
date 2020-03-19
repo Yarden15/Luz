@@ -11,7 +11,7 @@ const Login = (props) => {
       props.history.push('/');
     }
     // If there is an error add to the state
-    if (props.authObj.error === 'Ivalid Credentials') {
+    if (props.authObj.error === 'Invalid Credentials') {
       // setAlert(error, 'danger');
       // clearErrors();
       console.log('Invalid Credentials');

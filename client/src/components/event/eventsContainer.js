@@ -8,7 +8,7 @@ export class eventsContainer extends Component {
 
   componentDidMount() {
     let draggableEl = document.getElementById('external-events');
-    getEvents('123456789');
+    getEvents();
     new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {
@@ -23,6 +23,7 @@ export class eventsContainer extends Component {
         let location = eventEl.getAttribute('location');
         let course_hours = eventEl.getAttribute('course_hours');
         let year = eventEl.getAttribute('year');
+        let backgroundColor = eventEl.getAttribute('backgroundColor');
 
         //the info that retrun from the events into the container to the events that dragging to the schedule
         return {
@@ -35,7 +36,8 @@ export class eventsContainer extends Component {
           semester,
           location,
           course_hours,
-          year
+          year,
+          backgroundColor
         };
       }
     });
@@ -58,7 +60,7 @@ export class eventsContainer extends Component {
           </p>
           <div>
             {this.props.eventObj.events.map(event => (
-              <div
+              <div  style={{backgroundColor : event.user.color}}
                 className='fc-event draggable'
                 title={event.performance.title}
                 id={event.performance._id}
@@ -71,6 +73,7 @@ export class eventsContainer extends Component {
                 semester={event.performance.semester}
                 course_hours={event.performance.course_hours}
                 year={event.performance.year}
+                backgroundcolor={event.user.color}
               >
                 <div>{event.performance.title} - {event.user.first_name} {event.user.last_name}</div>
             <div>

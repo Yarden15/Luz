@@ -1,7 +1,7 @@
 #external-events {
   position: fixed;
   padding: 10px;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
   width: 300px;
 
   p {
@@ -9,7 +9,7 @@
     font-size: 2rem;
   }
 
-  &>div {
+  & > div {
     overflow: auto;
     height: 400px;
     width: 300px;
@@ -25,13 +25,22 @@
   margin-bottom: 5px;
   width: 250px;
   text-align: center;
+  cursor: pointer;
 
-  &>div {
+  &:hover {
+    background-color: $nav_background;
+  }
+
+  & > div {
     margin-top: 4px;
   }
 }
 
-.fc-time-grid .fc-event, .fc-time-grid .fc-bgevent {
+.fc-time-grid .fc-event,
+.fc-time-grid .fc-bgevent {
   border: solid 1.5px;
-}
 
+  &:hover {
+    background-color: $nav_background;
+  }
+}

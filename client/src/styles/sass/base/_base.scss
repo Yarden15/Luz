@@ -27,6 +27,7 @@ ul {
 
 i {
   margin: 0 5px;
+  cursor: pointer;
 }
 label {
   margin-bottom: 0;
@@ -40,11 +41,6 @@ label {
   text-align: left;
 }
 
-#login-alert {
-  color: red;
-  padding-bottom: 5px;
-
-  i {
-    margin-right: 5px;
-  }
+.container {
+  margin-top: 75px;
 }

@@ -1,5 +1,5 @@
 import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from '../actions/types';
-import {searchAndUpdate} from '../actions/scheduleActions';
+import { searchAndUpdate } from '../actions/scheduleActions';
 const initialState = {
   schedules: {},
   counter: 0,
@@ -52,7 +52,10 @@ export default (state = initialState, action) => {
       }
     case DELETE_EVENT:
       const copySchedsDeleteEvent = state.schedules;
-      copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.pop(action.payload.event_id);
+      const id = (event) => event.eventId === action.payload.event_id;
+      const index = copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.findIndex(id);
+      if (index > -1)
+        copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.splice(index,1);
       return {
         ...state,
         schedules: copySchedsDeleteEvent
