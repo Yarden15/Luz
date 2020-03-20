@@ -1,7 +1,6 @@
 {
   "about": "About",
   "home": "Home",
-  "user_settings": "User Settings",
   "logout": "Logout",
   "login": "Login",
   "login_button": "Login",
@@ -34,5 +33,10 @@
   "new_schedule_successfully_saved": "New schedule successfully saved",
   "schedule_successfully_deleted": "Schedule successfully deleted",
   "schedule_deleted": "Schedule deleted",
-  "new_schedule_successfully_added": "New schedule successfully added"
+  "new_schedule_successfully_added": "New schedule successfully added",
+  "create_user": "Create User",
+  "my_schedule": "My Schedule",
+  "create_course": "Create Course",
+  "user_settings": "User Settings",
+  "message_board": "Message Board"
 }

@@ -6,6 +6,7 @@ import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
+import CoursePlacementPage from './components/pages/CoursePlacementPage';
 import Settings from './components/pages/Settings';
 import history from './utils/history';
 import setAuthToken from './utils/setAuthToken';
@@ -28,6 +29,7 @@ const App = () => {
             <Route exact path='/login' component={Login} history={history} />
             <PrivateRoute exact path='/' component={Home} />
             <PrivateRoute exact path='/settings' component={Settings} />
+            <PrivateRoute exact path='/placement' component={CoursePlacementPage} />
             <Route exact path='/about' component={About} />
           </Switch>
         </div>

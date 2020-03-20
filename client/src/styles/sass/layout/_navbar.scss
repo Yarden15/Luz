@@ -21,7 +21,6 @@
   li {
     display: inline;
     padding-left: 10px;
-    top: 7px;
     position: relative;
   }
 
@@ -31,7 +30,7 @@
     -webkit-appearance: textarea;
 
     &:hover {
-      color: var(--light-color);
+      color: #e8f3ff;
     }
   }
 

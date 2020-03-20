@@ -1,45 +1,18 @@
 .menu {
+  background-image: linear-gradient(100deg, $nav_background, $sec_nav_background);
   color: white;
+  height: fit-content;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 2rem;
-  z-index: 1;
-  width: 100%;
-  border-bottom: solid 1px black;
-  opacity: 0.9;
-  margin-bottom: 1rem;
-  background: #3788d8;
-  border-radius: 10px;
-}
-.menu li {
-  float: left;
-  padding-left: 150px;
-  padding-right: 18px;
-  border-right: 1px solid #000;
-}
+  margin: 15px auto;
+  max-width: fit-content;
+  border-radius: 25px;
+  font-size: 15px;
 
-.menu li:last-child {
-  border-right: none;
-}
+  li {
+    padding: 10px 15px;
 
-.menu ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-.menu .welcome span {
-  margin-right: 0.6rem;
-}
-.menu a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.menu a:hover {
-  color: blue;
+    a:hover {
+      color: #e8f3ff;
+    }
+  }
 }
