@@ -2,6 +2,7 @@ import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, AUTH_ERROR, LOGOUT, DISPLAY_ALE
 import store from '../store';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
+import { popupAlert } from './alertsActions';
 
 
 // Load User
@@ -62,15 +63,9 @@ const closeAlert = () => {
 
 export const register = async FormData => {
   console.log(FormData)
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
   try {
-    const res = await axios.post('/api/auth/register', FormData, config);
-    console.log(FormData);
+    const res = await axios.post('/api/users/', FormData);
   } catch (err) {
-    console.log(FormData);
+
   }
 };

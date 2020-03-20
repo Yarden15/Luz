@@ -7,9 +7,9 @@ const CreateUser = props => {
 
   const [user, setUser] = useState(
     {
-      id: '',
-      firstName: '',
-      lastName: '',
+      id_number: '',
+      first_name: '',
+      last_name: '',
       email: '',
       password: '',
       password2: '',
@@ -17,24 +17,24 @@ const CreateUser = props => {
     }
   );
 
-  const { firstName, lastName, id, color, email, password, password2, admin = 'false', scheduler = 'false', lecturer = 'false' } = user;
+  const { first_name, last_name, id_number, color, email, password, password2, manager = 'false', scheduler = 'false', lecturer = 'false' } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
-    if (firstName === '' || lastName === '' || id === '' || color === '' || email === '' || password === '' || password2 === '') {
+    if (first_name === '' || last_name === '' || id_number === '' || color === '' || email === '' || password === '' || password2 === '') {
       console.log('empty fields')
     } else if (password !== password2) {
       console.log('different passwords')
     } else {
       register({
-        id,
-        firstName,
-        lastName,
+        id_number,
+        first_name,
+        last_name,
         email,
         password,
-        admin,
+        manager,
         scheduler,
         lecturer,
         color
@@ -62,8 +62,8 @@ const CreateUser = props => {
           <label htmlFor='name'>First Name</label>
           <input
             type='text'
-            name='firstName'
-            value={firstName}
+            name='first_name'
+            value={first_name}
             onChange={onChange}
             required
           ></input>
@@ -72,8 +72,8 @@ const CreateUser = props => {
           <label htmlFor='name'>Last Name</label>
           <input
             type='text'
-            name='lastName'
-            value={lastName}
+            name='last_name'
+            value={last_name}
             onChange={onChange}
             required
           ></input>
@@ -101,11 +101,11 @@ const CreateUser = props => {
           ></input>
         </div>
         <div className='form-group'>
-          <label htmlFor='id'>ID</label>
+          <label htmlFor='id_number'>ID</label>
           <input
             type='text'
-            name='id'
-            value={id}
+            name='id_number'
+            value={id_number}
             onChange={onChange}
             required
           ></input>
@@ -121,8 +121,8 @@ const CreateUser = props => {
           ></input>
         </div>
         <div className='form-group'>
-          <label htmlFor='admin'>Admin</label>
-          <select id="admin" name="admin" onChange={onChange}>
+          <label htmlFor='manager'>Manager</label>
+          <select id="manager" name="manager" onChange={onChange}>
             <option value={false}>No</option>
             <option value={true}>Yes</option></select>
         </div>
