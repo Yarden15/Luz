@@ -5,6 +5,10 @@ const TimeTableSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'performances'
   },
+  organization: {
+    type: String,
+    required: true
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'

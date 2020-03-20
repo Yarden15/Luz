@@ -21,7 +21,7 @@ module.exports = async function(req, res, next) {
     let user = await User.findById(req.user.id).select('manager scheduler');
 
     // The user isnt a 'Manager'
-    if (user.manager !== true) {
+    if (user.manager !== true && user.scheduler !== true) {
       return res.status(401).json({ msg: 'Not Authorize' });
     }
 

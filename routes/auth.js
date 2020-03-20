@@ -32,6 +32,7 @@ router.post(
   [
     // Validations intialize for email & password
     check('email', 'Please include a valid email').isEmail(),
+    check('organization', 'Please include an Organization name').exists(),
     check('password', 'Please enter a password').exists()
   ],
   async (req, res) => {
@@ -42,12 +43,15 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     // Destruct the user name(email) and password from request body
-    const { email, password } = req.body;
+    const { email, organization, password } = req.body;
 
     // Try catch for a Promise
     try {
       // Find a user in db by email
-      let user = await User.findOne({ email });
+      let user = await User.findOne({
+        email,
+        organization
+      });
       // User does not exist
       if (!user) {
         return res.status(400).json({ msg: 'invalid_credentials' });

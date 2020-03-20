@@ -5,6 +5,10 @@ const PerformTimeSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'timeTables'
   },
+  organization: {
+    type: String,
+    required: true
+  },
   is_course: {
     type: Boolean,
     required: true

@@ -8,6 +8,10 @@ const UserSchema = mongoose.Schema({
       ref: 'performances'
     }
   ],
+  organization: {
+    type: String,
+    required: true
+  },
   id_number: {
     type: String,
     required: true
@@ -30,7 +34,19 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  role: {
+  manager: {
+    type: Boolean,
+    default: false
+  },
+  scheduler: {
+    type: Boolean,
+    default: false
+  },
+  lecturer: {
+    type: Boolean,
+    default: false
+  },
+  color: {
     type: String,
     required: true
   },

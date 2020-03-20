@@ -13,10 +13,14 @@ const Performance = require('../models/Performance');
 // @access  Private- Managers
 router.get('/', authorization, async (req, res) => {
   try {
+    // Pull the organization of manager to know what organization field for UserSchema
+    let user = await User.findById(req.user.id).select('organization');
     // Get all the preformances in db
-    const performance = await Performance.find({});
+    const performances = await Performance.find({
+      organization: user.organization
+    });
     // Response- performances of all users
-    res.json(performance);
+    res.json(performances);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -72,9 +76,13 @@ router.post(
     } = req.body;
 
     try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let user = await User.findById(req.user.id).select('organization');
+
       // Create new ModelSchema of performance
       const newPerformance = new Performance({
         serial_num,
+        organization: user.organization,
         title,
         year,
         semester,
@@ -92,7 +100,6 @@ router.post(
     }
   }
 );
-
 // @route   PUT api/Performance/:id
 // @desc    Update Performance by id
 // @access  Private- only manager
@@ -125,6 +132,15 @@ router.put('/:id', authorization, async (req, res) => {
     if (!performance)
       return res.status(404).json({ msg: 'Performance not found' });
 
+    // Pull the organization of manager to know what organization field for performanceSchema
+    let user = await User.findById(req.user.id).select('organization');
+
+    //  The manager not authorize to change the specific performance requested
+    if (user.organization !== performance.organization) {
+      res
+        .status(401)
+        .json({ msg: 'Not allowed to change performance detailes' });
+    }
     // Promise- return an id of the performance to change if not exist
     // add this new performance
     performance = await Performance.findByIdAndUpdate(
@@ -151,11 +167,14 @@ router.delete('/:id', authorization, async (req, res) => {
     if (!performance)
       return res.status(404).json({ msg: 'Performance not found' });
 
-    // The user isnt a 'Admin' or 'Manager'
-    if (req.user.role !== 'Admin' || req.user.role !== 'Manager') {
-      return res
-        .status(401)
-        .json({ msg: 'Not Authorize to delete performance' });
+    // Pull the organization of manager to know what organization field for UserSchema
+    let user = await User.findById(req.user.id).select('organization');
+
+    //  The manager not authorize to change the specific user requested
+    if (user.organization !== performance.organization) {
+      res.status(401).json({
+        msg: 'Not allowed to delete performance- not the same organization'
+      });
     }
 
     // Promise- find the Performance and remove it from db

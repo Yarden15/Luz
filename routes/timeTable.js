@@ -14,8 +14,11 @@ const Performance = require('../models/Performance');
 // @access  Private- Admin & Managers
 router.get('/', authorization, async (req, res) => {
   try {
+    // Pull the organization of manager for validation
+    let user = await User.findById(req.user.id).select('organization');
+
     // Get all the timeTable events
-    const timeTable = await TimeTable.find({})
+    const timeTable = await TimeTable.find({ organization: user.organization })
       .populate({
         path: 'performance',
         model: Performance,
@@ -74,17 +77,39 @@ router.post(
     // Pull from the req.body the fields to create new Event
     const { id_number, serial_num, group_name } = req.body;
 
+    // Build constraint object
+    const timeTableFields = {};
+    if (group_name) timeTableFields.group_name = group_name;
+
     try {
+      // Pull the organization of manager for validation
+      let man = await User.findById(req.user.id).select('organization');
+
       // Find user ID in DB to create the Event correctly
       let user = await User.findOne({ id_number: id_number });
       // User not exist
       if (!user) return res.status(404).json({ msg: 'User not found' });
+      // Validate user and manager in the same organization
+      if (user.organization !== man.organization)
+        return res
+          .status(401)
+          .json({ msg: 'Cannot handle that user- not the same organization' });
+
       // Find performance ID in DB to create the Event correctly
       let performance = await Performance.findOne({ serial_num: serial_num });
       // Performance not exist
       if (!performance)
         return res.status(404).json({ msg: 'Performance not found' });
+      // Validate user and manager in the same organization
+      if (performance.organization !== man.organization)
+        return res.status(401).json({
+          msg: 'Cannot handle that performance- not the same organization'
+        });
 
+      // Initial the timeTable fields by the _id's and relevant organization
+      timeTableFields.user = user._id;
+      timeTableFields.performance = performance._id;
+      timeTableFields.organization = man.organization;
       // Update in the array of courses in user Model the new course
       await User.update(
         { _id: user._id },
@@ -94,11 +119,7 @@ router.post(
       );
 
       // Create new ModelSchema of event timeTable
-      const newTimeTable = new TimeTable({
-        performance: performance._id,
-        user: user._id,
-        group_name
-      });
+      const newTimeTable = new TimeTable(timeTableFields);
 
       // Promise- save performance to db
       const timeTable = await newTimeTable.save();

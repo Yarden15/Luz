@@ -6,6 +6,10 @@ const ConstraintSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'
   },
+  organization: {
+    type: String,
+    required: true
+  },
   day: {
     type: String,
     required: true

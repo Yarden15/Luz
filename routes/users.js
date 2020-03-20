@@ -47,11 +47,17 @@ router.post(
       last_name,
       email,
       password,
-      role
+      manager,
+      scheduler,
+      lecturer,
+      color
     } = req.body;
 
     // Try catch for a Promise
     try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let man = await User.findById(req.user.id).select('organization');
+
       // Check if there another user that have been created with the same email
       let user = await User.findOne({ email: email });
 
@@ -63,11 +69,15 @@ router.post(
       // Create an instance of User according to the fields in body
       user = new User({
         id_number,
+        organization: man.organization,
         first_name,
         last_name,
         email,
         password,
-        role
+        manager,
+        scheduler,
+        lecturer,
+        color
       });
 
       // Initialize salt (Part of bcrypt protocol to Hash)
@@ -94,8 +104,13 @@ router.get(
   async (req, res) => {
     // Try catch for a Promise
     try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let man = await User.findById(req.user.id).select('organization');
+
       // Get all users in db
-      const users = await User.find({}).sort({ date: -1 });
+      const users = await User.find({ organization: man.organization }).sort({
+        date: -1
+      });
       res.json(users);
     } catch (err) {
       console.error(err.message);
@@ -103,30 +118,36 @@ router.get(
     }
   }
 );
-// @route   GET api/users/:id
+// @route   GET api/users/details
 // @desc    Get current User detailes
 // @access  Private
 router.get(
-  '/',
+  '/details',
   // Middleware- Authorization function that gives acces to relevant users (manager)
   auth,
   async (req, res) => {
     // Try catch for a Promise
     try {
-      // Get all users in db
-      const users = await User.find({}).sort({ date: -1 });
-      res.json(users);
+      // Pull the organization of manager to know what organization field for UserSchema
+      let user = await User.findById(req.user.id).select(
+        '-password -performances -color'
+      );
+
+      // User no exist- offcourse it in case of direct req to backend
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      res.json(user);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
     }
   }
 );
-// @route   PUT api/users/:id
-// @desc    Update password
+// @route   PUT api/users/details
+// @desc    Update user information (Only password for now)
 // @access  Private
 router.put(
-  '/:id',
+  '/details',
   [
     auth,
     [
@@ -147,14 +168,15 @@ router.put(
     const { password } = req.body;
 
     try {
-      let user = await User.findById(req.params.id);
+      // Pull the organization of manager to know what organization field for UserSchema
+      let user = await User.findById(req.user.id);
 
       if (!user) return res.status(404).json({ msg: 'User not found' });
 
-      // Make sure user try to change his own password
-      if (user._id.toString() !== req.user.id) {
-        return res.status(401).json({ msg: 'Not authorized' });
-      }
+      // // Make sure user try to change his own password
+      // if (user._id.toString() !== req.user.id) {
+      //   return res.status(401).json({ msg: 'Not authorized' });
+      // }
 
       // Initialize salt (Part of bcrypt protocol to Hash)
       const salt = await bcrypt.genSalt(10);
@@ -163,7 +185,7 @@ router.put(
 
       // Update in the array of courses in user Model the new course
       await User.update(
-        { _id: req.params.id },
+        { _id: req.user.id },
         {
           $set: { password: hashPass }
         }
@@ -176,7 +198,6 @@ router.put(
     }
   }
 );
-
 // @route   PUT api/users/manage
 // @desc    Update password
 // @access  Private
@@ -205,7 +226,10 @@ router.put(
       last_name,
       email,
       password,
-      role
+      manager,
+      scheduler,
+      lecturer,
+      color
     } = req.body;
 
     // Build user object
@@ -215,12 +239,23 @@ router.put(
     if (last_name) userFields.last_name = last_name;
     if (email) userFields.email = email;
     // Password will insert later if exist
-    if (role) userFields.role = role;
+    if (manager) userFields.manager = manager;
+    if (scheduler) userFields.scheduler = scheduler;
+    if (lecturer) userFields.lecturer = lecturer;
+    if (color) userFields.color = color;
 
     try {
       let user = await User.findById(req.params.id);
 
       if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      // Pull the organization of manager to know what organization field for UserSchema
+      let man = await User.findById(req.user.id).select('organization');
+
+      //  The manager not authorize to change the specific user requested
+      if (user.organization !== man.organization) {
+        res.status(401).json({ msg: 'Not allowed to change user detailes' });
+      }
 
       // Id there is intend to change password
       if (password) {
