@@ -13,7 +13,7 @@ const Menu = props => {
   //   The Navbar will look diffrent if the user is Authenticated to site
   const AdminLinks = (
     <Fragment>
-      <li> <Link to='/'>{props.t.create_user}</Link></li>
+      <li> <Link to='/createuser'>{props.t.create_user}</Link></li>
       <li> <Link to='/'>{props.t.create_course}</Link></li>
     </Fragment>
   );

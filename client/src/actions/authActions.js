@@ -59,3 +59,18 @@ const displayAlert = () => {
 const closeAlert = () => {
   store.dispatch({ type: CLOSE_ALERT });
 }
+
+export const register = async FormData => {
+  console.log(FormData)
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  try {
+    const res = await axios.post('/api/auth/register', FormData, config);
+    console.log(FormData);
+  } catch (err) {
+    console.log(FormData);
+  }
+};
