@@ -45,10 +45,38 @@ label {
   margin-top: 75px;
 }
 
+.text-center {
+  text-align: center;
+}
 .center {
   transform: translateX(50%);
 }
 
-dl, ol, ul {
+dl,
+ol,
+ul {
   margin-bottom: 0;
 }
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+td,
+th {
+  padding: 0 10px;
+}
+tr:nth-child(even) {
+  background-color: white;
+}
+
+thead, tbody { display: block;
+width: 100% }
+
+tbody {
+    height: 250px;      
+    overflow-y: auto;   
+    overflow-x: hidden;  
+}
+

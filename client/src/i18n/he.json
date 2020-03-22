@@ -34,7 +34,7 @@
   "schedule_successfully_deleted": "לוח הזמנים נמחק בהצלחה",
   "schedule_deleted": "לוח הזמנים נמחק",
   "new_schedule_successfully_added": "לוח הזמנים נוסף בהצלחה",
-  "create_user": "צור מתשמש",
+  "create_user": "צור משתמש",
   "my_schedule": "מערכת השעות שלי",
   "create_course": "צור קורס",
   "user_settings": "הגדרות משתמש",
@@ -66,5 +66,6 @@
   "summer": "קיץ",
   "course_hours": "שעות קורס",
   "location": "מיקום",
-  "empty_fields_error": "נא למלא את כל השדות"
+  "empty_fields_error": "נא למלא את כל השדות",
+  "adjusting_lecturer_for_course": "שיוך מרצה לקורס"
 }

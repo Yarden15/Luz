@@ -113,7 +113,6 @@ const CreateCourse = (props) => {
 
 const mapStateToProps = state => {
   return {
-    authObj: state.auth,
     t: state.literals.literals,
     dir: state.literals.dir
   };

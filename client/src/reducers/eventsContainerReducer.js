@@ -2,6 +2,8 @@ import { GET_EVENTS, SET_LOADING, EVENT_ERROR } from '../actions/types';
 
 const initialState = {
   events: [],
+  users: [],
+  courses: [],
   loading: false,
   error: null
 };
