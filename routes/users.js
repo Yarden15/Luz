@@ -63,7 +63,7 @@ router.post(
 
       // If there is already a user with the email that entered
       if (user) {
-        return res.status(400).json({ msg: 'User already exists' });
+        return res.status(400).json('user_already_exists');
       }
 
       // Create an instance of User according to the fields in body
@@ -87,7 +87,7 @@ router.post(
       // Save user to Data Base
       await user.save();
       // Response msg
-      res.json({ msg: 'User added to Data Base' });
+      return res.json('new_user_added');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

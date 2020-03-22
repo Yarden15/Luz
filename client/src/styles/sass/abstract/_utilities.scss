@@ -211,11 +211,19 @@ input {
   color: #888;
 }
 
+input[type="color"] {
+  -webkit-appearance: none;
+  border: none;
+  width: 100%;
+  height: 32px;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="organization"],
 input[type="date"],
+input[type="number"],
 select,
 textarea {
   display: block;
@@ -252,9 +260,9 @@ button {
 }
 
 .triangle-isosceles {
-  margin-top: 20px ;
+  margin-top: 20px;
 }
-.triangle-isosceles:after{
+.triangle-isosceles:after {
   content: "";
   display: block;
   position: absolute;

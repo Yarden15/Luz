@@ -4,6 +4,7 @@ import EventsContainer from '../event/eventsContainer';
 import ScheduleBar from '../schedule/SchedulesBar';
 import { connect } from 'react-redux';
 import { loadUser } from '../../actions/authActions';
+import Menu from '../layout/Menu';
 
 const CoursePlacementPage = (props) => {
   // Load user in this component
@@ -15,6 +16,7 @@ const CoursePlacementPage = (props) => {
   if (props.dir === 'rtl') {
     return (
       <Fragment>
+        <Menu />
         <ScheduleBar />
         <div className='row '>
           <div className='col-sm-9'>
@@ -27,19 +29,20 @@ const CoursePlacementPage = (props) => {
       </Fragment>
     );
   } else {
-    return(
-    <Fragment>
-      <ScheduleBar />
-      <div className='row '>
-        <div className='col-sm-3'>
-          <EventsContainer />
+    return (
+      <Fragment>
+        <ScheduleBar />
+        <div className='row '>
+          <div className='col-sm-3'>
+            <EventsContainer />
+          </div>
+          <div className='col-sm-9'>
+            <SceduleContainer />
+          </div>
         </div>
-        <div className='col-sm-9'>
-          <SceduleContainer />
-        </div>
-      </div>
-    </Fragment>
-    )};
+      </Fragment>
+    )
+  };
 };
 
 const mapStateToProps = state => {

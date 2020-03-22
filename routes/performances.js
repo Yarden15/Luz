@@ -71,10 +71,8 @@ router.post(
       year,
       semester,
       course_hours,
-      ex_hours,
       location
     } = req.body;
-
     try {
       // Pull the organization of manager to know what organization field for UserSchema
       let user = await User.findById(req.user.id).select('organization');
@@ -87,13 +85,11 @@ router.post(
         year,
         semester,
         course_hours,
-        ex_hours,
         location
       });
       // Promise- save performance to db
       const performance = await newPerformance.save();
-      // Response- performance to client
-      res.json(performance);
+      return res.json('new_course_added');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

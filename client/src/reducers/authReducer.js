@@ -1,21 +1,23 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT } from '../actions/types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT, REGISTER_FAIL, SET_LOADING_USER } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   user: null,
   error: null,
-  displayAlert: false
+  displayAlert: false,
+  loading: false
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case USER_LOADED:
+      const newUser = action.payload;
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: action.payload
+        user: newUser
       };
     case LOGIN_SUCCESS:
       console.log('login success');
@@ -44,6 +46,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         displayAlert: false
+      }
+    case REGISTER_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      }
+    case SET_LOADING_USER:
+      return {
+        ...state,
+        loading: true
       }
     default:
       return { ...state };
