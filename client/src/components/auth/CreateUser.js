@@ -63,6 +63,7 @@ const CreateUser = props => {
               name='email'
               value={email}
               onChange={onChange}
+              dir={props.dir}
               required
             ></input>
           </div>
@@ -73,6 +74,7 @@ const CreateUser = props => {
               name='first_name'
               value={first_name}
               onChange={onChange}
+              dir={props.dir}
               required
             ></input>
           </div>
@@ -83,6 +85,7 @@ const CreateUser = props => {
               name='last_name'
               value={last_name}
               onChange={onChange}
+              dir={props.dir}
               required
             ></input>
           </div>
@@ -93,6 +96,7 @@ const CreateUser = props => {
               name='password'
               value={password}
               onChange={onChange}
+              dir={props.dir}
               required
               minLength='6'
             ></input>
@@ -104,6 +108,7 @@ const CreateUser = props => {
               name='password2'
               value={password2}
               onChange={onChange}
+              dir={props.dir}
               required
               minLength='6'
             ></input>
@@ -115,6 +120,7 @@ const CreateUser = props => {
               name='id_number'
               value={id_number}
               onChange={onChange}
+              dir={props.dir}
               required
             ></input>
           </div>
@@ -125,6 +131,7 @@ const CreateUser = props => {
               name='color'
               value={color}
               onChange={onChange}
+              dir={props.dir}
               required
             ></input>
           </div>
@@ -152,7 +159,7 @@ const CreateUser = props => {
           <LoginAlert />
           <input
             type='submit'
-            value='Register'
+            value={props.t.create_user}
             className='btn btn-primary btn-block'
           />
         </form>

@@ -56,6 +56,7 @@ const Login = (props) => {
             name='email'
             value={email}
             onChange={onChange}
+            dir={props.dir}
           ></input>
         </div>
         <div className={`form-group ${props.dir}`}>
@@ -65,6 +66,7 @@ const Login = (props) => {
             name='organization'
             value={organization}
             onChange={onChange}
+            dir={props.dir}
           ></input>
         </div>
         <div className={`form-group ${props.dir}`}>
@@ -74,6 +76,7 @@ const Login = (props) => {
             name='password'
             value={password}
             onChange={onChange}
+            dir={props.dir}
           ></input>
         </div>
         <LoginAlert />
