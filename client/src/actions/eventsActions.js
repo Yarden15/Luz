@@ -29,7 +29,6 @@ const setLoading = () => {
 };
 
 export const createCourse = async FormData => {
-  console.log(FormData);
   try {
     const res = await axios.post('/api/performances/', FormData);
     popupAlert('congratulations', res.data, 'regular');
@@ -74,5 +73,21 @@ export const toggleSelection = (newId, oldId) => {
     if (oldId) {
       document.getElementById(oldId).style.backgroundColor = '';
     }
+  }
+}
+
+export const createEvent = async (userId, courseId) => {
+  let form = { userId, courseId, group_name: "sdad" };
+  console.log(form);
+  try {
+    const res = await axios.post('/api/timetables', form);
+    popupAlert('congratulations', res.data, 'regular');
+  } catch (err) {
+    // store.dispatch({
+    //   type: REGISTER_FAIL,
+    //   payload: err.response.data
+    // });
+    console.log(err);
+    // displayAlert();
   }
 }

@@ -61,12 +61,13 @@ router.post(
   [
     authorization,
     [
-      check('serial_num', 'Course ID is required')
+      check('courseId', 'Course ID is required')
         .not()
         .isEmpty()
     ]
   ],
   async (req, res) => {
+    console.log(req.body);
     // Validations f the form will take place here
     const errors = validationResult(req);
     // According to validation send errors if there are
@@ -75,7 +76,7 @@ router.post(
     }
 
     // Pull from the req.body the fields to create new Event
-    const { id_number, serial_num, group_name } = req.body;
+    const { userId, courseId, group_name } = req.body;
 
     // Build constraint object
     const timeTableFields = {};
@@ -86,7 +87,7 @@ router.post(
       let man = await User.findById(req.user.id).select('organization');
 
       // Find user ID in DB to create the Event correctly
-      let user = await User.findOne({ id_number: id_number });
+      let user = await User.findOne({ _id: userId });
       // User not exist
       if (!user) return res.status(404).json({ msg: 'User not found' });
       // Validate user and manager in the same organization
@@ -96,7 +97,7 @@ router.post(
           .json({ msg: 'Cannot handle that user- not the same organization' });
 
       // Find performance ID in DB to create the Event correctly
-      let performance = await Performance.findOne({ serial_num: serial_num });
+      let performance = await Performance.findOne({ _id: courseId });
       // Performance not exist
       if (!performance)
         return res.status(404).json({ msg: 'Performance not found' });

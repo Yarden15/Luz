@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, getCourses, toggleSelection } from '../../actions/eventsActions';
+import { getUsers, getCourses, toggleSelection, createEvent } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
 
 
@@ -101,7 +101,7 @@ export class CreateEvent extends Component {
               </div>
             </div>
           </div>
-          <button className='btn btn-primary btn-block margin-center btn-nfm' onClick={() => { console.log(this.state.userId, this.state.courseId) }}>{this.props.t.create_course}</button>
+          <button className='btn btn-primary btn-block margin-center btn-nfm' onClick={() => { createEvent(this.state.userId, this.state.courseId) }}>{this.props.t.create_course}</button>
         </Fragment >
       );
     }
