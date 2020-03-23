@@ -53,8 +53,8 @@ label {
   margin: 0 auto;
 }
 
-.center {
-  transform: translateX(50%);
+.margin-center {
+  margin: auto;
 }
 
 dl,
@@ -65,7 +65,7 @@ ul {
 
 #courses-table,
 #lecturers-table {
-  height: 500px;
+  height: 400px;
   overflow: auto;
   width: fit-content;
 
@@ -90,6 +90,9 @@ ul {
   tr:nth-child(even) {
     background-color: white;
   }
+  tr {
+    cursor: pointer;
+  }
 }
 
 .tables-matching {
@@ -97,6 +100,6 @@ ul {
   margin: 20px auto;
 }
 
-#event-tables{
+#event-tables {
   margin: 0 auto;
 }

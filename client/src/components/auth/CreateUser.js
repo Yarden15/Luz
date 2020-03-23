@@ -138,21 +138,21 @@ const CreateUser = props => {
           <div className={`form-group ${props.dir}`}>
             <label htmlFor='manager'>{props.t.manager}</label>
             <select id="select-manager" className={props.dir} dir={props.dir} name="manager" onChange={onChange}>
-              <option className={props.dir} disabled selected value></option>
+              <option className={props.dir} defaultValue></option>
               <option className={props.dir} value={false}>{props.t.no}</option>
               <option className={props.dir} value={true}>{props.t.yes}</option></select>
           </div>
           <div className={`form-group ${props.dir}`}>
             <label htmlFor='scheduler'>{props.t.scheduler}</label>
             <select id="select-scheduler" className={props.dir} dir={props.dir} name="scheduler" onChange={onChange}>
-              <option className={props.dir} disabled selected value></option>
+              <option className={props.dir} defaultValue></option>
               <option className={props.dir} value={false}>{props.t.no}</option>
               <option className={props.dir} value={true}>{props.t.yes}</option></select>
           </div>
           <div className={`form-group ${props.dir}`}>
             <label htmlFor='lecturer'>{props.t.lecturer}</label>
             <select id="select-lecturer" className={props.dir} dir={props.dir} name="lecturer" onChange={onChange}>
-              <option className={props.dir} disabled selected value></option>
+              <option className={props.dir} defaultValue></option>
               <option className={props.dir} value={false}>{props.t.no}</option>
               <option className={props.dir} value={true}>{props.t.yes}</option></select>
           </div>

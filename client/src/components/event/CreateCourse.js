@@ -67,7 +67,7 @@ const CreateCourse = (props) => {
           <div className={`form-group ${props.dir}`}>
             <label htmlFor='year'>{props.t.year}</label>
             <select id="select-year" className={props.dir} dir={props.dir} name="year" onChange={onChange}>
-              <option className={props.dir} disabled selected value></option>
+              <option className={props.dir} defaultValue></option>
               <option className={props.dir} value={'a'}>{props.t.a}</option>
               <option className={props.dir} value={'b'}>{props.t.b}</option>
               <option className={props.dir} value={'c'}>{props.t.c}</option>
@@ -76,7 +76,7 @@ const CreateCourse = (props) => {
           <div className={`form-group ${props.dir}`}>
             <label htmlFor='semester'>{props.t.semester}</label>
             <select id="select-semester" className={props.dir} dir={props.dir} name="semester" onChange={onChange}>
-              <option className={props.dir} disabled selected value></option>
+              <option className={props.dir} defaultValue></option>
               <option className={props.dir} value={'a'}>{props.t.a}</option>
               <option className={props.dir} value={'b'}>{props.t.b}</option>
               <option className={props.dir} value={'yearly'}>{props.t.yearly}</option>
@@ -96,7 +96,7 @@ const CreateCourse = (props) => {
           <div className={`form-group ${props.dir}`}>
             <label htmlFor='location'>{props.t.location}</label>
             <select id="select-location" className={props.dir} dir={props.dir} name="location" onChange={onChange}>
-              <option className={props.dir} disabled selected value></option>
+              <option className={props.dir} defaultValue></option>
               <option className={props.dir} value={'נביאים'}>נביאים</option>
               <option className={props.dir} value={'הקמפוס החרדי'}>הקמפוס החרדי</option>
               <option className={props.dir} value={'מקוון'}>מקוון</option></select>

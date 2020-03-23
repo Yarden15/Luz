@@ -279,7 +279,7 @@ table {
 }
 
 //Tooltip
-.tooltip.tooltiptext  {
+.tooltip.tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: black;
@@ -295,4 +295,8 @@ table {
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.btn-nfm {
+  width: 200px;
 }

@@ -66,4 +66,13 @@ export const getCourses = async () => {
   } catch (err) {
     console.log(err);
   }
+};
+
+export const toggleSelection = (newId, oldId) => {
+  if (newId) {
+    document.getElementById(newId).style.backgroundColor = '#00adff42';
+    if (oldId) {
+      document.getElementById(oldId).style.backgroundColor = '';
+    }
+  }
 }

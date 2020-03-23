@@ -1,16 +1,22 @@
-import React, { useState, Fragment, Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, getCourses } from '../../actions/eventsActions';
+import { getUsers, getCourses, toggleSelection } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
 
 
 export class CreateEvent extends Component {
-
-
   componentDidMount() {
     getUsers();
     getCourses();
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      courseId: '',
+      userId: ''
+    };
   }
 
   render() {
@@ -44,7 +50,12 @@ export class CreateEvent extends Component {
                   </thead>
                   <tbody className={this.props.dir}>
                     {this.props.eventObj.courses.map(course => (
-                      <tr key={course.serial_num}>
+                      <tr key={course.serial_num} id={course._id}
+                        onClick={() => {
+                          toggleSelection(course._id, this.state.courseId);
+                          this.state.courseId !== course._id ? this.setState({ courseId: course._id })
+                            : this.setState({ courseId: '' });
+                        }}>
                         <td>{course.title}</td>
                         <td>{course.serial_num}</td>
                         <td>{course.year}</td>
@@ -72,7 +83,12 @@ export class CreateEvent extends Component {
                   </thead>
                   <tbody className={this.props.dir}>
                     {this.props.eventObj.users.map(user => (
-                      <tr key={user.email}>
+                      <tr key={user.email} id={user._id}
+                        onClick={() => {
+                          toggleSelection(user._id, this.state.userId);
+                          this.state.userId === user._id ? this.setState({ userId: '' })
+                            : this.setState({ userId: user._id });
+                        }}>
                         <td>{user.first_name}</td>
                         <td>{user.last_name}</td>
                         <td>{user.id_number}</td>
@@ -85,7 +101,8 @@ export class CreateEvent extends Component {
               </div>
             </div>
           </div>
-        </Fragment>
+          <button className='btn btn-primary btn-block margin-center btn-nfm' onClick={() => { console.log(this.state.userId, this.state.courseId) }}>{this.props.t.create_course}</button>
+        </Fragment >
       );
     }
   }
