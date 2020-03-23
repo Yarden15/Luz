@@ -60,7 +60,7 @@ export class eventsContainer extends Component {
           </p>
           <div>
             {this.props.eventObj.events.map(event => (
-              <div  style={{backgroundColor : event.user.color}}
+              <div style={{ backgroundColor: event.user.color }}
                 className='fc-event draggable'
                 title={event.performance.title}
                 id={event.performance._id}
@@ -75,13 +75,34 @@ export class eventsContainer extends Component {
                 year={event.performance.year}
                 backgroundcolor={event.user.color}
               >
-                <div>{event.performance.title} - {event.user.first_name} {event.user.last_name}</div>
-            <div>
-              {this.props.dir === 'ltr' ?
-              `${this.props.t.serial_num}: ${event.performance.serial_num}`
-              : 
-              `${event.performance.serial_num} :${this.props.t.serial_num}`
-              }</div>
+                <div>
+                  {this.props.dir === 'ltr' ?
+                    `${this.props.t.name}: ${event.user.first_name} ${event.user.last_name}`
+                    :
+                    `${event.user.first_name} ${event.user.last_name} :${this.props.t.name}`
+                  }</div>
+                <div>
+                  {this.props.dir === 'ltr' ?
+                    `${event.performance.title} :${this.props.t.course_title}`
+                    :
+                    `${this.props.t.course_title}: ${event.performance.title}`
+                  }</div>
+                <div>
+                  {this.props.dir === 'ltr' ?
+                    `${this.props.t.serial_num}: ${event.performance.serial_num}`
+                    :
+                    `${event.performance.serial_num} :${this.props.t.serial_num}`
+                  }</div>
+                {/* <div className='tooltiptext'>
+                  {event.performance.title}
+                  {event.performance.serial_num}
+                  {event.user.first_name}
+                  {event.user.last_name}
+                  {event.performance.location}
+                  {event.performance.semester}
+                  {event.performance.course_hours}
+                  {event.performance.year}
+                </div> */}
               </div>
             ))}
           </div>

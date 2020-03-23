@@ -70,5 +70,6 @@
   "location": "מיקום",
   "empty_fields_error": "נא למלא את כל השדות",
   "adjusting_lecturer_for_course": "שיוך מרצה לקורס",
-  "lecturers": "מרצים"
+  "lecturers": "מרצים",
+  "name": "שם"
 }
