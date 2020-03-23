@@ -69,5 +69,6 @@
   "course_hours": "Course Hours",
   "location": "Location",
   "empty_fields_error": "All fields cannot be empty",
-  "adjusting_lecturer_for_course": "Adjusting lecturer for Course"
+  "adjusting_lecturer_for_course": "Adjusting lecturer for Course",
+  "lecturers": "Lecturers"
 }

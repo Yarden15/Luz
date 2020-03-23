@@ -28,3 +28,5 @@ export const DISPLAY_ALERT = "DISPLAY_ALERT";
 export const RENAME_SCHED = "RENAME_SCHED";
 export const OPEN_LANG_MENU = "OPEN_LANG_MENU";
 export const CLOSE_LANG_MENU = "CLOSE_LANG_MENU";
+export const GET_COURSES = "GET_COURSES";
+export const GET_USERS = "GET_USERS";

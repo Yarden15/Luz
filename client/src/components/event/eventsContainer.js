@@ -1,7 +1,7 @@
 import { Draggable } from '@fullcalendar/interaction'; // needed for dayClick
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getEvents } from '../../actions/eventsContainerActions';
+import { getEvents } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
 
 export class eventsContainer extends Component {

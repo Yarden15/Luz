@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { createCourse } from '../../actions/eventsContainerActions';
+import { createCourse } from '../../actions/eventsActions';
 import { updateError, displayAlert } from '../../actions/authActions';
 import LoginAlert from '../auth/LoginAlert';
 

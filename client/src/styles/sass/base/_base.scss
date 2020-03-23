@@ -65,7 +65,7 @@ ul {
 
 #courses-table,
 #lecturers-table {
-  height: 250px;
+  height: 500px;
   overflow: auto;
   width: fit-content;
 
@@ -79,7 +79,7 @@ ul {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    background: white;
+    background: rgb(123, 180, 251);
     border: 2px solid black;
   }
 
@@ -93,6 +93,10 @@ ul {
 }
 
 .tables-matching {
-  width: 640px;
+  max-width: 700px;
   margin: 20px auto;
+}
+
+#event-tables{
+  margin: 0 auto;
 }

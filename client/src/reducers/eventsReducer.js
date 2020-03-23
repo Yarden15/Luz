@@ -1,4 +1,4 @@
-import { GET_EVENTS, SET_LOADING, EVENT_ERROR } from '../actions/types';
+import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_USERS, GET_COURSES } from '../actions/types';
 
 const initialState = {
   events: [],
@@ -28,6 +28,22 @@ export default (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
+        loading: false
+      };
+    case GET_USERS:
+      let newUsers = [];
+      action.payload.map(event => newUsers.push(event));
+      return {
+        ...state,
+        users: newUsers,
+        loading: false
+      };
+    case GET_COURSES:
+      let newCourses = [];
+      action.payload.map(event => newCourses.push(event));
+      return {
+        ...state,
+        courses: newCourses,
         loading: false
       };
     default:

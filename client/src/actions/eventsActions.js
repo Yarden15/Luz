@@ -1,8 +1,8 @@
-import { GET_EVENTS, EVENT_ERROR, SET_LOADING, REGISTER_FAIL } from './types';
+import { GET_EVENTS, EVENT_ERROR, SET_LOADING, REGISTER_FAIL, GET_USERS, GET_COURSES } from './types';
 import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
-import { displayAlert } from '../actions/authActions';
+import { displayAlert } from './authActions';
 
 
 // Get events form DataBase
@@ -39,5 +39,31 @@ export const createCourse = async FormData => {
       payload: err.response.data
     });
     displayAlert();
+  }
+}
+
+export const getUsers = async () => {
+  setLoading();
+  try {
+    const res = await axios.get('/api/users');
+    store.dispatch({
+      type: GET_USERS,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const getCourses = async () => {
+  setLoading();
+  try {
+    const res = await axios.get('/api/performances');
+    store.dispatch({
+      type: GET_COURSES,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
   }
 }
