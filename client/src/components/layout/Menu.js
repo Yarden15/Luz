@@ -20,14 +20,14 @@ const Menu = props => {
 
   const schedulerLinks = (
     <Fragment>
-      <li> <Link to='/placement'>שיבוץ קורסים</Link></li>
+      <li> <Link to='/placement'>{props.t.scheduling_courses}</Link></li>
     </Fragment>
   )
 
   const lecturerLinks = (
     <Fragment>
       <li> <Link to='/'>{props.t.my_schedule}</Link></li>
-      <li> <Link to='/'>הגשת שיבוץ</Link></li>
+      <li> <Link to='/'>{props.t.submit_scheduling}</Link></li>
     </Fragment>
   );
   const userLinks = (

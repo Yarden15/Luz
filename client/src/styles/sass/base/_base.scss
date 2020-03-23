@@ -48,6 +48,11 @@ label {
 .text-center {
   text-align: center;
 }
+
+.center-horizontaly {
+  margin: 0 auto;
+}
+
 .center {
   transform: translateX(50%);
 }
@@ -57,26 +62,37 @@ ol,
 ul {
   margin-bottom: 0;
 }
-table,
-th,
-td {
-  border: 1px solid black;
+
+#courses-table,
+#lecturers-table {
+  height: 250px;
+  overflow: auto;
+  width: fit-content;
+
+  table,
+  td {
+    border: 1px solid black;
+    position: unset;
+  }
+
+  th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background: white;
+    border: 2px solid black;
+  }
+
+  td,
+  th {
+    padding: 0 10px;
+  }
+  tr:nth-child(even) {
+    background-color: white;
+  }
 }
 
-td,
-th {
-  padding: 0 10px;
+.tables-matching {
+  width: 640px;
+  margin: 20px auto;
 }
-tr:nth-child(even) {
-  background-color: white;
-}
-
-thead, tbody { display: block;
-width: 100% }
-
-tbody {
-    height: 250px;      
-    overflow-y: auto;   
-    overflow-x: hidden;  
-}
-

@@ -90,7 +90,7 @@ const CreateCourse = (props) => {
               value={course_hours}
               onChange={onChange}
               required
-              min="1" max="99"
+              min="0" max="99"
               dir={props.dir}></input>
           </div>
           <div className={`form-group ${props.dir}`}>
@@ -98,7 +98,8 @@ const CreateCourse = (props) => {
             <select id="select-location" className={props.dir} dir={props.dir} name="location" onChange={onChange}>
               <option className={props.dir} disabled selected value></option>
               <option className={props.dir} value={'נביאים'}>נביאים</option>
-              <option className={props.dir} value={'הקמפוס החרדי'}>הקמפוס החרדי</option></select>
+              <option className={props.dir} value={'הקמפוס החרדי'}>הקמפוס החרדי</option>
+              <option className={props.dir} value={'מקוון'}>מקוון</option></select>
           </div>
           <LoginAlert />
           <input
