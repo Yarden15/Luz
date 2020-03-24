@@ -77,9 +77,9 @@ export class eventsContainer extends Component {
               >
                 <div>
                   {this.props.dir === 'ltr' ?
-                    `${this.props.t.name}: ${event.user.first_name} ${event.user.last_name}`
-                    :
                     `${event.user.first_name} ${event.user.last_name} :${this.props.t.name}`
+                    :
+                    `${this.props.t.name}: ${event.user.first_name} ${event.user.last_name}`
                   }</div>
                 <div>
                   {this.props.dir === 'ltr' ?

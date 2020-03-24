@@ -105,7 +105,6 @@ router.post(
 // @access  Private- Manager only
 router.delete('/:id', authorization, async (req, res) => {
   try {
-    console.log('dsadsd');
     //   Find the schedule by id
     let schedule = await Schedule.findById(req.params.id);
     // Not found constraint
