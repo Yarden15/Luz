@@ -61,7 +61,7 @@ export class eventsContainer extends Component {
           <div>
             {this.props.eventObj.events.map(event => (
               <div style={{ backgroundColor: event.user.color }}
-                className='fc-event draggable'
+                className='fc-event draggable tool-tip'
                 title={event.performance.title}
                 id={event.performance._id}
                 serial_num={event.performance.serial_num}
@@ -73,40 +73,22 @@ export class eventsContainer extends Component {
                 semester={event.performance.semester}
                 course_hours={event.performance.course_hours}
                 year={event.performance.year}
-                backgroundcolor={event.user.color}
-              >
-                <div>
-                  {this.props.dir === 'ltr' ?
-                    `${event.user.first_name} ${event.user.last_name} :${this.props.t.name}`
-                    :
-                    `${this.props.t.name}: ${event.user.first_name} ${event.user.last_name}`
-                  }</div>
-                <div>
-                  {this.props.dir === 'ltr' ?
-                    `${event.performance.title} :${this.props.t.course_title}`
-                    :
-                    `${this.props.t.course_title}: ${event.performance.title}`
-                  }</div>
-                <div>
-                  {this.props.dir === 'ltr' ?
-                    `${this.props.t.serial_num}: ${event.performance.serial_num}`
-                    :
-                    `${event.performance.serial_num} :${this.props.t.serial_num}`
-                  }</div>
-                {/* <div className='tooltiptext'>
-                  {event.performance.title}
-                  {event.performance.serial_num}
-                  {event.user.first_name}
-                  {event.user.last_name}
-                  {event.performance.location}
-                  {event.performance.semester}
-                  {event.performance.course_hours}
-                  {event.performance.year}
-                </div> */}
+                backgroundcolor={event.user.color}>
+                <div>{this.props.t.name}: {event.user.first_name} {event.user.last_name}</div>
+                <div>{this.props.t.course_title}: {event.performance.title}</div>
+                <div>{this.props.t.serial_num}: {event.performance.serial_num}</div>
+                <div className={`tooltiptext ${this.props.dir}`} >
+                  <div>{this.props.t.course_title}: {event.performance.title}</div>
+                  <div>{this.props.t.serial_num}: {event.performance.serial_num}</div>
+                  <div>{this.props.t.name}: {event.user.first_name} {event.user.last_name}</div>
+                  <div>{this.props.t.location}: {event.performance.location}</div>
+                  <div>{this.props.t.semester}: {event.performance.semester}</div>
+                  <div>{this.props.t.course_hours}: {event.performance.course_hours}</div>
+                  <div>{this.props.t.year}: {event.performance.year}</div></div>
               </div>
             ))}
           </div>
-        </div>
+        </div >
       );
     }
   }

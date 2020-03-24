@@ -1,10 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url("https://fonts.googleapis.com/css?family=Roboto");
 
 @import "./sass/abstract/variables";
 @import "./sass/abstract/utilities";
-@import "./sass/base/scroll_bar";
+@import "./sass/abstract/animations";
 
+@import "./sass/base/scroll_bar";
 @import "./sass/base/base";
+@import "./sass/base/tables";
 
 @import "./sass/components/calendar";
 @import "./sass/components/calendarBar";
@@ -17,7 +19,6 @@
 @import "./sass/layout/navbar";
 @import "./sass/layout/grid";
 @import "./sass/layout/langMenu";
-
 
 //full calendar styles
 @import "~@fullcalendar/core/main.css";
