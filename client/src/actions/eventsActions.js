@@ -77,17 +77,37 @@ export const toggleSelection = (newId, oldId) => {
 }
 
 export const createEvent = async (userId, courseId) => {
-  let form = { userId, courseId, group_name: "sdad" };
-  console.log(form);
-  try {
-    const res = await axios.post('/api/timetables', form);
-    popupAlert('congratulations', res.data, 'regular');
-  } catch (err) {
-    // store.dispatch({
-    //   type: REGISTER_FAIL,
-    //   payload: err.response.data
-    // });
-    console.log(err);
-    // displayAlert();
+
+  if (userId === '' && courseId === '') {
+    store.dispatch({
+      type: REGISTER_FAIL,
+      payload: "select_user_and_course"
+    });
+    displayAlert();
+  } else if (userId === '') {
+    store.dispatch({
+      type: REGISTER_FAIL,
+      payload: "select_user"
+    });
+    displayAlert();
+  } else if (courseId === '') {
+    store.dispatch({
+      type: REGISTER_FAIL,
+      payload: "select_course"
+    });
+    displayAlert();
+  } else {
+    let form = { userId, courseId, group_name: "" };
+    try {
+      const res = await axios.post('/api/timetables', form);
+      popupAlert('congratulations', res.data, 'regular');
+    } catch (err) {
+      store.dispatch({
+        type: REGISTER_FAIL,
+        payload: err.response.data
+      });
+      console.log(err);
+      displayAlert();
+    }
   }
 }

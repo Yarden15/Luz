@@ -71,5 +71,9 @@
   "empty_fields_error": "נא למלא את כל השדות",
   "adjusting_lecturer_for_course": "שיוך מרצה לקורס",
   "lecturers": "מרצים",
-  "name": "שם"
+  "name": "שם",
+  "select_course": "בחר קורס בבקשה",
+  "select_user": "בחר משתמש בבקשה",
+  "select_user_and_course": "בחר משתמש וקורס בבקשה",
+  "pairing_successfully_created": "התיאום נוצר בהצלחה"
 }

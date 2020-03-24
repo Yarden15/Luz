@@ -76,11 +76,10 @@ router.post(
     }
 
     // Pull from the req.body the fields to create new Event
-    const { userId, courseId, group_name } = req.body;
+    const { userId, courseId } = req.body;
 
     // Build constraint object
     const timeTableFields = {};
-    if (group_name) timeTableFields.group_name = group_name;
 
     try {
       // Pull the organization of manager for validation
@@ -125,7 +124,7 @@ router.post(
       // Promise- save performance to db
       const timeTable = await newTimeTable.save();
       // Response- performance to client
-      res.json(timeTable);
+      return res.json('pairing_successfully_created');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
 import { getUsers, getCourses, toggleSelection, createEvent } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
+import LoginAlert from '../auth/LoginAlert';
 
 
 export class CreateEvent extends Component {
@@ -82,7 +83,7 @@ export class CreateEvent extends Component {
                     </tr>
                   </thead>
                   <tbody className={this.props.dir}>
-                    {this.props.eventObj.users.map(user => (
+                    {this.props.eventObj.users.map(user => (user.lecturer &&
                       <tr key={user.email} id={user._id}
                         onClick={() => {
                           toggleSelection(user._id, this.state.userId);
@@ -101,7 +102,14 @@ export class CreateEvent extends Component {
               </div>
             </div>
           </div>
-          <button className='btn btn-primary btn-block margin-center btn-nfm' onClick={() => { createEvent(this.state.userId, this.state.courseId) }}>{this.props.t.create_course}</button>
+          <div className="center-alertmargin-center">
+            <LoginAlert />
+          </div>
+          <button
+            id="btn-tables"
+            className='btn btn-primary btn-block margin-center btn-nfm'
+            onClick={() => { createEvent(this.state.userId, this.state.courseId) }}
+          >{this.props.t.create_course}</button>
         </Fragment >
       );
     }

@@ -71,5 +71,9 @@
   "empty_fields_error": "All fields cannot be empty",
   "adjusting_lecturer_for_course": "Adjusting lecturer for Course",
   "lecturers": "Lecturers",
-  "name": "Name"
+  "name": "Name",
+  "select_course": "Please choose a course please",
+  "select_user": "Please select a user please",
+  "select_user_and_course": "Please select a user and course please",
+  "pairing_successfully_created": "Pairing successfully created"
 }
