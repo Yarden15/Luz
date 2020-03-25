@@ -73,11 +73,11 @@ export class ManageUsers extends Component {
               </table>
             </div>
           </div>
-          <button
+          {/* <button
             id="btn-tables"
             className='btn btn-primary btn-block center-horizontaly btn-nfm'
             onClick={() => { createEvent(this.state.userId, this.state.courseId) }}
-          >{this.props.t.create_course}</button>
+          >{this.props.t.create_course}</button> */}
         </Fragment >
       );
     }
