@@ -75,5 +75,9 @@
   "select_course": "Please choose a course please",
   "select_user": "Please select a user please",
   "select_user_and_course": "Please select a user and course please",
-  "pairing_successfully_created": "Pairing successfully created"
+  "pairing_successfully_created": "Pairing successfully created",
+  "manage_courses": "Manage Courses",
+  "manage_users": "Manage Users",
+  "edit_user": "Edit User",
+  "delete_user": "Delete User"
 }

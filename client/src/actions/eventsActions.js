@@ -3,6 +3,7 @@ import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
 import { displayAlert } from './authActions';
+import Alert from "sweetalert2";
 
 
 // Get events form DataBase
@@ -109,5 +110,41 @@ export const createEvent = async (userId, courseId) => {
       console.log(err);
       displayAlert();
     }
+  }
+}
+
+export const deleteUserAlert = user => {
+  console.log('delete user', user);
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.delete_schedule_title_part,
+    html:
+      `<div className=${t.dir}>${t.literals.name}: ${user.first_name} ${user.last_name}</div>` +
+      `<div className=${t.dir}>${t.literals.id}: ${user.id_number}</div>`,
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel,
+  }).then(result => {
+    if (result.value) {
+      // It will remove schedule 
+      deleteUser(user._id);
+    }
+  });
+}
+
+const deleteUser = async id => {
+  let t = store.getState().literals;
+
+  try {
+    const res = await axios.delete('/api/users');
+    // store.dispatch({
+    //   type: GET_USERS,
+    //   payload: res.data,
+    // });
+    Alert.fire(t.literals.deleted, t.literals.the_schedule_has_been_deleted, "success");
+  } catch (err) {
+    console.log(err);
   }
 }

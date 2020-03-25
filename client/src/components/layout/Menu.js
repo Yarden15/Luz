@@ -13,14 +13,32 @@ const Menu = props => {
   const managerLinks = (
     <Fragment>
       <li> <Link to='/createevent'>{props.t.adjusting_lecturer_for_course}</Link></li>
-      <li> <Link to='/createcourse'>{props.t.create_course}</Link></li>
-      <li> <Link to='/createuser'>{props.t.create_user}</Link></li>
+      <li>{props.t.manage_courses}
+        <div className={`sub-menu triangle-isosceles ${props.dir}`}>
+          <ul>
+            <li><Link to='/createcourse'>{props.t.create_course}</Link></li>
+            <li>Edit Course</li>
+            <li>Delete Course</li>
+          </ul>
+        </div>
+      </li>
+      <li><Link to='/manageusers'>{props.t.manage_users}</Link>
+        <div className={`sub-menu triangle-isosceles ${props.dir}`}>
+          <ul>
+            <li><Link to='/createuser'>{props.t.create_user}</Link></li>
+            <li>Edit User</li>
+            <li>Delete User</li>
+          </ul>
+        </div>
+      </li>
     </Fragment>
   );
 
   const schedulerLinks = (
     <Fragment>
-      <li> <Link to='/placement'>{props.t.scheduling_courses}</Link></li>
+      <li>
+        <Link to='/placement'>{props.t.scheduling_courses}</Link>
+      </li>
     </Fragment>
   )
 

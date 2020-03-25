@@ -75,5 +75,9 @@
   "select_course": "בחר קורס בבקשה",
   "select_user": "בחר משתמש בבקשה",
   "select_user_and_course": "בחר משתמש וקורס בבקשה",
-  "pairing_successfully_created": "התיאום נוצר בהצלחה"
+  "pairing_successfully_created": "התיאום נוצר בהצלחה",
+  "manage_users": "ניהול משתמשים",
+  "manage_courses": "ניהול קורסים",
+  "edit_user": "ערוך משתמש",
+  "delete_user": "מחק משתמש"
 }
