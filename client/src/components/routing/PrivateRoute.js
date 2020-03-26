@@ -3,18 +3,13 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import history from '../../utils/history';
 
-const PrivateRoute = ({ authObj, component: Component, ...rest }) => {
+const PrivateRoute = ({ component: Component, authObj, exact, strict, path, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={() =>
-        !authObj.isAuthenticated ? (
-          <Redirect to='/login' />
-        ) : (
-        
-            <Component {...history} />
-          )
-      }
+      render={(props) =>
+        authObj.isAuthenticated ? (<Component {...props} {...history} />) :
+          (<Redirect to='/login' />)}
     />
   );
 };
