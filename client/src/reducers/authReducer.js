@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT, REGISTER_FAIL, SET_LOADING_USER } from '../actions/types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT, REGISTER_FAIL, SET_LOADING_AUTH } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
@@ -52,7 +52,7 @@ export default (state = initialState, action) => {
         ...state,
         error: action.payload
       }
-    case SET_LOADING_USER:
+    case SET_LOADING_AUTH:
       return {
         ...state,
         loading: true

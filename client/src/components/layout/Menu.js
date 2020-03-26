@@ -22,15 +22,7 @@ const Menu = props => {
           </ul>
         </div>
       </li>
-      <li><Link to='/manageusers'>{props.t.manage_users}</Link>
-        <div className={`sub-menu triangle-isosceles ${props.dir}`}>
-          <ul>
-            <li><Link to='/createuser'>{props.t.create_user}</Link></li>
-            <li>Edit User</li>
-            <li>Delete User</li>
-          </ul>
-        </div>
-      </li>
+      <li><Link to='/manageusers'>{props.t.manage_users}</Link></li>
     </Fragment>
   );
 

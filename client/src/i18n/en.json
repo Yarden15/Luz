@@ -79,5 +79,7 @@
   "manage_courses": "Manage Courses",
   "manage_users": "Manage Users",
   "edit_user": "Edit User",
-  "delete_user": "Delete User"
+  "delete_user": "Delete User",
+  "update_user": "Update User",
+  "reset_password": "Reset Password"
 }

@@ -1,10 +1,9 @@
 import React, { Fragment, Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, getCourses, toggleSelection, createEvent, deleteUserAlert } from '../../actions/eventsActions';
+import { getUsers, deleteUserAlert, resetPasswordAlert } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
-import LoginAlert from '../auth/LoginAlert';
-
 
 export class ManageUsers extends Component {
   componentDidMount() {
@@ -20,7 +19,7 @@ export class ManageUsers extends Component {
   }
 
   render() {
-    if (this.props.eventObj.loading) {
+    if (this.props.userObj.loading) {
       return (
         <Fragment>
           <Menu />
@@ -33,8 +32,8 @@ export class ManageUsers extends Component {
       return (
         <Fragment>
           <Menu />
-          <div className="tables-matching text-center">
-            <h3>{this.props.t.lecturers}</h3>
+          <div className="tables-matching  large-table text-center">
+            <h3>{this.props.t.manage_users}</h3>
             <div id="courses-table" className="table-container center-horizontaly text-center">
               <table>
                 <thead>
@@ -46,14 +45,12 @@ export class ManageUsers extends Component {
                     <th>{this.props.t.user_color}</th>
                     <th>{this.props.t.delete_user}</th>
                     <th>{this.props.t.edit_user}</th>
+                    <th>{this.props.t.reset_password}</th>
                   </tr>
                 </thead>
                 <tbody className={this.props.dir}>
-                  {this.props.eventObj.users.map(user => (
-                    <tr key={user.email} id={user._id}
-                      onClick={() => {
-                        console.log(user);
-                      }}>
+                  {this.props.userObj.users.map(user => (
+                    <tr key={user.email} id={user._id}>
                       <td>{user.first_name}</td>
                       <td>{user.last_name}</td>
                       <td>{user.id_number}</td>
@@ -64,20 +61,25 @@ export class ManageUsers extends Component {
                           onClick={() => { deleteUserAlert(user) }}></i>
                       </td>
                       <td style={{ textAlign: 'center' }}>
-                        <i className="fas fa-pencil-alt center-horizontaly"
-                          onClick={() => { console.log(user) }}></i>
+                        <Link to={`/edituser/${user._id}`}>
+                          <i className="fas fa-pencil-alt center-horizontaly">
+                          </i>
+                        </Link>
                       </td>
+                      <td style={{ textAlign: 'center' }}><i className="fas fa-key center-horizontaly" onClick={() => { resetPasswordAlert(user._id) }}></i></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
-          {/* <button
-            id="btn-tables"
-            className='btn btn-primary btn-block center-horizontaly btn-nfm'
-            onClick={() => { createEvent(this.state.userId, this.state.courseId) }}
-          >{this.props.t.create_course}</button> */}
+          <Link to='/createuser'>
+            <button id="btn-tables"
+              className='btn btn-primary btn-block center-horizontaly btn-nfm'
+            > {this.props.t.create_user}
+            </button>
+
+          </Link>
         </Fragment >
       );
     }
@@ -86,7 +88,7 @@ export class ManageUsers extends Component {
 
 const mapStateToProps = state => {
   return {
-    eventObj: state.event,
+    userObj: state.user,
     t: state.literals.literals,
     dir: state.literals.dir
   };

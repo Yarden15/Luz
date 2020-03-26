@@ -1,7 +1,8 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, getCourses, toggleSelection, createEvent } from '../../actions/eventsActions';
+import { getCourses, toggleSelection, createEvent } from '../../actions/eventsActions';
+import { getUsers } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 import LoginAlert from '../auth/LoginAlert';
 
@@ -21,7 +22,7 @@ export class CreateEvent extends Component {
   }
 
   render() {
-    if (this.props.eventObj.loading) {
+    if (this.props.eventObj.loading || this.props.userObj.loading) {
       return (
         <Fragment>
           <Menu />
@@ -83,7 +84,7 @@ export class CreateEvent extends Component {
                     </tr>
                   </thead>
                   <tbody className={this.props.dir}>
-                    {this.props.eventObj.users.map(user => (user.lecturer &&
+                    {this.props.userObj.users.map(user => (user.lecturer &&
                       <tr key={user.email} id={user._id}
                         onClick={() => {
                           toggleSelection(user._id, this.state.userId);
@@ -102,7 +103,7 @@ export class CreateEvent extends Component {
               </div>
             </div>
           </div>
-          <div className="center-alertmargin-center">
+          <div className="center-alert center-horizontaly">
             <LoginAlert />
           </div>
           <button
@@ -119,6 +120,7 @@ export class CreateEvent extends Component {
 const mapStateToProps = state => {
   return {
     eventObj: state.event,
+    userObj: state.user,
     t: state.literals.literals,
     dir: state.literals.dir
   };

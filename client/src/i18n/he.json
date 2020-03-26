@@ -79,5 +79,7 @@
   "manage_users": "ניהול משתמשים",
   "manage_courses": "ניהול קורסים",
   "edit_user": "ערוך משתמש",
-  "delete_user": "מחק משתמש"
+  "delete_user": "מחק משתמש",
+  "update_user": "עדכן משתמש",
+  "reset_password": "איפוס סיסמה"
 }

@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, AUTH_ERROR, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT, REGISTER_FAIL, SET_LOADING_USER } from './types';
+import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, AUTH_ERROR, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT, REGISTER_FAIL, SET_LOADING_AUTH } from './types';
 import store from '../store';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
@@ -84,6 +84,6 @@ export const updateError = (msg) => {
 
 const setLoadingUser = () => {
   store.dispatch({
-    type: SET_LOADING_USER
+    type: SET_LOADING_AUTH
   });
 }
