@@ -74,9 +74,9 @@ export class eventsContainer extends Component {
                 course_hours={event.performance.course_hours}
                 year={event.performance.year}
                 backgroundcolor={event.user.color}>
-                <div>{this.props.t.name}: {event.user.first_name} {event.user.last_name}</div>
-                <div>{this.props.t.course_title}: {event.performance.title}</div>
-                <div>{this.props.t.serial_num}: {event.performance.serial_num}</div>
+                <div className="cut-text">{this.props.t.name}: {event.user.first_name} {event.user.last_name}</div>
+                <div className="cut-text">{this.props.t.course_title}: {event.performance.title}</div>
+                <div className="cut-text">{this.props.t.serial_num}: {event.performance.serial_num}</div>
                 <div className={`tooltiptext ${this.props.dir}`} >
                   <div>{this.props.t.course_title}: {event.performance.title}</div>
                   <div>{this.props.t.serial_num}: {event.performance.serial_num}</div>
