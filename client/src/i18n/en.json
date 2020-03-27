@@ -84,5 +84,15 @@
   "reset_password": "Reset Password",
   "edit_course": "Edit Course",
   "delete_course": "Delete Course",
-  "update_course": "Update Course"
+  "update_course": "Update Course",
+  "sunday": "Sunday",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "submit_schedule": "Sumbit a schedule",
+  "day": "Day",
+  "start": "Start",
+  "end": "End"
 }

@@ -48,3 +48,15 @@ ul {
 .large-table {
   max-width: 1000px;
 }
+
+.sumbit-schedule-table {
+  margin: 30px auto;
+  border: solid 1px black;
+
+  th,
+  td {
+    margin: 10px;
+    padding: 10px 20px;
+    border: solid 1px black;
+  }
+}

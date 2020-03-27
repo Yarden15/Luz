@@ -84,5 +84,15 @@
   "reset_password": "איפוס סיסמה",
   "edit_course": "ערוך קורס",
   "delete_course": "מחק קורס",
-  "update_course": "עדכן קורס"
+  "update_course": "עדכן קורס",
+  "sunday": "ראשון",
+  "monday": "שני",
+  "tuesday": "שלישי",
+  "wednesday": "רביעי",
+  "thursday": "חמישי",
+  "friday": "שישי",
+  "submit_schedule": "הגשת שיבוץ",
+  "day": "יום",
+  "start": "התחלה",
+  "end": "סיום"
 }

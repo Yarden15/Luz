@@ -29,7 +29,7 @@ const Menu = props => {
   const lecturerLinks = (
     <Fragment>
       <li> <Link to='/'>{props.t.my_schedule}</Link></li>
-      <li> <Link to='/'>{props.t.submit_scheduling}</Link></li>
+      <li> <Link to='/submitschedule'>{props.t.submit_schedule}</Link></li>
     </Fragment>
   );
   const userLinks = (
