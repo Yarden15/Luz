@@ -10,6 +10,8 @@ import CoursePlacementPage from './components/pages/CoursePlacementPage';
 import CreateUser from './components/users/CreateUser';
 import CreateCourse from './components/event/CreateCourse';
 import CreateEvent from './components/event/CreateEvent';
+import ManageCourses from './components/event/ManageCourses';
+import EditCourse from './components/event/EditCourse';
 import ManageUsers from './components/users/ManageUsers';
 import EditUser from './components/users/EditUser';
 import Settings from './components/pages/Settings';
@@ -37,8 +39,10 @@ const App = () => {
             <PrivateRoute exact path='/placement' component={CoursePlacementPage} />
             <PrivateRoute exact path='/createuser' component={CreateUser} />
             <PrivateRoute exact path='/createcourse' component={CreateCourse} />
+            <PrivateRoute exact path='/managecourses' component={ManageCourses} />
             <PrivateRoute exact path='/manageusers' component={ManageUsers} />
             <PrivateRoute exact path='/edituser/:id' component={EditUser} />
+            <PrivateRoute exact path='/editcourse/:id' component={EditCourse} />
             <PrivateRoute exact path='/createevent' component={CreateEvent} />
             <Route exact path='/about' component={About} />
           </Switch>

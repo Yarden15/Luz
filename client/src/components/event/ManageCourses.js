@@ -2,16 +2,16 @@ import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, deleteUserAlert, resetPasswordAlert } from '../../actions/userActions';
+import { getCourses } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
 
-export class ManageUsers extends Component {
+export class ManageCourses extends Component {
   componentDidMount() {
-    getUsers();
+    getCourses();
   }
 
   render() {
-    if (this.props.userObj.loading) {
+    if (this.props.eventObj.loading) {
       return (
         <Fragment>
           <Menu />
@@ -25,50 +25,50 @@ export class ManageUsers extends Component {
         <Fragment>
           <Menu />
           <div className="tables-matching  large-table text-center">
-            <h3>{this.props.t.manage_users}</h3>
+            <h3>{this.props.t.manage_courses}</h3>
             <div id="courses-table" className="table-container center-horizontaly text-center">
               <table>
                 <thead>
                   <tr >
-                    <th>{this.props.t.first_name}</th>
-                    <th>{this.props.t.last_name}</th>
-                    <th>{this.props.t.id}</th>
-                    <th>{this.props.t.email_address}</th>
-                    <th>{this.props.t.user_color}</th>
-                    <th>{this.props.t.delete_user}</th>
-                    <th>{this.props.t.edit_user}</th>
-                    <th>{this.props.t.reset_password}</th>
+                    <th>{this.props.t.course_title}</th>
+                    <th>{this.props.t.serial_num}</th>
+                    <th>{this.props.t.year}</th>
+                    <th>{this.props.t.semester}</th>
+                    <th>{this.props.t.location}</th>
+                    <th>{this.props.t.course_hours}</th>
+                    <th>{this.props.t.delete_course}</th>
+                    <th>{this.props.t.edit_course}</th>
                   </tr>
                 </thead>
                 <tbody className={this.props.dir}>
-                  {this.props.userObj.users.map(user => (
-                    <tr key={user.email} id={user._id}>
-                      <td>{user.first_name}</td>
-                      <td>{user.last_name}</td>
-                      <td>{user.id_number}</td>
-                      <td>{user.email}</td>
-                      <td style={{ background: user.color }}></td>
+                  {this.props.eventObj.courses.map(course => (
+                    <tr key={course._id} id={course._id}>
+                      <td>{course.title}</td>
+                      <td>{course.serial_num}</td>
+                      <td className="text-center">{this.props.t[course.year]}</td>
+                      <td className="text-center">{this.props.t[course.semester]}</td>
+                      <td>{course.location}</td>
+                      <td className="text-center">{course.course_hours}</td>
                       <td style={{ textAlign: 'center' }}>
                         <i className="far fa-trash-alt center-horizontaly"
-                          onClick={() => { deleteUserAlert(user) }}></i>
+                          onClick={() => { console.log('delete course', course); }}></i>
                       </td>
                       <td style={{ textAlign: 'center' }}>
-                        <Link to={`/edituser/${user._id}`}>
+                        <Link to={`/editcourse/${course._id}`}>
                           <i className="fas fa-pencil-alt center-horizontaly">
                           </i>
                         </Link>
                       </td>
-                      <td style={{ textAlign: 'center' }}><i className="fas fa-key center-horizontaly" onClick={() => { resetPasswordAlert(user._id) }}></i></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
-          <Link to='/createuser'>
+          <Link to='/createcourse'>
             <button id="btn-tables"
               className='btn btn-primary btn-block center-horizontaly btn-nfm'
-            > {this.props.t.create_user}
+            > {this.props.t.create_course}
             </button>
           </Link>
         </Fragment >
@@ -79,10 +79,10 @@ export class ManageUsers extends Component {
 
 const mapStateToProps = state => {
   return {
-    userObj: state.user,
+    eventObj: state.event,
     t: state.literals.literals,
     dir: state.literals.dir
   };
 };
 
-export default connect(mapStateToProps)(ManageUsers);
+export default connect(mapStateToProps)(ManageCourses);

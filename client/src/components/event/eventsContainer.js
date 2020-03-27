@@ -82,9 +82,9 @@ export class eventsContainer extends Component {
                   <div>{this.props.t.serial_num}: {event.performance.serial_num}</div>
                   <div>{this.props.t.name}: {event.user.first_name} {event.user.last_name}</div>
                   <div>{this.props.t.location}: {event.performance.location}</div>
-                  <div>{this.props.t.semester}: {event.performance.semester}</div>
-                  <div>{this.props.t.course_hours}: {event.performance.course_hours}</div>
-                  <div>{this.props.t.year}: {event.performance.year}</div></div>
+                  <div>{this.props.t.year}: {this.props.t[event.performance.year]}</div>
+                  <div>{this.props.t.semester}: {this.props.t[event.performance.semester]}</div>
+                  <div>{this.props.t.course_hours}: {event.performance.course_hours}</div></div>
               </div>
             ))}
           </div>

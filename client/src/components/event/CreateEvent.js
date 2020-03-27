@@ -60,9 +60,9 @@ export class CreateEvent extends Component {
                         }}>
                         <td>{course.title}</td>
                         <td>{course.serial_num}</td>
-                        <td>{course.year}</td>
-                        <td>{course.semester}</td>
-                        <td>{course.course_hours}</td>
+                        <td className="text-center">{this.props.t[course.year]}</td>
+                        <td className="text-center">{this.props.t[course.semester]}</td>
+                        <td className="text-center">{course.course_hours}</td>
                         <td>{course.location}</td>
                       </tr>
                     ))}

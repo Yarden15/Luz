@@ -59,10 +59,10 @@
   "course_title": "שם הקורס",
   "serial_number": "מספר סידורי",
   "year": "שנה",
-  "a": "א'",
-  "b": "ב'",
-  "c": "ג'",
-  "d": "ד'",
+  "a": "א",
+  "b": "ב",
+  "c": "ג",
+  "d": "ד",
   "semester": "סמסטר",
   "yearly": "שנתי",
   "summer": "קיץ",
@@ -81,5 +81,8 @@
   "edit_user": "ערוך משתמש",
   "delete_user": "מחק משתמש",
   "update_user": "עדכן משתמש",
-  "reset_password": "איפוס סיסמה"
+  "reset_password": "איפוס סיסמה",
+  "edit_course": "ערוך קורס",
+  "delete_course": "מחק קורס",
+  "update_course": "עדכן קורס"
 }

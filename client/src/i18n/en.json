@@ -81,5 +81,8 @@
   "edit_user": "Edit User",
   "delete_user": "Delete User",
   "update_user": "Update User",
-  "reset_password": "Reset Password"
+  "reset_password": "Reset Password",
+  "edit_course": "Edit Course",
+  "delete_course": "Delete Course",
+  "update_course": "Update Course"
 }
