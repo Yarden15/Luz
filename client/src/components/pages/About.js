@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { loadUser } from '../../actions/authActions';
 
-const About = () => {
+const About = props => {
+  // Load user in this component
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div>
       <h1>About This App</h1>

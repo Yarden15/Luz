@@ -3,15 +3,15 @@ import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
 import { displayAlert } from './authActions';
-import Alert from "sweetalert2";
+import Alert from 'sweetalert2';
 
 export const getUsers = async () => {
   setLoading();
   try {
-    const res = await axios.get('/api/users');
+    const res = await axios.get('/api/users/manage');
     store.dispatch({
       type: GET_USERS,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     console.log(err);
@@ -26,13 +26,13 @@ export const deleteUserAlert = user => {
       `<div className=${t.dir}>${t.literals.name}: ${user.first_name} ${user.last_name}</div>` +
       `<div className=${t.dir}>${t.literals.id}: ${user.id_number}</div>`,
     showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
     confirmButtonText: t.literals.ok,
-    cancelButtonText: t.literals.cancel,
+    cancelButtonText: t.literals.cancel
   }).then(result => {
     if (result.value) {
-      // It will remove user 
+      // It will remove user
       deleteUser(user._id);
     }
   });
@@ -42,16 +42,20 @@ const deleteUser = async id => {
   let t = store.getState().literals;
 
   try {
-    const res = await axios.delete('/api/users');
+    const res = await axios.delete(`/api/users/manage/${id}`);
     // store.dispatch({
     //   type: GET_USERS,
-    //   payload: res.data,
+    //   payload: res.data
     // });
-    Alert.fire(t.literals.deleted, t.literals.the_schedule_has_been_deleted, "success");
+    Alert.fire(
+      t.literals.deleted,
+      t.literals.the_schedule_has_been_deleted,
+      'success'
+    );
   } catch (err) {
     console.log(err);
-  };
-}
+  }
+};
 
 export const getUserById = id => {
   let users = store.getState().user.users;
@@ -66,12 +70,10 @@ export const updateUser = user => {
   console.log('update user', user);
 };
 
-export const resetPasswordAlert = user => {
-
-}
+export const resetPasswordAlert = user => {};
 
 const setLoading = () => {
   store.dispatch({
     type: SET_LOADING_USER
   });
-}
+};

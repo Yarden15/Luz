@@ -4,16 +4,93 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-
+// Midleware
 const Authorization = require('../middleware/authorization');
 const auth = require('../middleware/auth');
+// Models
 const User = require('../models/User');
+const TimeTable = require('../models/TimeTable');
 
+// @route   GET api/users/details
+// @desc    Get current User detailes
+// @access  Private
+router.get(
+  '/me',
+  // Middleware- Authorization function that gives acces to relevant users (manager)
+  auth,
+  async (req, res) => {
+    // Try catch for a Promise
+    try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let user = await User.findById(req.user.id).select(
+        '-password -performances -color'
+      );
+
+      // User no exist- offcourse it in case of direct req to backend
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+// @route   PUT api/users/details
+// @desc    Change password
+// @access  Private
+router.put(
+  '/me',
+  [
+    auth,
+    [
+      check(
+        'password',
+        'Please enter a password with 6 or more characters'
+      ).isLength({ min: 6 })
+    ]
+  ],
+  async (req, res) => {
+    // Validations of the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { password } = req.body;
+
+    try {
+      // Promise to find if a user+passwoord exist in db
+      const user = await User.findById(req.user.id).select('-password');
+      // User not found in DB
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      // Initialize salt (Part of bcrypt protocol to Hash)
+      const salt = await bcrypt.genSalt(10);
+      // Insert the User instance the Hash password
+      let hashPass = await bcrypt.hash(password, salt);
+
+      // Update in the array of courses in user Model the new course
+      await User.update(
+        { _id: req.user.id },
+        {
+          $set: { password: hashPass }
+        }
+      );
+
+      res.status(200).send('Password has been changed');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 // @route   POST api/users
 // @desc    Register a user
 // @access  Private for Users with the role of 'Manager'
 router.post(
-  '/',
+  '/manage',
   [
     // Middleware- Authorization function that gives acces to relevant users (manager)
     Authorization,
@@ -94,11 +171,11 @@ router.post(
     }
   }
 );
-// @route   GET api/users
+// @route   GET api/users/manage
 // @desc    Get all users in Data Base
 // @access  Private for Users with the role of 'Manager'
 router.get(
-  '/',
+  '/manage',
   // Middleware- Authorization function that gives acces to relevant users (manager)
   Authorization,
   async (req, res) => {
@@ -118,38 +195,14 @@ router.get(
     }
   }
 );
-// @route   GET api/users/details
-// @desc    Get current User detailes
-// @access  Private
-router.get(
-  '/details',
-  // Middleware- Authorization function that gives acces to relevant users (manager)
-  auth,
-  async (req, res) => {
-    // Try catch for a Promise
-    try {
-      // Pull the organization of manager to know what organization field for UserSchema
-      let user = await User.findById(req.user.id).select(
-        '-password -performances -color'
-      );
 
-      // User no exist- offcourse it in case of direct req to backend
-      if (!user) return res.status(404).json({ msg: 'User not found' });
-
-      res.json(user);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  }
-);
 // @route   PUT api/users/details
-// @desc    Update user information (Only password for now)
+// @desc    Initial or Update password
 // @access  Private
 router.put(
-  '/details',
+  '/manage/pass/:id',
   [
-    auth,
+    Authorization,
     [
       check(
         'password',
@@ -168,15 +221,18 @@ router.put(
     const { password } = req.body;
 
     try {
-      // Pull the organization of manager to know what organization field for UserSchema
-      let user = await User.findById(req.user.id);
-
+      //   Find the user by id
+      let user = await User.findById(req.params.id);
+      // User not found in DB
       if (!user) return res.status(404).json({ msg: 'User not found' });
 
-      // // Make sure user try to change his own password
-      // if (user._id.toString() !== req.user.id) {
-      //   return res.status(401).json({ msg: 'Not authorized' });
-      // }
+      // Pull the organization of manager to know what organization field for UserSchema
+      let manager = await User.findById(req.user.id).select('organization');
+
+      //  The manager not authorize to change the specific user requested
+      if (user.organization !== manager.organization) {
+        res.status(401).json({ msg: 'Not allowed to change user detailes' });
+      }
 
       // Initialize salt (Part of bcrypt protocol to Hash)
       const salt = await bcrypt.genSalt(10);
@@ -185,7 +241,7 @@ router.put(
 
       // Update in the array of courses in user Model the new course
       await User.update(
-        { _id: req.user.id },
+        { _id: req.params.id },
         {
           $set: { password: hashPass }
         }
@@ -199,10 +255,10 @@ router.put(
   }
 );
 // @route   PUT api/users/manage
-// @desc    Update password
+// @desc    Update user information (Only password for now)
 // @access  Private
 router.put(
-  '/manage/:id',
+  '/manage/details/:id',
   [
     Authorization,
     [
@@ -224,8 +280,6 @@ router.put(
       id_number,
       first_name,
       last_name,
-      email,
-      password,
       manager,
       scheduler,
       lecturer,
@@ -237,33 +291,24 @@ router.put(
     if (id_number) userFields.id_number = id_number;
     if (first_name) userFields.first_name = first_name;
     if (last_name) userFields.last_name = last_name;
-    if (email) userFields.email = email;
-    // Password will insert later if exist
     if (manager) userFields.manager = manager;
     if (scheduler) userFields.scheduler = scheduler;
     if (lecturer) userFields.lecturer = lecturer;
     if (color) userFields.color = color;
 
     try {
+      //  Find the user by id
       let user = await User.findById(req.params.id);
 
+      // User not found in DB
       if (!user) return res.status(404).json({ msg: 'User not found' });
 
       // Pull the organization of manager to know what organization field for UserSchema
-      let man = await User.findById(req.user.id).select('organization');
+      let manager = await User.findById(req.user.id).select('organization');
 
       //  The manager not authorize to change the specific user requested
-      if (user.organization !== man.organization) {
+      if (user.organization !== manager.organization) {
         res.status(401).json({ msg: 'Not allowed to change user detailes' });
-      }
-
-      // Id there is intend to change password
-      if (password) {
-        // Initialize salt (Part of bcrypt protocol to Hash)
-        const salt = await bcrypt.genSalt(10);
-        // Insert the User instance the Hash password
-        let hashPass = await bcrypt.hash(password, salt);
-        userFields.password = hashPass;
       }
 
       // Update in the array of courses in user Model the new course
@@ -281,5 +326,37 @@ router.put(
     }
   }
 );
+// @route   DELETE api/users/manage/:id
+// @desc    Delete user from DB and all what relevent
+// @access  Private- Manager only
+router.delete('/manage/:id', Authorization, async (req, res) => {
+  try {
+    //   Find the user by id
+    let user = await User.findById(req.params.id);
+    // User not found in DB
+    if (!user) return res.status(404).json({ msg: 'User not found' });
 
+    // Pull the organization of manager to know what organization field for UserSchema
+    let manager = await User.findById(req.user.id).select('organization');
+
+    //  The manager not authorize to change the specific user requested
+    if (manager.organization !== user.organization) {
+      res.status(401).json({
+        msg: 'Not allowed to delete user- not the same organization'
+      });
+    }
+
+    // Promise- find the User and remove it from db
+    await User.findByIdAndRemove(req.params.id);
+
+    // Promise- find the TimeTables and remove it from db
+    await TimeTable.deleteMany({ user: req.params.id });
+
+    // Response- msg to indicate that Performance has been removed
+    res.json({ msg: 'User has been removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 module.exports = router;

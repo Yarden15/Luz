@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { loadUser } from '../../actions/authActions';
 import Menu from '../layout/Menu';
 
-const CoursePlacementPage = (props) => {
+const CoursePlacementPage = props => {
   // Load user in this component
   useEffect(() => {
     loadUser();
@@ -41,8 +41,8 @@ const CoursePlacementPage = (props) => {
           </div>
         </div>
       </Fragment>
-    )
-  };
+    );
+  }
 };
 
 const mapStateToProps = state => {

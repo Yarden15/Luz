@@ -1,4 +1,14 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL, USER_LOADED, AUTH_ERROR, LOGOUT, DISPLAY_ALERT, CLOSE_ALERT, REGISTER_FAIL, SET_LOADING_AUTH } from './types';
+import {
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGOUT,
+  DISPLAY_ALERT,
+  CLOSE_ALERT,
+  REGISTER_FAIL,
+  SET_LOADING_AUTH
+} from './types';
 import store from '../store';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
@@ -9,8 +19,7 @@ export const loadUser = async () => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
-  if (store.getState().auth.user === null)
-    setLoadingUser();
+  if (store.getState().auth.user === null) setLoadingUser();
   try {
     const res = await axios.get('/api/auth');
     store.dispatch({
@@ -54,15 +63,15 @@ export const logout = () => {
 export const displayAlert = () => {
   store.dispatch({ type: DISPLAY_ALERT });
   setTimeout(closeAlert, 7000);
-}
+};
 
 const closeAlert = () => {
   store.dispatch({ type: CLOSE_ALERT });
-}
+};
 
 export const register = async FormData => {
   try {
-    const res = await axios.post('/api/users/', FormData);
+    const res = await axios.post('/api/users/manage', FormData);
     popupAlert('congratulations', res.data, 'regular');
     return true;
   } catch (err) {
@@ -75,15 +84,15 @@ export const register = async FormData => {
   }
 };
 
-export const updateError = (msg) => {
+export const updateError = msg => {
   store.dispatch({
     type: REGISTER_FAIL,
     payload: msg
   });
-}
+};
 
 const setLoadingUser = () => {
   store.dispatch({
     type: SET_LOADING_AUTH
   });
-}
+};

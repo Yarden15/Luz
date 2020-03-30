@@ -4,18 +4,19 @@ import { loadUser } from '../../actions/authActions';
 import Menu from '../layout/Menu';
 import MessageBoard from '../layout/MessageBoard';
 
-const Home = (props) => {
+const Home = props => {
   // Load user in this component
   useEffect(() => {
     loadUser();
     // eslint-disable-next-line
   }, []);
-    return (
-      <Fragment>
-        <Menu />
-        <MessageBoard />
-      </Fragment>
-    );
+
+  return (
+    <Fragment>
+      <Menu />
+      <MessageBoard />
+    </Fragment>
+  );
 };
 
 const mapStateToProps = state => {
