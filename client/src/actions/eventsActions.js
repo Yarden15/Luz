@@ -1,10 +1,16 @@
-import { GET_EVENTS, EVENT_ERROR, SET_LOADING, REGISTER_FAIL, GET_USERS, GET_COURSES } from './types';
+import {
+  GET_EVENTS,
+  EVENT_ERROR,
+  SET_LOADING,
+  REGISTER_FAIL,
+  GET_USERS,
+  GET_COURSES
+} from './types';
 import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
 import { displayAlert } from './authActions';
-import Alert from "sweetalert2";
-
+import Alert from 'sweetalert2';
 
 // Get events form DataBase
 export const getEvents = async () => {
@@ -13,7 +19,7 @@ export const getEvents = async () => {
     const res = await axios.get('/api/timetables');
     store.dispatch({
       type: GET_EVENTS,
-      payload: res.data,
+      payload: res.data
     });
   } catch (error) {
     store.dispatch({
@@ -25,13 +31,13 @@ export const getEvents = async () => {
 
 const setLoading = () => {
   store.dispatch({
-    type: SET_LOADING,
+    type: SET_LOADING
   });
 };
-
+// Create new course
 export const createCourse = async FormData => {
   try {
-    const res = await axios.post('/api/performances/', FormData);
+    const res = await axios.post('/api/performances/manage', FormData);
     popupAlert('congratulations', res.data, 'regular');
   } catch (err) {
     store.dispatch({
@@ -40,15 +46,15 @@ export const createCourse = async FormData => {
     });
     displayAlert();
   }
-}
-
+};
+// Get all courses
 export const getCourses = async () => {
   setLoading();
   try {
-    const res = await axios.get('/api/performances');
+    const res = await axios.get('/api/performances/manage');
     store.dispatch({
       type: GET_COURSES,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     console.log(err);
@@ -62,30 +68,29 @@ export const toggleSelection = (newId, oldId) => {
       document.getElementById(oldId).style.backgroundColor = '';
     }
   }
-}
+};
 
 export const createEvent = async (userId, courseId) => {
-
   if (userId === '' && courseId === '') {
     store.dispatch({
       type: REGISTER_FAIL,
-      payload: "select_user_and_course"
+      payload: 'select_user_and_course'
     });
     displayAlert();
   } else if (userId === '') {
     store.dispatch({
       type: REGISTER_FAIL,
-      payload: "select_user"
+      payload: 'select_user'
     });
     displayAlert();
   } else if (courseId === '') {
     store.dispatch({
       type: REGISTER_FAIL,
-      payload: "select_course"
+      payload: 'select_course'
     });
     displayAlert();
   } else {
-    let form = { userId, courseId, group_name: "" };
+    let form = { userId, courseId, group_name: '' };
     try {
       const res = await axios.post('/api/timetables', form);
       popupAlert('congratulations', res.data, 'regular');
@@ -98,7 +103,7 @@ export const createEvent = async (userId, courseId) => {
       displayAlert();
     }
   }
-}
+};
 
 export const getCourseById = id => {
   let courses = store.getState().event.courses;

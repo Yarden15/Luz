@@ -67,7 +67,6 @@ router.post(
     ]
   ],
   async (req, res) => {
-    console.log(req.body);
     // Validations f the form will take place here
     const errors = validationResult(req);
     // According to validation send errors if there are
@@ -105,6 +104,12 @@ router.post(
         return res.status(401).json({
           msg: 'Cannot handle that performance- not the same organization'
         });
+
+      // Check for timeTable with the requested parameters (userId and courseId)
+      let timetable = TimeTable.find({ performance: courseId, user: userId });
+      // If there is an existing timeTamble dont create it again
+      if (timetable)
+        return res.status(403).json({ msg: 'timeTable already exist' });
 
       // Initial the timeTable fields by the _id's and relevant organization
       timeTableFields.user = user._id;

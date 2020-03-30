@@ -11,7 +11,7 @@ const Performance = require('../models/Performance');
 // @route   GET api/performances
 // @desc    Get all performances
 // @access  Private- Managers
-router.get('/', authorization, async (req, res) => {
+router.get('/manage', authorization, async (req, res) => {
   try {
     // Pull the organization of manager to know what organization field for UserSchema
     let user = await User.findById(req.user.id).select('organization');
@@ -47,7 +47,7 @@ router.get('/:id', auth, async (req, res) => {
 // @desc    Add performance to a user
 // @access  Private Only a Manager or Admin can do it
 router.post(
-  '/',
+  '/manage',
   [
     authorization,
     [

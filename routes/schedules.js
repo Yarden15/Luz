@@ -11,19 +11,6 @@ const Schedule = require('../models/Schedule');
 // @route   GET api/schedules
 // @desc    Get all schedules
 // @access  Private- Managers
-// router.get('/', authorization, async (req, res) => {
-//   try {
-//     // Get all the schedules in db
-//     const schedules = await Schedule.find({});
-//     // Response- schedules of all users
-//     res.json(schedules);
-
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
-// });
-
 router.get('/', authorization, async (req, res) => {
   try {
     // Pull the organization of manager to know what to pull from DB
@@ -103,10 +90,10 @@ router.post(
 // @route   DELETE api/schedule/:id
 // @desc    Delete schedule
 // @access  Private- Manager only
-router.delete('/:id', authorization, async (req, res) => {
+router.delete('/manage/:id', authorization, async (req, res) => {
   try {
     //   Find the schedule by id
-    let schedule = await Schedule.findById(req.params.id);
+    let schedule = await Schedule.findOne({ sched_id: req.params.id });
     // Not found constraint
     if (!schedule) return res.status(404).json({ msg: 'Schedule not found' });
 
@@ -121,7 +108,7 @@ router.delete('/:id', authorization, async (req, res) => {
     }
 
     // Promise- find the Performance and remove it from db
-    await Schedule.findByIdAndRemove(req.params.id);
+    await Schedule.findOneAndDelete({ sched_id: req.params.id });
 
     // Response- msg to indicate that schedule has been removed
     res.send('schedule_successfully_deleted');
