@@ -25,6 +25,7 @@ export class eventsContainer extends Component {
         let year = eventEl.getAttribute('year');
         let backgroundColor = eventEl.getAttribute('backgroundColor');
 
+
         //the info that retrun from the events into the container to the events that dragging to the schedule
         return {
           title,
