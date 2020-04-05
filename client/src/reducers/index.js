@@ -5,6 +5,7 @@ import authReducer from './authReducer';
 import literalReducer from './literalReducer';
 import alertReducer from './alertReducer';
 import userReducer from './userReducer';
+import adminReducer from './adminReducer';
 
 export default combineReducers({
   event: eventReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   auth: authReducer,
   literals: literalReducer,
   alerts: alertReducer,
-  user: userReducer
+  user: userReducer,
+  admin: adminReducer
 });

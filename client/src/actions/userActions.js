@@ -43,13 +43,10 @@ const deleteUser = async id => {
 
   try {
     const res = await axios.delete(`/api/users/manage/${id}`);
-    // store.dispatch({
-    //   type: GET_USERS,
-    //   payload: res.data
-    // });
+    getUsers();
     Alert.fire(
       t.literals.deleted,
-      t.literals.the_schedule_has_been_deleted,
+      t.literals.the_user_has_been_deleted,
       'success'
     );
   } catch (err) {
@@ -70,7 +67,7 @@ export const updateUser = user => {
   console.log('update user', user);
 };
 
-export const resetPasswordAlert = user => {};
+export const resetPasswordAlert = user => { };
 
 const setLoading = () => {
   store.dispatch({

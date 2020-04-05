@@ -97,9 +97,10 @@ const CreateCourse = (props) => {
             <label htmlFor='location'>{props.t.location}</label>
             <select id="select-location" className={props.dir} dir={props.dir} name="location" onChange={onChange}>
               <option className={props.dir} defaultValue></option>
-              <option className={props.dir} value={'נביאים'}>נביאים</option>
-              <option className={props.dir} value={'הקמפוס החרדי'}>הקמפוס החרדי</option>
-              <option className={props.dir} value={'מקוון'}>מקוון</option></select>
+              {props.adminObj.locations.map(location => (
+                <option className={props.dir} value={location.name}>{location.name}</option>
+              ))};
+            </select>
           </div>
           <LoginAlert />
           <input
@@ -114,6 +115,7 @@ const CreateCourse = (props) => {
 
 const mapStateToProps = state => {
   return {
+    adminObj: state.admin,
     t: state.literals.literals,
     dir: state.literals.dir
   };

@@ -32,6 +32,8 @@
   "schedule_successfully_saved": "לוח הזמנים נשמר בהצלחה",
   "new_schedule_successfully_saved": "לוח זמנים חדש נשמר בהצלחה",
   "schedule_successfully_deleted": "לוח הזמנים נמחק בהצלחה",
+  "the_user_has_been_deleted": "המשתמש נמחק בהצלחה",
+  "the_course_has_been_deleted": "הקורס נמחק בהצלחה",
   "schedule_deleted": "לוח הזמנים נמחק",
   "new_schedule_successfully_added": "לוח הזמנים נוסף בהצלחה",
   "create_user": "צור משתמש",
@@ -94,5 +96,8 @@
   "submit_schedule": "הגשת שיבוץ",
   "day": "יום",
   "start": "התחלה",
-  "end": "סיום"
+  "end": "סיום",
+  "delete_location": "מחק מיקום",
+  "manage_locations": "ניהול מיקומים",
+  "add_location": "הוסף מיקום"
 }

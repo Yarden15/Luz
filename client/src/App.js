@@ -20,6 +20,7 @@ import history from './utils/history';
 import setAuthToken from './utils/setAuthToken';
 import './styles/App.scss';
 import PopupMessage from './components/alerts/PopupMessage';
+import ManageLocations from './components/pages/ManageLocations';
 
 
 if (localStorage.token) {
@@ -46,6 +47,7 @@ const App = () => {
             <PrivateRoute exact path='/editcourse/:id' component={EditCourse} />
             <PrivateRoute exact path='/createevent' component={CreateEvent} />
             <PrivateRoute exact path='/submitschedule' component={SubmitSchedule} />
+            <PrivateRoute exact path='/managelocations' component={ManageLocations} />
             <Route exact path='/about' component={About} />
           </Switch>
         </div>

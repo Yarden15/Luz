@@ -32,6 +32,8 @@
   "schedule_successfully_saved": "Schedule successfully saved",
   "new_schedule_successfully_saved": "New schedule successfully saved",
   "schedule_successfully_deleted": "Schedule successfully deleted",
+  "the_user_has_been_deleted": "User successfully deleted",
+  "the_course_has_been_deleted": "Course successfully deleted",
   "schedule_deleted": "Schedule deleted",
   "new_schedule_successfully_added": "New schedule successfully added",
   "create_user": "Create User",
@@ -94,5 +96,8 @@
   "submit_schedule": "Sumbit a schedule",
   "day": "Day",
   "start": "Start",
-  "end": "End"
+  "end": "End",
+  "delete_location": "Delete Location",
+  "manage_locations": "Manage Locations",
+  "add_location": "Add Location"
 }

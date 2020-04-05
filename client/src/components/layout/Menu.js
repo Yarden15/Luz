@@ -15,6 +15,7 @@ const Menu = props => {
       <li> <Link to='/createevent'>{props.t.adjusting_lecturer_for_course}</Link></li>
       <li><Link to='/managecourses'>{props.t.manage_courses}</Link></li>
       <li><Link to='/manageusers'>{props.t.manage_users}</Link></li>
+      <li><Link to='/managelocations'>{props.t.manage_locations}</Link></li>
     </Fragment>
   );
 

@@ -31,3 +31,5 @@ export const OPEN_LANG_MENU = "OPEN_LANG_MENU";
 export const CLOSE_LANG_MENU = "CLOSE_LANG_MENU";
 export const GET_COURSES = "GET_COURSES";
 export const GET_USERS = "GET_USERS";
+export const SET_LOADING_LOCATION = "SET_LOADING_LOCATION";
+export const GET_LOCATIONS = "GET_LOCATIONS";

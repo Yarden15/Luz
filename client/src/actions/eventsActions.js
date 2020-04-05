@@ -117,3 +117,38 @@ export const getCourseById = id => {
 export const updateCourse = course => {
   console.log('update course', course);
 };
+
+export const deleteCourseAlert = course => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.delete_schedule_title_part,
+    html:
+      `<div className=${t.dir}>${t.literals.course_title}: ${course.title}</div>` +
+      `<div className=${t.dir}>${t.literals.serial_number}: ${course.id_number}</div>`,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel
+  }).then(result => {
+    if (result.value) {
+      // It will remove user
+      deleteCourse(course._id);
+    }
+  });
+};
+
+const deleteCourse = async id => {
+  let t = store.getState().literals;
+  try {
+    const res = await axios.delete(`/api/courses/manage/${id}`);
+    getCourses();
+    Alert.fire(
+      t.literals.deleted,
+      t.literals.the_course_has_been_deleted,
+      'success'
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -4,9 +4,11 @@ import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
 import { getCourses } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
+import { getLocations } from '../../actions/adminActions';
 
 export class ManageCourses extends Component {
   componentDidMount() {
+    getLocations();
     getCourses();
   }
 
