@@ -211,6 +211,7 @@ router.put(
     ]
   ],
   async (req, res) => {
+    console.log(req.body)
     // Validations of the form will take place here
     const errors = validationResult(req);
     // According to validation send errors if there are
@@ -247,7 +248,7 @@ router.put(
         }
       );
 
-      res.status(200).send('Password has been changed');
+      res.status(200).send('password_has_been_changed');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -319,7 +320,7 @@ router.put(
         }
       );
 
-      res.status(200).send('User details has been changed');
+      res.status(200).send('user_details_changed');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

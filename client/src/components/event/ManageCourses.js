@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getCourses } from '../../actions/eventsActions';
+import { getCourses, deleteCourseAlert } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
 import { getLocations } from '../../actions/adminActions';
 
@@ -38,8 +38,8 @@ export class ManageCourses extends Component {
                     <th>{this.props.t.semester}</th>
                     <th>{this.props.t.location}</th>
                     <th>{this.props.t.course_hours}</th>
-                    <th>{this.props.t.delete_course}</th>
                     <th>{this.props.t.edit_course}</th>
+                    <th>{this.props.t.delete_course}</th>
                   </tr>
                 </thead>
                 <tbody className={this.props.dir}>
@@ -52,14 +52,14 @@ export class ManageCourses extends Component {
                       <td>{course.location}</td>
                       <td className="text-center">{course.course_hours}</td>
                       <td style={{ textAlign: 'center' }}>
-                        <i className="far fa-trash-alt center-horizontaly"
-                          onClick={() => { console.log('delete course', course); }}></i>
-                      </td>
-                      <td style={{ textAlign: 'center' }}>
                         <Link to={`/editcourse/${course._id}`}>
                           <i className="fas fa-pencil-alt center-horizontaly">
                           </i>
                         </Link>
+                      </td>
+                      <td style={{ textAlign: 'center' }}>
+                        <i className="far fa-trash-alt center-horizontaly"
+                          onClick={() => { deleteCourseAlert(course) }}></i>
                       </td>
                     </tr>
                   ))}

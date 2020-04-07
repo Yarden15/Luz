@@ -99,5 +99,15 @@
   "end": "סיום",
   "delete_location": "מחק מיקום",
   "manage_locations": "ניהול מיקומים",
-  "add_location": "הוסף מיקום"
+  "add_location": "הוסף מיקום",
+  "the_location_has_been_deleted": "המיקום נמחק בהצלחה",
+  "location_saved": "המיקום נשמר בהצלחה",
+  "course_updated": "הקורס עודכן בהצלחה",
+  "new_password": "סיסמה חדשה",
+  "confirm_new_password": "אימות סיסמה חדשה",
+  "user_details_changed": "פרטי המשתמש עודכנו בהצלחה",
+  "all_fields_are_required": "נא למלא את כל השדות",
+  "passwords_do_not_match": "הסיסמאות לא תואמות",
+  "short_pass_msg": "הסיסמה חייבת להכיל לפחות 6 תווים",
+  "password_has_been_changed": "איפוס הסיסמה הושלם בהצלחה"
 }

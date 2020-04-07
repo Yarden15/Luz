@@ -99,5 +99,15 @@
   "end": "End",
   "delete_location": "Delete Location",
   "manage_locations": "Manage Locations",
-  "add_location": "Add Location"
+  "add_location": "Add Location",
+  "the_location_has_been_deleted": "The location has been deleted",
+  "location_saved": "The location has been saved",
+  "course_updated": "Course successfully updated",
+  "new_password": "New password",
+  "confirm_new_password": "Confirm new password",
+  "user_details_changed": "User details has been changed",
+  "all_fields_are_required": "All fields are required",
+  "passwords_do_not_match": "Passwords do not match",
+  "short_pass_msg": "The password must contain at least 6 characters",
+  "password_has_been_changed": "Password has been changed"
 }

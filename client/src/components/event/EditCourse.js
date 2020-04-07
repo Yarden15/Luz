@@ -9,6 +9,7 @@ const EditCourse = props => {
   let editCourse = getCourseById(props.match.params.id)
   const [course, setCourse] = useState(
     {
+      _id: editCourse._id,
       serial_num: editCourse.serial_num,
       title: editCourse.title,
       year: editCourse.year,
@@ -18,7 +19,7 @@ const EditCourse = props => {
     }
   );
 
-  const { title, year, serial_num, semester, location, course_hours } = course;
+  const { _id,title, year, serial_num, semester, location, course_hours } = course;
 
   const onChange = e => setCourse({ ...course, [e.target.name]: e.target.value });
 
@@ -28,7 +29,7 @@ const EditCourse = props => {
       updateError('empty_fields_error');
       displayAlert();
     } else {
-      updateCourse({ serial_num, title, year, semester, location, course_hours });
+      updateCourse({ _id, serial_num, title, year, semester, location, course_hours });
     }
   };
 
@@ -63,7 +64,7 @@ const EditCourse = props => {
           <div className={`form-group ${props.dir}`}>
             <label htmlFor='year'>{props.t.year}</label>
             <select id="select-year" className={props.dir} dir={props.dir} name="year"
-             onChange={onChange} value={year}>
+              onChange={onChange} value={year}>
               <option className={props.dir} defaultValue></option>
               <option className={props.dir} value={'a'}>{props.t.a}</option>
               <option className={props.dir} value={'b'}>{props.t.b}</option>

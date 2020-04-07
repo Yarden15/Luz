@@ -52,6 +52,7 @@ router.post('/manage', [Authorization], async (req, res) => {
     });
     // Promise- save location to db
     await newLocation.save();
+    res.json({ msg: 'location_saved' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -85,7 +86,7 @@ router.delete('/manage/:id', Authorization, async (req, res) => {
     await TimeTable.deleteMany({ location: req.params.id });
 
     // Response- msg to indicate that Performance has been removed
-    res.json({ msg: 'User has been removed' });
+    res.json({ msg: 'Location has been removed' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

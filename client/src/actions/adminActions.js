@@ -46,7 +46,7 @@ const deleteLocation = async id => {
     getLocations();
     Alert.fire(
       t.literals.deleted,
-      t.literals.the_user_has_been_deleted,
+      t.literals.the_location_has_been_deleted,
       'success'
     );
   } catch (err) {
@@ -83,7 +83,8 @@ export const createLocationAlert = () => {
 const createLocation = async name => {
   try {
     const res = await axios.post('/api/locations/manage', { name: name });
-    popupAlert('congratulations', res.data, 'regular');
+    console.log("jssdjakdsldsa")
+    popupAlert('congratulations', res.data.msg, 'regular');
     getLocations();
   } catch (err) {
     popupAlert('congratulations', err, 'error');

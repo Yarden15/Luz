@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, deleteUserAlert, resetPasswordAlert } from '../../actions/userActions';
+import { getUsers, deleteUserAlert, resetPasswordAlert,handleResetPassword } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 
 export class ManageUsers extends Component {
@@ -58,7 +58,7 @@ export class ManageUsers extends Component {
                           </i>
                         </Link>
                       </td>
-                      <td style={{ textAlign: 'center' }}><i className="fas fa-key center-horizontaly" onClick={() => { resetPasswordAlert(user._id) }}></i></td>
+                      <td style={{ textAlign: 'center' }}><i className="fas fa-key center-horizontaly" onClick={() => { handleResetPassword(user._id) }}></i></td>
                     </tr>
                   ))}
                 </tbody>

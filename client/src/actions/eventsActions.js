@@ -114,17 +114,24 @@ export const getCourseById = id => {
   }
 };
 
-export const updateCourse = course => {
-  console.log('update course', course);
+export const updateCourse = async course => {
+  try {
+    const res = await axios.put(`/api/performances/${course._id}`, course);
+    getCourses();
+    popupAlert('congratulations', res.data.msg, 'regular');
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const deleteCourseAlert = course => {
   let t = store.getState().literals;
+  console.log(course)
   Alert.fire({
     title: t.literals.delete_schedule_title_part,
     html:
       `<div className=${t.dir}>${t.literals.course_title}: ${course.title}</div>` +
-      `<div className=${t.dir}>${t.literals.serial_number}: ${course.id_number}</div>`,
+      `<div className=${t.dir}>${t.literals.serial_number}: ${course.serial_num}</div>`,
     showCancelButton: true,
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
@@ -141,7 +148,7 @@ export const deleteCourseAlert = course => {
 const deleteCourse = async id => {
   let t = store.getState().literals;
   try {
-    const res = await axios.delete(`/api/courses/manage/${id}`);
+    const res = await axios.delete(`/api/performances/${id}`);
     getCourses();
     Alert.fire(
       t.literals.deleted,

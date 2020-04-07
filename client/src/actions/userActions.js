@@ -2,8 +2,14 @@ import { GET_USERS, SET_LOADING_USER } from './types';
 import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
-import { displayAlert } from './authActions';
 import Alert from 'sweetalert2';
+
+const setLoading = () => {
+  store.dispatch({
+    type: SET_LOADING_USER
+  });
+};
+
 
 export const getUsers = async () => {
   setLoading();
@@ -32,7 +38,6 @@ export const deleteUserAlert = user => {
     cancelButtonText: t.literals.cancel
   }).then(result => {
     if (result.value) {
-      // It will remove user
       deleteUser(user._id);
     }
   });
@@ -63,14 +68,68 @@ export const getUserById = id => {
   }
 };
 
-export const updateUser = user => {
-  console.log('update user', user);
+export const updateUser = async user => {
+  console.log(user);
+  try {
+    const res = await axios.put(`/api/users/manage/details/${user._id}`, user);
+    getUsers();
+    popupAlert('congratulations', res.data, 'regular');
+  } catch (err) {
+    console.error(err);
+  }
 };
 
-export const resetPasswordAlert = user => { };
 
-const setLoading = () => {
-  store.dispatch({
-    type: SET_LOADING_USER
-  });
+export const handleResetPassword = (id) => {
+  let t = store.getState().literals.literals;
+  let changePwSwal = {
+    title: t.reset_password,
+    focusConfirm: false,
+    html: `
+      <label htmlFor="password">${t.new_password}</label> 
+      <input class="swal2-input" id="newPassword1" type="password"/>
+      <label htmlFor="password">${t.confirm_new_password}</label> 
+      <input class="swal2-input" id="newPassword2" type="password"  />
+    `,
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel,
+    cancelButtonColor: '#d33',
+    allowOutsideClick: false,
+    preConfirm: () => ({
+      newPassword1: document.getElementById('newPassword1').value,
+      newPassword2: document.getElementById('newPassword2').value
+    })
+  };
+
+  const resetPw = async () => {
+    const alertVal = await Alert.fire(changePwSwal);
+    let v = alertVal && alertVal.value || alertVal.dismiss;
+    if (v && v.newPassword1 && v.newPassword2 || v === 'cancel') {
+      if (v.newPassword1 !== v.newPassword2) {
+        await Alert.fire({ type: 'error', title: t.passwords_do_not_match });
+        resetPw();
+      } else if (v !== 'cancel' && v.newPassword1.length < 6) {
+        await Alert.fire({ type: 'error', title: t.short_pass_msg });
+        resetPw();
+      } else if (v !== 'cancel') {
+        resetPassword(id, alertVal.value.newPassword1);
+      }
+    } else {
+      await Alert.fire({ type: 'error', title: t.all_fields_are_required });
+      resetPw();
+    }
+  }
+
+  resetPw();
+}
+
+const resetPassword = async (userId, password) => {
+  try {
+    const res = await axios.put(`/api/users/manage/pass/${userId}`, { password: password });
+    popupAlert('congratulations', res.data, 'regular');
+  } catch (err) {
+    console.error(err);
+  }
 };

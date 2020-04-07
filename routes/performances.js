@@ -145,7 +145,7 @@ router.put('/:id', authorization, async (req, res) => {
       { new: true }
     );
     // Response- the update performance
-    res.json(performance);
+    res.json({course: performance, msg: 'course_updated'});
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -160,9 +160,10 @@ router.delete('/:id', authorization, async (req, res) => {
     //   Find the performance by id
     let performance = await Performance.findById(req.params.id);
     // Not found constraint
-    if (!performance)
+    if (!performance) {
+      console.log('refdfds')
       return res.status(404).json({ msg: 'Performance not found' });
-
+    }
     // Pull the organization of manager to know what organization field for UserSchema
     let user = await User.findById(req.user.id).select('organization');
 

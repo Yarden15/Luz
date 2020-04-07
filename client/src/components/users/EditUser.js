@@ -9,6 +9,7 @@ const EditUser = props => {
   let editUser = getUserById(props.match.params.id)
   const [user, setUser] = useState(
     {
+      _id: editUser._id,
       id_number: editUser.id_number,
       first_name: editUser.first_name,
       last_name: editUser.last_name,
@@ -20,7 +21,7 @@ const EditUser = props => {
     }
   );
 
-  const { first_name, last_name, id_number, color, email, manager, scheduler, lecturer } = user;
+  const {_id, first_name, last_name, id_number, color, email, manager, scheduler, lecturer } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });;
 
@@ -35,7 +36,7 @@ const EditUser = props => {
       displayAlert();
     } else {
       updateUser({
-        id_number, first_name, last_name, email, manager, scheduler, lecturer, color
+        _id, id_number, first_name, last_name, email, manager, scheduler, lecturer, color
       });
     }
   };
