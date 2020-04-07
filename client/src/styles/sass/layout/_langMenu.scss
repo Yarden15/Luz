@@ -4,7 +4,7 @@
   position: absolute;
   padding: 40px;
   text-align: center;
-  filter: drop-shadow(8px 8px 10px black);
+  filter: drop-shadow(0px 0px 5px black);
   border-radius: 20px;
   margin-left: 20px;
   li {
@@ -12,17 +12,15 @@
     margin-top: 10px;
     cursor: pointer;
   }
-
 }
 
 .lang-btn {
-    cursor: pointer;
+  cursor: pointer;
 
-    &:hover {
-        text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
 }
-
 
 .connected {
   right: 110px;
