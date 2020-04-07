@@ -311,9 +311,9 @@ const getTimeFromEvent = time => {
   minutes =
     time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
   hours =
-    time.getHours() - 2 < 10
-      ? '0' + (time.getHours() - 2)
-      : time.getHours() - 2;
+    time.getHours() - 3 < 10
+      ? '0' + (time.getHours() - 3)
+      : time.getHours() - 3;
 
   return hours + ':' + minutes;
 };
