@@ -3,7 +3,6 @@ import {
   EVENT_ERROR,
   SET_LOADING,
   REGISTER_FAIL,
-  GET_USERS,
   GET_COURSES
 } from './types';
 import axios from 'axios';
@@ -148,7 +147,7 @@ export const deleteCourseAlert = course => {
 const deleteCourse = async id => {
   let t = store.getState().literals;
   try {
-    const res = await axios.delete(`/api/performances/${id}`);
+    await axios.delete(`/api/performances/${id}`);
     getCourses();
     Alert.fire(
       t.literals.deleted,

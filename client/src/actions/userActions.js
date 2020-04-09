@@ -47,7 +47,7 @@ const deleteUser = async id => {
   let t = store.getState().literals;
 
   try {
-    const res = await axios.delete(`/api/users/manage/${id}`);
+    await axios.delete(`/api/users/manage/${id}`);
     getUsers();
     Alert.fire(
       t.literals.deleted,
@@ -105,8 +105,8 @@ export const handleResetPassword = (id) => {
 
   const resetPw = async () => {
     const alertVal = await Alert.fire(changePwSwal);
-    let v = alertVal && alertVal.value || alertVal.dismiss;
-    if (v && v.newPassword1 && v.newPassword2 || v === 'cancel') {
+    let v = (alertVal && alertVal.value) || alertVal.dismiss;
+    if ((v && v.newPassword1 && v.newPassword2) || v === 'cancel') {
       if (v.newPassword1 !== v.newPassword2) {
         await Alert.fire({ type: 'error', title: t.passwords_do_not_match });
         resetPw();
@@ -133,3 +133,12 @@ const resetPassword = async (userId, password) => {
     console.error(err);
   }
 };
+
+export function getRandomColor() {
+  let letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}

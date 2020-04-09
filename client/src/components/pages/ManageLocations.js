@@ -1,5 +1,4 @@
 import React, { Fragment, Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
 import { getLocations, deleteLocationAlert, createLocationAlert } from '../../actions/adminActions';

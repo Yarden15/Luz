@@ -22,7 +22,7 @@ router.get('/', authorization, async (req, res) => {
       .populate({
         path: 'performance',
         model: Performance,
-        select: 'serial_num title location semester year'
+        select: 'serial_num title location semester year ex_hours course_hours'
       })
       .populate({
         path: 'user',

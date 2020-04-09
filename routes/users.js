@@ -211,7 +211,6 @@ router.put(
     ]
   ],
   async (req, res) => {
-    console.log(req.body)
     // Validations of the form will take place here
     const errors = validationResult(req);
     // According to validation send errors if there are

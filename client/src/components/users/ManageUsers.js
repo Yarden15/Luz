@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, deleteUserAlert, resetPasswordAlert,handleResetPassword } from '../../actions/userActions';
+import { getUsers, deleteUserAlert, handleResetPassword } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 
 export class ManageUsers extends Component {

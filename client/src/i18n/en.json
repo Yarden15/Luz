@@ -109,5 +109,6 @@
   "all_fields_are_required": "All fields are required",
   "passwords_do_not_match": "Passwords do not match",
   "short_pass_msg": "The password must contain at least 6 characters",
-  "password_has_been_changed": "Password has been changed"
+  "password_has_been_changed": "Password has been changed",
+  "notes": "Notes"
 }

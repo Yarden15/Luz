@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { register } from '../../actions/authActions';
 import LoginAlert from '../auth/LoginAlert';
 import { updateError, displayAlert } from '../../actions/authActions';
+import { getRandomColor } from '../../actions/userActions';
 import Menu from '../layout/Menu';
 
 const CreateUser = props => {
@@ -15,7 +16,7 @@ const CreateUser = props => {
       email: '',
       password: '',
       password2: '',
-      color: '',
+      color: getRandomColor(),
       manager: '',
       scheduler: '',
       lecturer: ''

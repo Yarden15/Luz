@@ -2,7 +2,6 @@ import { GET_LOCATIONS, SET_LOADING_LOCATION } from './types';
 import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
-import { displayAlert } from './authActions';
 import Alert from 'sweetalert2';
 
 export const getLocations = async () => {
@@ -42,7 +41,7 @@ const deleteLocation = async id => {
   let t = store.getState().literals;
 
   try {
-    const res = await axios.delete(`/api/locations/manage/${id}`);
+    await axios.delete(`/api/locations/manage/${id}`);
     getLocations();
     Alert.fire(
       t.literals.deleted,

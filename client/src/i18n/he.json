@@ -109,5 +109,6 @@
   "all_fields_are_required": "נא למלא את כל השדות",
   "passwords_do_not_match": "הסיסמאות לא תואמות",
   "short_pass_msg": "הסיסמה חייבת להכיל לפחות 6 תווים",
-  "password_has_been_changed": "איפוס הסיסמה הושלם בהצלחה"
+  "password_has_been_changed": "איפוס הסיסמה הושלם בהצלחה",
+  "notes": "הערות"
 }

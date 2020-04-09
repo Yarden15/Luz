@@ -1,4 +1,4 @@
-import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_USERS, GET_COURSES } from '../actions/types';
+import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_COURSES } from '../actions/types';
 
 const initialState = {
   events: [],
