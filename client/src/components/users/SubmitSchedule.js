@@ -125,51 +125,51 @@ const SubmitSchedule = props => {
                   <td><label htmlFor='sunday'>{props.t.sunday}</label></td>
                   <td><input type="time" name="sunday_start" onChange={onChange} value={sunday_start} /></td>
                   <td><input type="time" name="sunday_end" onChange={onChange} value={sunday_end} /></td>
-                  <td><input type="text" name="sunday_notes" className="notes" onChange={onChange} value={sunday_notes} /></td>
+                  <td><input type="text" name="sunday_notes" className="notes" onChange={onChange} value={sunday_notes} dir={props.dir} /></td>
                 </tr>
                 <tr>
                   <td> <label htmlFor='monday'>{props.t.monday}</label></td>
                   <td><input type="time" name="monday_start" onChange={onChange} value={monday_start} /></td>
                   <td> <input type="time" name="monday_end" onChange={onChange} value={monday_end} /></td>
-                  <td><input type="text" name="monday_notes" className="notes" onChange={onChange} value={monday_notes} /></td>
+                  <td><input type="text" name="monday_notes" className="notes" onChange={onChange} value={monday_notes} dir={props.dir} /></td>
                 </tr>
                 <tr>
                   <td><label htmlFor='tuesday'>{props.t.tuesday}</label></td>
                   <td><input type="time" name="tuesday_start" onChange={onChange} value={tuesday_start} /></td>
                   <td><input type="time" name="tuesday_end" onChange={onChange} value={tuesday_end} /></td>
-                  <td><input type="text" name="tuesday_notes" className="notes" onChange={onChange} value={tuesday_notes} /></td>
+                  <td><input type="text" name="tuesday_notes" className="notes" onChange={onChange} value={tuesday_notes} dir={props.dir} /></td>
                 </tr>
                 <tr>
                   <td><label htmlFor='wednesday'>{props.t.wednesday}</label></td>
                   <td> <input type="time" name="wednesday_start" onChange={onChange} value={wednesday_start} /></td>
                   <td><input type="time" name="wednesday_end" onChange={onChange} value={wednesday_end} /></td>
-                  <td><input type="text" name="wednesday_notes" className="notes" onChange={onChange} value={wednesday_notes} /></td>
+                  <td><input type="text" name="wednesday_notes" className="notes" onChange={onChange} value={wednesday_notes} dir={props.dir} /></td>
                 </tr>
                 <tr>
                   <td><label htmlFor='thursday'>{props.t.thursday}</label></td>
                   <td><input type="time" name="thursday_start" onChange={onChange} value={thursday_start} /></td>
                   <td><input type="time" name="thursday_end" onChange={onChange} value={thursday_end} /></td>
-                  <td><input type="text" name="thursday_notes" className="notes" onChange={onChange} value={thursday_notes} /></td>
+                  <td><input type="text" name="thursday_notes" className="notes" onChange={onChange} value={thursday_notes} dir={props.dir} /></td>
                 </tr>
                 <tr>
                   <td><label htmlFor='friday'>{props.t.friday}</label></td>
                   <td><input type="time" name="friday_start" onChange={onChange} value={friday_start} /></td>
                   <td><input type="time" name="friday_end" onChange={onChange} value={friday_end} /></td>
-                  <td><input type="text" name="friday_notes" className="notes" onChange={onChange} value={friday_notes} /></td>
+                  <td><input type="text" name="friday_notes" className="notes" onChange={onChange} value={friday_notes} dir={props.dir} /></td>
                 </tr>
               </tbody>
             </table>
             <div className={`comment ${props.dir}`}>
               <label htmlFor='comment'>עבור כל קורס, כמה שעות רצוף הקורס צריך להיות</label>
-              <textarea name="course_comments" cols="40" rows="5" onChange={onChange} value={course_comments}></textarea>
+              <textarea dir={props.dir} name="course_comments" cols="40" rows="5" onChange={onChange} value={course_comments}></textarea>
             </div>
             <div className={`comment ${props.dir}`}>
               <label htmlFor='comment'>הערות כלליות</label>
-              <textarea name="general_comments" cols="40" rows="5" onChange={onChange} value={general_comments}></textarea>
+              <textarea dir={props.dir} name="general_comments" cols="40" rows="5" onChange={onChange} value={general_comments}></textarea>
             </div>
             <div className={`comment ${props.dir}`}>
               <label htmlFor='comment'>הערות קריטיות</label>
-              <textarea name="critical_comments" cols="40" rows="5" onChange={onChange} value={critical_comments}></textarea>
+              <textarea dir={props.dir} name="critical_comments" cols="40" rows="5" onChange={onChange} value={critical_comments}></textarea>
             </div>
             <input type='submit' value={props.t.submit_schedule} className='btn btn-primary btn-block center-horizontaly' />
           </form>
@@ -185,37 +185,37 @@ const SubmitSchedule = props => {
               </thead>
               <tbody>
                 <tr>
-                  <td><input type="text" name="sunday_notes" className="notes" onChange={onChange} value={sunday_notes} /></td>
+                  <td><input type="text" name="sunday_notes" className="notes" onChange={onChange} value={sunday_notes} dir={props.dir} /></td>
                   <td><input type="time" name="sunday_end" onChange={onChange} value={sunday_end} /></td>
                   <td><input type="time" name="sunday_start" onChange={onChange} value={sunday_start} /></td>
                   <td><label htmlFor='sunday'>{props.t.sunday}</label></td>
                 </tr>
                 <tr>
-                  <td><input type="text" name="monday_notes" className="notes" onChange={onChange} value={monday_notes} /></td>
+                  <td><input type="text" name="monday_notes" className="notes" onChange={onChange} value={monday_notes} dir={props.dir} /></td>
                   <td> <input type="time" name="monday_end" onChange={onChange} value={monday_end} /></td>
                   <td><input type="time" name="monday_start" onChange={onChange} value={monday_start} /></td>
                   <td> <label htmlFor='monday'>{props.t.monday}</label></td>
                 </tr>
                 <tr>
-                  <td><input type="text" name="tuesday_notes" className="notes" onChange={onChange} value={tuesday_notes} /></td>
+                  <td><input type="text" name="tuesday_notes" className="notes" onChange={onChange} value={tuesday_notes} dir={props.dir} /></td>
                   <td><input type="time" name="tuesday_end" onChange={onChange} value={tuesday_end} /></td>
                   <td><input type="time" name="tuesday_start" onChange={onChange} value={tuesday_start} /></td>
                   <td><label htmlFor='tuesday'>{props.t.tuesday}</label></td>
                 </tr>
                 <tr>
-                  <td><input type="text" name="wednesday_notes" className="notes" onChange={onChange} value={wednesday_notes} /></td>
+                  <td><input type="text" name="wednesday_notes" className="notes" onChange={onChange} value={wednesday_notes} dir={props.dir} /></td>
                   <td><input type="time" name="wednesday_end" onChange={onChange} value={wednesday_end} /></td>
                   <td> <input type="time" name="wednesday_start" onChange={onChange} value={wednesday_start} /></td>
                   <td><label htmlFor='wednesday'>{props.t.wednesday}</label></td>
                 </tr>
                 <tr>
-                  <td><input type="text" name="thursday_notes" className="notes" onChange={onChange} value={thursday_notes} /></td>
+                  <td><input type="text" name="thursday_notes" className="notes" onChange={onChange} value={thursday_notes} dir={props.dir} /></td>
                   <td><input type="time" name="thursday_end" onChange={onChange} value={thursday_end} /></td>
                   <td><input type="time" name="thursday_start" onChange={onChange} value={thursday_start} /></td>
                   <td><label htmlFor='thursday'>{props.t.thursday}</label></td>
                 </tr>
                 <tr>
-                  <td><input type="text" name="friday_notes" className="notes" onChange={onChange} value={friday_notes} /></td>
+                  <td><input type="text" name="friday_notes" className="notes" onChange={onChange} value={friday_notes} dir={props.dir} /></td>
                   <td><input type="time" name="friday_end" onChange={onChange} value={friday_end} /></td>
                   <td><input type="time" name="friday_start" onChange={onChange} value={friday_start} /></td>
                   <td><label htmlFor='friday'>{props.t.friday}</label></td>
@@ -224,15 +224,15 @@ const SubmitSchedule = props => {
             </table>
             <div className={`comment ${props.dir}`}>
               <label htmlFor='comment'>עבור כל קורס, כמה שעות רצוף הקורס צריך להיות</label>
-              <textarea name="course_comments" cols="40" rows="5" onChange={onChange} value={course_comments}></textarea>
+              <textarea dir={props.dir} name="course_comments" cols="40" rows="5" onChange={onChange} value={course_comments}></textarea>
             </div>
             <div className={`comment ${props.dir}`}>
               <label htmlFor='comment'>הערות כלליות</label>
-              <textarea name="general_comments" cols="40" rows="5" onChange={onChange} value={general_comments}></textarea>
+              <textarea dir={props.dir} name="general_comments" cols="40" rows="5" onChange={onChange} value={general_comments}></textarea>
             </div>
             <div className={`comment ${props.dir}`}>
               <label htmlFor='comment'>הערות קריטיות</label>
-              <textarea name="critical_comments" cols="40" rows="5" onChange={onChange} value={critical_comments}></textarea>
+              <textarea dir={props.dir} name="critical_comments" cols="40" rows="5" onChange={onChange} value={critical_comments}></textarea>
             </div>
             <input type='submit' value={props.t.submit_schedule} className='btn btn-primary btn-block center-horizontaly medium-btn' />
           </form>}
