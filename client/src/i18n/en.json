@@ -42,7 +42,7 @@
   "scheduling_courses": "Scheduling Courses",
   "create_course": "Create Course",
   "user_settings": "User Settings",
-  "message_board": "Message Board",
+  "message_board": "Ad Board",
   "user_already_exists": "User Already Exists",
   "confirm_password": "Confirm Password",
   "user_color": "User Color",
@@ -114,5 +114,7 @@
   "user_details": "User Details",
   "update_details": "Update Details",
   "change_password": "Change Password",
-  "current_password": "Current Password"
+  "current_password": "Current Password",
+  "write_a_new_ad": "Write a new ad",
+  "type_a_new_message": "Type new message"
 }

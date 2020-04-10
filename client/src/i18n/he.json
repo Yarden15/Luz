@@ -114,5 +114,7 @@
   "user_details": "פרטי משתמש",
   "update_details": "עדכן פרטים",
   "change_password": "שינוי סיסמה",
-  "current_password": "סיסמה נוכחית"
+  "current_password": "סיסמה נוכחית",
+  "write_a_new_ad": "כתוב מודעה חדשה",
+  "type_a_new_message": "כתוב הודעה חדשה"
 }

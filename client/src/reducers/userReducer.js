@@ -20,6 +20,14 @@ export default (state = initialState, action) => {
         ...state,
         loading: true
       }
+    case "SORT":
+      let newArray = state.users;
+      newArray.sort(action.payload)
+      return {
+        ...state,
+        users: newArray,
+        loading: false
+      }
     default:
       return { ...state };
   }

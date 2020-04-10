@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
 import { getUsers, deleteUserAlert, handleResetPassword } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
+import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor } from '../../actions/utilities';
 
 export class ManageUsers extends Component {
   componentDidMount() {
@@ -30,11 +31,11 @@ export class ManageUsers extends Component {
               <table>
                 <thead>
                   <tr >
-                    <th>{this.props.t.first_name}</th>
-                    <th>{this.props.t.last_name}</th>
-                    <th>{this.props.t.id}</th>
-                    <th>{this.props.t.email_address}</th>
-                    <th>{this.props.t.user_color}</th>
+                    <th onClick={() => { sortUsers(sortUsersByFirstName) }}>{this.props.t.first_name}</th>
+                    <th onClick={() => { sortUsers(sortUsersByLastName) }}>{this.props.t.last_name}</th>
+                    <th onClick={() => { sortUsers(sortUsersByID) }}>{this.props.t.id}</th>
+                    <th onClick={() => { sortUsers(sortUsersByEmail) }}>{this.props.t.email_address}</th>
+                    <th onClick={() => { sortUsers(sortUsersByColor) }}>{this.props.t.user_color}</th>
                     <th>{this.props.t.delete_user}</th>
                     <th>{this.props.t.edit_user}</th>
                     <th>{this.props.t.reset_password}</th>
