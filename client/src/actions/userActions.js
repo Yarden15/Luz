@@ -142,3 +142,64 @@ export function getRandomColor() {
   }
   return color;
 }
+
+export const changePasswordAlert = (id) => {
+  let t = store.getState().literals.literals;
+  let dir = store.getState().literals.dir;
+
+  let changePwSwal = {
+    title: t.change_password,
+    focusConfirm: false,
+    html: `
+    <div class=${dir}>
+        <label htmlFor="password">${t.current_password}</label> 
+        <input class="swal2-input " id="currentPassword" type="password" />
+        <label htmlFor="password">${t.new_password}</label> 
+        <input class="swal2-input" id="newPassword1" type="password"/>
+        <label htmlFor="password">${t.confirm_new_password}</label> 
+        <input class="swal2-input" id="newPassword2" type="password"  />
+    </div>
+    `,
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel,
+    cancelButtonColor: '#d33',
+    allowOutsideClick: false,
+    preConfirm: () => ({
+      currentPassword: document.getElementById('currentPassword').value,
+      newPassword1: document.getElementById('newPassword1').value,
+      newPassword2: document.getElementById('newPassword2').value
+    })
+  };
+
+  const changePw = async () => {
+    const alertVal = await Alert.fire(changePwSwal);
+    let v = (alertVal && alertVal.value) || alertVal.dismiss;
+    if ((v && v.currentPassword && v.newPassword1 && v.newPassword2) || v === 'cancel') {
+      if (v.newPassword1 !== v.newPassword2) {
+        await Alert.fire({ type: 'error', title: t.passwords_do_not_match });
+        changePw();
+      } else if (v !== 'cancel' && v.newPassword1.length < 6) {
+        await Alert.fire({ type: 'error', title: t.short_pass_msg });
+        changePw();
+      } else if (v !== 'cancel') {
+        resetPassword(id, alertVal.value.newPassword1);
+      }
+    } else {
+      await Alert.fire({ type: 'error', title: t.all_fields_are_required });
+      changePw();
+    }
+  }
+
+  changePw();
+}
+
+// const changePassword = async (userId, password) => {
+//   try {
+//     const res = await axios.put(`/api/users/manage/pass/${userId}`, { password: password });
+//     popupAlert('congratulations', res.data, 'regular');
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };

@@ -110,5 +110,9 @@
   "passwords_do_not_match": "Passwords do not match",
   "short_pass_msg": "The password must contain at least 6 characters",
   "password_has_been_changed": "Password has been changed",
-  "notes": "Notes"
+  "notes": "Notes",
+  "user_details": "User Details",
+  "update_details": "Update Details",
+  "change_password": "Change Password",
+  "current_password": "Current Password"
 }

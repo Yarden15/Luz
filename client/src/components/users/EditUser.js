@@ -21,12 +21,11 @@ const EditUser = props => {
     }
   );
 
-  const {_id, first_name, last_name, id_number, color, email, manager, scheduler, lecturer } = user;
+  const { _id, first_name, last_name, id_number, color, email, manager, scheduler, lecturer } = user;
 
   const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });;
 
   const onSubmit = e => {
-    console.log(props);
     e.preventDefault();
     if (color === '') {
       updateError('please_select_a_user_color');

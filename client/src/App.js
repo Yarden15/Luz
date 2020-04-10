@@ -15,12 +15,12 @@ import EditCourse from './components/event/EditCourse';
 import ManageUsers from './components/users/ManageUsers';
 import SubmitSchedule from './components/users/SubmitSchedule';
 import EditUser from './components/users/EditUser';
-import Settings from './components/pages/Settings';
 import history from './utils/history';
 import setAuthToken from './utils/setAuthToken';
 import './styles/App.scss';
 import PopupMessage from './components/alerts/PopupMessage';
 import ManageLocations from './components/pages/ManageLocations';
+import UserSettings from './components/users/UserSettings';
 
 
 if (localStorage.token) {
@@ -37,7 +37,7 @@ const App = () => {
           <Switch>
             <Route exact path='/login' component={Login} history={history} />
             <PrivateRoute exact path='/' component={Home} />
-            <PrivateRoute exact path='/settings' component={Settings} />
+            <PrivateRoute exact path='/settings' component={UserSettings} />
             <PrivateRoute exact path='/placement' component={CoursePlacementPage} />
             <PrivateRoute exact path='/createuser' component={CreateUser} />
             <PrivateRoute exact path='/createcourse' component={CreateCourse} />
