@@ -76,13 +76,13 @@ export const createCalendar = (
         customButtons={{
           save: {
             text: t.save,
-            click: function() {
+            click: function () {
               saveButtonClicked();
             }
           },
           rename: {
             text: t.rename,
-            click: function() {
+            click: function () {
               renameSched();
             }
           }
@@ -105,17 +105,20 @@ export const createCalendar = (
         selectHelper={true}
         editable={true}
         droppable={true}
-        eventDrop={function(info) {
+        eventDrop={function (info) {
           eventChanged(info, id);
         }}
-        eventReceive={function(info) {
+        eventReceive={function (info) {
           addEvent(info, id);
           forceSchedsUpdate(id);
         }}
-        eventResize={function(info) {
+        eventResize={function (info) {
           eventChanged(info, id);
         }}
         eventLimit={true}
+        eventRender={function (info) {
+          info.el.append(info.event.extendedProps.first_name + " " + info.event.extendedProps.last_name);
+        }}
         eventClick={eventClick}
         events={events}
         locale={store.getState().literals.lang}
