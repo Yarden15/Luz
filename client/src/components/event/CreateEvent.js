@@ -5,6 +5,7 @@ import { getCourses, toggleSelection, createEvent } from '../../actions/eventsAc
 import { getUsers } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 import LoginAlert from '../auth/LoginAlert';
+import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor } from '../../actions/utilities';
 
 
 export class CreateEvent extends Component {
@@ -76,11 +77,11 @@ export class CreateEvent extends Component {
                 <table>
                   <thead>
                     <tr >
-                      <th>{this.props.t.first_name}</th>
-                      <th>{this.props.t.last_name}</th>
-                      <th>{this.props.t.id}</th>
-                      <th>{this.props.t.email_address}</th>
-                      <th>{this.props.t.user_color}</th>
+                      <th onClick={() => { sortUsers(sortUsersByFirstName) }}>{this.props.t.first_name}</th>
+                      <th onClick={() => { sortUsers(sortUsersByLastName) }}>{this.props.t.last_name}</th>
+                      <th onClick={() => { sortUsers(sortUsersByID) }}>{this.props.t.id}</th>
+                      <th onClick={() => { sortUsers(sortUsersByEmail) }}>{this.props.t.email_address}</th>
+                      <th onClick={() => { sortUsers(sortUsersByColor) }}>{this.props.t.user_color}</th>
                     </tr>
                   </thead>
                   <tbody className={this.props.dir}>

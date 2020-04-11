@@ -125,7 +125,6 @@ export const updateCourse = async course => {
 
 export const deleteCourseAlert = course => {
   let t = store.getState().literals;
-  console.log(course)
   Alert.fire({
     title: t.literals.delete_schedule_title_part,
     html:

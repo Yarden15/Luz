@@ -1,4 +1,4 @@
-import { GET_USERS, SET_LOADING_USER } from '../actions/types';
+import { GET_USERS, SET_LOADING_USER, SORT_USERS } from '../actions/types';
 
 const initialState = {
   users: [],
@@ -20,7 +20,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: true
       }
-    case "SORT":
+    case SORT_USERS:
       let newArray = state.users;
       newArray.sort(action.payload)
       return {

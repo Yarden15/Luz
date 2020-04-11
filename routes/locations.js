@@ -31,7 +31,6 @@ router.get('/manage', Authorization, async (req, res) => {
 // @desc    Add location to Organization
 // @access  Private Only a Manager or Admin can do it
 router.post('/manage', [Authorization], async (req, res) => {
-  console.log(req.body);
   // Validations f the form will take place here
   const errors = validationResult(req);
   // According to validation send errors if there are

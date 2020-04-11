@@ -116,5 +116,8 @@
   "change_password": "Change Password",
   "current_password": "Current Password",
   "write_a_new_ad": "Write a new ad",
-  "type_a_new_message": "Type new message"
+  "type_a_new_message": "Type new message",
+  "delete_msg_title": "Are you sure you want to delete the ad?",
+  "ad_saved": "Ad successfully posted",
+  "ad_was_deleted": "Successfully deleted ad"
 }

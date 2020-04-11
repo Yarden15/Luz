@@ -2,11 +2,12 @@ import { GET_MESSAGES, SET_LOADING_MESSAGES } from './types';
 import axios from 'axios';
 import store from '../store';
 import Alert from 'sweetalert2';
+import { popupAlert } from './alertsActions';
 
-export const getMessages = async () => {
+export const getAds = async () => {
   setLoading();
   try {
-    const res = await axios.get('/api/messages/manage');
+    const res = await axios.get('/api/ads/manage');
     store.dispatch({
       type: GET_MESSAGES,
       payload: res.data
@@ -38,7 +39,43 @@ export const createNewMessage = async () => {
   })
 
   if (text) {
-    Alert.fire(text)
+    saveOnDB(text);
+    getAds()
+  }
+}
 
+const saveOnDB = async content => {
+  try {
+    const res = await axios.post('/api/ads/manage', { content });
+    popupAlert(res.data.title, res.data.msg, res.data.type);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const deleteAdAlert = id => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.delete_msg_title,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel
+  }).then(result => {
+    if (result.value) {
+      // It will remove user
+      deleteAd(id);
+    }
+  });
+};
+
+const deleteAd = async id => {
+  try {
+    const res = await axios.delete(`/api/ads/manage/${id}`);
+    popupAlert('congratulations', res.data.msg, res.data.type);
+    getAds();
+  } catch (err) {
+    console.log(err);
   }
 }

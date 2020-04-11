@@ -116,5 +116,9 @@
   "change_password": "שינוי סיסמה",
   "current_password": "סיסמה נוכחית",
   "write_a_new_ad": "כתוב מודעה חדשה",
-  "type_a_new_message": "כתוב הודעה חדשה"
+  "type_a_new_message": "כתוב הודעה חדשה",
+  "delete_msg_title": "האם אתה בטוח שברצונך למחוק את המודעה?",
+  "ad_saved": "המודעה  פורסמה בהצלחה",
+  "delete_msg_by_another_user_error": "לא ניתן למחוק הודעה של משתמש אחר",
+  "ad_was_deleted": "המודעה נמחקה בהצלחה"
 }

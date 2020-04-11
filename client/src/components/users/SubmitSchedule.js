@@ -79,7 +79,8 @@ const SubmitSchedule = props => {
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log(sunday_start,
+    console.log(
+      sunday_start,
       sunday_end,
       sunday_notes,
       monday_start,
