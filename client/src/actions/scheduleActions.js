@@ -7,7 +7,7 @@ import {
   DELETE_EVENT,
   EVENT_CHANGED,
   CHANGE_LANG_SCHEDS,
-  RENAME_SCHED
+  RENAME_SCHED,
 } from './types';
 import Alert from 'sweetalert2';
 import FullCalendar from '@fullcalendar/react';
@@ -53,7 +53,7 @@ const saveSchedule = async (sched_id, title, events) => {
 //set loading to true
 export const setLoading = () => {
   store.dispatch({
-    type: SET_LOADING_SCHED
+    type: SET_LOADING_SCHED,
   });
 };
 
@@ -78,19 +78,19 @@ export const createCalendar = (
             text: t.save,
             click: function () {
               saveButtonClicked();
-            }
+            },
           },
           rename: {
             text: t.rename,
             click: function () {
               renameSched();
-            }
-          }
+            },
+          },
         }}
         header={{
           center: '',
           left: '',
-          right: 'save rename'
+          right: 'save rename',
         }}
         hiddenDays={[6]}
         allDaySlot={false}
@@ -117,7 +117,11 @@ export const createCalendar = (
         }}
         eventLimit={true}
         eventRender={function (info) {
-          info.el.append(info.event.extendedProps.first_name + " " + info.event.extendedProps.last_name);
+          info.el.append(
+            info.event.extendedProps.first_name +
+              ' ' +
+              info.event.extendedProps.last_name
+          );
         }}
         eventClick={eventClick}
         events={events}
@@ -129,17 +133,17 @@ export const createCalendar = (
   if (newSched) {
     store.dispatch({
       type: CREATE_CALENDAR,
-      payload: { calendar, title, id, calendarRef }
+      payload: { calendar, title, id, calendarRef },
     });
   } else {
     return { calendar, title, id, calendarRef };
   }
 };
 //select calendar to display
-export const selectCalendar = id => {
+export const selectCalendar = (id) => {
   store.dispatch({
     type: SELECT_CALENDAR,
-    payload: id
+    payload: id,
   });
 };
 
@@ -155,8 +159,8 @@ const addEvent = (info, id) => {
     type: ADD_EVENT,
     payload: {
       event: event,
-      schedId: id
-    }
+      schedId: id,
+    },
   });
 
   checkOnServer(event);
@@ -173,7 +177,7 @@ const saveButtonClicked = () => {
 };
 
 //popup window when the user clicking on the event into the calendar
-export const eventClick = eventClick => {
+export const eventClick = (eventClick) => {
   let t = store.getState().literals.literals;
   Alert.fire({
     title:
@@ -199,15 +203,15 @@ export const eventClick = eventClick => {
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
     confirmButtonText: t.remove_event,
-    cancelButtonText: t.cancel
-  }).then(result => {
+    cancelButtonText: t.cancel,
+  }).then((result) => {
     if (result.value) {
       store.dispatch({
         type: DELETE_EVENT,
         payload: {
           sched_id: eventClick.event._calendar.component.context.options.id,
-          event_id: eventClick.event._def.extendedProps.eventId
-        }
+          event_id: eventClick.event._def.extendedProps.eventId,
+        },
       });
       forceSchedsUpdate(store.getState().schedule.current);
       Alert.fire(t.deleted, t.the_event_has_been_deleted, 'success');
@@ -225,10 +229,10 @@ export const enterNameSchedule = () => {
     cancelButtonColor: '#3085d6',
     confirmButtonText: t.ok,
     cancelButtonText: t.cancel,
-    inputValidator: result => {
+    inputValidator: (result) => {
       if (!result) return t.you_must_insert_input;
-    }
-  }).then(result => {
+    },
+  }).then((result) => {
     if (result.value) createCalendar(result.value);
   });
 };
@@ -242,20 +246,20 @@ const renameSched = () => {
     cancelButtonColor: '#3085d6',
     confirmButtonText: t.ok,
     cancelButtonText: t.cancel,
-    inputValidator: result => {
+    inputValidator: (result) => {
       if (!result) return t.you_must_insert_input;
-    }
-  }).then(result => {
+    },
+  }).then((result) => {
     if (result.value) {
       store.dispatch({
         type: RENAME_SCHED,
-        payload: result.value
+        payload: result.value,
       });
     }
   });
 };
 
-export const deleteAlert = schedule => {
+export const deleteAlert = (schedule) => {
   let t = store.getState().literals.literals;
   Alert.fire({
     title: t.delete_schedule_title_part + schedule.title + '?',
@@ -263,8 +267,8 @@ export const deleteAlert = schedule => {
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
     confirmButtonText: t.ok,
-    cancelButtonText: t.cancel
-  }).then(result => {
+    cancelButtonText: t.cancel,
+  }).then((result) => {
     if (result.value) {
       // It will remove schedule
       deleteSchedule(schedule.id);
@@ -273,7 +277,7 @@ export const deleteAlert = schedule => {
   });
 };
 
-export const deleteSchedule = async sched_id => {
+export const deleteSchedule = async (sched_id) => {
   try {
     const res = await axios.delete(`/api/schedules/manage/${sched_id}`);
     popupAlert('schedule_deleted', res.data, 'regular');
@@ -282,7 +286,7 @@ export const deleteSchedule = async sched_id => {
   }
   store.dispatch({
     type: DELETE_SCHEDULE,
-    payload: sched_id
+    payload: sched_id,
   });
 };
 
@@ -291,14 +295,14 @@ const eventChanged = (info, schedId) => {
 
   store.dispatch({
     type: EVENT_CHANGED,
-    payload: event
+    payload: event,
   });
 
   checkOnServer(event);
   forceSchedsUpdate(store.getState().schedule.current);
 };
 
-const checkOnServer = async event => {
+const checkOnServer = async (event) => {
   let schedules = castToArray(store.getState().schedule.schedules);
   try {
     const res = await axios.post('/api/validations', { event, schedules });
@@ -309,7 +313,7 @@ const checkOnServer = async event => {
   }
 };
 
-const getTimeFromEvent = time => {
+const getTimeFromEvent = (time) => {
   let minutes, hours;
   minutes =
     time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
@@ -321,7 +325,7 @@ const getTimeFromEvent = time => {
   return hours + ':' + minutes;
 };
 
-const forceSchedsUpdate = id => {
+const forceSchedsUpdate = (id) => {
   var t = window.scrollY;
   selectCalendar(null);
   selectCalendar(id);
@@ -335,6 +339,7 @@ const createEventObj = (info, schedId, status) => {
       schedId,
       eventId: info.event._def.publicId,
       title: info.draggedEl.getAttribute('title'),
+      timeTableId: info.draggedEl.getAttribute('timeTableId'),
       id_number: info.draggedEl.getAttribute('id_number'),
       serial_num: info.draggedEl.getAttribute('serial_num'),
       first_name: info.draggedEl.getAttribute('first_name'),
@@ -348,7 +353,7 @@ const createEventObj = (info, schedId, status) => {
       daysOfWeek: [info.event._instance.range.start.getDay()],
       borderColor: 'black',
       color: info.draggedEl.getAttribute('backgroundcolor'),
-      textColor: 'white'
+      textColor: 'white',
     };
   } else if (status === 'change') {
     let start = getTimeFromEvent(info.event._instance.range.start);
@@ -359,6 +364,7 @@ const createEventObj = (info, schedId, status) => {
       schedId,
       eventId: info.event._def.extendedProps.eventId,
       title: info.event._def.title,
+      timeTableId: info.event._def.extendedProps.timeTableId,
       id_number: info.event._def.extendedProps.id_number,
       serial_num: info.event._def.extendedProps.serial_num,
       first_name: info.event._def.extendedProps.first_name,
@@ -372,10 +378,11 @@ const createEventObj = (info, schedId, status) => {
       daysOfWeek: [info.event._instance.range.start.getDay()],
       borderColor: 'black',
       color: info.event._def.extendedProps.backgroundColor,
-      textColor: 'white'
+      textColor: 'white',
     };
   }
 
+  console.log(event);
   return event;
 };
 
@@ -394,24 +401,24 @@ export const changeLangScheds = () => {
 
   store.dispatch({
     type: CHANGE_LANG_SCHEDS,
-    payload: new_scheds
+    payload: new_scheds,
   });
 };
 
-const castToArray = schedules => {
+const castToArray = (schedules) => {
   let schedsArray = [];
   for (let key in schedules) {
     schedsArray.push({
       title: schedules[key].title,
       id: schedules[key].id,
-      events: schedules[key].calendar.props.children.props.events
+      events: schedules[key].calendar.props.children.props.events,
     });
   }
 
   return schedsArray;
 };
 
-const updateStatus = res => {
+const updateStatus = (res) => {
   if (res.type === 'error' || res.type === 'warning') {
     popupAlert(res.type, res.msg, res.type);
 
@@ -423,8 +430,8 @@ const updateStatus = res => {
         id1: res.event1.eventId,
         id2: res.event2.eventId,
         sched1Id: res.sched1Id,
-        sched2Id: res.sched2Id
-      }
+        sched2Id: res.sched2Id,
+      },
     });
   } else {
     store.dispatch({
@@ -434,8 +441,8 @@ const updateStatus = res => {
         id1: res.event1.eventId,
         id2: res.event1.eventId,
         sched1Id: res.sched1Id,
-        sched2Id: res.sched1Id
-      }
+        sched2Id: res.sched1Id,
+      },
     });
   }
   forceSchedsUpdate(store.getState().schedule.current);

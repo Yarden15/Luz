@@ -22,12 +22,12 @@ router.get('/', authorization, async (req, res) => {
       .populate({
         path: 'performance',
         model: Performance,
-        select: 'serial_num title location semester year ex_hours course_hours'
+        select: 'serial_num title location semester year ex_hours course_hours',
       })
       .populate({
         path: 'user',
         model: User,
-        select: 'id_number first_name last_name color'
+        select: 'id_number first_name last_name color',
       });
 
     // Response- events in table
@@ -58,14 +58,7 @@ router.get('/:id', auth, async (req, res) => {
 // @access  Private Only a Manager or Admin can do it
 router.post(
   '/',
-  [
-    authorization,
-    [
-      check('courseId', 'Course ID is required')
-        .not()
-        .isEmpty()
-    ]
-  ],
+  [authorization, [check('courseId', 'Course ID is required').not().isEmpty()]],
   async (req, res) => {
     // Validations f the form will take place here
     const errors = validationResult(req);
@@ -102,11 +95,21 @@ router.post(
       // Validate user and manager in the same organization
       if (performance.organization !== man.organization)
         return res.status(401).json({
-          msg: 'Cannot handle that performance- not the same organization'
+          msg: 'Cannot handle that performance- not the same organization',
         });
 
       // Check for timeTable with the requested parameters (userId and courseId)
-      let timetable = TimeTable.find({ performance: courseId, user: userId });
+      let timetable = TimeTable.find({
+        $match: [
+          {
+            performance: courseId,
+          },
+          {
+            user: userId,
+          },
+        ],
+      });
+
       // If there is an existing timeTamble dont create it again
       if (timetable)
         return res.status(403).json({ msg: 'timeTable already exist' });
@@ -119,7 +122,7 @@ router.post(
       await User.update(
         { _id: user._id },
         {
-          $push: { performances: performance._id }
+          $push: { performances: performance._id },
         }
       );
 

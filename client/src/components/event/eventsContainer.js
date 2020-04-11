@@ -5,7 +5,6 @@ import { getEvents } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
 
 export class eventsContainer extends Component {
-
   componentDidMount() {
     let draggableEl = document.getElementById('external-events');
     getEvents();
@@ -14,6 +13,7 @@ export class eventsContainer extends Component {
       eventData: function (eventEl) {
         //takes the information from the attribute to variables
         let title = eventEl.getAttribute('title');
+        let timeTableId = eventEl.getAttribute('timeTableId');
         let id = eventEl.getAttribute('id');
         let id_number = eventEl.getAttribute('id_number');
         let serial_num = eventEl.getAttribute('serial_num');
@@ -25,10 +25,10 @@ export class eventsContainer extends Component {
         let year = eventEl.getAttribute('year');
         let backgroundColor = eventEl.getAttribute('backgroundColor');
 
-
         //the info that retrun from the events into the container to the events that dragging to the schedule
         return {
           title,
+          timeTableId,
           id,
           id_number,
           serial_num,
@@ -38,11 +38,11 @@ export class eventsContainer extends Component {
           location,
           course_hours,
           year,
-          backgroundColor
+          backgroundColor,
         };
-      }
+      },
     });
-  }//if the courses still not arrived from the server we displaying spinner
+  } //if the courses still not arrived from the server we displaying spinner
   render() {
     if (this.props.eventObj.loading) {
       return (
@@ -52,17 +52,20 @@ export class eventsContainer extends Component {
           </p>
           <Spinner id='spinner-events-container' />
         </div>
-      )
-    } else {//display the courses
+      );
+    } else {
+      //display the courses
       return (
         <div id='external-events'>
           <p>
             <strong>{this.props.t.courses}</strong>
           </p>
           <div>
-            {this.props.eventObj.events.map(event => (
-              <div style={{ backgroundColor: event.user.color }}
+            {this.props.eventObj.events.map((event) => (
+              <div
+                style={{ backgroundColor: event.user.color }}
                 className='fc-event draggable tool-tip'
+                timeTableId={event._id}
                 title={event.performance.title}
                 id={event.performance._id}
                 serial_num={event.performance.serial_num}
@@ -74,28 +77,54 @@ export class eventsContainer extends Component {
                 semester={event.performance.semester}
                 course_hours={event.performance.course_hours}
                 year={event.performance.year}
-                backgroundcolor={event.user.color}>
-                <div className="cut-text">{this.props.t.name}: {event.user.first_name} {event.user.last_name}</div>
-                <div className="cut-text">{this.props.t.course_title}: {event.performance.title}</div>
-                <div className="cut-text">{this.props.t.serial_num}: {event.performance.serial_num}</div>
-                <div className={`tooltiptext ${this.props.dir}`} >
-                  <div>{this.props.t.course_title}: {event.performance.title}</div>
-                  <div>{this.props.t.serial_num}: {event.performance.serial_num}</div>
-                  <div>{this.props.t.name}: {event.user.first_name} {event.user.last_name}</div>
-                  <div>{this.props.t.location}: {event.performance.location}</div>
-                  <div>{this.props.t.year}: {this.props.t[event.performance.year]}</div>
-                  <div>{this.props.t.semester}: {this.props.t[event.performance.semester]}</div>
-                  <div>{this.props.t.course_hours}: {event.performance.course_hours}</div></div>
+                backgroundcolor={event.user.color}
+              >
+                <div className='cut-text'>
+                  {this.props.t.name}: {event.user.first_name}{' '}
+                  {event.user.last_name}
+                </div>
+                <div className='cut-text'>
+                  {this.props.t.course_title}: {event.performance.title}
+                </div>
+                <div className='cut-text'>
+                  {this.props.t.serial_num}: {event.performance.serial_num}
+                </div>
+                <div className={`tooltiptext ${this.props.dir}`}>
+                  <div>
+                    {this.props.t.course_title}: {event.performance.title}
+                  </div>
+                  <div>
+                    {this.props.t.serial_num}: {event.performance.serial_num}
+                  </div>
+                  <div>
+                    {this.props.t.name}: {event.user.first_name}{' '}
+                    {event.user.last_name}
+                  </div>
+                  <div>
+                    {this.props.t.location}: {event.performance.location}
+                  </div>
+                  <div>
+                    {this.props.t.year}: {this.props.t[event.performance.year]}
+                  </div>
+                  <div>
+                    {this.props.t.semester}:{' '}
+                    {this.props.t[event.performance.semester]}
+                  </div>
+                  <div>
+                    {this.props.t.course_hours}:{' '}
+                    {event.performance.course_hours}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
-        </div >
+        </div>
       );
     }
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     eventObj: state.event,
     t: state.literals.literals,

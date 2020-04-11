@@ -17,11 +17,11 @@ router.get('/', authorization, async (req, res) => {
     let user = await User.findById(req.user.id).select('organization');
     // Get all the timeTable events
     const schedules = await Schedule.find({
-      organization: user.organization
+      organization: user.organization,
     }).populate({
       path: 'schedules',
       model: Schedule,
-      select: 'events sched_id title'
+      select: 'events sched_id title',
     });
 
     // Response- events in table
@@ -38,11 +38,7 @@ router.post(
   '/',
   [
     authorization,
-    [
-      check('sched_id', 'Schedule Id is required')
-        .not()
-        .isEmpty()
-    ]
+    [check('sched_id', 'Schedule Id is required').not().isEmpty()],
   ],
   async (req, res) => {
     // Validations f the form will take place here
@@ -54,6 +50,7 @@ router.post(
     // Pull from the req.body the fields to create new schedule later on (instance)
     const { sched_id, title, events } = req.body;
 
+    console.log(events);
     try {
       // Pull the organization of manager to know what organization field for UserSchema
       let user = await User.findById(req.user.id).select('organization');
@@ -63,7 +60,7 @@ router.post(
         sched_id,
         organization: user.organization,
         title,
-        events
+        events,
       });
       // Promise- save schedule to db
 
@@ -103,7 +100,7 @@ router.delete('/manage/:id', authorization, async (req, res) => {
     //  The manager not authorize to delete the specific schedule requested
     if (user.organization !== schedule.organization) {
       res.status(401).json({
-        msg: 'Not allowed to delete schedule- not the same organization'
+        msg: 'Not allowed to delete schedule- not the same organization',
       });
     }
 
