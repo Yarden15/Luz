@@ -3,20 +3,20 @@ const mongoose = require('mongoose');
 const ScheduleSchema = mongoose.Schema({
   sched_id: {
     type: String,
-    required: true
+    required: true,
   },
   organization: {
     type: String,
-    required: true
+    required: true,
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   events: {
     type: Array,
-    required: true
-  }
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('schedules', ScheduleSchema);

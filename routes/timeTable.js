@@ -99,8 +99,12 @@ router.post(
         });
 
       // Check for timeTable with the requested parameters (userId and courseId)
-      let timetable = TimeTable.find({
-        $match: [
+      // let timetable = await TimeTable.find({
+      //   performance: courseId,
+      //   user: userId,
+      // });
+      let timetable = await TimeTable.findOne({
+        $and: [
           {
             performance: courseId,
           },

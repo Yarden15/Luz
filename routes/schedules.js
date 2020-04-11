@@ -18,11 +18,12 @@ router.get('/', authorization, async (req, res) => {
     // Get all the timeTable events
     const schedules = await Schedule.find({
       organization: user.organization,
-    }).populate({
-      path: 'schedules',
-      model: Schedule,
-      select: 'events sched_id title',
     });
+    // .populate({
+    //   path: 'schedules',
+    //   model: Schedule,
+    //   select: 'events sched_id title',
+    // });
 
     // Response- events in table
     res.json(schedules);
