@@ -105,6 +105,7 @@ export const createCalendar = (
         selectHelper={true}
         editable={true}
         droppable={true}
+        //eventDragStart={function (info) { showGoodPlaces() }}
         eventDrop={function (info) {
           eventChanged(info, id);
         }}
@@ -119,8 +120,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-              ' ' +
-              info.event.extendedProps.last_name
+            ' ' +
+            info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}
@@ -181,7 +182,8 @@ export const eventClick = (eventClick) => {
   let t = store.getState().literals.literals;
   Alert.fire({
     title:
-      eventClick.event.title +
+      eventClick.event.title + '<br>' +
+      eventClick.event.extendedProps.first_name + ' ' + eventClick.event.extendedProps.last_name +
       '\n SN: ' +
       eventClick.event.extendedProps.serial_num,
     html:
@@ -325,7 +327,7 @@ const getTimeFromEvent = (time) => {
   return hours + ':' + minutes;
 };
 
-const forceSchedsUpdate = (id) => {
+export const forceSchedsUpdate = (id) => {
   var t = window.scrollY;
   selectCalendar(null);
   selectCalendar(id);
@@ -339,7 +341,7 @@ const createEventObj = (info, schedId, status) => {
       schedId,
       eventId: info.event._def.publicId,
       title: info.draggedEl.getAttribute('title'),
-      timeTableId: info.draggedEl.getAttribute('timeTableId'),
+      timetableid: info.draggedEl.getAttribute('timetableid'),
       id_number: info.draggedEl.getAttribute('id_number'),
       serial_num: info.draggedEl.getAttribute('serial_num'),
       first_name: info.draggedEl.getAttribute('first_name'),
@@ -364,7 +366,7 @@ const createEventObj = (info, schedId, status) => {
       schedId,
       eventId: info.event._def.extendedProps.eventId,
       title: info.event._def.title,
-      timeTableId: info.event._def.extendedProps.timeTableId,
+      timetableid: info.event._def.extendedProps.timetableid,
       id_number: info.event._def.extendedProps.id_number,
       serial_num: info.event._def.extendedProps.serial_num,
       first_name: info.event._def.extendedProps.first_name,
@@ -452,12 +454,68 @@ export const searchAndUpdate = (state, id, schedId, color) => {
   let length =
     state.schedules[schedId].calendar.props.children.props.events.length;
   for (let i = 0; i < length; i++) {
-    if (
-      state.schedules[schedId].calendar.props.children.props.events[i]
-        .eventId === id
-    )
-      state.schedules[schedId].calendar.props.children.props.events[
-        i
-      ].borderColor = color;
+    if (state.schedules[schedId].calendar.props.children.props.events[i].eventId === id)
+      state.schedules[schedId].calendar.props.children.props.events[i].borderColor = color;
   }
 };
+
+export const showGoodPlaces = () => {
+  let event = {
+    groupId: 'good',
+    title: 'test',
+    first_name: '',
+    last_name: '',
+    startTime: "14:00",
+    endTime: "19:00",
+    daysOfWeek: [1],
+    overlap: true,
+    rendering: 'background',
+    color: '#257e4a'
+  }
+  let event2 = {
+    groupId: 'good',
+    title: 'test',
+    first_name: '',
+    last_name: '',
+    startTime: "08:00",
+    endTime: "14:00",
+    daysOfWeek: [2],
+    overlap: true,
+    rendering: 'background',
+    color: '#257e4a'
+  }
+  let event3 = {
+    groupId: 'good',
+    title: 'test',
+    first_name: '',
+    last_name: '',
+    startTime: "08:00",
+    endTime: "16:00",
+    daysOfWeek: [3],
+    overlap: true,
+    rendering: 'background',
+    color: '#257e4a'
+  }
+  store.dispatch({
+    type: ADD_EVENT,
+    payload: {
+      event: event,
+      schedId: store.getState().schedule.current,
+    }
+  })
+  store.dispatch({
+    type: ADD_EVENT,
+    payload: {
+      event: event3,
+      schedId: store.getState().schedule.current,
+    }
+  })
+  store.dispatch({
+    type: ADD_EVENT,
+    payload: {
+      event: event2,
+      schedId: store.getState().schedule.current,
+    }
+  })
+  // forceSchedsUpdate(store.getState().schedule.current)
+}

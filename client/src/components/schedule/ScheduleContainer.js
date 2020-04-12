@@ -19,9 +19,11 @@ export class ScheduleContainer extends Component {
         </div>)
     } else if (this.props.scheduleObj.schedules[this.props.scheduleObj.current]) {
       return (
-        <Fragment>
+        <Fragment key={this.props.scheduleObj.current}>
           <div key={this.props.scheduleObj.current}>
-            <h1 className='calendar-title'>{this.props.scheduleObj.schedules[this.props.scheduleObj.current].title}</h1>
+            <h1 className='calendar-title'>
+              {this.props.scheduleObj.schedules[this.props.scheduleObj.current].title}
+            </h1>
             {this.props.scheduleObj.schedules[this.props.scheduleObj.current] === null ? "" : this.props.scheduleObj.schedules[this.props.scheduleObj.current].calendar}
           </div>
         </Fragment>
