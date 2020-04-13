@@ -30,6 +30,7 @@ export const getSchedules = async () => {
 
     for (let i = 0; i < schedules.length; i++) {
       let convertEvents = [];
+
       for (let j = 0; j < schedules[i].events.length; j++) {
         let event = {
           sched1Id: schedules[i].sched_id,
@@ -40,17 +41,17 @@ export const getSchedules = async () => {
           serial_num: schedules[i].events[j].timeTableId.performance.serial_num,
           first_name: schedules[i].events[j].timeTableId.user.first_name,
           last_name: schedules[i].events[j].timeTableId.user.last_name,
-          semester: schedules[i].events[j].timeTableId.performance.semster,
+          semester: schedules[i].events[j].timeTableId.performance.semester,
           location: schedules[i].events[j].timeTableId.performance.location,
           course_hours:
             schedules[i].events[j].timeTableId.performance.course_hours,
           year: schedules[i].events[j].timeTableId.performance.year,
           startTime: schedules[i].events[j].startTime,
-          borderColor: 'black',
-          textColor: 'white',
           endTime: schedules[i].events[j].endTime,
           daysOfWeek: schedules[i].events[j].daysOfWeek,
+          borderColor: 'black',
           color: schedules[i].events[j].timeTableId.user.color,
+          textColor: 'white',
         };
         convertEvents.push(event);
       }
@@ -58,7 +59,7 @@ export const getSchedules = async () => {
       createCalendar(
         schedules[i].title,
         schedules[i].sched_id,
-        schedules[i].convertEvents,
+        (schedules[i].events = convertEvents),
         1
       );
     }

@@ -35,11 +35,6 @@ router.get('/', authorization, async (req, res) => {
           select: 'id_number first_name last_name color',
         },
       ],
-      // populate: {
-      //   path: 'user',
-      //   model: User,
-      //   select: 'id_number first_name last_name',
-      // },
     });
 
     // .populate({
