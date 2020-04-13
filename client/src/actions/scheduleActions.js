@@ -517,5 +517,5 @@ export const showGoodPlaces = () => {
       schedId: store.getState().schedule.current,
     }
   })
-  // forceSchedsUpdate(store.getState().schedule.current)
+  forceSchedsUpdate(store.getState().schedule.current);
 }

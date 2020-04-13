@@ -35,9 +35,11 @@ export default (state = initialState, action) => {
         counter: state.counter + 1
       }
     case ADD_EVENT:
-      state.schedules[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);
+      let newSchedule = state.schedules;
+      newSchedule[action.payload.schedId].calendarRef.current.props.events.push(action.payload.event);
       return {
-        ...state
+        ...state,
+        schedules: newSchedule
       }
     case EVENT_CHANGED:
       state.schedules[action.payload.schedId].calendarRef.current.props.events.forEach(event => {
@@ -55,7 +57,7 @@ export default (state = initialState, action) => {
       const id = (event) => event.eventId === action.payload.event_id;
       const index = copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.findIndex(id);
       if (index > -1)
-        copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.splice(index,1);
+        copySchedsDeleteEvent[action.payload.sched_id].calendarRef.current.props.events.splice(index, 1);
       return {
         ...state,
         schedules: copySchedsDeleteEvent
