@@ -10,6 +10,7 @@ const auth = require('../middleware/auth');
 // Models
 const User = require('../models/User');
 const TimeTable = require('../models/TimeTable');
+const Schedule = require('../models/Schedule');
 
 // @route   GET api/users/details
 // @desc    Get current User detailes
@@ -47,8 +48,8 @@ router.put(
       check(
         'password',
         'Please enter a password with 6 or more characters'
-      ).isLength({ min: 6 })
-    ]
+      ).isLength({ min: 6 }),
+    ],
   ],
   async (req, res) => {
     // Validations of the form will take place here
@@ -75,7 +76,7 @@ router.put(
       await User.update(
         { _id: req.user.id },
         {
-          $set: { password: hashPass }
+          $set: { password: hashPass },
         }
       );
 
@@ -96,18 +97,14 @@ router.post(
     Authorization,
     // Validations intialize for all form feilds
     [
-      check('first_name', 'Please add first name')
-        .not()
-        .isEmpty(),
-      check('last_name', 'Please add last name')
-        .not()
-        .isEmpty(),
+      check('first_name', 'Please add first name').not().isEmpty(),
+      check('last_name', 'Please add last name').not().isEmpty(),
       check('email', 'Please include a valid email').isEmail(),
       check(
         'password',
         'Please enter a password with 6 or more characters'
-      ).isLength({ min: 6 })
-    ]
+      ).isLength({ min: 6 }),
+    ],
   ],
   async (req, res) => {
     // Validations f the form will take place here
@@ -127,7 +124,7 @@ router.post(
       manager,
       scheduler,
       lecturer,
-      color
+      color,
     } = req.body;
 
     // Try catch for a Promise
@@ -154,7 +151,7 @@ router.post(
         manager,
         scheduler,
         lecturer,
-        color
+        color,
       });
 
       // Initialize salt (Part of bcrypt protocol to Hash)
@@ -186,7 +183,7 @@ router.get(
 
       // Get all users in db
       const users = await User.find({ organization: man.organization }).sort({
-        date: -1
+        date: -1,
       });
       res.json(users);
     } catch (err) {
@@ -207,8 +204,8 @@ router.put(
       check(
         'password',
         'Please enter a password with 6 or more characters'
-      ).isLength({ min: 6 })
-    ]
+      ).isLength({ min: 6 }),
+    ],
   ],
   async (req, res) => {
     // Validations of the form will take place here
@@ -243,7 +240,7 @@ router.put(
       await User.update(
         { _id: req.params.id },
         {
-          $set: { password: hashPass }
+          $set: { password: hashPass },
         }
       );
 
@@ -264,8 +261,8 @@ router.put(
     [
       check('password', 'Password should contain at least 6 characters')
         .if(check('password').exists())
-        .isLength({ min: 6 })
-    ]
+        .isLength({ min: 6 }),
+    ],
   ],
   async (req, res) => {
     // Validations of the form will take place here
@@ -283,7 +280,7 @@ router.put(
       manager,
       scheduler,
       lecturer,
-      color
+      color,
     } = req.body;
 
     // Build user object
@@ -315,7 +312,7 @@ router.put(
       await User.update(
         { _id: req.params.id },
         {
-          $set: userFields
+          $set: userFields,
         }
       );
 
@@ -342,15 +339,51 @@ router.delete('/manage/:id', Authorization, async (req, res) => {
     //  The manager not authorize to change the specific user requested
     if (manager.organization !== user.organization) {
       res.status(401).json({
-        msg: 'Not allowed to delete user- not the same organization'
+        msg: 'Not allowed to delete user- not the same organization',
       });
     }
+
+    // Promise- find the TimeTables and remove it from db
+    let timeTables = await TimeTable.find({ user: req.params.id });
+
+    for (let i = 0; i < timeTables.length; i++) {
+      await Schedule.updateMany({
+        $pull: {
+          events: { timeTableId: timeTables[i]._id },
+        },
+        multi: true,
+      });
+      await TimeTable.findByIdAndDelete(timeTables[i]._id);
+    }
+    // // Promise- find the userin schedule and remove it from db
+    // await Schedule.find({ organization: user.organization })
+    //   .populate({
+    //     path: 'events.timeTableId',
+    //     model: TimeTable,
+    //     select: 'user',
+    //   })
+    //   .updateMany(
+    //     {
+    //       // user: timeTableId.user,
+    //     },
+    //     { $pull: { events: { user: req.user.id } } }
+    //   );
 
     // Promise- find the User and remove it from db
     await User.findByIdAndRemove(req.params.id);
 
-    // Promise- find the TimeTables and remove it from db
-    await TimeTable.deleteMany({ user: req.params.id });
+    // // Promise- find the TimeTables and remove it from db
+    // await TimeTable.deleteMany({ user: req.params.id });
+
+    // await Schedule.populate({
+    //   path: 'events.timeTableId',
+    //   model: TimeTable,
+    //   populate: {
+    //     path: 'user',
+    //     model: User,
+    //     select: '_id',
+    //   },
+    // }).update({}, { $pull: { _id: req.params.id } });
 
     // Response- msg to indicate that Performance has been removed
     res.json({ msg: 'User has been removed' });
