@@ -29,10 +29,37 @@ export const getSchedules = async () => {
     let schedules = res.data;
 
     for (let i = 0; i < schedules.length; i++) {
+      let convertEvents = [];
+
+      for (let j = 0; j < schedules[i].events.length; j++) {
+        let event = {
+          sched1Id: schedules[i].sched_id,
+          timeTableId: schedules[i].events[j].timeTableId._id,
+          eventId: schedules[i].events[j].timeTableId._id,
+          title: schedules[i].events[j].timeTableId.performance.title,
+          id_number: schedules[i].events[j].timeTableId.user.id_number,
+          serial_num: schedules[i].events[j].timeTableId.performance.serial_num,
+          first_name: schedules[i].events[j].timeTableId.user.first_name,
+          last_name: schedules[i].events[j].timeTableId.user.last_name,
+          semester: schedules[i].events[j].timeTableId.performance.semester,
+          location: schedules[i].events[j].timeTableId.performance.location,
+          course_hours:
+            schedules[i].events[j].timeTableId.performance.course_hours,
+          year: schedules[i].events[j].timeTableId.performance.year,
+          startTime: schedules[i].events[j].startTime,
+          endTime: schedules[i].events[j].endTime,
+          daysOfWeek: schedules[i].events[j].daysOfWeek,
+          borderColor: 'black',
+          color: schedules[i].events[j].timeTableId.user.color,
+          textColor: 'white',
+        };
+        convertEvents.push(event);
+      }
+
       createCalendar(
         schedules[i].title,
         schedules[i].sched_id,
-        schedules[i].events,
+        (schedules[i].events = convertEvents),
         1
       );
     }
@@ -42,6 +69,7 @@ export const getSchedules = async () => {
 };
 
 const saveSchedule = async (sched_id, title, events) => {
+  console.log(events);
   try {
     const res = await axios.post('/api/schedules', { sched_id, title, events });
 
@@ -120,8 +148,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-            ' ' +
-            info.event.extendedProps.last_name
+              ' ' +
+              info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}
@@ -182,8 +210,11 @@ export const eventClick = (eventClick) => {
   let t = store.getState().literals.literals;
   Alert.fire({
     title:
-      eventClick.event.title + '<br>' +
-      eventClick.event.extendedProps.first_name + ' ' + eventClick.event.extendedProps.last_name +
+      eventClick.event.title +
+      '<br>' +
+      eventClick.event.extendedProps.first_name +
+      ' ' +
+      eventClick.event.extendedProps.last_name +
       '\n SN: ' +
       eventClick.event.extendedProps.serial_num,
     html:
@@ -340,8 +371,8 @@ const createEventObj = (info, schedId, status) => {
     event = {
       schedId,
       eventId: info.event._def.publicId,
+      timeTableId: info.draggedEl.getAttribute('timeTableId'),
       title: info.draggedEl.getAttribute('title'),
-      timetableid: info.draggedEl.getAttribute('timetableid'),
       id_number: info.draggedEl.getAttribute('id_number'),
       serial_num: info.draggedEl.getAttribute('serial_num'),
       first_name: info.draggedEl.getAttribute('first_name'),
@@ -384,7 +415,6 @@ const createEventObj = (info, schedId, status) => {
     };
   }
 
-  console.log(event);
   return event;
 };
 
@@ -454,8 +484,13 @@ export const searchAndUpdate = (state, id, schedId, color) => {
   let length =
     state.schedules[schedId].calendar.props.children.props.events.length;
   for (let i = 0; i < length; i++) {
-    if (state.schedules[schedId].calendar.props.children.props.events[i].eventId === id)
-      state.schedules[schedId].calendar.props.children.props.events[i].borderColor = color;
+    if (
+      state.schedules[schedId].calendar.props.children.props.events[i]
+        .eventId === id
+    )
+      state.schedules[schedId].calendar.props.children.props.events[
+        i
+      ].borderColor = color;
   }
 };
 
@@ -465,51 +500,51 @@ export const showGoodPlaces = () => {
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: "14:00",
-    endTime: "19:00",
+    startTime: '14:00',
+    endTime: '19:00',
     daysOfWeek: [1],
     overlap: true,
     rendering: 'background',
-    color: '#257e4a'
-  }
+    color: '#257e4a',
+  };
   let event2 = {
     groupId: 'good',
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: "08:00",
-    endTime: "14:00",
+    startTime: '08:00',
+    endTime: '14:00',
     daysOfWeek: [2],
     overlap: true,
     rendering: 'background',
-    color: '#257e4a'
-  }
+    color: '#257e4a',
+  };
   let event3 = {
     groupId: 'good',
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: "08:00",
-    endTime: "16:00",
+    startTime: '08:00',
+    endTime: '16:00',
     daysOfWeek: [3],
     overlap: true,
     rendering: 'background',
-    color: '#257e4a'
-  }
+    color: '#257e4a',
+  };
   store.dispatch({
     type: ADD_EVENT,
     payload: {
       event: event,
       schedId: store.getState().schedule.current,
-    }
-  })
+    },
+  });
   store.dispatch({
     type: ADD_EVENT,
     payload: {
       event: event3,
       schedId: store.getState().schedule.current,
-    }
-  })
+    },
+  });
   store.dispatch({
     type: ADD_EVENT,
     payload: {
