@@ -3,6 +3,7 @@ import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
 import Alert from 'sweetalert2';
+import { cleanSchedules, getSchedules, saveAllSchedules } from './scheduleActions';
 
 const setLoading = () => {
   store.dispatch({
@@ -49,6 +50,9 @@ const deleteUser = async id => {
   try {
     await axios.delete(`/api/users/manage/${id}`);
     getUsers();
+    saveAllSchedules();
+    cleanSchedules();
+    getSchedules();
     Alert.fire(
       t.literals.deleted,
       t.literals.the_user_has_been_deleted,
@@ -73,6 +77,9 @@ export const updateUser = async user => {
   try {
     const res = await axios.put(`/api/users/manage/details/${user._id}`, user);
     getUsers();
+    saveAllSchedules();
+    cleanSchedules();
+    getSchedules();
     popupAlert('congratulations', res.data, 'regular');
   } catch (err) {
     console.error(err);

@@ -2,7 +2,7 @@ import { Draggable } from '@fullcalendar/interaction'; // needed for dayClick
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEvents } from '../../actions/eventsActions';
-// import { showGoodPlaces } from '../../actions/scheduleActions';
+import { showGoodPlaces, forceSchedsUpdate } from '../../actions/scheduleActions';
 import Spinner from '../layout/Spinner';
 
 
@@ -65,8 +65,10 @@ export class eventsContainer extends Component {
           </p>
           <div>
             {this.props.eventObj.events.map((event) => (
-              <div onMouseDown={(eventt) => {
-               // showGoodPlaces();
+              <div onClick={(eventt) => {
+                eventt.preventDefault();
+                showGoodPlaces();
+                forceSchedsUpdate(this.props.schedule);
               }}
                 onMouseUp={(v) => { console.log('mouse up') }}
                 style={{ backgroundColor: event.user.color }}

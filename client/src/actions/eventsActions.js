@@ -9,6 +9,7 @@ import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
 import { displayAlert } from './authActions';
+import { cleanSchedules, getSchedules, saveAllSchedules } from './scheduleActions';
 import Alert from 'sweetalert2';
 
 // Get events form DataBase
@@ -117,6 +118,9 @@ export const updateCourse = async course => {
   try {
     const res = await axios.put(`/api/performances/${course._id}`, course);
     getCourses();
+    saveAllSchedules();
+    cleanSchedules();
+    getSchedules();
     popupAlert('congratulations', res.data.msg, 'regular');
   } catch (err) {
     console.error(err);
@@ -148,6 +152,9 @@ const deleteCourse = async id => {
   try {
     await axios.delete(`/api/performances/${id}`);
     getCourses();
+    saveAllSchedules();
+    cleanSchedules();
+    getSchedules();
     Alert.fire(
       t.literals.deleted,
       t.literals.the_course_has_been_deleted,
