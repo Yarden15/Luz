@@ -29,10 +29,36 @@ export const getSchedules = async () => {
     let schedules = res.data;
 
     for (let i = 0; i < schedules.length; i++) {
+      let convertEvents = [];
+      for (let j = 0; j < schedules[i].events.length; j++) {
+        let event = {
+          sched1Id: schedules[i].sched_id,
+          timeTableId: schedules[i].events[j].timeTableId._id,
+          eventId: schedules[i].events[j].timeTableId._id,
+          title: schedules[i].events[j].timeTableId.performance.title,
+          id_number: schedules[i].events[j].timeTableId.user.id_number,
+          serial_num: schedules[i].events[j].timeTableId.performance.serial_num,
+          first_name: schedules[i].events[j].timeTableId.user.first_name,
+          last_name: schedules[i].events[j].timeTableId.user.last_name,
+          semester: schedules[i].events[j].timeTableId.performance.semster,
+          location: schedules[i].events[j].timeTableId.performance.location,
+          course_hours:
+            schedules[i].events[j].timeTableId.performance.course_hours,
+          year: schedules[i].events[j].timeTableId.performance.year,
+          startTime: schedules[i].events[j].startTime,
+          borderColor: 'black',
+          textColor: 'white',
+          endTime: schedules[i].events[j].endTime,
+          daysOfWeek: schedules[i].events[j].daysOfWeek,
+          color: schedules[i].events[j].timeTableId.user.color,
+        };
+        convertEvents.push(event);
+      }
+
       createCalendar(
         schedules[i].title,
         schedules[i].sched_id,
-        schedules[i].events,
+        schedules[i].convertEvents,
         1
       );
     }
@@ -42,6 +68,7 @@ export const getSchedules = async () => {
 };
 
 const saveSchedule = async (sched_id, title, events) => {
+  console.log(events);
   try {
     const res = await axios.post('/api/schedules', { sched_id, title, events });
 
@@ -338,8 +365,8 @@ const createEventObj = (info, schedId, status) => {
     event = {
       schedId,
       eventId: info.event._def.publicId,
-      title: info.draggedEl.getAttribute('title'),
       timeTableId: info.draggedEl.getAttribute('timeTableId'),
+      title: info.draggedEl.getAttribute('title'),
       id_number: info.draggedEl.getAttribute('id_number'),
       serial_num: info.draggedEl.getAttribute('serial_num'),
       first_name: info.draggedEl.getAttribute('first_name'),
@@ -382,7 +409,6 @@ const createEventObj = (info, schedId, status) => {
     };
   }
 
-  console.log(event);
   return event;
 };
 

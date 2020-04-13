@@ -13,10 +13,18 @@ const ScheduleSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  events: {
-    type: Array,
-    required: true,
-  },
+  events: [
+    {
+      timeTableId: { type: mongoose.Schema.Types.ObjectId },
+      startTime: { type: String },
+      endTime: { type: String },
+      daysOfWeek: { type: Array },
+    },
+  ],
+  // events: {
+  //   type: Array,
+  //   required: true,
+  // },
 });
 
 module.exports = mongoose.model('schedules', ScheduleSchema);
