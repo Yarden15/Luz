@@ -147,8 +147,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-            ' ' +
-            info.event.extendedProps.last_name
+              ' ' +
+              info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}
@@ -209,8 +209,11 @@ export const eventClick = (eventClick) => {
   let t = store.getState().literals.literals;
   Alert.fire({
     title:
-      eventClick.event.title + '<br>' +
-      eventClick.event.extendedProps.first_name + ' ' + eventClick.event.extendedProps.last_name +
+      eventClick.event.title +
+      '<br>' +
+      eventClick.event.extendedProps.first_name +
+      ' ' +
+      eventClick.event.extendedProps.last_name +
       '\n SN: ' +
       eventClick.event.extendedProps.serial_num,
     html:
@@ -367,13 +370,8 @@ const createEventObj = (info, schedId, status) => {
     event = {
       schedId,
       eventId: info.event._def.publicId,
-<<<<<<< HEAD
       timeTableId: info.draggedEl.getAttribute('timeTableId'),
       title: info.draggedEl.getAttribute('title'),
-=======
-      title: info.draggedEl.getAttribute('title'),
-      timetableid: info.draggedEl.getAttribute('timetableid'),
->>>>>>> 14ec100e9c9801c7cae40d1b96e0683fb6dd3b44
       id_number: info.draggedEl.getAttribute('id_number'),
       serial_num: info.draggedEl.getAttribute('serial_num'),
       first_name: info.draggedEl.getAttribute('first_name'),
@@ -485,8 +483,13 @@ export const searchAndUpdate = (state, id, schedId, color) => {
   let length =
     state.schedules[schedId].calendar.props.children.props.events.length;
   for (let i = 0; i < length; i++) {
-    if (state.schedules[schedId].calendar.props.children.props.events[i].eventId === id)
-      state.schedules[schedId].calendar.props.children.props.events[i].borderColor = color;
+    if (
+      state.schedules[schedId].calendar.props.children.props.events[i]
+        .eventId === id
+    )
+      state.schedules[schedId].calendar.props.children.props.events[
+        i
+      ].borderColor = color;
   }
 };
 
@@ -496,57 +499,57 @@ export const showGoodPlaces = () => {
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: "14:00",
-    endTime: "19:00",
+    startTime: '14:00',
+    endTime: '19:00',
     daysOfWeek: [1],
     overlap: true,
     rendering: 'background',
-    color: '#257e4a'
-  }
+    color: '#257e4a',
+  };
   let event2 = {
     groupId: 'good',
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: "08:00",
-    endTime: "14:00",
+    startTime: '08:00',
+    endTime: '14:00',
     daysOfWeek: [2],
     overlap: true,
     rendering: 'background',
-    color: '#257e4a'
-  }
+    color: '#257e4a',
+  };
   let event3 = {
     groupId: 'good',
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: "08:00",
-    endTime: "16:00",
+    startTime: '08:00',
+    endTime: '16:00',
     daysOfWeek: [3],
     overlap: true,
     rendering: 'background',
-    color: '#257e4a'
-  }
+    color: '#257e4a',
+  };
   store.dispatch({
     type: ADD_EVENT,
     payload: {
       event: event,
       schedId: store.getState().schedule.current,
-    }
-  })
+    },
+  });
   store.dispatch({
     type: ADD_EVENT,
     payload: {
       event: event3,
       schedId: store.getState().schedule.current,
-    }
-  })
+    },
+  });
   store.dispatch({
     type: ADD_EVENT,
     payload: {
       event: event2,
       schedId: store.getState().schedule.current,
-    }
-  })
+    },
+  });
   // forceSchedsUpdate(store.getState().schedule.current)
-}
+};
