@@ -8,7 +8,6 @@ export class MessageBoard extends Component {
   componentDidMount() {
     getEvents();
     getAds()
-    console.log(this.props.ads.messages)
   }
   render() {
     if (this.props.eventObj.loading) {

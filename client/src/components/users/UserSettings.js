@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { updateUser, changePasswordAlert } from '../../actions/userActions';
+import { /*updateUser,*/ changePasswordAlert } from '../../actions/userActions';
 
 
 const UserSettings = (props) => {

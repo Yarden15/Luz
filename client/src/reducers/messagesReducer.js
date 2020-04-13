@@ -11,7 +11,6 @@ export default (state = initialState, action) => {
     case GET_MESSAGES:
       let newMessages = [];
       action.payload.map(message => newMessages.push(message));
-      console.log(newMessages)
       return {
         ...state,
         messages: newMessages,

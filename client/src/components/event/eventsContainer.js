@@ -2,7 +2,9 @@ import { Draggable } from '@fullcalendar/interaction'; // needed for dayClick
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEvents } from '../../actions/eventsActions';
+// import { showGoodPlaces } from '../../actions/scheduleActions';
 import Spinner from '../layout/Spinner';
+
 
 export class eventsContainer extends Component {
   componentDidMount() {
@@ -13,7 +15,7 @@ export class eventsContainer extends Component {
       eventData: function (eventEl) {
         //takes the information from the attribute to variables
         let title = eventEl.getAttribute('title');
-        let timeTableId = eventEl.getAttribute('timeTableId');
+        let timetableid = eventEl.getAttribute('timetableid');
         let id = eventEl.getAttribute('id');
         let id_number = eventEl.getAttribute('id_number');
         let serial_num = eventEl.getAttribute('serial_num');
@@ -28,7 +30,7 @@ export class eventsContainer extends Component {
         //the info that retrun from the events into the container to the events that dragging to the schedule
         return {
           title,
-          timeTableId,
+          timetableid,
           id,
           id_number,
           serial_num,
@@ -43,6 +45,7 @@ export class eventsContainer extends Component {
       },
     });
   } //if the courses still not arrived from the server we displaying spinner
+
   render() {
     if (this.props.eventObj.loading) {
       return (
@@ -62,14 +65,17 @@ export class eventsContainer extends Component {
           </p>
           <div>
             {this.props.eventObj.events.map((event) => (
-              <div
+              <div onMouseDown={(eventt) => {
+               // showGoodPlaces();
+              }}
+                onMouseUp={(v) => { console.log('mouse up') }}
                 style={{ backgroundColor: event.user.color }}
                 className='fc-event draggable tool-tip'
-                timeTableId={event._id}
+                timetableid={event._id}
                 title={event.performance.title}
                 id={event.performance._id}
                 serial_num={event.performance.serial_num}
-                key={event.performance._id}
+                key={event._id}
                 id_number={event.user.id_number}
                 first_name={event.user.first_name}
                 last_name={event.user.last_name}
@@ -129,6 +135,7 @@ const mapStateToProps = (state) => {
     eventObj: state.event,
     t: state.literals.literals,
     dir: state.literals.dir,
+    schedule: state.schedule.current
   };
 };
 
