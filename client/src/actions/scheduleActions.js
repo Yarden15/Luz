@@ -8,6 +8,7 @@ import {
   EVENT_CHANGED,
   CHANGE_LANG_SCHEDS,
   RENAME_SCHED,
+  CLEAN_SCHEDULES
 } from './types';
 import Alert from 'sweetalert2';
 import FullCalendar from '@fullcalendar/react';
@@ -22,6 +23,14 @@ import { popupAlert } from './alertsActions';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
+
+export const cleanSchedules = () => {
+  setLoading();
+  store.dispatch({
+    type: CLEAN_SCHEDULES
+  });
+}
+
 export const getSchedules = async () => {
   try {
     setLoading();
@@ -68,11 +77,24 @@ export const getSchedules = async () => {
   }
 };
 
+export const saveAllSchedules = async () => {
+  let scheds = store.getState().schedule.schedules;
+  Object.keys(scheds).forEach(async function (id) {
+    try {
+      await axios.post('/api/schedules', {
+        sched_id: scheds[id].id,
+        title: scheds[id].title,
+        events: scheds[id].calendar.props.children.props.events
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
+}
+
 const saveSchedule = async (sched_id, title, events) => {
-  console.log(events);
   try {
     const res = await axios.post('/api/schedules', { sched_id, title, events });
-
     popupAlert('congratulations', res.data, 'regular');
   } catch (error) {
     console.error(error);
@@ -112,6 +134,7 @@ export const createCalendar = (
             text: t.rename,
             click: function () {
               renameSched();
+              saveAllSchedules();
             },
           },
         }}
@@ -148,8 +171,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-              ' ' +
-              info.event.extendedProps.last_name
+            ' ' +
+            info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}

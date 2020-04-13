@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED, CLEAN_SCHEDULES, UPDATE_EVENT } from '../actions/types';
 import { searchAndUpdate } from '../actions/scheduleActions';
 const initialState = {
   schedules: {},
@@ -77,13 +77,20 @@ export default (state = initialState, action) => {
         ...state,
         schedules: action.payload
       };
+    case CLEAN_SCHEDULES:
+      return {
+        ...state,
+        schedules: {},
+        current: null,
+        loading: false
+      };
     case RENAME_SCHED:
       state.schedules[state.current].title = action.payload
       return {
         ...state,
         counter: state.counter + 1
       }
-    case 'UPDATE_EVENT':
+    case UPDATE_EVENT:
       searchAndUpdate(state, action.payload.id1, action.payload.sched1Id, action.payload.color);
       searchAndUpdate(state, action.payload.id2, action.payload.sched2Id, action.payload.color);
       return {
