@@ -219,7 +219,17 @@ export const changePasswordAlert = (id) => {
 // };
 export const isManager = async () => {
   try {
-    const res = await axios.get('/api/users/me/role')
+    const res = await axios.get('/api/users/me/role');
+    return res.data.manager;
+  }
+  catch (err) {
+    console.log(err);
+  }
+}
+
+export const isScheduler = () => {
+  try {
+    const res = axios.get('/api/users/me/role')
     return res.data;
   }
   catch (err) {
@@ -227,12 +237,12 @@ export const isManager = async () => {
   }
 }
 
-export const isScheduler = async () => {
-  const res = await axios.get('/api/users/me/role')
-  return res.data.scheduler;
-}
-
 export const isLecuturer = async () => {
-  const res = await axios.get('/api/users/me/role')
-  return res.data.lecturer;
+  try {
+    const res = axios.get('/api/users/me/role')
+    return res.data;
+  }
+  catch (err) {
+    console.log(err);
+  }
 }

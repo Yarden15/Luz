@@ -8,8 +8,8 @@ const PrivateRoute = ({ component: Component, authObj, exact, strict, path, ...r
     <Route
       {...rest}
       render={(props) =>
-        localStorage.getItem('token') ? (<Component {...props} {...history} />) :
-          (<Redirect to='/login' />)}
+        authObj.isAuthenticated ? (<Component {...props} {...history} />) :
+          (<Redirect to='/' />)}
     />
   );
 };

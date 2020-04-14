@@ -6,8 +6,10 @@ import './styles/App.scss';
 import store from './store';
 import { Provider } from 'react-redux';
 import { defineLang } from "./actions/literalActions";
+import { loadUser } from './actions/authActions';
 
 defineLang('he');
+loadUser();
 
 ReactDOM.render(
   <Fragment>
