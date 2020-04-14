@@ -1,11 +1,18 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
 import { createCourse } from '../../actions/eventsActions';
 import { updateError, displayAlert } from '../../actions/authActions';
 import LoginAlert from '../auth/LoginAlert';
+import { loadUser } from '../../actions/authActions';
 
 const CreateCourse = (props) => {
+
+  // Load user in this component
+  useEffect(() => {
+    !props.authObj.user && loadUser()
+    // eslint-disable-next-line
+  }, []);
 
   const [course, setCourse] = useState(
     {
@@ -115,6 +122,7 @@ const CreateCourse = (props) => {
 
 const mapStateToProps = state => {
   return {
+    authObj: state.auth,
     adminObj: state.admin,
     t: state.literals.literals,
     dir: state.literals.dir

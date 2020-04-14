@@ -5,9 +5,11 @@ import Menu from '../layout/Menu';
 import { getUsers, deleteUserAlert, handleResetPassword } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor } from '../../actions/utilities';
+import { loadUser } from '../../actions/authActions';
 
 export class ManageUsers extends Component {
   componentDidMount() {
+    !this.props.authObj.user && loadUser();
     getUsers();
   }
 
@@ -80,6 +82,7 @@ export class ManageUsers extends Component {
 
 const mapStateToProps = state => {
   return {
+    authObj: state.auth,
     userObj: state.user,
     t: state.literals.literals,
     dir: state.literals.dir

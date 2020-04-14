@@ -6,9 +6,11 @@ import { getCourses, deleteEventAlert, getEvents } from '../../actions/eventsAct
 import Spinner from '../layout/Spinner';
 import { getLocations } from '../../actions/adminActions';
 import { getUsers } from '../../actions/userActions';
+import { loadUser } from '../../actions/authActions';
 
 export class ManageEvents extends Component {
   componentDidMount() {
+    !this.props.authObj.user && loadUser()
     getLocations();
     getCourses();
     getEvents();
@@ -85,6 +87,7 @@ export class ManageEvents extends Component {
 
 const mapStateToProps = state => {
   return {
+    authObj: state.auth,
     eventObj: state.event,
     t: state.literals.literals,
     dir: state.literals.dir

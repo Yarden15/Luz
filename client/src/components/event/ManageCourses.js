@@ -5,9 +5,11 @@ import Menu from '../layout/Menu';
 import { getCourses, deleteCourseAlert } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
 import { getLocations } from '../../actions/adminActions';
+import { loadUser } from '../../actions/authActions';
 
 export class ManageCourses extends Component {
   componentDidMount() {
+    !this.props.authObj.user && loadUser()
     getLocations();
     getCourses();
   }
@@ -81,6 +83,7 @@ export class ManageCourses extends Component {
 
 const mapStateToProps = state => {
   return {
+    authObj: state.auth,
     eventObj: state.event,
     t: state.literals.literals,
     dir: state.literals.dir

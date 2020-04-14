@@ -9,7 +9,7 @@ const SchedulerRoute = ({ component: Component, authObj, exact, strict, path, ..
     <Route
       {...rest}
       render={(props) =>
-        authObj.isAuthenticated && isScheduler() ? (<Component {...props} {...history} />) :
+        localStorage.getItem('token') && isScheduler() ? (<Component {...props} {...history} />) :
           (<Redirect to='/accesserror' />)}
     />
   );

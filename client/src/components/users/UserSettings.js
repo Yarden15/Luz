@@ -1,10 +1,16 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
 import { /*updateUser,*/ changePasswordAlert } from '../../actions/userActions';
-
+import { loadUser } from '../../actions/authActions';
 
 const UserSettings = (props) => {
+  // Load user in this component
+  useEffect(() => {
+    !props.authObj.user && loadUser()
+    // eslint-disable-next-line
+  }, []);
+
   let editUser = props.authObj.user;
   const [user, setUser] = useState(
     {

@@ -66,7 +66,15 @@ router.post(
       // Construct payload with the id in db
       const payload = {
         user: {
-          id: user.id
+          id: user.id,
+          id_number: user.id_number,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          manager: user.manager,
+          scheduler: user.scheduler,
+          lecturer: user.lecturer,
+          color: user.color
         }
       };
       // Token create and Validation

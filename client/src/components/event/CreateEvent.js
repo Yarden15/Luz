@@ -6,10 +6,12 @@ import { getUsers } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 import LoginAlert from '../auth/LoginAlert';
 import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor } from '../../actions/utilities';
+import { loadUser } from '../../actions/authActions';
 
 
 export class CreateEvent extends Component {
   componentDidMount() {
+    !this.props.authObj.user && loadUser()
     getUsers();
     getCourses();
   }
@@ -120,6 +122,7 @@ export class CreateEvent extends Component {
 
 const mapStateToProps = state => {
   return {
+    authObj: state.auth,
     eventObj: state.event,
     userObj: state.user,
     t: state.literals.literals,

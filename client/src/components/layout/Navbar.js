@@ -28,7 +28,7 @@ const Navbar = props => {
       <li onClick={() => toggleLangMenu()} className="lang-btn">
         <i className='fas fa-globe'></i>{props.t.language}
       </li>
-      <LangMenu class='connected'/>
+      <LangMenu class='connected' />
       <li>
         <a onClick={onLogout} href='/'>
           <i className='fas fa-sign-out-alt'></i>{props.t.logout}

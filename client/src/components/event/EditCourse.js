@@ -1,11 +1,18 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getCourseById, updateCourse } from '../../actions/eventsActions';
 import LoginAlert from '../auth/LoginAlert';
 import { updateError, displayAlert } from '../../actions/authActions';
 import Menu from '../layout/Menu';
+import { loadUser } from '../../actions/authActions';
 
 const EditCourse = props => {
+  // Load user in this component
+  useEffect(() => {
+    !props.authObj.user && loadUser()
+    // eslint-disable-next-line
+  }, []);
+
   let editCourse = getCourseById(props.match.params.id)
   const [course, setCourse] = useState(
     {
@@ -19,7 +26,7 @@ const EditCourse = props => {
     }
   );
 
-  const { _id,title, year, serial_num, semester, location, course_hours } = course;
+  const { _id, title, year, serial_num, semester, location, course_hours } = course;
 
   const onChange = e => setCourse({ ...course, [e.target.name]: e.target.value });
 

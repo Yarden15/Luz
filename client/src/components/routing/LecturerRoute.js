@@ -9,7 +9,7 @@ const LecturerRoute = ({ component: Component, authObj, exact, strict, path, ...
     <Route
       {...rest}
       render={(props) =>
-        authObj.isAuthenticated && isLecuturer() ? (<Component {...props} {...history} />) :
+        localStorage.getItem('token') && isLecuturer() ? (<Component {...props} {...history} />) :
           (<Redirect to='/accesserror' />)}
     />
   );

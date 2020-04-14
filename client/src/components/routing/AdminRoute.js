@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import history from '../../utils/history';
-import {isManager} from '../../actions/userActions';
+import { isManager } from '../../actions/userActions';
 
 
 const AdminRoute = ({ component: Component, authObj, exact, strict, path, ...rest }) => {
@@ -10,7 +10,7 @@ const AdminRoute = ({ component: Component, authObj, exact, strict, path, ...res
     <Route
       {...rest}
       render={(props) =>
-        authObj.isAuthenticated && isManager() ? (<Component {...props} {...history} />) :
+        (localStorage.getItem('token') && isManager()) ? (<Component {...props} {...history} />) :
           (<Redirect to='/accesserror' />)}
     />
   );

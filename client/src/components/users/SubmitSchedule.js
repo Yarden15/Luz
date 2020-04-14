@@ -1,8 +1,16 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
+import { loadUser } from '../../actions/authActions';
 
 const SubmitSchedule = props => {
+  // Load user in this component
+  useEffect(() => {
+    !props.authObj.user && loadUser()
+    // eslint-disable-next-line
+  }, []);
+
+
 
   let userSchedule = {
     sunday_start: '',

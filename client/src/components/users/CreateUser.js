@@ -1,12 +1,19 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { register } from '../../actions/authActions';
 import LoginAlert from '../auth/LoginAlert';
 import { updateError, displayAlert } from '../../actions/authActions';
 import { getRandomColor } from '../../actions/userActions';
 import Menu from '../layout/Menu';
+import { loadUser } from '../../actions/authActions';
 
 const CreateUser = props => {
+  // Load user in this component
+  useEffect(() => {
+    !props.authObj.user && loadUser()
+    // eslint-disable-next-line
+  }, []);
+
 
   const [user, setUser] = useState(
     {

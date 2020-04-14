@@ -47,6 +47,7 @@ const Menu = props => {
 
   } else {
     return (
+      props.authObj.user &&
       <div>
         <ul className='menu'>
           {props.authObj.user.scheduler && schedulerLinks}
