@@ -7,7 +7,8 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../models/User');
 const Performance = require('../models/Performance');
-
+const TimeTable = require('../models/TimeTable');
+const Schedule = require('../models/Schedule');
 // @route   GET api/performances
 // @desc    Get all performances
 // @access  Private- Managers
@@ -17,7 +18,7 @@ router.get('/manage', authorization, async (req, res) => {
     let user = await User.findById(req.user.id).select('organization');
     // Get all the preformances in db
     const performances = await Performance.find({
-      organization: user.organization
+      organization: user.organization,
     });
     // Response- performances of all users
     res.json(performances);
@@ -50,11 +51,7 @@ router.post(
   '/manage',
   [
     authorization,
-    [
-      check('serial_num', 'Course ID is required')
-        .not()
-        .isEmpty()
-    ]
+    [check('serial_num', 'Course ID is required').not().isEmpty()],
   ],
   async (req, res) => {
     // Validations f the form will take place here
@@ -71,7 +68,7 @@ router.post(
       year,
       semester,
       course_hours,
-      location
+      location,
     } = req.body;
     try {
       // Pull the organization of manager to know what organization field for UserSchema
@@ -85,7 +82,7 @@ router.post(
         year,
         semester,
         course_hours,
-        location
+        location,
       });
       // Promise- save performance to db
       const performance = await newPerformance.save();
@@ -108,7 +105,7 @@ router.put('/:id', authorization, async (req, res) => {
     semester,
     course_hours,
     ex_hours,
-    location
+    location,
   } = req.body;
 
   // Build constraint object
@@ -145,7 +142,7 @@ router.put('/:id', authorization, async (req, res) => {
       { new: true }
     );
     // Response- the update performance
-    res.json({course: performance, msg: 'course_updated'});
+    res.json({ course: performance, msg: 'course_updated' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -161,7 +158,6 @@ router.delete('/:id', authorization, async (req, res) => {
     let performance = await Performance.findById(req.params.id);
     // Not found constraint
     if (!performance) {
-      console.log('refdfds')
       return res.status(404).json({ msg: 'Performance not found' });
     }
     // Pull the organization of manager to know what organization field for UserSchema
@@ -170,8 +166,21 @@ router.delete('/:id', authorization, async (req, res) => {
     //  The manager not authorize to change the specific user requested
     if (user.organization !== performance.organization) {
       res.status(401).json({
-        msg: 'Not allowed to delete performance- not the same organization'
+        msg: 'Not allowed to delete performance- not the same organization',
       });
+    }
+
+    // Promise- find the TimeTables and remove it from db
+    let timeTables = await TimeTable.find({ performance: req.params.id });
+
+    for (let i = 0; i < timeTables.length; i++) {
+      await Schedule.updateMany({
+        $pull: {
+          events: { timeTableId: timeTables[i]._id },
+        },
+        multi: true,
+      });
+      await TimeTable.findByIdAndDelete(timeTables[i]._id);
     }
 
     // Promise- find the Performance and remove it from db

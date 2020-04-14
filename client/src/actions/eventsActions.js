@@ -3,13 +3,17 @@ import {
   EVENT_ERROR,
   SET_LOADING,
   REGISTER_FAIL,
-  GET_COURSES
+  GET_COURSES,
 } from './types';
 import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
 import { displayAlert } from './authActions';
-import { cleanSchedules, getSchedules, saveAllSchedules } from './scheduleActions';
+import {
+  cleanSchedules,
+  getSchedules,
+  saveAllSchedules,
+} from './scheduleActions';
 import Alert from 'sweetalert2';
 
 // Get events form DataBase
@@ -19,30 +23,30 @@ export const getEvents = async () => {
     const res = await axios.get('/api/timetables');
     store.dispatch({
       type: GET_EVENTS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (error) {
     store.dispatch({
       type: EVENT_ERROR,
-      payload: error.response.data
+      payload: error.response.data,
     });
   }
 };
 
 const setLoading = () => {
   store.dispatch({
-    type: SET_LOADING
+    type: SET_LOADING,
   });
 };
 // Create new course
-export const createCourse = async FormData => {
+export const createCourse = async (FormData) => {
   try {
     const res = await axios.post('/api/performances/manage', FormData);
     popupAlert('congratulations', res.data, 'regular');
   } catch (err) {
     store.dispatch({
       type: REGISTER_FAIL,
-      payload: err.response.data
+      payload: err.response.data,
     });
     displayAlert();
   }
@@ -54,7 +58,7 @@ export const getCourses = async () => {
     const res = await axios.get('/api/performances/manage');
     store.dispatch({
       type: GET_COURSES,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log(err);
@@ -74,19 +78,19 @@ export const createEvent = async (userId, courseId) => {
   if (userId === '' && courseId === '') {
     store.dispatch({
       type: REGISTER_FAIL,
-      payload: 'select_user_and_course'
+      payload: 'select_user_and_course',
     });
     displayAlert();
   } else if (userId === '') {
     store.dispatch({
       type: REGISTER_FAIL,
-      payload: 'select_user'
+      payload: 'select_user',
     });
     displayAlert();
   } else if (courseId === '') {
     store.dispatch({
       type: REGISTER_FAIL,
-      payload: 'select_course'
+      payload: 'select_course',
     });
     displayAlert();
   } else {
@@ -97,7 +101,7 @@ export const createEvent = async (userId, courseId) => {
     } catch (err) {
       store.dispatch({
         type: REGISTER_FAIL,
-        payload: err.response.data
+        payload: err.response.data,
       });
       console.log(err);
       displayAlert();
@@ -105,7 +109,7 @@ export const createEvent = async (userId, courseId) => {
   }
 };
 
-export const getCourseById = id => {
+export const getCourseById = (id) => {
   let courses = store.getState().event.courses;
   for (let i = 0; i < courses.length; i++) {
     if (courses[i]._id === id) {
@@ -114,11 +118,11 @@ export const getCourseById = id => {
   }
 };
 
-export const updateCourse = async course => {
+export const updateCourse = async (course) => {
   try {
+    saveAllSchedules();
     const res = await axios.put(`/api/performances/${course._id}`, course);
     getCourses();
-    saveAllSchedules();
     cleanSchedules();
     getSchedules();
     popupAlert('congratulations', res.data.msg, 'regular');
@@ -127,7 +131,7 @@ export const updateCourse = async course => {
   }
 };
 
-export const deleteCourseAlert = course => {
+export const deleteCourseAlert = (course) => {
   let t = store.getState().literals;
   Alert.fire({
     title: t.literals.delete_schedule_title_part,
@@ -138,8 +142,8 @@ export const deleteCourseAlert = course => {
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
     confirmButtonText: t.literals.ok,
-    cancelButtonText: t.literals.cancel
-  }).then(result => {
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
     if (result.value) {
       // It will remove user
       deleteCourse(course._id);
@@ -147,12 +151,12 @@ export const deleteCourseAlert = course => {
   });
 };
 
-const deleteCourse = async id => {
+const deleteCourse = async (id) => {
   let t = store.getState().literals;
   try {
+    saveAllSchedules();
     await axios.delete(`/api/performances/${id}`);
     getCourses();
-    saveAllSchedules();
     cleanSchedules();
     getSchedules();
     Alert.fire(
