@@ -11,6 +11,7 @@ import CreateUser from './components/users/CreateUser';
 import CreateCourse from './components/event/CreateCourse';
 import CreateEvent from './components/event/CreateEvent';
 import ManageCourses from './components/event/ManageCourses';
+import ManageEvents from './components/event/ManageEvents';
 import EditCourse from './components/event/EditCourse';
 import ManageUsers from './components/users/ManageUsers';
 import SubmitSchedule from './components/users/SubmitSchedule';
@@ -42,6 +43,7 @@ const App = () => {
             <PrivateRoute exact path='/createuser' component={CreateUser} />
             <PrivateRoute exact path='/createcourse' component={CreateCourse} />
             <PrivateRoute exact path='/managecourses' component={ManageCourses} />
+            <PrivateRoute exact path='/manageevents' component={ManageEvents} />
             <PrivateRoute exact path='/manageusers' component={ManageUsers} />
             <PrivateRoute exact path='/edituser/:id' component={EditUser} />
             <PrivateRoute exact path='/editcourse/:id' component={EditCourse} />
