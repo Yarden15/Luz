@@ -30,7 +30,7 @@ const Navbar = props => {
       </li>
       <LangMenu class='connected'/>
       <li>
-        <a onClick={onLogout} href='#!'>
+        <a onClick={onLogout} href='/'>
           <i className='fas fa-sign-out-alt'></i>{props.t.logout}
         </a>
       </li>

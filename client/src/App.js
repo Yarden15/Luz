@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PrivateRoute from './components/routing/PrivateRoute';
+import AdminRoute from './components/routing/AdminRoute';
+import LecturerRoute from './components/routing/LecturerRoute';
+import SchedulerRoute from './components/routing/SchedulerRoute';
 import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import Home from './components/pages/Home';
@@ -22,6 +25,7 @@ import './styles/App.scss';
 import PopupMessage from './components/alerts/PopupMessage';
 import ManageLocations from './components/pages/ManageLocations';
 import UserSettings from './components/users/UserSettings';
+import AccessErrorPage from './components/pages/AccessErrorPage';
 
 
 if (localStorage.token) {
@@ -39,17 +43,18 @@ const App = () => {
             <Route exact path='/login' component={Login} history={history} />
             <PrivateRoute exact path='/' component={Home} />
             <PrivateRoute exact path='/settings' component={UserSettings} />
-            <PrivateRoute exact path='/placement' component={CoursePlacementPage} />
-            <PrivateRoute exact path='/createuser' component={CreateUser} />
-            <PrivateRoute exact path='/createcourse' component={CreateCourse} />
-            <PrivateRoute exact path='/managecourses' component={ManageCourses} />
-            <PrivateRoute exact path='/manageevents' component={ManageEvents} />
-            <PrivateRoute exact path='/manageusers' component={ManageUsers} />
-            <PrivateRoute exact path='/edituser/:id' component={EditUser} />
-            <PrivateRoute exact path='/editcourse/:id' component={EditCourse} />
-            <PrivateRoute exact path='/createevent' component={CreateEvent} />
-            <PrivateRoute exact path='/submitschedule' component={SubmitSchedule} />
-            <PrivateRoute exact path='/managelocations' component={ManageLocations} />
+            <SchedulerRoute exact path='/placement' component={CoursePlacementPage} />
+            <AdminRoute exact path='/createuser' component={CreateUser} />
+            <AdminRoute exact path='/createcourse' component={CreateCourse} />
+            <AdminRoute exact path='/managecourses' component={ManageCourses} />
+            <AdminRoute exact path='/manageevents' component={ManageEvents} />
+            <AdminRoute exact path='/manageusers' component={ManageUsers} />
+            <AdminRoute exact path='/edituser/:id' component={EditUser} />
+            <AdminRoute exact path='/editcourse/:id' component={EditCourse} />
+            <AdminRoute exact path='/createevent' component={CreateEvent} />
+            <LecturerRoute exact path='/submitschedule' component={SubmitSchedule} />
+            <AdminRoute exact path='/managelocations' component={ManageLocations} />
+            <Route exact path='/accesserror' component={AccessErrorPage} />
             <Route exact path='/about' component={About} />
           </Switch>
         </div>
