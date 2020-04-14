@@ -3,14 +3,17 @@ import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
 import Alert from 'sweetalert2';
-import { cleanSchedules, getSchedules, saveAllSchedules } from './scheduleActions';
+import {
+  cleanSchedules,
+  getSchedules,
+  saveAllSchedules,
+} from './scheduleActions';
 
 const setLoading = () => {
   store.dispatch({
-    type: SET_LOADING_USER
+    type: SET_LOADING_USER,
   });
 };
-
 
 export const getUsers = async () => {
   setLoading();
@@ -18,14 +21,14 @@ export const getUsers = async () => {
     const res = await axios.get('/api/users/manage');
     store.dispatch({
       type: GET_USERS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     console.log(err);
   }
 };
 
-export const deleteUserAlert = user => {
+export const deleteUserAlert = (user) => {
   let t = store.getState().literals;
   Alert.fire({
     title: t.literals.delete_schedule_title_part,
@@ -36,21 +39,21 @@ export const deleteUserAlert = user => {
     confirmButtonColor: '#d33',
     cancelButtonColor: '#3085d6',
     confirmButtonText: t.literals.ok,
-    cancelButtonText: t.literals.cancel
-  }).then(result => {
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
     if (result.value) {
       deleteUser(user._id);
     }
   });
 };
 
-const deleteUser = async id => {
+const deleteUser = async (id) => {
   let t = store.getState().literals;
 
   try {
+    saveAllSchedules();
     await axios.delete(`/api/users/manage/${id}`);
     getUsers();
-    saveAllSchedules();
     cleanSchedules();
     getSchedules();
     Alert.fire(
@@ -63,7 +66,7 @@ const deleteUser = async id => {
   }
 };
 
-export const getUserById = id => {
+export const getUserById = (id) => {
   let users = store.getState().user.users;
   for (let i = 0; i < users.length; i++) {
     if (users[i]._id === id) {
@@ -72,12 +75,12 @@ export const getUserById = id => {
   }
 };
 
-export const updateUser = async user => {
+export const updateUser = async (user) => {
   console.log(user);
   try {
+    saveAllSchedules();
     const res = await axios.put(`/api/users/manage/details/${user._id}`, user);
     getUsers();
-    saveAllSchedules();
     cleanSchedules();
     getSchedules();
     popupAlert('congratulations', res.data, 'regular');
@@ -85,7 +88,6 @@ export const updateUser = async user => {
     console.error(err);
   }
 };
-
 
 export const handleResetPassword = (id) => {
   let t = store.getState().literals.literals;
@@ -106,8 +108,8 @@ export const handleResetPassword = (id) => {
     allowOutsideClick: false,
     preConfirm: () => ({
       newPassword1: document.getElementById('newPassword1').value,
-      newPassword2: document.getElementById('newPassword2').value
-    })
+      newPassword2: document.getElementById('newPassword2').value,
+    }),
   };
 
   const resetPw = async () => {
@@ -127,14 +129,16 @@ export const handleResetPassword = (id) => {
       await Alert.fire({ type: 'error', title: t.all_fields_are_required });
       resetPw();
     }
-  }
+  };
 
   resetPw();
-}
+};
 
 const resetPassword = async (userId, password) => {
   try {
-    const res = await axios.put(`/api/users/manage/pass/${userId}`, { password: password });
+    const res = await axios.put(`/api/users/manage/pass/${userId}`, {
+      password: password,
+    });
     popupAlert('congratulations', res.data, 'regular');
   } catch (err) {
     console.error(err);
@@ -176,14 +180,17 @@ export const changePasswordAlert = (id) => {
     preConfirm: () => ({
       currentPassword: document.getElementById('currentPassword').value,
       newPassword1: document.getElementById('newPassword1').value,
-      newPassword2: document.getElementById('newPassword2').value
-    })
+      newPassword2: document.getElementById('newPassword2').value,
+    }),
   };
 
   const changePw = async () => {
     const alertVal = await Alert.fire(changePwSwal);
     let v = (alertVal && alertVal.value) || alertVal.dismiss;
-    if ((v && v.currentPassword && v.newPassword1 && v.newPassword2) || v === 'cancel') {
+    if (
+      (v && v.currentPassword && v.newPassword1 && v.newPassword2) ||
+      v === 'cancel'
+    ) {
       if (v.newPassword1 !== v.newPassword2) {
         await Alert.fire({ type: 'error', title: t.passwords_do_not_match });
         changePw();
@@ -197,10 +204,10 @@ export const changePasswordAlert = (id) => {
       await Alert.fire({ type: 'error', title: t.all_fields_are_required });
       changePw();
     }
-  }
+  };
 
   changePw();
-}
+};
 
 // const changePassword = async (userId, password) => {
 //   try {
