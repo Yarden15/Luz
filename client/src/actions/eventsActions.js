@@ -168,3 +168,41 @@ const deleteCourse = async (id) => {
     console.log(err);
   }
 };
+
+export const deleteEventAlert = event => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.delete_schedule_title_part,
+    html:
+      `<div className=${t.dir}>${t.literals.course_title}: ${event.performance.title}</div>` +
+      `<div className=${t.dir}>${t.literals.name}: ${event.user.first_name} ${event.user.last_name}</div>`,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel
+  }).then(result => {
+    if (result.value) {
+      // It will remove user
+      deleteEvent(event._id);
+    }
+  });
+};
+
+const deleteEvent = async id => {
+  let t = store.getState().literals;
+  try {
+    saveAllSchedules();
+    await axios.delete(`/api/timetables/${id}`);
+    getEvents();
+    cleanSchedules();
+    getSchedules();
+    Alert.fire(
+      t.literals.deleted,
+      t.literals.the_event_has_been_deleted,
+      'success'
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};

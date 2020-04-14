@@ -27,7 +27,7 @@ router.get('/', authorization, async (req, res) => {
       .populate({
         path: 'user',
         model: User,
-        select: 'id_number first_name last_name color',
+        select: 'id_number first_name last_name color email',
       });
 
     // Response- events in table

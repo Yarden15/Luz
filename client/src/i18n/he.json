@@ -72,6 +72,7 @@
   "location": "מיקום",
   "empty_fields_error": "נא למלא את כל השדות",
   "adjusting_lecturer_for_course": "שיוך מרצה לקורס",
+  "manage_adjusting_lecturer_for_course": "ניהול שיוך מרצה לקורס",
   "lecturers": "מרצים",
   "name": "שם",
   "select_course": "בחר קורס בבקשה",
@@ -120,5 +121,7 @@
   "delete_msg_title": "האם אתה בטוח שברצונך למחוק את המודעה?",
   "ad_saved": "המודעה  פורסמה בהצלחה",
   "delete_msg_by_another_user_error": "לא ניתן למחוק הודעה של משתמש אחר",
-  "ad_was_deleted": "המודעה נמחקה בהצלחה"
+  "ad_was_deleted": "המודעה נמחקה בהצלחה",
+  "edit_event": "ערוך אירוע",
+  "delete_event": "מחק אירוע"
 }

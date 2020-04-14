@@ -111,7 +111,7 @@ export class CreateEvent extends Component {
             id="btn-tables"
             className='btn btn-primary btn-block center-horizontaly btn-nfm'
             onClick={() => { createEvent(this.state.userId, this.state.courseId) }}
-          >{this.props.t.create_course}</button>
+          >{this.props.t.adjusting_lecturer_for_course}</button>
         </Fragment >
       );
     }
