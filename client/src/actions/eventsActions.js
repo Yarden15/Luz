@@ -180,7 +180,7 @@ export const deleteEventAlert = event => {
   }).then(result => {
     if (result.value) {
       // It will remove user
-      deleteEvent(evnet._id);
+      deleteEvent(event._id);
     }
   });
 };
