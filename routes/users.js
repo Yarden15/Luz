@@ -37,6 +37,31 @@ router.get(
     }
   }
 );
+// @route   GET api/users/me/role
+// @desc    Get current user role (manager, scheduler, lectirer)
+// @access  Private
+router.get(
+  '/me/role',
+  // Middleware- Authorization function that gives acces to relevant users (manager)
+  auth,
+  async (req, res) => {
+    // Try catch for a Promise
+    try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let user = await User.findById(req.user.id).select(
+        'manager scheduler lecturer'
+      );
+
+      // User no exist- offcourse it in case of direct req to backend
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 // @route   PUT api/users/details
 // @desc    Change password
 // @access  Private
