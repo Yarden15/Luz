@@ -35,6 +35,8 @@ export default (state = initialState, action) => {
         token: null,
         isAuthenticated: false,
         user: null,
+        displayAlert: false,
+        loading: false,
         error: action.payload
       };
     case DISPLAY_ALERT:

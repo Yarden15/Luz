@@ -82,7 +82,6 @@ export const createLocationAlert = () => {
 const createLocation = async name => {
   try {
     const res = await axios.post('/api/locations/manage', { name: name });
-    console.log("jssdjakdsldsa")
     popupAlert('congratulations', res.data.msg, 'regular');
     getLocations();
   } catch (err) {

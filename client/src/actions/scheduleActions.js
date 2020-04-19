@@ -20,8 +20,6 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
-import { getLocations } from './adminActions';
-import { compensateScroll } from 'fullcalendar';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -288,7 +286,11 @@ const createLocationSelectElement = () => {
   let t = store.getState().literals.literals;
   let dir = store.getState().literals.dir;
   let adminObj = store.getState().admin;
-  let htmlLocation = `<div><div>${t.location}</div>` + `<select id="create-sched-location" class="swal2-input" dir=${dir} name="location">` + `<option className=${dir} defaultValue></option>`;
+  let htmlLocation =
+    `<div>
+      <div>${t.location}</div>` +
+    `<select id="create-sched-location" class="swal2-input" dir=${dir} name="location">` +
+    `<option className=${dir} defaultValue></option>`;
   adminObj.locations.map(location => (
     htmlLocation += (`<option className={props.dir} value='${location.name}'>${location.name}</option>`)));
   htmlLocation = htmlLocation + `</select ></div>`;
@@ -299,7 +301,6 @@ const createLocationSelectElement = () => {
 
   return htmlLocation;
 }
-
 
 export const createSchdule = () => {
   let t = store.getState().literals.literals;

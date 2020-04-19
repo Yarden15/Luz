@@ -1,4 +1,4 @@
-import { GET_MESSAGES, SET_LOADING_MESSAGES } from '../actions/types';
+import { GET_MESSAGES, SET_LOADING_MESSAGES,INITIAL_MESSAGES } from '../actions/types';
 
 const initialState = {
   messages: [],
@@ -22,6 +22,12 @@ export default (state = initialState, action) => {
         ...state,
         loading: true
       }
+    case INITIAL_MESSAGES:
+      return {
+        messages: [],
+        loading: false,
+        counter: 0
+      };
     default:
       return { ...state };
   }

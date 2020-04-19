@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED, CLEAN_SCHEDULES, UPDATE_EVENT } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED, CLEAN_SCHEDULES, UPDATE_EVENT,INITIAL_SCHEDULE } from '../actions/types';
 import { searchAndUpdate } from '../actions/scheduleActions';
 const initialState = {
   schedules: {},
@@ -98,6 +98,14 @@ export default (state = initialState, action) => {
         counter: state.counter + 1,
         schedules: state.schedules
       }
+    case INITIAL_SCHEDULE:
+      return {
+        schedules: {},
+        counter: 0,
+        current: null,
+        loading: false,
+        error: null
+      };
     default:
       return { ...state };
   }

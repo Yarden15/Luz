@@ -1,4 +1,4 @@
-import { GET_USERS, SET_LOADING_USER, SORT_USERS } from '../actions/types';
+import { GET_USERS, SET_LOADING_USER, SORT_USERS, INITIAL_USER } from '../actions/types';
 
 const initialState = {
   users: [],
@@ -28,6 +28,11 @@ export default (state = initialState, action) => {
         users: newArray,
         loading: false
       }
+    case INITIAL_USER:
+      return {
+        users: [],
+        loading: false
+      };
     default:
       return { ...state };
   }

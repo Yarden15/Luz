@@ -1,4 +1,4 @@
-import { CLOSE_POPUP, POPUP_ALERT } from '../actions/types';
+import { CLOSE_POPUP, POPUP_ALERT, INITIAL_ALERT } from '../actions/types';
 
 const initialState = {
   title: "",
@@ -20,6 +20,13 @@ export default (state = initialState, action) => {
     case CLOSE_POPUP:
       return {
         ...state,
+        display: false
+      };
+    case INITIAL_ALERT:
+      return {
+        title: "",
+        msg: "",
+        type: "",
         display: false
       };
     default:

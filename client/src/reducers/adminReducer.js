@@ -1,4 +1,4 @@
-import { GET_LOCATIONS, SET_LOADING_LOCATION } from '../actions/types';
+import { GET_LOCATIONS, SET_LOADING_LOCATION, INITIAL_ADMIN } from '../actions/types';
 
 const initialState = {
   locations: [],
@@ -19,6 +19,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: true
+      }
+    case INITIAL_ADMIN:
+      return {
+        locations: [],
+        loading: false
       }
     default:
       return { ...state };

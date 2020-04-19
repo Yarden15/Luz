@@ -1,4 +1,4 @@
-import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_COURSES } from '../actions/types';
+import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_COURSES,INITIAL_EVENT } from '../actions/types';
 
 const initialState = {
   events: [],
@@ -36,6 +36,13 @@ export default (state = initialState, action) => {
         ...state,
         courses: newCourses,
         loading: false
+      };
+    case INITIAL_EVENT:
+      return {
+        events: [],
+        users: [],
+        courses: [],
+        error: null
       };
     default:
       return state;

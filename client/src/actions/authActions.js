@@ -7,7 +7,13 @@ import {
   DISPLAY_ALERT,
   CLOSE_ALERT,
   REGISTER_FAIL,
-  SET_LOADING_AUTH
+  SET_LOADING_AUTH,
+  INITIAL_ADMIN,
+  INITIAL_ALERT,
+  INITIAL_EVENT,
+  INITIAL_MESSAGES,
+  INITIAL_SCHEDULE,
+  INITIAL_USER
 } from './types';
 import store from '../store';
 import axios from 'axios';
@@ -58,6 +64,12 @@ export const login = async FormData => {
 // Logout
 export const logout = () => {
   store.dispatch({ type: LOGOUT });
+  store.dispatch({ type: INITIAL_USER });
+  store.dispatch({ type: INITIAL_SCHEDULE });
+  store.dispatch({ type: INITIAL_MESSAGES });
+  store.dispatch({ type: INITIAL_EVENT });
+  store.dispatch({ type: INITIAL_ALERT });
+  store.dispatch({ type: INITIAL_ADMIN });
 };
 
 export const displayAlert = () => {
