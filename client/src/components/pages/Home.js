@@ -3,12 +3,21 @@ import { connect } from 'react-redux';
 import { loadUser } from '../../actions/authActions';
 import Menu from '../layout/Menu';
 import MessageBoard from '../layout/MessageBoard';
+import { getEvents, getCourses } from '../../actions/eventsActions';
+import { getUsers } from '../../actions/userActions';
+import { getLocations } from '../../actions/adminActions';
+import { getSchedules } from '../../actions/scheduleActions';
 
 const Home = props => {
   // Load user in this component
   useEffect(() => {
     loadUser();
-    // eslint-disable-next-line
+    //load all data from the db
+    getEvents();
+    getCourses();
+    getUsers();
+    getLocations();
+    getSchedules();
   }, []);
 
   return (

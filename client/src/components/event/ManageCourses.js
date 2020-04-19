@@ -6,6 +6,7 @@ import { getCourses, deleteCourseAlert } from '../../actions/eventsActions';
 import Spinner from '../layout/Spinner';
 import { getLocations } from '../../actions/adminActions';
 import { loadUser } from '../../actions/authActions';
+import { sortCourses, sortCourseByName, sortCourseBySN, sortCourseByYear, sortCourseBySemester, sortCourseByLocation, sortCourseByHours } from '../../actions/utilities';
 
 export class ManageCourses extends Component {
   componentDidMount() {
@@ -34,12 +35,12 @@ export class ManageCourses extends Component {
               <table>
                 <thead>
                   <tr >
-                    <th>{this.props.t.course_title}</th>
-                    <th>{this.props.t.serial_num}</th>
-                    <th>{this.props.t.year}</th>
-                    <th>{this.props.t.semester}</th>
-                    <th>{this.props.t.location}</th>
-                    <th>{this.props.t.course_hours}</th>
+                    <th onClick={() => { sortCourses(sortCourseByName) }}>{this.props.t.course_title}</th>
+                    <th onClick={() => { sortCourses(sortCourseBySN) }}>{this.props.t.serial_num}</th>
+                    <th onClick={() => { sortCourses(sortCourseByYear) }}>{this.props.t.year}</th>
+                    <th onClick={() => { sortCourses(sortCourseBySemester) }}>{this.props.t.semester}</th>
+                    <th onClick={() => { sortCourses(sortCourseByLocation) }}>{this.props.t.location}</th>
+                    <th onClick={() => { sortCourses(sortCourseByHours) }}>{this.props.t.course_hours}</th>
                     <th>{this.props.t.edit_course}</th>
                     <th>{this.props.t.delete_course}</th>
                   </tr>

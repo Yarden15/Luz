@@ -123,5 +123,6 @@
   "delete_msg_by_another_user_error": "לא ניתן למחוק הודעה של משתמש אחר",
   "ad_was_deleted": "המודעה נמחקה בהצלחה",
   "edit_event": "ערוך אירוע",
-  "delete_event": "מחק אירוע"
+  "delete_event": "מחק אירוע",
+  "create_new_schedule": "צור לוח זמנים חדש"
 }

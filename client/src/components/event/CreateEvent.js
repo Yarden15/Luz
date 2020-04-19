@@ -5,7 +5,7 @@ import { getCourses, toggleSelection, createEvent } from '../../actions/eventsAc
 import { getUsers } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 import LoginAlert from '../auth/LoginAlert';
-import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor } from '../../actions/utilities';
+import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor, sortCourses, sortCourseByName, sortCourseBySN, sortCourseByYear, sortCourseBySemester, sortCourseByLocation, sortCourseByHours } from '../../actions/utilities';
 import { loadUser } from '../../actions/authActions';
 
 
@@ -45,12 +45,12 @@ export class CreateEvent extends Component {
                 <table>
                   <thead>
                     <tr>
-                      <th>{this.props.t.course_title}</th>
-                      <th>{this.props.t.serial_number}</th>
-                      <th>{this.props.t.year}</th>
-                      <th>{this.props.t.semester}</th>
-                      <th>{this.props.t.course_hours}</th>
-                      <th>{this.props.t.location}</th>
+                      <th onClick={() => { sortCourses(sortCourseByName) }}>{this.props.t.course_title}</th>
+                      <th onClick={() => { sortCourses(sortCourseBySN) }}>{this.props.t.serial_num}</th>
+                      <th onClick={() => { sortCourses(sortCourseByYear) }}>{this.props.t.year}</th>
+                      <th onClick={() => { sortCourses(sortCourseBySemester) }}>{this.props.t.semester}</th>
+                      <th onClick={() => { sortCourses(sortCourseByLocation) }}>{this.props.t.location}</th>
+                      <th onClick={() => { sortCourses(sortCourseByHours) }}>{this.props.t.course_hours}</th>
                     </tr>
                   </thead>
                   <tbody className={this.props.dir}>
@@ -65,8 +65,8 @@ export class CreateEvent extends Component {
                         <td>{course.serial_num}</td>
                         <td className="text-center">{this.props.t[course.year]}</td>
                         <td className="text-center">{this.props.t[course.semester]}</td>
-                        <td className="text-center">{course.course_hours}</td>
                         <td>{course.location}</td>
+                        <td className="text-center">{course.course_hours}</td>
                       </tr>
                     ))}
                   </tbody>

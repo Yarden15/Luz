@@ -1,4 +1,4 @@
-import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_COURSES,INITIAL_EVENT } from '../actions/types';
+import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_COURSES, INITIAL_EVENT, SORT_COURSES } from '../actions/types';
 
 const initialState = {
   events: [],
@@ -37,6 +37,14 @@ export default (state = initialState, action) => {
         courses: newCourses,
         loading: false
       };
+    case SORT_COURSES:
+      let newArray = state.courses;
+      newArray.sort(action.payload)
+      return {
+        ...state,
+        courses: newArray,
+        loading: false
+      }
     case INITIAL_EVENT:
       return {
         events: [],

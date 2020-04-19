@@ -51,7 +51,7 @@ export const sortUsersByEmail = (a, b) => {
   }
   return comparison;
 }
-//sort user bu color
+//sort user by color
 export const sortUsersByColor = (a, b) => {
   const colorA = hexToHSL(a.color);
   const colorB = hexToHSL(b.color);
@@ -120,4 +120,65 @@ export const sortCourses = (func) => {
     type: SORT_COURSES,
     payload: func
   });
+}
+
+//sorts the course by title
+export const sortCourseByName = (a, b) => {
+  const nameA = a.title.toUpperCase();
+  const nameB = b.title.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
+}
+//sorts the course by serial number
+export const sortCourseBySN = (a, b) => {
+  return a.serial_num - b.serial_num;
+}
+//sorts the course by hours
+export const sortCourseByHours = (a, b) => {
+  return a.course_hours - b.course_hours;
+}
+
+export const sortCourseByYear = (a, b) => {
+  const nameA = a.year.toUpperCase();
+  const nameB = b.year.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
+}
+
+export const sortCourseBySemester = (a, b) => {
+  const nameA = a.semester.toUpperCase();
+  const nameB = b.semester.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
+}
+
+export const sortCourseByLocation = (a, b) => {
+  const nameA = a.location.toUpperCase();
+  const nameB = b.location.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
 }
