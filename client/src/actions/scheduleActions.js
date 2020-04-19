@@ -20,6 +20,8 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
+import { getLocations } from './adminActions';
+import { compensateScroll } from 'fullcalendar';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -67,9 +69,12 @@ export const getSchedules = async () => {
 
       createCalendar(
         schedules[i].title,
-        schedules[i].sched_id,
-        (schedules[i].events = convertEvents),
-        1
+        schedules[i].year,
+        schedules[i].location,
+        schedules[i].semester,
+        convertEvents,
+        1,
+        schedules[i].sched_id
       );
     }
   } catch (error) {
@@ -92,9 +97,9 @@ export const saveAllSchedules = async () => {
   });
 }
 
-const saveSchedule = async (sched_id, title, events) => {
+const saveSchedule = async (sched_id, title, semester, year, location, events) => {
   try {
-    const res = await axios.post('/api/schedules', { sched_id, title, events });
+    const res = await axios.post('/api/schedules', { sched_id, title, semester, year, location, events });
     popupAlert('congratulations', res.data, 'regular');
   } catch (error) {
     console.error(error);
@@ -110,9 +115,12 @@ export const setLoading = () => {
 //create new schedule and push him to array
 export const createCalendar = (
   title,
-  id = uuid(),
+  year,
+  location,
+  semester,
   events = [],
-  newSched = 1
+  newSched = 1,
+  id = uuid(),
 ) => {
   let t = store.getState().literals.literals;
   let calendarRef = React.createRef();
@@ -134,7 +142,6 @@ export const createCalendar = (
             text: t.rename,
             click: function () {
               renameSched();
-              saveAllSchedules();
             },
           },
         }}
@@ -156,7 +163,6 @@ export const createCalendar = (
         selectHelper={true}
         editable={true}
         droppable={true}
-        //eventDragStart={function (info) { showGoodPlaces() }}
         eventDrop={function (info) {
           eventChanged(info, id);
         }}
@@ -185,7 +191,7 @@ export const createCalendar = (
   if (newSched) {
     store.dispatch({
       type: CREATE_CALENDAR,
-      payload: { calendar, title, id, calendarRef },
+      payload: { calendar, title, id, semester, location, year, calendarRef },
     });
   } else {
     return { calendar, title, id, calendarRef };
@@ -224,6 +230,9 @@ const saveButtonClicked = () => {
   saveSchedule(
     schedule.id,
     schedule.title,
+    schedule.semester,
+    schedule.year,
+    schedule.location,
     schedule.calendarRef.current.props.events
   );
 };
@@ -274,6 +283,84 @@ export const eventClick = (eventClick) => {
     }
   });
 };
+
+const createLocationSelectElement = () => {
+  let t = store.getState().literals.literals;
+  let dir = store.getState().literals.dir;
+  let adminObj = store.getState().admin;
+  let htmlLocation = `<div><div>${t.location}</div>` + `<select id="create-sched-location" class="swal2-input" dir=${dir} name="location">` + `<option className=${dir} defaultValue></option>`;
+  adminObj.locations.map(location => (
+    htmlLocation += (`<option className={props.dir} value='${location.name}'>${location.name}</option>`)));
+  htmlLocation = htmlLocation + `</select ></div>`;
+
+  var htmlObject = document.createElement('div');
+  htmlObject.innerHTML = htmlLocation;
+  htmlLocation = htmlObject.firstChild;
+
+  return htmlLocation;
+}
+
+
+export const createSchdule = () => {
+  let t = store.getState().literals.literals;
+  let dir = store.getState().literals.dir;
+  let htmlLocation = createLocationSelectElement()
+  let createSchedAlert = {
+    title: t.create_new_schedule,
+    focusConfirm: false,
+    html:
+      `<div>${t.enter_title_please}</div>` +
+      `<input id="create-sched-title" class="swal2-input">` +
+      htmlLocation.innerHTML +
+      `<div>${t.year}</div>` +
+      `<select id="create-sched-year" class="swal2-input" dir=${dir}>
+      <option class=${dir} defaultValue></option>
+      <option class=${dir} value='a'>${t.a}</option>
+      <option class=${dir} value='b'>${t.b}</option>
+      <option class=${dir} value='c'>${t.c}</option>
+      <option class=${dir} value='d'>${t.d}</option></select>` +
+      `<div>${t.semester}</div>` +
+      `<select id="create-sched-semester" class="swal2-input" dir=${dir}>
+      <option class=${dir} defaultValue></option>
+      <option class=${dir} value='a'>${t.a}</option>
+      <option class=${dir} value='b'>${t.b}</option>
+      <option class=${dir} value='yearly'>${t.yearly}</option>
+      <option class=${dir} value='summer'>${t.summer}</option></select>`,
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel,
+    cancelButtonColor: '#d33',
+    allowOutsideClick: false,
+    preConfirm: () => ({
+      title: document.getElementById('create-sched-title').value,
+      year: document.getElementById('create-sched-year').value,
+      semester: document.getElementById('create-sched-semester').value,
+      location: document.getElementById('create-sched-location').value
+    }),
+  };
+  const createSched = async () => {
+    const alertVal = await Alert.fire(createSchedAlert);
+    let newSched = (alertVal && alertVal.value) || alertVal.dismiss;
+    if ((newSched && newSched !== 'cancel')) {
+      if (newSched.title === '' ||
+        newSched.location === ''
+        || newSched.semester === ''
+        || newSched.year === '') {
+        await Alert.fire({ type: 'error', title: t.all_fields_are_required });
+        createSched();
+      } else {
+        createCalendar(newSched.title, newSched.year, newSched.location, newSched.semester);
+        let current = store.getState().schedule.current;
+        let sched = store.getState().schedule.schedules[current];
+        let events = sched.calendarRef.current.props.events
+        saveSchedule(sched.id, sched.title, sched.semester, sched.year, sched.location, events)
+      }
+    }
+  }
+  createSched();
+
+}
 
 //popup message to insert title for the calendar
 export const enterNameSchedule = () => {

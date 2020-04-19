@@ -3,12 +3,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { connect } from 'react-redux';
 import { createCalendar } from '../../actions/scheduleActions';
 import { getSchedules } from '../../actions/scheduleActions';
+import { getLocations } from '../../actions/adminActions';
 import Spinner from '../layout/Spinner';
 
 export class ScheduleContainer extends Component {
   componentDidMount() {
     if (Object.keys(this.props.scheduleObj.schedules).length === 0)
       getSchedules();
+    getLocations();
   }
 
   render() {

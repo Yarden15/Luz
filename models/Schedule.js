@@ -13,6 +13,18 @@ const ScheduleSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  semester: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
   events: [
     {
       timeTableId: { type: mongoose.Schema.Types.ObjectId },
