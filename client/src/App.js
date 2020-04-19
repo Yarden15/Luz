@@ -23,6 +23,7 @@ import PopupMessage from './components/alerts/PopupMessage';
 import ManageLocations from './components/pages/ManageLocations';
 import UserSettings from './components/users/UserSettings';
 import AccessErrorPage from './components/pages/AccessErrorPage';
+import MySchedule from './components/pages/MySchedule';
 
 
 if (localStorage.token) {
@@ -40,6 +41,7 @@ const App = () => {
             <Route exact path='/login' component={Login} history={history} />
             <PrivateRoute exact path='/' component={Home} />
             <PrivateRoute exact path='/settings' component={UserSettings} />
+            <PrivateRoute exact path='/myschedule' component={MySchedule} />
             <PrivateRoute exact path='/placement' component={CoursePlacementPage} />
             <PrivateRoute exact path='/createuser' component={CreateUser} />
             <PrivateRoute exact path='/createcourse' component={CreateCourse} />
