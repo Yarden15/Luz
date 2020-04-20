@@ -20,6 +20,7 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
+import $ from 'jquery';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -123,8 +124,8 @@ export const createCalendar = (
   let t = store.getState().literals.literals;
   let calendarRef = React.createRef();
   let calendar = (
-    <div className='calendar'>
-      <FullCalendar
+    <div className='calendar' id='fullcalendar'>
+      <FullCalendar id='aaa'
         ref={calendarRef}
         id={id}
         defaultView='timeGridWeek'
@@ -161,13 +162,16 @@ export const createCalendar = (
         selectHelper={true}
         editable={true}
         droppable={true}
+        eventDragStart={() => { showGoodPlaces() }}
         eventDrop={function (info) {
+          deleteGoodPlaces();
           eventChanged(info, id);
         }}
         eventReceive={function (info) {
           addEvent(info, id);
           forceSchedsUpdate(id);
         }}
+        eventResizeStart={() =>{showGoodPlaces()}}
         eventResize={function (info) {
           eventChanged(info, id);
         }}
@@ -642,26 +646,22 @@ export const showGoodPlaces = () => {
     rendering: 'background',
     color: '#257e4a',
   };
-  store.dispatch({
-    type: ADD_EVENT,
-    payload: {
-      event: event,
-      schedId: store.getState().schedule.current,
-    },
-  });
-  store.dispatch({
-    type: ADD_EVENT,
-    payload: {
-      event: event3,
-      schedId: store.getState().schedule.current,
-    },
-  });
-  store.dispatch({
-    type: ADD_EVENT,
-    payload: {
-      event: event2,
-      schedId: store.getState().schedule.current,
-    }
-  })
-  forceSchedsUpdate(store.getState().schedule.current);
+
+  let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
+  calendar.current.calendar.addEvent(event2);
+  calendar.current.calendar.addEvent(event3);
+  calendar.current.calendar.addEvent(event);
+}
+
+export const deleteGoodPlaces = () => {
+  let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
+  let events = calendar.current.props.events;
+  let newEvents = []
+  for (let i = 0; i < events.length; i++) {
+    if (events[i].groupId !== "good")
+      // delete events[i];
+      newEvents.push(events[i])
+  }
+  calendar.current.calendar.removeAllEvents();
+  calendar.current.calendar.addEventSource(newEvents);
 }

@@ -2,7 +2,7 @@ import { Draggable } from '@fullcalendar/interaction'; // needed for dayClick
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEvents } from '../../actions/eventsActions';
-import { showGoodPlaces, forceSchedsUpdate } from '../../actions/scheduleActions';
+import { showGoodPlaces, deleteGoodPlaces } from '../../actions/scheduleActions';
 import Spinner from '../layout/Spinner';
 
 
@@ -46,6 +46,11 @@ export class eventsContainer extends Component {
     });
   } //if the courses still not arrived from the server we displaying spinner
 
+  drag(e) {
+    console.log(e)
+    // this.getDOMNode().addEventListener('dragenter', this.dragEnter, false);
+
+  }
   render() {
     if (this.props.eventObj.loading) {
       return (
@@ -65,12 +70,10 @@ export class eventsContainer extends Component {
           </p>
           <div>
             {this.props.eventObj.events.map((event) => (
-              <div onClick={(eventt) => {
-                eventt.preventDefault();
-                showGoodPlaces();
-                forceSchedsUpdate(this.props.schedule);
-              }}
-                onMouseUp={(v) => { console.log('mouse up') }}
+              <div
+                draggable="true"
+                onMouseEnter={(e) => { e.preventDefault(); showGoodPlaces() }}
+                onMouseLeave={(e) => { e.preventDefault(); deleteGoodPlaces() }}
                 style={{ backgroundColor: event.user.color }}
                 className='fc-event draggable tool-tip'
                 timetableid={event._id}

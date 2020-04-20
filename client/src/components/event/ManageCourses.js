@@ -35,7 +35,7 @@ export class ManageCourses extends Component {
               <table>
                 <thead>
                   <tr >
-                    <th onClick={() => { sortCourses(sortCourseByName) }}>{this.props.t.course_title}</th>
+                    <th draggable="true" onDragStart={()=>{console.log('drag')}} onClick={() => { sortCourses(sortCourseByName) }}>{this.props.t.course_title}</th>
                     <th onClick={() => { sortCourses(sortCourseBySN) }}>{this.props.t.serial_num}</th>
                     <th onClick={() => { sortCourses(sortCourseByYear) }}>{this.props.t.year}</th>
                     <th onClick={() => { sortCourses(sortCourseBySemester) }}>{this.props.t.semester}</th>
