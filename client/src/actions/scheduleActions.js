@@ -42,7 +42,7 @@ export const getSchedules = async () => {
 
       for (let j = 0; j < schedules[i].events.length; j++) {
         let event = {
-          sched1Id: schedules[i].sched_id,
+          sched_id: schedules[i].sched_id,
           timeTableId: schedules[i].events[j].timeTableId._id,
           eventId: schedules[i].events[j].timeTableId._id,
           title: schedules[i].events[j].timeTableId.performance.title,
@@ -195,7 +195,7 @@ export const createCalendar = (
       payload: { calendar, title, id, semester, location, year, calendarRef },
     });
   } else {
-    return { calendar, title, id, calendarRef };
+    return { calendar, title, id, semester, location, year, calendarRef };
   }
 };
 //select calendar to display
@@ -543,7 +543,7 @@ export const changeLangScheds = () => {
       old_scheds[key].semester,
       old_scheds[key].calendar.props.children.props.events,
       0,
-      old_scheds[key].sched_id
+      old_scheds[key].id
 
     );
   }

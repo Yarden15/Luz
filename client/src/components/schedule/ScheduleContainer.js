@@ -8,8 +8,7 @@ import Spinner from '../layout/Spinner';
 
 export class ScheduleContainer extends Component {
   componentDidMount() {
-    if (Object.keys(this.props.scheduleObj.schedules).length === 0)
-      getSchedules();
+    getSchedules();
     getLocations();
   }
 
