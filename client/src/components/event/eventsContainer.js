@@ -44,8 +44,8 @@ export class eventsContainer extends Component {
         };
       },
     });
-    dragContainer.dragging.emitter._handlers.dragstart.push(() => { showRightPlaces() })
-    dragContainer.dragging.emitter._handlers.dragend.push(() => { deleteRightPlaces() })
+    dragContainer.dragging.emitter._handlers.dragstart.push((e) => { showRightPlaces(e) })
+    dragContainer.dragging.emitter._handlers.dragend.push((e) => { deleteRightPlaces() })
   } //if the courses still not arrived from the server we displaying spinner
 
   render() {
@@ -66,7 +66,7 @@ export class eventsContainer extends Component {
             <strong>{this.props.t.courses}</strong>
           </p>
           <div>
-            {this.props.eventObj.events.map((event) => (
+            {this.props.eventObj.displayEvents.map((event) => (
               <div
                 style={{ backgroundColor: event.user.color }}
                 className='fc-event draggable tool-tip'

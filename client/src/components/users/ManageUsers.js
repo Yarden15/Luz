@@ -38,6 +38,7 @@ export class ManageUsers extends Component {
                     <th onClick={() => { sortUsers(sortUsersByID) }}>{this.props.t.id}</th>
                     <th onClick={() => { sortUsers(sortUsersByEmail) }}>{this.props.t.email_address}</th>
                     <th onClick={() => { sortUsers(sortUsersByColor) }}>{this.props.t.user_color}</th>
+                    <th>הגיש סידור</th>
                     <th>{this.props.t.delete_user}</th>
                     <th>{this.props.t.edit_user}</th>
                     <th>{this.props.t.reset_password}</th>
@@ -51,6 +52,10 @@ export class ManageUsers extends Component {
                       <td>{user.id_number}</td>
                       <td>{user.email}</td>
                       <td style={{ background: user.color }}></td>
+                      <td style={{ textAlign: 'center' }}>
+                        {!user.email ? <i className="fas fa-check"></i> :
+                          <i className="fas fa-times"></i>}
+                      </td>
                       <td style={{ textAlign: 'center' }}>
                         <i className="far fa-trash-alt center-horizontaly"
                           onClick={() => { deleteUserAlert(user) }}></i>

@@ -170,7 +170,7 @@ export const createCalendar = (
           addEvent(info, id);
           forceSchedsUpdate(id);
         }}
-        eventResizeStart={() =>{showRightPlaces()}}
+        eventResizeStart={() => { showRightPlaces() }}
         eventResize={function (info) {
           eventChanged(info, id);
         }}
@@ -535,7 +535,6 @@ const createEventObj = (info, schedId, status) => {
 export const changeLangScheds = () => {
   let old_scheds = store.getState().schedule.schedules;
   let new_scheds = {};
-
   for (let key in old_scheds) {
     new_scheds[old_scheds[key].id] = createCalendar(
       old_scheds[key].title,
@@ -549,6 +548,7 @@ export const changeLangScheds = () => {
     type: CHANGE_LANG_SCHEDS,
     payload: new_scheds,
   });
+
 };
 
 const castToArray = (schedules) => {
@@ -658,7 +658,6 @@ export const deleteRightPlaces = () => {
   let newEvents = []
   for (let i = 0; i < events.length; i++) {
     if (events[i].groupId !== "good")
-      // delete events[i];
       newEvents.push(events[i])
   }
   calendar.current.calendar.removeAllEvents();

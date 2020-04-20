@@ -1,10 +1,4 @@
-import {
-  GET_EVENTS,
-  EVENT_ERROR,
-  SET_LOADING,
-  REGISTER_FAIL,
-  GET_COURSES,
-} from './types';
+import { GET_EVENTS, EVENT_ERROR, SET_LOADING, REGISTER_FAIL, GET_COURSES, FILTER_EVENTS_BY_LOCATION, FILTER_EVENTS_BY_SEMESTER, FILTER_EVENTS_BY_YEAR, FILTER_EVENTS_BY_COURSE_TITLE, FILTER_EVENTS_BY_LAST_NAME, FILTER_EVENTS_BY_FIRST_NAME, DISPLAY_ALL_EVENTS } from './types';
 import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
@@ -206,3 +200,52 @@ const deleteEvent = async id => {
     console.log(err);
   }
 };
+
+export const filterEvents = (search) => {
+  console.log(search)
+  store.dispatch({
+    type: DISPLAY_ALL_EVENTS,
+  });
+  switch (search.type) {
+    case 'first_name':
+      store.dispatch({
+        type: FILTER_EVENTS_BY_FIRST_NAME,
+        payload: search.text
+      });
+      break;
+    case 'last_name':
+      store.dispatch({
+        type: FILTER_EVENTS_BY_LAST_NAME,
+        payload: search.text
+      });
+      break;
+    case 'course_title':
+      store.dispatch({
+        type: FILTER_EVENTS_BY_COURSE_TITLE,
+        payload: search.text
+      });
+      break;
+    case 'year':
+      store.dispatch({
+        type: FILTER_EVENTS_BY_YEAR,
+        payload: search.year
+      });
+      console.log(search.year)
+      break;
+    case 'semester':
+      store.dispatch({
+        type: FILTER_EVENTS_BY_SEMESTER,
+        payload: search.semester
+      });
+      break;
+    case 'location':
+      store.dispatch({
+        type: FILTER_EVENTS_BY_LOCATION,
+        payload: search.location
+      });
+      break;
+    default:
+      break;
+  }
+}
+

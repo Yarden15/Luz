@@ -5,6 +5,7 @@ import ScheduleBar from '../schedule/SchedulesBar';
 import { connect } from 'react-redux';
 import { loadUser } from '../../actions/authActions';
 import Menu from '../layout/Menu';
+import FilterEvents from '../layout/FilterEvents';
 
 const CoursePlacementPage = props => {
   // Load user in this component
@@ -17,12 +18,13 @@ const CoursePlacementPage = props => {
     return (
       <Fragment>
         <Menu />
-        <ScheduleBar />
         <div className='row '>
           <div className='col-sm-9'>
+            <ScheduleBar />
             <SceduleContainer />
           </div>
           <div className='col-sm-3'>
+            <FilterEvents />
             <EventsContainer />
           </div>
         </div>
@@ -31,13 +33,14 @@ const CoursePlacementPage = props => {
   } else {
     return (
       <Fragment>
-        <ScheduleBar />
         <div className='row '>
           <div className='col-sm-3'>
+            <FilterEvents />
             <EventsContainer />
           </div>
           <div className='col-sm-9'>
             <SceduleContainer />
+            <ScheduleBar />
           </div>
         </div>
       </Fragment>
