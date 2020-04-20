@@ -17,7 +17,6 @@ const Home = props => {
     getCourses();
     getUsers();
     getLocations();
-    getSchedules();
   }, []);
 
   return (

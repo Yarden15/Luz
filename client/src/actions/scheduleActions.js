@@ -538,9 +538,13 @@ export const changeLangScheds = () => {
   for (let key in old_scheds) {
     new_scheds[old_scheds[key].id] = createCalendar(
       old_scheds[key].title,
-      old_scheds[key].id,
+      old_scheds[key].year,
+      old_scheds[key].location,
+      old_scheds[key].semester,
       old_scheds[key].calendar.props.children.props.events,
-      0
+      0,
+      old_scheds[key].sched_id
+
     );
   }
 

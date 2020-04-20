@@ -33,14 +33,15 @@ const CoursePlacementPage = props => {
   } else {
     return (
       <Fragment>
+        <Menu />
         <div className='row '>
           <div className='col-sm-3'>
             <FilterEvents />
             <EventsContainer />
           </div>
           <div className='col-sm-9'>
-            <SceduleContainer />
             <ScheduleBar />
+            <SceduleContainer />
           </div>
         </div>
       </Fragment>
