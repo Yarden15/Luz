@@ -20,7 +20,6 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
-import $ from 'jquery';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -125,7 +124,7 @@ export const createCalendar = (
   let calendarRef = React.createRef();
   let calendar = (
     <div className='calendar' id='fullcalendar'>
-      <FullCalendar id='aaa'
+      <FullCalendar
         ref={calendarRef}
         id={id}
         defaultView='timeGridWeek'
@@ -162,16 +161,16 @@ export const createCalendar = (
         selectHelper={true}
         editable={true}
         droppable={true}
-        eventDragStart={() => { showGoodPlaces() }}
+        eventDragStart={() => { showRightPlaces() }}
         eventDrop={function (info) {
-          deleteGoodPlaces();
+          deleteRightPlaces();
           eventChanged(info, id);
         }}
         eventReceive={function (info) {
           addEvent(info, id);
           forceSchedsUpdate(id);
         }}
-        eventResizeStart={() =>{showGoodPlaces()}}
+        eventResizeStart={() =>{showRightPlaces()}}
         eventResize={function (info) {
           eventChanged(info, id);
         }}
@@ -609,7 +608,7 @@ export const searchAndUpdate = (state, id, schedId, color) => {
   }
 };
 
-export const showGoodPlaces = () => {
+export const showRightPlaces = () => {
   let event = {
     groupId: 'good',
     title: 'test',
@@ -653,7 +652,7 @@ export const showGoodPlaces = () => {
   calendar.current.calendar.addEvent(event);
 }
 
-export const deleteGoodPlaces = () => {
+export const deleteRightPlaces = () => {
   let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
   let events = calendar.current.props.events;
   let newEvents = []
