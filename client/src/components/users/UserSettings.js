@@ -29,8 +29,9 @@ const UserSettings = (props) => {
   const onSubmit = e => {
     e.preventDefault();
     // updateUser({
-    //   _id, id_number, first_name, last_name, email
+    //    first_name, last_name
     // });
+    // put('users/me')
     console.log("update user");
   };
 

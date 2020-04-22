@@ -124,5 +124,10 @@
   "ad_was_deleted": "המודעה נמחקה בהצלחה",
   "edit_event": "ערוך אירוע",
   "delete_event": "מחק אירוע",
-  "create_new_schedule": "צור לוח זמנים חדש"
+  "create_new_schedule": "צור לוח זמנים חדש",
+  "filter_by": "סנן לפי...",
+  "filter": "סנן",
+  "clear": "נקה",
+  "hide_filter": "הסתר מסנן",
+  "show_filter": "הצג מסנן"
 }

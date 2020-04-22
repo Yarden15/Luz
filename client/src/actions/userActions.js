@@ -76,7 +76,6 @@ export const getUserById = (id) => {
 };
 
 export const updateUser = async (user) => {
-  console.log(user);
   try {
     saveAllSchedules();
     const res = await axios.put(`/api/users/manage/details/${user._id}`, user);
@@ -209,14 +208,6 @@ export const changePasswordAlert = (id) => {
   changePw();
 };
 
-// const changePassword = async (userId, password) => {
-//   try {
-//     const res = await axios.put(`/api/users/manage/pass/${userId}`, { password: password });
-//     popupAlert('congratulations', res.data, 'regular');
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
 export const isManager = async () => {
   try {
     const res = await axios.get('/api/users/me/role');

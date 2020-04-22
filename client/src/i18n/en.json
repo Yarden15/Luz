@@ -123,5 +123,10 @@
   "ad_was_deleted": "Successfully deleted ad",
   "edit_event": "Edit event",
   "delete_event": "Delete Event",
-  "create_new_schedule": "Create new schedule"
+  "create_new_schedule": "Create new schedule",
+  "filter_by": "Filter by...",
+  "filter": "Filter",
+  "clear": "Clear",
+  "hide_filter": "Hide Filter",
+  "show_filter": "Show Filter"
 }

@@ -28,20 +28,20 @@ const FilterEvents = (props) => {
     return (
       <Fragment key="filter-evnets">
         {/* hide filter/show filter button  */}
-        {state && <div dir={props.dir} className={props.dir}><i onClick={() => { setFilter({ ...filter, type: '', state: false }) }} className="fas fa-eye-slash"></i>הסתר מסנן</div>}
-        {!state && <div dir={props.dir} className={props.dir}><i onClick={() => { setFilter({ ...filter, type: '', state: true }) }} className="fas fa-eye"></i>הצג מסנן</div>}
+        {state && <div dir={props.dir} className={props.dir}><i onClick={() => { setFilter({ ...filter, type: '', state: false }) }} className="fas fa-eye-slash"></i>{props.t.hide_filter}</div>}
+        {!state && <div dir={props.dir} className={props.dir}><i onClick={() => { setFilter({ ...filter, type: '', state: true }) }} className="fas fa-eye"></i>{props.t.show_filter}</div>}
         {/* display select input - which type of filtering the user wants */}
         {
           state &&
           <select name="type" id="type-filter-event" className="swal2-input filter-event" dir={props.dir}
             onChange={onChange}>
-            <option dir={props.dir} value={''}>סנן לפי...</option>
-            <option dir={props.dir} value={'first_name'}>שם פרטי</option>
-            <option dir={props.dir} value={'last_name'}>שם משפחה</option>
-            <option dir={props.dir} value={'course_title'}>שם קורס</option>
-            <option dir={props.dir} value={'year'}>שנה</option>
-            <option dir={props.dir} value={'location'}>מיקום</option>
-            <option dir={props.dir} value={'semester'}>סמסטר</option></select>
+            <option dir={props.dir} value={''}>{props.t.filter_by}</option>
+            <option dir={props.dir} value={'first_name'}>{props.t.first_name}</option>
+            <option dir={props.dir} value={'last_name'}>{props.t.last_name}</option>
+            <option dir={props.dir} value={'course_title'}>{props.t.course_title}</option>
+            <option dir={props.dir} value={'year'}>{props.t.year}</option>
+            <option dir={props.dir} value={'location'}>{props.t.location}</option>
+            <option dir={props.dir} value={'semester'}>{props.t.semester}</option></select>
         }
         {/* if the type of the filter is first name or last name or course title we display text input */}
         {((type === 'first_name' || type === 'last_name' || type === 'course_title') && state) && <input type="text" name="text" value={text} className="swal2-input filter-event" dir={props.dir} onChange={onChange} />}
@@ -74,8 +74,8 @@ const FilterEvents = (props) => {
         }
         {
           state && <div id="filter-button-container">
-            <button id="btn-filter" className='btn-filter btn btn-primary btn-block center-horizontaly btn-nfm' onClick={() => { filterEvents({ type, text, year, semester, location }); }}>סנן</button>
-            <button id="btn-clear" className='btn-filter btn btn-primary btn-block center-horizontaly btn-nfm' onClick={() => { cleanFilterEvents() }}>נקה</button>
+            <button id="btn-filter" className='btn-filter btn btn-primary btn-block center-horizontaly btn-nfm' onClick={() => { filterEvents({ type, text, year, semester, location }); }}>{props.t.filter}</button>
+            <button id="btn-clear" className='btn-filter btn btn-primary btn-block center-horizontaly btn-nfm' onClick={() => { cleanFilterEvents() }}>{props.t.clear}</button>
           </div>
         }
 
