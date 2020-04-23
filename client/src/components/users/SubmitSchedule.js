@@ -169,15 +169,15 @@ const SubmitSchedule = props => {
               </tbody>
             </table>
             <div className={`comment ${props.dir}`}>
-              <label htmlFor='comment'>עבור כל קורס, כמה שעות רצוף הקורס צריך להיות</label>
+              <label htmlFor='comment'>{props.t.consecutive_hours_msg}</label>
               <textarea dir={props.dir} name="course_comments" cols="40" rows="5" onChange={onChange} value={course_comments}></textarea>
             </div>
             <div className={`comment ${props.dir}`}>
-              <label htmlFor='comment'>הערות כלליות</label>
+              <label htmlFor='comment'>{props.t.general_comments}</label>
               <textarea dir={props.dir} name="general_comments" cols="40" rows="5" onChange={onChange} value={general_comments}></textarea>
             </div>
             <div className={`comment ${props.dir}`}>
-              <label htmlFor='comment'>הערות קריטיות</label>
+              <label htmlFor='comment'>{props.t.critical_comments}</label>
               <textarea dir={props.dir} name="critical_comments" cols="40" rows="5" onChange={onChange} value={critical_comments}></textarea>
             </div>
             <input type='submit' value={props.t.submit_schedule} className='btn btn-primary btn-block center-horizontaly' />
@@ -232,15 +232,15 @@ const SubmitSchedule = props => {
               </tbody>
             </table>
             <div className={`comment ${props.dir}`}>
-              <label htmlFor='comment'>עבור כל קורס, כמה שעות רצוף הקורס צריך להיות</label>
+              <label htmlFor='comment'>{props.t.consecutive_hours_msg}</label>
               <textarea dir={props.dir} name="course_comments" cols="40" rows="5" onChange={onChange} value={course_comments}></textarea>
             </div>
             <div className={`comment ${props.dir}`}>
-              <label htmlFor='comment'>הערות כלליות</label>
+              <label htmlFor='comment'>{props.t.general_comments}</label>
               <textarea dir={props.dir} name="general_comments" cols="40" rows="5" onChange={onChange} value={general_comments}></textarea>
             </div>
             <div className={`comment ${props.dir}`}>
-              <label htmlFor='comment'>הערות קריטיות</label>
+              <label htmlFor='comment'>{props.t.critical_comments}</label>
               <textarea dir={props.dir} name="critical_comments" cols="40" rows="5" onChange={onChange} value={critical_comments}></textarea>
             </div>
             <input type='submit' value={props.t.submit_schedule} className='btn btn-primary btn-block center-horizontaly medium-btn' />

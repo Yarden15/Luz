@@ -129,5 +129,9 @@
   "filter": "סנן",
   "clear": "נקה",
   "hide_filter": "הסתר מסנן",
-  "show_filter": "הצג מסנן"
+  "show_filter": "הצג מסנן",
+  "consecutive_hours_msg": "?עבור כל קורס, כמה שעות רצופות רצוי שהקורס יהיה",
+  "general_comments": "הערות כלליות",
+  "critical_comments": "הערות קריטיות",
+  "delete_all_events_msg": "?האם אתה בטוח שברצונך למחוק את כל האירועים"
 }

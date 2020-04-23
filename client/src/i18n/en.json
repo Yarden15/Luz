@@ -128,5 +128,9 @@
   "filter": "Filter",
   "clear": "Clear",
   "hide_filter": "Hide Filter",
-  "show_filter": "Show Filter"
+  "show_filter": "Show Filter",
+  "consecutive_hours_msg": "For each course, how many consecutive hours of the course?",
+  "general_comments": "General Comments",
+  "critical_comments": "Critical Comments",
+  "delete_all_events_msg": "Are you sure you want to delete all events?"
 }

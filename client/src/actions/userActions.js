@@ -3,11 +3,8 @@ import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
 import Alert from 'sweetalert2';
-import {
-  cleanSchedules,
-  getSchedules,
-  saveAllSchedules,
-} from './scheduleActions';
+import { cleanSchedules, getSchedules, saveAllSchedules, } from './scheduleActions';
+import { loadUser } from './authActions';
 
 const setLoading = () => {
   store.dispatch({
@@ -74,7 +71,7 @@ export const getUserById = (id) => {
     }
   }
 };
-
+//update user by the admin
 export const updateUser = async (user) => {
   try {
     saveAllSchedules();
@@ -208,19 +205,9 @@ export const changePasswordAlert = (id) => {
   changePw();
 };
 
-export const isManager = async () => {
+export const getRole = async () => {
   try {
     const res = await axios.get('/api/users/me/role');
-    return res.data.manager;
-  }
-  catch (err) {
-    console.log(err);
-  }
-}
-
-export const isScheduler = () => {
-  try {
-    const res = axios.get('/api/users/me/role')
     return res.data;
   }
   catch (err) {
@@ -228,12 +215,16 @@ export const isScheduler = () => {
   }
 }
 
-export const isLecuturer = async () => {
+export const updateByTheUser = async (updateDetails) => {
   try {
-    const res = axios.get('/api/users/me/role')
-    return res.data;
-  }
-  catch (err) {
-    console.log(err);
+    saveAllSchedules();
+    const res = await axios.put('/api/users/me', updateDetails);
+    getUsers();
+    cleanSchedules();
+    getSchedules();
+    loadUser();
+    popupAlert('congratulations', res.data, 'regular');
+  } catch (err) {
+    console.error(err);
   }
 }

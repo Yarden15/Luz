@@ -8,7 +8,8 @@ import {
   EVENT_CHANGED,
   CHANGE_LANG_SCHEDS,
   RENAME_SCHED,
-  CLEAN_SCHEDULES
+  CLEAN_SCHEDULES,
+  CLEAR_SCHEDULE
 } from './types';
 import Alert from 'sweetalert2';
 import FullCalendar from '@fullcalendar/react';
@@ -97,8 +98,8 @@ export const saveAllSchedules = async () => {
 
 const saveSchedule = async (sched_id, title, semester, year, location, events) => {
   try {
-    const res = await axios.post('/api/schedules', { sched_id, title, semester, year, location, events });
-    popupAlert('congratulations', res.data, 'regular');
+    await axios.post('/api/schedules', { sched_id, title, semester, year, location, events });
+    // popupAlert('congratulations', res.data, 'regular');
   } catch (error) {
     console.error(error);
   }
@@ -131,8 +132,9 @@ export const createCalendar = (
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         customButtons={{
           save: {
-            text: t.save,
+            text: t.clear,
             click: function () {
+              clearSchedule();
               saveButtonClicked();
             },
           },
@@ -165,14 +167,17 @@ export const createCalendar = (
         eventDrop={function (info) {
           deleteRightPlaces();
           eventChanged(info, id);
+          saveButtonClicked();
         }}
         eventReceive={function (info) {
           addEvent(info, id);
           forceSchedsUpdate(id);
+          saveButtonClicked();
         }}
         eventResizeStart={() => { showRightPlaces() }}
         eventResize={function (info) {
           eventChanged(info, id);
+          saveButtonClicked();
         }}
         eventLimit={true}
         eventRender={function (info) {
@@ -238,6 +243,29 @@ const saveButtonClicked = () => {
   );
 };
 
+const clearSchedule = () => {
+  let t = store.getState().literals.literals;
+  let id = store.getState().schedule.current;
+
+  Alert.fire({
+    title: t.delete_all_events_msg,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel
+  }).then((result) => {
+    if (result.value) {
+      store.dispatch({
+        type: CLEAR_SCHEDULE,
+      });
+      forceSchedsUpdate(id)
+      saveButtonClicked();
+    }
+  })
+}
+
 //popup window when the user clicking on the event into the calendar
 export const eventClick = (eventClick) => {
   let t = store.getState().literals.literals;
@@ -277,9 +305,10 @@ export const eventClick = (eventClick) => {
         payload: {
           sched_id: eventClick.event._calendar.component.context.options.id,
           event_id: eventClick.event._def.extendedProps.eventId,
-        },
+        }
       });
       forceSchedsUpdate(store.getState().schedule.current);
+      saveButtonClicked();
       Alert.fire(t.deleted, t.the_event_has_been_deleted, 'success');
     }
   });

@@ -13,6 +13,7 @@ const Home = props => {
   useEffect(() => {
     loadUser();
     //load all data from the db
+    getSchedules();
     getEvents();
     getCourses();
     getUsers();

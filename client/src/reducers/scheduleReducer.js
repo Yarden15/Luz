@@ -1,4 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED, CLEAN_SCHEDULES, UPDATE_EVENT,INITIAL_SCHEDULE } from '../actions/types';
+import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED, CLEAN_SCHEDULES, UPDATE_EVENT, INITIAL_SCHEDULE, CLEAR_SCHEDULE } from '../actions/types';
 import { searchAndUpdate } from '../actions/scheduleActions';
 const initialState = {
   schedules: {},
@@ -98,6 +98,17 @@ export default (state = initialState, action) => {
         counter: state.counter + 1,
         schedules: state.schedules
       }
+    case CLEAR_SCHEDULE:
+      let schedToClear = state.schedules;
+      let length = state.schedules[state.current].calendar.props.children.props.events.length;
+      for (let i = 0; i < length; i++) {
+        schedToClear[state.current].calendar.props.children.props.events.pop()
+      }
+      return {
+        ...state,
+        schedules: schedToClear
+      }
+
     case INITIAL_SCHEDULE:
       return {
         schedules: {},

@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { /*updateUser,*/ changePasswordAlert } from '../../actions/userActions';
+import { /*updateUser,*/ changePasswordAlert, updateByTheUser } from '../../actions/userActions';
 import { loadUser } from '../../actions/authActions';
 
 const UserSettings = (props) => {
@@ -28,11 +28,7 @@ const UserSettings = (props) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    // updateUser({
-    //    first_name, last_name
-    // });
-    // put('users/me')
-    console.log("update user");
+    updateByTheUser({ first_name, last_name })
   };
 
   return (

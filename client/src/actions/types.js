@@ -5,6 +5,7 @@ export const ADD_SCHEDULE = 'ADD_SCHEDULE';
 export const ADD_EVENT = 'ADD_EVENT';
 export const EVENT_CHANGED = 'EVENT_CHANGED';
 export const DELETE_SCHEDULE = 'DELETE_SCHEDULE';
+export const CLEAR_SCHEDULE = 'CLEAR_SCHEDULE';
 export const SCHEDULE_ERROR = 'SCHEDULE_ERROR';
 export const EVENT_ERROR = 'EVENT_ERROR';
 export const GET_EVENTS = 'GET_EVENTS';
