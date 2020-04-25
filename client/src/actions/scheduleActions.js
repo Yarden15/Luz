@@ -21,6 +21,8 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
+import { updateEventsFromDB } from './eventsActions';
+import { getUsers } from './userActions';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -53,8 +55,7 @@ export const getSchedules = async () => {
           last_name: schedules[i].events[j].timeTableId.user.last_name,
           semester: schedules[i].events[j].timeTableId.performance.semester,
           location: schedules[i].events[j].timeTableId.performance.location,
-          course_hours:
-            schedules[i].events[j].timeTableId.performance.course_hours,
+          course_hours: schedules[i].events[j].timeTableId.performance.course_hours,
           year: schedules[i].events[j].timeTableId.performance.year,
           startTime: schedules[i].events[j].startTime,
           endTime: schedules[i].events[j].endTime,
@@ -167,17 +168,14 @@ export const createCalendar = (
         eventDrop={function (info) {
           deleteRightPlaces();
           eventChanged(info, id);
-          saveButtonClicked();
         }}
         eventReceive={function (info) {
           addEvent(info, id);
           forceSchedsUpdate(id);
-          saveButtonClicked();
         }}
         eventResizeStart={() => { showRightPlaces() }}
         eventResize={function (info) {
           eventChanged(info, id);
-          saveButtonClicked();
         }}
         eventLimit={true}
         eventRender={function (info) {
@@ -695,4 +693,13 @@ export const deleteRightPlaces = () => {
   }
   calendar.current.calendar.removeAllEvents();
   calendar.current.calendar.addEventSource(newEvents);
+}
+
+export const addEventsServer = (event) => {
+  //send event id + start + end to server
+  //add the event to the user on the server
+  updateEventsFromDB();
+  getUsers();
+  saveButtonClicked();
+
 }

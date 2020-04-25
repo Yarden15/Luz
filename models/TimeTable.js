@@ -26,6 +26,10 @@ const TimeTableSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
+  course_hours_remaining: {
+    type: Number,
+    default: 0
+  },
   total_ex: {
     type: Number,
     default: 0

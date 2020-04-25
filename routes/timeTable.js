@@ -122,6 +122,7 @@ router.post(
       timeTableFields.user = user._id;
       timeTableFields.performance = performance._id;
       timeTableFields.organization = man.organization;
+      timeTableFields.course_hours_remaining = performance.course_hours;
       // Update in the array of courses in user Model the new course
       await User.update(
         { _id: user._id },

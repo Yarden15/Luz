@@ -27,6 +27,21 @@ export const getEvents = async () => {
   }
 };
 
+export const updateEventsFromDB = async () => {
+  try {
+    const res = await axios.get('/api/timetables');
+    store.dispatch({
+      type: GET_EVENTS,
+      payload: res.data,
+    });
+  } catch (error) {
+    store.dispatch({
+      type: EVENT_ERROR,
+      payload: error.response.data,
+    });
+  }
+}
+
 const setLoading = () => {
   store.dispatch({
     type: SET_LOADING,

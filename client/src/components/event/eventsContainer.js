@@ -24,6 +24,7 @@ export class eventsContainer extends Component {
         let semester = eventEl.getAttribute('semester');
         let location = eventEl.getAttribute('location');
         let course_hours = eventEl.getAttribute('course_hours');
+        let course_hours_remaining = eventEl.getAttribute('course_hours_remaining');
         let year = eventEl.getAttribute('year');
         let backgroundColor = eventEl.getAttribute('backgroundColor');
 
@@ -39,6 +40,7 @@ export class eventsContainer extends Component {
           semester,
           location,
           course_hours,
+          course_hours_remaining,
           year,
           backgroundColor,
         };
@@ -81,6 +83,7 @@ export class eventsContainer extends Component {
                 location={event.performance.location}
                 semester={event.performance.semester}
                 course_hours={event.performance.course_hours}
+                course_hours_remaining={event.course_hours_remaining}
                 year={event.performance.year}
                 backgroundcolor={event.user.color}
               >
@@ -118,6 +121,10 @@ export class eventsContainer extends Component {
                   <div>
                     {this.props.t.course_hours}:{' '}
                     {event.performance.course_hours}
+                  </div>
+                  <div>
+                    {this.props.t.course_hours_remaining}:{' '}
+                    {event.course_hours_remaining}
                   </div>
                 </div>
               </div>

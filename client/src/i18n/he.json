@@ -133,5 +133,6 @@
   "consecutive_hours_msg": "?עבור כל קורס, כמה שעות רצופות רצוי שהקורס יהיה",
   "general_comments": "הערות כלליות",
   "critical_comments": "הערות קריטיות",
-  "delete_all_events_msg": "?האם אתה בטוח שברצונך למחוק את כל האירועים"
+  "delete_all_events_msg": "?האם אתה בטוח שברצונך למחוק את כל האירועים",
+  "course_hours_remaining": "שעות קורס שנותרו"
 }
