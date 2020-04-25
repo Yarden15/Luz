@@ -696,8 +696,7 @@ export const deleteRightPlaces = () => {
 }
 
 export const addEventsServer = (event) => {
-  //send event id + start + end to server
-  //add the event to the user on the server
+  //sched_id + event_id + start + end + day
   updateEventsFromDB();
   getUsers();
   saveButtonClicked();

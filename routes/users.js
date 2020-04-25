@@ -126,7 +126,7 @@ router.put('/me/pass', auth, async (req, res) => {
 
     // Given password do not match to the one in db
     if (!isMatch) {
-      return res.status(400).json({ msg: 'invalid_credentials' });
+      return res.status(400).json({ msg: 'password_not_match_msg' });
     }
     // Initialize salt (Part of bcrypt protocol to Hash)
     const salt = await bcrypt.genSalt(10);
@@ -142,7 +142,7 @@ router.put('/me/pass', auth, async (req, res) => {
       }
     );
 
-    res.status(200).send('Password has been changed');
+    res.status(200).send('password_changed_msg');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

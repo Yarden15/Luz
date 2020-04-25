@@ -194,7 +194,7 @@ export const changePasswordAlert = (id) => {
         await Alert.fire({ type: 'error', title: t.short_pass_msg });
         changePw();
       } else if (v !== 'cancel') {
-        resetPassword(id, alertVal.value.newPassword1);
+        changePasswordByTheUser(alertVal.value.newPassword1, alertVal.value.currentPassword);
       }
     } else {
       await Alert.fire({ type: 'error', title: t.all_fields_are_required });
@@ -218,7 +218,7 @@ export const getRole = async () => {
 export const updateByTheUser = async (updateDetails) => {
   try {
     saveAllSchedules();
-    const res = await axios.put('/api/users/me', updateDetails);
+    const res = await axios.put('/api/users/me/details', updateDetails);
     getUsers();
     cleanSchedules();
     getSchedules();
@@ -228,3 +228,15 @@ export const updateByTheUser = async (updateDetails) => {
     console.error(err);
   }
 }
+
+const changePasswordByTheUser = async (newPassword, oldPassword) => {
+  try {
+    const res = await axios.put(`/api/users/me/pass/`, {
+      newPassword, oldPassword
+    });
+    popupAlert('congratulations', res.data, 'regular');
+  } catch (err) {
+    console.log(err.response.data.msg)
+    popupAlert('error', err.response.data.msg, 'error');
+  }
+};

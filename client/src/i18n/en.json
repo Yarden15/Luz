@@ -133,5 +133,7 @@
   "general_comments": "General Comments",
   "critical_comments": "Critical Comments",
   "delete_all_events_msg": "Are you sure you want to delete all events?",
-  "course_hours_remaining": "Course hours remaining"
+  "course_hours_remaining": "Course hours remaining",
+  "password_not_match_msg": "הסיסמה הישנה שגויה, אנא נסה שנית",
+  "password_changed_msg": "סיסמה שונתה בהצלחה"
 }
