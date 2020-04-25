@@ -25,6 +25,16 @@ export class ScheduleContainer extends Component {
             <h1 className='calendar-title'>
               {this.props.scheduleObj.schedules[this.props.scheduleObj.current].title}
             </h1>
+
+            <table className="sched-details">
+              <thead>
+                <tr >
+                  <th>{this.props.t.year}: {this.props.t[this.props.scheduleObj.schedules[this.props.scheduleObj.current].year]}</th>
+                  <th>{this.props.t.semester}: {this.props.t[this.props.scheduleObj.schedules[this.props.scheduleObj.current].semester]}</th>
+                  <th>{this.props.t.location}: {this.props.scheduleObj.schedules[this.props.scheduleObj.current].location}</th>
+                </tr>
+              </thead>
+            </table>
             {this.props.scheduleObj.schedules[this.props.scheduleObj.current] === null ? "" : this.props.scheduleObj.schedules[this.props.scheduleObj.current].calendar}
           </div>
         </Fragment>
@@ -37,7 +47,8 @@ export class ScheduleContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    scheduleObj: state.schedule
+    scheduleObj: state.schedule,
+    t: state.literals.literals
   };
 };
 
