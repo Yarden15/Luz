@@ -63,55 +63,91 @@ router.get(
   }
 );
 // @route   PUT api/users/details
+// @desc    Change user detailes (User own details)
+// @access  Private
+router.put('/me/details', auth, async (req, res) => {
+  // Validations of the form will take place here
+  const errors = validationResult(req);
+  // According to validation send errors if there are
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  // Pull from the req.body the fields to update user
+  const { first_name, last_name } = req.body;
+
+  // Build user object
+  const userFields = {};
+  if (first_name) userFields.first_name = first_name;
+  if (last_name) userFields.last_name = last_name;
+
+  try {
+    //  Find the user by id
+    let user = await User.findById(req.user.id);
+
+    // User not found in DB
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+
+    // Update in the array of courses in user Model the new course
+    await User.update(
+      { _id: req.user.id },
+      {
+        $set: userFields,
+      }
+    );
+
+    res.status(200).send('User detailes has been changed');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+// @route   PUT api/users/details
 // @desc    Change password
 // @access  Private
-router.put(
-  '/me',
-  [
-    auth,
-    [
-      check(
-        'password',
-        'Please enter a password with 6 or more characters'
-      ).isLength({ min: 6 }),
-    ],
-  ],
-  async (req, res) => {
-    // Validations of the form will take place here
-    const errors = validationResult(req);
-    // According to validation send errors if there are
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { password } = req.body;
-
-    try {
-      // Promise to find if a user+passwoord exist in db
-      const user = await User.findById(req.user.id).select('-password');
-      // User not found in DB
-      if (!user) return res.status(404).json({ msg: 'User not found' });
-
-      // Initialize salt (Part of bcrypt protocol to Hash)
-      const salt = await bcrypt.genSalt(10);
-      // Insert the User instance the Hash password
-      let hashPass = await bcrypt.hash(password, salt);
-
-      // Update in the array of courses in user Model the new course
-      await User.update(
-        { _id: req.user.id },
-        {
-          $set: { password: hashPass },
-        }
-      );
-
-      res.status(200).send('Password has been changed');
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
+router.put('/me/pass', auth, async (req, res) => {
+  // Validations of the form will take place here
+  const errors = validationResult(req);
+  // According to validation send errors if there are
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
-);
+
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+    // Promise to find if a user+passwoord exist in db
+    const user = await User.findById(req.user.id);
+    // User not found in DB
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+
+    // Compare oldPassword to the one in DB
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+    // Given password do not match to the one in db
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'invalid_credentials' });
+    }
+    // Initialize salt (Part of bcrypt protocol to Hash)
+    const salt = await bcrypt.genSalt(10);
+
+    // Insert the User instance the Hash password
+    let hashNewPass = await bcrypt.hash(newPassword, salt);
+
+    // Update in the array of courses in user Model the new course
+    await User.update(
+      { _id: req.user.id },
+      {
+        $set: { password: hashNewPass },
+      }
+    );
+
+    res.status(200).send('Password has been changed');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 // @route   POST api/users
 // @desc    Register a user
 // @access  Private for Users with the role of 'Manager'
@@ -277,7 +313,7 @@ router.put(
   }
 );
 // @route   PUT api/users/manage
-// @desc    Update user information (Only password for now)
+// @desc    Update user information
 // @access  Private
 router.put(
   '/manage/details/:id',

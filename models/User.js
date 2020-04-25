@@ -5,55 +5,61 @@ const UserSchema = mongoose.Schema({
   performances: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'performances'
-    }
+      ref: 'performances',
+    },
+  ],
+  constraints: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'constraints',
+    },
   ],
   organization: {
     type: String,
-    required: true
+    required: true,
   },
   id_number: {
     type: String,
-    required: true
+    required: true,
   },
   first_name: {
     type: String,
-    required: true
+    required: true,
   },
   last_name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
     unique: true,
-    lowercase: true
+    lowercase: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   manager: {
     type: Boolean,
-    default: false
+    default: false,
   },
   scheduler: {
     type: Boolean,
-    default: false
+    default: false,
   },
   lecturer: {
     type: Boolean,
-    default: false
+    default: false,
   },
   color: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 module.exports = mongoose.model('user', UserSchema);
