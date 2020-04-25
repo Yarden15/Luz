@@ -10,3 +10,15 @@
     opacity: 0.9;
   }
 }
+
+//click on the + to add schedule
+@keyframes add-scheudle-animation {
+  0% {
+    right: 22px;
+    top: 20px;
+  }
+  100% {
+    right: 44px;
+    top: 13px;
+  }
+}

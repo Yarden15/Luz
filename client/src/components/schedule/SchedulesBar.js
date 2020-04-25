@@ -18,6 +18,7 @@ export class SchedulesBar extends Component {
           ))
         }
           <span onClick={() => createSchdule()}><i className="fas fa-plus"></i></span>
+          {Object.keys(scheds).length === 0 && <i id="no-sched-ptr" className="fas fa-mouse-pointer"></i>}
         </div>
       </div>
     )

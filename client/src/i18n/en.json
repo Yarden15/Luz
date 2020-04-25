@@ -135,5 +135,6 @@
   "delete_all_events_msg": "Are you sure you want to delete all events?",
   "course_hours_remaining": "Course hours remaining",
   "password_not_match_msg": "The old password is incorrect, please try again",
-  "password_changed_msg": "Password changed successfully"
+  "password_changed_msg": "Password changed successfully",
+  "no_scheule_msg": "There are no schedules, click the + button to create a new schedule"
 }

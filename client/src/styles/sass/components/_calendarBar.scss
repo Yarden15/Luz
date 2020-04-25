@@ -3,7 +3,7 @@
     margin-left: 10px;
     display: inline;
   }
-//test
+  //test
   &:after {
     content: "";
     display: block;
@@ -69,7 +69,7 @@ body {
   color: #8d8d8d;
   font-size: 12px;
 
-  &:hover{
+  &:hover {
     color: #06c;
   }
 }
@@ -136,4 +136,14 @@ body {
   overflow-y: hidden;
   overflow-x: auto;
   white-space: nowrap;
+}
+
+#no-sched-ptr {
+  font-size: 16px;
+  top: 20px;
+  color: #06c;
+  right: 22px;
+  animation: add-scheudle-animation;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
 }

@@ -9,7 +9,8 @@ import {
   CHANGE_LANG_SCHEDS,
   RENAME_SCHED,
   CLEAN_SCHEDULES,
-  CLEAR_SCHEDULE
+  CLEAR_SCHEDULE,
+  STOP_LOADING_SCHED
 } from './types';
 import Alert from 'sweetalert2';
 import FullCalendar from '@fullcalendar/react';
@@ -77,6 +78,7 @@ export const getSchedules = async () => {
         schedules[i].sched_id
       );
     }
+    stopLoading();
   } catch (error) {
     console.error(error);
   }
@@ -111,6 +113,12 @@ export const setLoading = () => {
     type: SET_LOADING_SCHED,
   });
 };
+
+const stopLoading = () => {
+  store.dispatch({
+    type: STOP_LOADING_SCHED,
+  });
+}
 
 //create new schedule and push him to array
 export const createCalendar = (

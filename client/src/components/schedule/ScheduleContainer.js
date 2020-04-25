@@ -18,6 +18,13 @@ export class ScheduleContainer extends Component {
         <div id='schedules-spinner'>
           <Spinner id='spinner-events-container' />
         </div>)
+    } else if (Object.keys(this.props.scheduleObj.schedules).length === 0) {
+      return (
+        <Fragment>
+          <div className="no-sched-msg window">
+            <h3>{this.props.t.no_scheule_msg}</h3>
+          </div>
+        </Fragment>)
     } else if (this.props.scheduleObj.schedules[this.props.scheduleObj.current]) {
       return (
         <Fragment key={this.props.scheduleObj.current}>
