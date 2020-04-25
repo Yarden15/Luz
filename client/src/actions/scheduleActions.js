@@ -164,7 +164,6 @@ export const createCalendar = (
         slotDuration='00:30:00'
         snapDuration='00:05:00'
         minTime='07:00:00'
-        maxTime='23:00:00'
         height='auto'
         titleFormat={{ weekday: 'long' }}
         columnHeaderFormat={{ weekday: 'long' }}
@@ -500,9 +499,9 @@ const getTimeFromEvent = (time) => {
   minutes =
     time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
   hours =
-    time.getHours() - 3 < 10
-      ? '0' + (time.getHours() - 3)
-      : time.getHours() - 3;
+    time.getUTCHours() < 10
+      ? '0' + (time.getUTCHours())
+      : time.getUTCHours();
 
   return hours + ':' + minutes;
 };
@@ -532,7 +531,7 @@ const createEventObj = (info, schedId, status) => {
       year: info.draggedEl.getAttribute('year'),
       startTime: getTimeFromEvent(info.event._instance.range.start),
       endTime: getTimeFromEvent(info.event._instance.range.end),
-      daysOfWeek: [info.event._instance.range.start.getDay()],
+      daysOfWeek: [info.event._instance.range.start.getUTCDay()],
       borderColor: 'black',
       color: info.draggedEl.getAttribute('backgroundcolor'),
       textColor: 'white',
@@ -557,7 +556,7 @@ const createEventObj = (info, schedId, status) => {
       location: info.event._def.extendedProps.location,
       startTime: start,
       endTime: getTimeFromEvent(info.event._instance.range.end),
-      daysOfWeek: [info.event._instance.range.start.getDay()],
+      daysOfWeek: [info.event._instance.range.start.getUTCDay()],
       borderColor: 'black',
       color: info.event._def.extendedProps.backgroundColor,
       textColor: 'white',
