@@ -22,7 +22,7 @@ const PerformanceSchema = mongoose.Schema({
     required: true
   },
   course_hours: {
-    type: Number,
+    type: String,
     required: true
   },
   ex_hours: {

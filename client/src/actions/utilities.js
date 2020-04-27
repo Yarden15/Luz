@@ -1,5 +1,5 @@
 import store from '../store';
-import { SORT_USERS, SORT_COURSES } from '../actions/types';
+import { SORT_USERS, SORT_COURSES, SORT_EVENTS } from '../actions/types';
 
 //sort users gets a function that determines which attribute to sort
 export const sortUsers = (func) => {
@@ -122,7 +122,7 @@ export const sortCourses = (func) => {
   });
 }
 
-//sorts the course by title
+//sorts the courses by title
 export const sortCourseByName = (a, b) => {
   const nameA = a.title.toUpperCase();
   const nameB = b.title.toUpperCase();
@@ -135,15 +135,15 @@ export const sortCourseByName = (a, b) => {
   }
   return comparison;
 }
-//sorts the course by serial number
+//sorts the courses by serial number
 export const sortCourseBySN = (a, b) => {
   return a.serial_num - b.serial_num;
 }
-//sorts the course by hours
+//sorts the courses by hours
 export const sortCourseByHours = (a, b) => {
   return a.course_hours - b.course_hours;
 }
-
+//sorts the courses by year
 export const sortCourseByYear = (a, b) => {
   const nameA = a.year.toUpperCase();
   const nameB = b.year.toUpperCase();
@@ -156,7 +156,7 @@ export const sortCourseByYear = (a, b) => {
   }
   return comparison;
 }
-
+//sorts the courses by semester
 export const sortCourseBySemester = (a, b) => {
   const nameA = a.semester.toUpperCase();
   const nameB = b.semester.toUpperCase();
@@ -169,7 +169,7 @@ export const sortCourseBySemester = (a, b) => {
   }
   return comparison;
 }
-
+//sorts the courses by location
 export const sortCourseByLocation = (a, b) => {
   const nameA = a.location.toUpperCase();
   const nameB = b.location.toUpperCase();
@@ -181,4 +181,48 @@ export const sortCourseByLocation = (a, b) => {
     comparison = -1;
   }
   return comparison;
+}
+
+//this method gets function and sorts the events by the function
+export const sortEvents = (func) => {
+  store.dispatch({
+    type: SORT_EVENTS,
+    payload: func
+  });
+}
+//sorts events by first name
+export const sortEventByFirst = () => {
+
+}
+//sorts events by last name
+export const sortEventByLast = () => {
+
+}
+//sorts events by serial number
+export const sortEventBySN = () => {
+
+}
+//sorts events by year
+export const sortEventByYear = () => {
+
+}
+//sorts events by semester
+export const sortEventBySemester = () => {
+
+}
+//sorts events by location
+export const sortEventByLocation = () => {
+
+}
+//sorts events by hours
+export const sortEventByHours = () => {
+
+}
+//sorts events by ID
+export const sortEventByID = () => {
+
+}
+//sorts events by color
+export const sortEventByColor = () => {
+
 }

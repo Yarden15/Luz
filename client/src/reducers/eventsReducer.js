@@ -90,6 +90,22 @@ export default (state = initialState, action) => {
         ...state,
         displayEvents: filteredArrayLocation
       };
+    case "UPDATE_HOURS_REMAINING":
+      let displayEventsUpdated = state.displayEvents;
+      let eventsUpdated = state.events;
+      eventsUpdated.forEach(event => {
+        if (event._id === action.payload.timeTableId)
+          event.course_hours_remaining = action.payload.timeStamp;
+      });
+      displayEventsUpdated.forEach(event => {
+        if (event._id === action.payload.timeTableId)
+          event.course_hours_remaining = action.payload.timeStamp;
+      });
+      return {
+        ...state,
+        events: eventsUpdated,
+        displayEvents: displayEventsUpdated
+      };
     case INITIAL_EVENT:
       return {
         events: [],

@@ -48,7 +48,7 @@ export const getSchedules = async () => {
         let event = {
           sched_id: schedules[i].sched_id,
           timeTableId: schedules[i].events[j].timeTableId._id,
-          eventId: schedules[i].events[j].timeTableId._id,
+          eventId: uuid(),
           title: schedules[i].events[j].timeTableId.performance.title,
           id_number: schedules[i].events[j].timeTableId.user.id_number,
           serial_num: schedules[i].events[j].timeTableId.performance.serial_num,
@@ -150,7 +150,8 @@ export const createCalendar = (
           rename: {
             text: t.rename,
             click: function () {
-              renameSched();
+              // renameSched();
+              sumAllCoursesHours();
             },
           },
         }}
@@ -702,10 +703,53 @@ export const deleteRightPlaces = () => {
   calendar.current.calendar.addEventSource(newEvents);
 }
 
-export const addEventsServer = (event) => {
+export const sumAllCoursesHours = () => {
   //sched_id + event_id + start + end + day
-  updateEventsFromDB();
-  getUsers();
   saveButtonClicked();
+  let events = store.getState().event.events;
+  let schedule = store.getState().schedule.schedules[store.getState().schedule.current];
+  console.log(schedule.calendar.props.children.props.events);
+  let schedEvents = schedule.calendar.props.children.props.events;
+  events.forEach((event) => { event.course_hours_remaining = event.performance.course_hours });
+  for (let i = 0; i < schedEvents.length; i++) {
+    let timeTableId = schedEvents[i].timeTableId;
+    let total_remaining;
+    events.forEach((event) => {
+      if (event._id === timeTableId)
+        total_remaining = event.course_hours_remaining;
+    })
+    let totalMinutes = calculateDiffBetweenTimes(schedEvents[i].startTime, schedEvents[i].endTime);
+    let timeStamp = minutesToTimeStamp(calculateDiffBetweenTimes(minutesToTimeStamp(totalMinutes), total_remaining));
 
+    store.dispatch({
+      type: "UPDATE_HOURS_REMAINING",
+      payload: { timeStamp, timeTableId }
+    })
+
+
+  }
+}
+
+
+const calculateDiffBetweenTimes = (start, end) => {
+  start = start.split(':');
+  end = end.split(':');
+  let diffHours = parseInt(end[0]) - parseInt(start[0]);
+  start = parseInt(start[0] + start[1]);
+  end = parseInt(end[0] + end[1]);
+
+  let totalMinutes = (end - start) - diffHours * 40;
+
+  return totalMinutes;
+}
+
+const minutesToTimeStamp = (totalMinutes) => {
+  let timeStamp = (parseInt(totalMinutes / 60)).toString() + ':' + (totalMinutes % 60).toString();
+  let minutes = totalMinutes % 60;
+  let hours = parseInt(totalMinutes / 60);
+
+  minutes < 10 ? minutes = '0' + minutes : minutes = minutes.toString();
+  hours < 10 ? hours = '0' + hours : hours = hours.toString();
+  timeStamp = hours + ':' + minutes;
+  return timeStamp;
 }

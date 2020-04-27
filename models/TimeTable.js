@@ -22,13 +22,8 @@ const TimeTableSchema = mongoose.Schema({
   group_name: {
     type: String
   },
-  total_course: {
-    type: Number,
-    default: 0
-  },
   course_hours_remaining: {
-    type: Number,
-    default: 0
+    type: String,
   },
   total_ex: {
     type: Number,
