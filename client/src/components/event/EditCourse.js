@@ -90,12 +90,11 @@ const EditCourse = props => {
           <div className={`form-group ${props.dir}`}>
             <label htmlFor='course_hours'>{props.t.course_hours}</label>
             <input
-              type='number'
+              type='time'
               name='course_hours'
               value={course_hours}
               onChange={onChange}
               required
-              min="0" max="99"
               dir={props.dir}></input>
           </div>
           <div className={`form-group ${props.dir}`}>

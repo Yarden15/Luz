@@ -9,7 +9,8 @@ import Spinner from '../layout/Spinner';
 export class eventsContainer extends Component {
   componentDidMount() {
     let draggableEl = document.getElementById('external-events');
-    getEvents();
+    if (!this.props.eventObj.events)
+      getEvents();
     let dragContainer = new Draggable(draggableEl, {
       itemSelector: '.fc-event',
       eventData: function (eventEl) {

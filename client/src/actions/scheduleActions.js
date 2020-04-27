@@ -22,8 +22,6 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
-import { updateEventsFromDB } from './eventsActions';
-import { getUsers } from './userActions';
 
 //import thunk from 'redux-thunk'
 //get schedules from db
@@ -78,7 +76,9 @@ export const getSchedules = async () => {
         schedules[i].sched_id
       );
     }
+    sumAllCoursesHours();
     stopLoading();
+    saveButtonClicked();
   } catch (error) {
     console.error(error);
   }
@@ -140,7 +140,7 @@ export const createCalendar = (
         defaultView='timeGridWeek'
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         customButtons={{
-          save: {
+          clear: {
             text: t.clear,
             click: function () {
               clearSchedule();
@@ -150,15 +150,14 @@ export const createCalendar = (
           rename: {
             text: t.rename,
             click: function () {
-              // renameSched();
-              sumAllCoursesHours();
+              renameSched();
             },
           },
         }}
         header={{
           center: '',
           left: '',
-          right: 'save rename',
+          right: 'clear rename',
         }}
         hiddenDays={[6]}
         allDaySlot={false}
@@ -176,14 +175,19 @@ export const createCalendar = (
         eventDrop={function (info) {
           deleteRightPlaces();
           eventChanged(info, id);
+          sumAllCoursesHours();
+          saveButtonClicked();
         }}
         eventReceive={function (info) {
           addEvent(info, id);
           forceSchedsUpdate(id);
+          saveButtonClicked();
         }}
         eventResizeStart={() => { showRightPlaces() }}
         eventResize={function (info) {
           eventChanged(info, id);
+          sumAllCoursesHours();
+          saveButtonClicked();
         }}
         eventLimit={true}
         eventRender={function (info) {
@@ -205,6 +209,7 @@ export const createCalendar = (
       type: CREATE_CALENDAR,
       payload: { calendar, title, id, semester, location, year, calendarRef },
     });
+    sumAllCoursesHours();
   } else {
     return { calendar, title, id, semester, location, year, calendarRef };
   }
@@ -215,6 +220,7 @@ export const selectCalendar = (id) => {
     type: SELECT_CALENDAR,
     payload: id,
   });
+  sumAllCoursesHours();
 };
 
 const addEvent = (info, id) => {
@@ -365,7 +371,6 @@ export const createSchdule = () => {
       <option class=${dir} value='b'>${t.b}</option>
       <option class=${dir} value='yearly'>${t.yearly}</option>
       <option class=${dir} value='summer'>${t.summer}</option></select>`,
-    type: 'warning',
     showCancelButton: true,
     confirmButtonText: t.ok,
     cancelButtonText: t.cancel,
@@ -579,7 +584,6 @@ export const changeLangScheds = () => {
       old_scheds[key].calendar.props.children.props.events,
       0,
       old_scheds[key].id
-
     );
   }
 
@@ -587,7 +591,7 @@ export const changeLangScheds = () => {
     type: CHANGE_LANG_SCHEDS,
     payload: new_scheds,
   });
-
+  // sumAllCoursesHours();
 };
 
 const castToArray = (schedules) => {
@@ -704,33 +708,34 @@ export const deleteRightPlaces = () => {
 }
 
 export const sumAllCoursesHours = () => {
-  //sched_id + event_id + start + end + day
-  saveButtonClicked();
-  let events = store.getState().event.events;
   let schedule = store.getState().schedule.schedules[store.getState().schedule.current];
-  console.log(schedule.calendar.props.children.props.events);
-  let schedEvents = schedule.calendar.props.children.props.events;
-  events.forEach((event) => { event.course_hours_remaining = event.performance.course_hours });
-  for (let i = 0; i < schedEvents.length; i++) {
-    let timeTableId = schedEvents[i].timeTableId;
-    let total_remaining;
-    events.forEach((event) => {
-      if (event._id === timeTableId)
-        total_remaining = event.course_hours_remaining;
-    })
-    let totalMinutes = calculateDiffBetweenTimes(schedEvents[i].startTime, schedEvents[i].endTime);
-    let timeStamp = minutesToTimeStamp(calculateDiffBetweenTimes(minutesToTimeStamp(totalMinutes), total_remaining));
+  if (schedule) {
+    let events = store.getState().event.events;
+    let schedEvents = schedule.calendar.props.children.props.events;
 
-    store.dispatch({
-      type: "UPDATE_HOURS_REMAINING",
-      payload: { timeStamp, timeTableId }
-    })
+    events.forEach((event) => { event.course_hours_remaining = event.performance.course_hours });
 
+    for (let i = 0; i < schedEvents.length; i++) {
+      console.log(i)
+      let timeTableId = schedEvents[i].timeTableId;
+      let total_remaining;
+      events.forEach((event) => {
+        if (event._id === timeTableId)
+          total_remaining = event.course_hours_remaining;
+      })
 
+      let totalMinutes = calculateDiffBetweenTimes(schedEvents[i].startTime, schedEvents[i].endTime);
+      let timeStamp = minutesToTimeStamp(calculateDiffBetweenTimes(minutesToTimeStamp(totalMinutes), total_remaining));
+
+      store.dispatch({
+        type: "UPDATE_HOURS_REMAINING",
+        payload: { timeStamp, timeTableId }
+      })
+    }
   }
 }
 
-
+//this method gets 2 strings of time stamp and return the differance in minutes (int)
 const calculateDiffBetweenTimes = (start, end) => {
   start = start.split(':');
   end = end.split(':');
@@ -742,14 +747,21 @@ const calculateDiffBetweenTimes = (start, end) => {
 
   return totalMinutes;
 }
-
+//this method gets minutes (int) and convert to time stamp (string)
 const minutesToTimeStamp = (totalMinutes) => {
-  let timeStamp = (parseInt(totalMinutes / 60)).toString() + ':' + (totalMinutes % 60).toString();
-  let minutes = totalMinutes % 60;
-  let hours = parseInt(totalMinutes / 60);
+  let timeStamp;
+  let minutes;
+  let hours;
+  if (totalMinutes >= 0) {
+    timeStamp = (parseInt(totalMinutes / 60)).toString() + ':' + (totalMinutes % 60).toString();
+    minutes = totalMinutes % 60;
+    hours = parseInt(totalMinutes / 60);
 
-  minutes < 10 ? minutes = '0' + minutes : minutes = minutes.toString();
-  hours < 10 ? hours = '0' + hours : hours = hours.toString();
-  timeStamp = hours + ':' + minutes;
+    minutes < 10 ? minutes = '0' + minutes : minutes = minutes.toString();
+    hours < 10 ? hours = '0' + hours : hours = hours.toString();
+    timeStamp = hours + ':' + minutes;
+  } else {
+
+  }
   return timeStamp;
 }
