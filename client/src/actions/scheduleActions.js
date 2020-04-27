@@ -749,7 +749,7 @@ const calculateDiffBetweenTimes = (start, end) => {
 }
 //this method gets minutes (int) and convert to time stamp (string)
 const minutesToTimeStamp = (totalMinutes) => {
-  let timeStamp;
+  let timeStamp = '';
   let minutes;
   let hours;
   if (totalMinutes >= 0) {
@@ -760,8 +760,6 @@ const minutesToTimeStamp = (totalMinutes) => {
     minutes < 10 ? minutes = '0' + minutes : minutes = minutes.toString();
     hours < 10 ? hours = '0' + hours : hours = hours.toString();
     timeStamp = hours + ':' + minutes;
-  } else {
-
   }
   return timeStamp;
 }

@@ -85,7 +85,7 @@ export default (state = initialState, action) => {
         displayEvents: filteredArraySemester
       };
     case FILTER_EVENTS_BY_LOCATION:
-      let filteredArrayLocation = state.displayEvents.filter((event) => { return !event.performance.location === action.payload })
+      let filteredArrayLocation = state.displayEvents.filter((event) => { return event.performance.location === action.payload })
       return {
         ...state,
         displayEvents: filteredArrayLocation
