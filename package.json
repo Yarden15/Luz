@@ -33,7 +33,7 @@
     "express-validator": "^6.3.0",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^3.10.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.13",
     "node-sass": "^4.13.0",
