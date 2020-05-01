@@ -71,7 +71,8 @@ export class eventsContainer extends Component {
           <div>
             {this.props.eventObj.displayEvents.map((event) => (
               <div
-                style={{ backgroundColor: event.user.color }}
+                // {...event.course_hours_remaining === '' ? style = {{display:'none'}} : ""}
+                style={{ backgroundColor: event.user.color, display: event.course_hours_remaining === '' ? 'none' : '' }}
                 className='fc-event draggable tool-tip'
                 timetableid={event._id}
                 title={event.performance.title}
@@ -131,7 +132,7 @@ export class eventsContainer extends Component {
               </div>
             ))}
           </div>
-        </div>
+        </div >
       );
     }
   }
