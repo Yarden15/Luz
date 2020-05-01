@@ -138,5 +138,5 @@
   "password_changed_msg": "Password changed successfully",
   "no_scheule_msg": "There are no schedules, click the + button to create a new schedule",
   "submitted_a_schedule": "Submitted a schedule",
-  "cant_submit_msg": "Unable to submit a schedule, please contact the manager"
+  "cant_submit_msg": "*Unable to submit a schedule, please contact the manager"
 }
