@@ -141,7 +141,14 @@ export const sortCourseBySN = (a, b) => {
 }
 //sorts the courses by hours
 export const sortCourseByHours = (a, b) => {
-  return a.course_hours - b.course_hours;
+  a = a.course_hours.split(':');
+  b = b.course_hours.split(':');
+  console.log(a.course_hours, b.course_hours)
+
+  if (parseInt(a[0]) === parseInt(b[0]))
+    return (parseInt(a[1]) - parseInt(b[1]))
+  else
+    return (parseInt(a[0]) - parseInt(b[0]));
 }
 //sorts the courses by year
 export const sortCourseByYear = (a, b) => {
