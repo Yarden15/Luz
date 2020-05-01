@@ -62,7 +62,6 @@ router.post('/', [authorization], async (req, res) => {
   }
   // Pull from the req.body the fields to create new schedule later on (instance)
   const { sched_id, title, year, semester, location, events } = req.body;
-  console.log(sched_id, title, year, semester, location, events)
   try {
     // Pull the organization of manager to know what organization field for UserSchema
     let user = await User.findById(req.user.id).select('organization');
@@ -81,7 +80,6 @@ router.post('/', [authorization], async (req, res) => {
 
     // Check if there another scheduler that have been created with the same schedule id
     let sched = await Schedule.findOne({ sched_id: sched_id });
-    console.log(sched)
     // If there is already a user with the email that entered
     if (sched) {
       await Schedule.updateOne(

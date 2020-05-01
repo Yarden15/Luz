@@ -295,17 +295,32 @@ export const eventClick = (eventClick) => {
     html:
       `<div class="table-responsive">
       <table class="table">
-      <tbody>
-      <tr >
-
-      <td><strong>` +
-      //סידור עבודה של אותו אלמנט
-      `</strong></td>
-      </tr>
-      <tr>
-      </tr>
+       <tbody class="rtl">
+        <tr>
+         <td>${t.sunday}:</td>
+         <td>08:00 - 15:00</td>
+        </tr>
+        <tr>
+         <td>${t.monday}:</td>
+         <td>09:00 - 17:00</td>
+        </tr>
+        <tr>
+         <td>${t.tuesday}:</td>
+         <td>11:00 - 14:00</td>
+        </tr>
+        <tr>
+         <td>${t.wednesday}:</td>
+         <td>08:00 - 15:00</td>
+        </tr>
+        <tr>
+         <td>${t.thursday}:</td>
+         <td>11:30 - 18:00</td>
+        </tr>
+        <tr>
+         <td>${t.friday}:</td>
+         <td>12:00 - 15:00</td>
+        </tr>
       </tbody>
-      </table>
       </div>`,
     showCancelButton: true,
     confirmButtonColor: '#d33',
