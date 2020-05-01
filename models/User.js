@@ -52,6 +52,14 @@ const UserSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  can_submit: {
+    type: Boolean,
+    default: true,
+  },
+  submitted_schedule: {
+    type: Boolean,
+    default: false,
+  },
   color: {
     type: String,
     required: true,

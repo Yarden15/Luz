@@ -8,9 +8,7 @@ const SubmitSchedule = props => {
   useEffect(() => {
     !props.authObj.user && loadUser()
     // eslint-disable-next-line
-  }, []);
-
-
+  });
 
   let userSchedule = {
     sunday_start: '',
@@ -112,14 +110,13 @@ const SubmitSchedule = props => {
     //updateSchedule({ sunday, monday, tuesday, wednesday, thursday, friday });
   }
 
-
   return (
     <Fragment>
       <Menu />
       <div className='form-container submit-schedule'>
         <h1>{props.t.submit_schedule}</h1>
         {props.dir === 'ltr' ?
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} id='sumbit-schedule-form'>
             <table className={`sumbit-schedule-table ${props.dir}`}>
               <thead>
                 <tr className="text-center">
@@ -243,7 +240,7 @@ const SubmitSchedule = props => {
               <label htmlFor='comment'>{props.t.critical_comments}</label>
               <textarea dir={props.dir} name="critical_comments" cols="40" rows="5" onChange={onChange} value={critical_comments}></textarea>
             </div>
-            <input type='submit' value={props.t.submit_schedule} className='btn btn-primary btn-block center-horizontaly medium-btn' />
+            {props.authObj.user.can_submit ? <input type='submit' value={props.t.submit_schedule} className='btn btn-primary btn-block center-horizontaly medium-btn' /> : <div className='warning center-horizontaly'>{props.t.cant_submit_msg}</div>}
           </form>}
       </div >
     </Fragment>

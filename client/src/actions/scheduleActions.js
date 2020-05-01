@@ -62,6 +62,7 @@ export const getSchedules = async () => {
           borderColor: 'black',
           color: schedules[i].events[j].timeTableId.user.color,
           textColor: 'white',
+          errors: ['yarden', 'yarin']
         };
         convertEvents.push(event);
       }
@@ -78,7 +79,6 @@ export const getSchedules = async () => {
     }
     sumAllCoursesHours();
     stopLoading();
-    saveButtonClicked();
   } catch (error) {
     console.error(error);
   }
@@ -145,6 +145,7 @@ export const createCalendar = (
             click: function () {
               clearSchedule();
               saveButtonClicked();
+              // exportTableToExcel()
             },
           },
           rename: {
@@ -274,6 +275,7 @@ const clearSchedule = () => {
       });
       forceSchedsUpdate(id)
       saveButtonClicked();
+      sumAllCoursesHours();
     }
   })
 }
@@ -320,6 +322,7 @@ export const eventClick = (eventClick) => {
         }
       });
       forceSchedsUpdate(store.getState().schedule.current);
+      sumAllCoursesHours();
       saveButtonClicked();
       Alert.fire(t.deleted, t.the_event_has_been_deleted, 'success');
     }
@@ -716,7 +719,6 @@ export const sumAllCoursesHours = () => {
     events.forEach((event) => { event.course_hours_remaining = event.performance.course_hours });
 
     for (let i = 0; i < schedEvents.length; i++) {
-      console.log(i)
       let timeTableId = schedEvents[i].timeTableId;
       let total_remaining;
       events.forEach((event) => {
@@ -763,3 +765,22 @@ const minutesToTimeStamp = (totalMinutes) => {
   }
   return timeStamp;
 }
+
+// const checkAllRemainingHours = async () => {
+//   let events = store.getState().event.events;
+//   let schedEvents = store.getState().schedule.schedules[store.getState().schedule.current].schedules.calendar.props.children.props.events;
+
+//   try {
+//     const res = await axios.get('', { events, schedEvents });
+
+//   } catch (err) {
+
+//   }
+// }
+
+// const exportTableToExcel = (filename = '') => {
+//   var table = $('.fc-timeGridWeek-view');
+//   var downloadLink;
+//   var dataType = 'application/vnd.ms-excel';
+//   var tableHtml = table[0].table2excel({ name: 'yarden' })
+// }

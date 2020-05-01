@@ -38,10 +38,10 @@ export class ManageUsers extends Component {
                     <th onClick={() => { sortUsers(sortUsersByID) }}>{this.props.t.id}</th>
                     <th onClick={() => { sortUsers(sortUsersByEmail) }}>{this.props.t.email_address}</th>
                     <th onClick={() => { sortUsers(sortUsersByColor) }}>{this.props.t.user_color}</th>
-                    <th>הגיש סידור</th>
                     <th>{this.props.t.delete_user}</th>
                     <th>{this.props.t.edit_user}</th>
                     <th>{this.props.t.reset_password}</th>
+                    <th>{this.props.t.submitted_a_schedule}</th>
                   </tr>
                 </thead>
                 <tbody className={this.props.dir}>
@@ -53,10 +53,6 @@ export class ManageUsers extends Component {
                       <td>{user.email}</td>
                       <td style={{ background: user.color }}></td>
                       <td style={{ textAlign: 'center' }}>
-                        {!user.email ? <i className="fas fa-check"></i> :
-                          <i className="fas fa-times"></i>}
-                      </td>
-                      <td style={{ textAlign: 'center' }}>
                         <i className="far fa-trash-alt center-horizontaly"
                           onClick={() => { deleteUserAlert(user) }}></i>
                       </td>
@@ -67,6 +63,14 @@ export class ManageUsers extends Component {
                         </Link>
                       </td>
                       <td style={{ textAlign: 'center' }}><i className="fas fa-key center-horizontaly" onClick={() => { handleResetPassword(user._id) }}></i></td>
+                      <td style={{ textAlign: 'center' }}>
+                        {user.submitted_schedule ? <i className="fas fa-check"></i> :
+                          <i className="fas fa-times"></i>}
+                      </td>
+                      <td style={{ textAlign: 'center' }}>
+                        {user.can_submit ? <i className="fas fa-lock-open" onClick={() => { console.log('lock') }}></i> :
+                          <i className="fas fa-lock" onClick={() => { console.log('unlock') }}></i>}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
