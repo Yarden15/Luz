@@ -763,6 +763,8 @@ const minutesToTimeStamp = (totalMinutes) => {
     hours < 10 ? hours = '0' + hours : hours = hours.toString();
     timeStamp = hours + ':' + minutes;
   }
+  if (timeStamp === '00:00')
+    timeStamp = ''
   return timeStamp;
 }
 
