@@ -766,18 +766,6 @@ const minutesToTimeStamp = (totalMinutes) => {
   return timeStamp;
 }
 
-const checkRemainingHours = async () => {
-  let events = store.getState().event.events;
-  let schedEvents = store.getState().schedule.schedules[store.getState().schedule.current].schedules.calendar.props.children.props.events;
-
-  try {
-    const res = await axios.get('', { events, schedEvents });
-    console.log(res);
-  } catch (err) {
-
-  }
-}
-
 // const exportTableToExcel = (filename = '') => {
 //   var table = $('.fc-timeGridWeek-view');
 //   var downloadLink;
