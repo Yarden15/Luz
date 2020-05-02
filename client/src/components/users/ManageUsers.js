@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, deleteUserAlert, handleResetPassword } from '../../actions/userActions';
+import { getUsers, deleteUserAlert, handleResetPassword, unlockSubmitAlert, lockSubmitAlert, unlockSubmitAllAlert, lockSubmitAllAlert } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor } from '../../actions/utilities';
 import { loadUser } from '../../actions/authActions';
@@ -42,6 +42,10 @@ export class ManageUsers extends Component {
                     <th>{this.props.t.edit_user}</th>
                     <th>{this.props.t.reset_password}</th>
                     <th>{this.props.t.submitted_a_schedule}</th>
+                    <th>
+                      <span className='clickable' onClick={() => { lockSubmitAllAlert() }}>חסום את כולם</span>
+                      /<span className='clickable' onClick={() => { unlockSubmitAllAlert() }}>אפשר את כולם</span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className={this.props.dir}>
@@ -68,8 +72,8 @@ export class ManageUsers extends Component {
                           <i className="fas fa-times"></i>}
                       </td>
                       <td style={{ textAlign: 'center' }}>
-                        {user.can_submit ? <i className="fas fa-lock-open" onClick={() => { console.log('lock') }}></i> :
-                          <i className="fas fa-lock" onClick={() => { console.log('unlock') }}></i>}
+                        {user.can_submit ? <i className="fas fa-lock-open" onClick={() => { lockSubmitAlert(user) }}></i> :
+                          <i className="fas fa-lock" onClick={() => { unlockSubmitAlert(user); }}></i>}
                       </td>
                     </tr>
                   ))}

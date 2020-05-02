@@ -62,7 +62,7 @@ export const getSchedules = async () => {
           borderColor: 'black',
           color: schedules[i].events[j].timeTableId.user.color,
           textColor: 'white',
-          errors: ['yarden', 'yarin']
+          errors: []
         };
         convertEvents.push(event);
       }

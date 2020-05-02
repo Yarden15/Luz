@@ -2,10 +2,10 @@ import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELE
 import { searchAndUpdate } from '../actions/scheduleActions';
 const initialState = {
   schedules: {},
+  errorsEvents: [],
   counter: 0,
   current: null,
-  loading: false,
-  error: null
+  loading: false
 }
 
 export default (state = initialState, action) => {

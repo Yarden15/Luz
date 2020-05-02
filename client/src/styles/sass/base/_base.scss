@@ -53,3 +53,9 @@ label {
   margin: 0 auto;
   width: fit-content;
 }
+.clickable {
+  &:hover {
+    text-decoration: underline;
+    // background-color:;
+  }
+}

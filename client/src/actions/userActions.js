@@ -240,3 +240,103 @@ const changePasswordByTheUser = async (newPassword, oldPassword) => {
     popupAlert('error', err.response.data.msg, 'error');
   }
 };
+
+export const lockSubmitAlert = (user) => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.lock_submit_msg,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
+    if (result.value) {
+      lockSubmit(user._id);
+      getUsers();
+    }
+  });
+}
+
+export const unlockSubmitAlert = (user) => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.unlock_submit_msg,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
+    if (result.value) {
+      unlockSubmit(user._id);
+      getUsers();
+    }
+  });
+}
+
+const unlockSubmit = async (user) => {
+  try {
+    await axios.put(`/api/users/manage/${user._id}`);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const lockSubmit = async (user) => {
+  try {
+    await axios.put(`/api/users/manage/${user._id}`);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const unlockSubmitAllAlert = () => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.unlock_submit_all_msg,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
+    if (result.value) {
+      unlockSubmitAll();
+      getUsers();
+    }
+  });
+}
+
+export const lockSubmitAllAlert = () => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.lock_submit_all_msg,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
+    if (result.value) {
+      lockSubmitAll();
+      getUsers();
+    }
+  });
+}
+
+const lockSubmitAll = async () => {
+  try {
+    await axios.put('');
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const unlockSubmitAll = async () => {
+  try {
+    await axios.put('');
+  } catch (err) {
+    console.log(err);
+  }
+}
