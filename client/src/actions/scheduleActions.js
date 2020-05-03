@@ -23,16 +23,13 @@ import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
 
-//import thunk from 'redux-thunk'
-//get schedules from db
-
 export const cleanSchedules = () => {
   setLoading();
   store.dispatch({
     type: CLEAN_SCHEDULES
   });
 }
-
+//get schedules from db
 export const getSchedules = async () => {
   try {
     setLoading();
@@ -401,6 +398,7 @@ export const createSchdule = () => {
       location: document.getElementById('create-sched-location').value
     }),
   };
+
   const createSched = async () => {
     const alertVal = await Alert.fire(createSchedAlert);
     let newSched = (alertVal && alertVal.value) || alertVal.dismiss;
