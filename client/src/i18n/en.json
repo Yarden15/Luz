@@ -144,5 +144,7 @@
   "unlock_submit_msg": "Are you sure to allow the user to submit a schedule?",
   "unlock_submit_all_msg": "Are you sure to allow all the users to submit a schedule?",
   "allow_everyone": "Allow everyone",
-  "block_everyone": "Block everyone"
+  "block_everyone": "Block everyone",
+  "hours_per_course": "Hours per course",
+  "errors": "Errors"
 }

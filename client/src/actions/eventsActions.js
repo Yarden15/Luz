@@ -264,3 +264,79 @@ export const filterEvents = (search) => {
   }
 }
 
+export const getUserDetailsAlert = (user) => {
+  let t = store.getState().literals.literals;
+  let dir = store.getState().literals.dir;
+  Alert.fire({
+    title:
+      user.first_name + ' ' + user.last_name,
+    html:
+      `<div class="table-responsive">
+      <table class="table">
+       <tbody class=${dir}>
+        <tr>
+         <td><div>${t.sunday}: 08:00 - 15:00</div>
+         <div> ${t.notes}: אני אוכל ביום ראשון בשעה 11:00</div></td>
+        </tr>
+        <tr>
+         <td><div>${t.monday}: 08:00 - 15:00</div>
+         <div> ${t.notes}: לא יכול ללמד בנביאים</div></td>
+        </tr>
+        <tr>
+         <td><div>${t.tuesday}: 10:00 - 17:00</div>
+         <div> ${t.notes}:</div></td>
+        </tr>
+        <tr>
+         <td><div>${t.wednesday}: 08:00 - 13:30</div>
+         <div> ${t.notes}: מוציא את הילד מהגן</div></td>
+        </tr>
+        <tr>
+         <td><div>${t.thursday}: 08:00 - 17:00</div>
+         <div> ${t.notes}: מעדיף כמה שיותר לעבוד בחמישי</div></td>
+        </tr>
+        <tr>
+         <td><div>${t.friday}: 08:00 - 18:00</div>
+         <div> ${t.notes}: </div></td>
+        </tr>
+        <tr>
+        <td><div>${t.hours_per_course}:</div>
+        <div>דיסקרטית: 3 שעות
+        אלגברה: 3 שעות
+        מבני נתונים: 3 שעות
+        לוגיקה: שעתיים</div></td>
+       </tr>
+        <tr>
+        <td><div>${t.general_comments}:</div>
+        <div>אין</div></td>
+       </tr>
+       <tr>
+       <td class='red-text'><div>${t.critical_comments}:</div>
+       <div>מעדיף ללמד שעות רצוף ולא עם הפסקות באמצע</div></td>
+      </tr>
+      </tbody>
+      </div>`,
+    confirmButtonText: t.ok,
+  })
+}
+
+export const getCourseDetailsAlert = (course, course_hours_remaining) => {
+  let t = store.getState().literals.literals;
+  let dir = store.getState().literals.dir;
+  Alert.fire({
+    title:
+      course.title,
+    html:
+      `<div class="table-responsive">
+      <table class="table">
+       <tbody class=${dir}>
+        <tr><td><div>${t.serial_num}: ${course.serial_num}</div></td></tr>
+        <tr><td><div>${t.location}: ${course.location}</div></td></tr>
+        <tr><td><div>${t.year}: ${t[course.year]}</div></td></tr>
+        <tr><td><div>${t.semester}: ${t[course.semester]}</div></td></tr>
+        <tr><td><div>${t.course_hours}: ${course.course_hours}</div></td></tr>
+        <tr><td><div>${t.course_hours_remaining}: ${course_hours_remaining}</div></td></tr>
+      </tbody>
+      </div>`,
+    confirmButtonText: t.ok,
+  })
+}

@@ -1,9 +1,10 @@
 import { Draggable } from '@fullcalendar/interaction'; // needed for dayClick
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getEvents } from '../../actions/eventsActions';
+import { getEvents, getUserDetailsAlert, getCourseDetailsAlert } from '../../actions/eventsActions';
 import { showRightPlaces, deleteRightPlaces } from '../../actions/scheduleActions';
 import Spinner from '../layout/Spinner';
+
 
 
 export class eventsContainer extends Component {
@@ -88,11 +89,11 @@ export class eventsContainer extends Component {
                 year={event.performance.year}
                 backgroundcolor={event.user.color}
               >
-                <div className='cut-text'>
+                <div onClick={() => { getUserDetailsAlert(event.user) }} className='clickable cut-text'>
                   {this.props.t.name}: {event.user.first_name}{' '}
                   {event.user.last_name}
                 </div>
-                <div className='cut-text'>
+                <div onClick={() => { getCourseDetailsAlert(event.performance, event.course_hours_remaining) }} className='clickable cut-text'>
                   {this.props.t.course_title}: {event.performance.title}
                 </div>
                 <div className='cut-text'>

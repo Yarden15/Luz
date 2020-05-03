@@ -280,6 +280,7 @@ const clearSchedule = () => {
 //popup window when the user clicking on the event into the calendar
 export const eventClick = (eventClick) => {
   let t = store.getState().literals.literals;
+  let dir = store.getState().literals.dir;
   Alert.fire({
     title:
       eventClick.event.title +
@@ -287,37 +288,15 @@ export const eventClick = (eventClick) => {
       eventClick.event.extendedProps.first_name +
       ' ' +
       eventClick.event.extendedProps.last_name +
-      '\n SN: ' +
-      eventClick.event.extendedProps.serial_num,
+      `\n` + eventClick.event.extendedProps.serial_num,
     html:
-      `<div class="table-responsive">
-      <table class="table">
-       <tbody class="rtl">
-        <tr>
-         <td>${t.sunday}:</td>
-         <td>08:00 - 15:00</td>
-        </tr>
-        <tr>
-         <td>${t.monday}:</td>
-         <td>09:00 - 17:00</td>
-        </tr>
-        <tr>
-         <td>${t.tuesday}:</td>
-         <td>11:00 - 14:00</td>
-        </tr>
-        <tr>
-         <td>${t.wednesday}:</td>
-         <td>08:00 - 15:00</td>
-        </tr>
-        <tr>
-         <td>${t.thursday}:</td>
-         <td>11:30 - 18:00</td>
-        </tr>
-        <tr>
-         <td>${t.friday}:</td>
-         <td>12:00 - 15:00</td>
-        </tr>
-      </tbody>
+      `<div class=${dir} >
+        <h3 class='center-horizontaly'>${t.errors}</h3>
+        <ul>
+          <li>קורסים מתנגשים</li>
+          <li>חורג מהזמן של הקורס</li>
+          <li>המרצה שובץ בזמן לא רצוי</li>
+        </ul>
       </div>`,
     showCancelButton: true,
     confirmButtonColor: '#d33',
