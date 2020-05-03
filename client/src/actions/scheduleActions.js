@@ -169,7 +169,7 @@ export const createCalendar = (
         selectHelper={true}
         editable={true}
         droppable={true}
-        eventDragStart={() => { showRightPlaces() }}
+        eventDragStart={(e) => { showRightPlaces(e.event._def.extendedProps.timeTableId) }}
         eventDrop={function (info) {
           deleteRightPlaces();
           eventChanged(info, id);
@@ -181,7 +181,7 @@ export const createCalendar = (
           forceSchedsUpdate(id);
           saveButtonClicked();
         }}
-        eventResizeStart={() => { showRightPlaces() }}
+        eventResizeStart={(e) => { showRightPlaces(e.event._def.extendedProps.timeTableId) }}
         eventResize={function (info) {
           eventChanged(info, id);
           sumAllCoursesHours();
@@ -646,48 +646,96 @@ export const searchAndUpdate = (state, id, schedId, color) => {
   }
 };
 
-export const showRightPlaces = () => {
-  let event = {
+export const showRightPlaces = (id) => {
+  let events = store.getState().event.events;
+  let userConstraints;
+  for (let i = 0; i < events.length; i++) {
+    if (events[i]._id === id) {
+      userConstraints = events[i].user.constraints
+      break;
+    }
+  }
+
+  let sunday = {
     groupId: 'good',
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: '14:00',
-    endTime: '19:00',
+    startTime: userConstraints.sunday_start,
+    endTime: userConstraints.sunday_end,
+    daysOfWeek: [0],
+    overlap: true,
+    rendering: 'background',
+    color: '#257e4a',
+  };
+  let monday = {
+    groupId: 'good',
+    title: 'test',
+    first_name: '',
+    last_name: '',
+    startTime: userConstraints.monday_start,
+    endTime: userConstraints.monday_end,
     daysOfWeek: [1],
     overlap: true,
     rendering: 'background',
     color: '#257e4a',
   };
-  let event2 = {
+  let tuesday = {
     groupId: 'good',
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: '08:00',
-    endTime: '14:00',
+    startTime: userConstraints.tuesday_start,
+    endTime: userConstraints.tuesday_end,
     daysOfWeek: [2],
     overlap: true,
     rendering: 'background',
     color: '#257e4a',
   };
-  let event3 = {
+  let wednesday = {
     groupId: 'good',
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: '08:00',
-    endTime: '16:00',
+    startTime: userConstraints.wednesday_start,
+    endTime: userConstraints.wednesday_end,
     daysOfWeek: [3],
+    overlap: true,
+    rendering: 'background',
+    color: '#257e4a',
+  };
+  let thursday = {
+    groupId: 'good',
+    title: 'test',
+    first_name: '',
+    last_name: '',
+    startTime: userConstraints.thursday_start,
+    endTime: userConstraints.thursday_end,
+    daysOfWeek: [4],
+    overlap: true,
+    rendering: 'background',
+    color: '#257e4a',
+  };
+  let friday = {
+    groupId: 'good',
+    title: 'test',
+    first_name: '',
+    last_name: '',
+    startTime: userConstraints.friday_start,
+    endTime: userConstraints.friday_end,
+    daysOfWeek: [5],
     overlap: true,
     rendering: 'background',
     color: '#257e4a',
   };
 
   let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
-  calendar.current.calendar.addEvent(event2);
-  calendar.current.calendar.addEvent(event3);
-  calendar.current.calendar.addEvent(event);
+  if (userConstraints.sunday_start) calendar.current.calendar.addEvent(sunday);
+  if (userConstraints.monday_start) calendar.current.calendar.addEvent(monday);
+  if (userConstraints.tuesday_start) calendar.current.calendar.addEvent(tuesday);
+  if (userConstraints.wednesday_start) calendar.current.calendar.addEvent(wednesday);
+  if (userConstraints.thursday_start) calendar.current.calendar.addEvent(thursday);
+  if (userConstraints.friday_start) calendar.current.calendar.addEvent(friday);
 }
 
 export const deleteRightPlaces = () => {

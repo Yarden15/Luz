@@ -29,6 +29,7 @@ export class eventsContainer extends Component {
         let course_hours_remaining = eventEl.getAttribute('course_hours_remaining');
         let year = eventEl.getAttribute('year');
         let backgroundColor = eventEl.getAttribute('backgroundColor');
+        let constraints = eventEl.getAttribute('constraints');
 
         //the info that retrun from the events into the container to the events that dragging to the schedule
         return {
@@ -45,11 +46,12 @@ export class eventsContainer extends Component {
           course_hours_remaining,
           year,
           backgroundColor,
+          constraints
         };
       },
     });
-    dragContainer.dragging.emitter._handlers.dragstart.push((e) => { showRightPlaces(e) })
-    dragContainer.dragging.emitter._handlers.dragend.push((e) => { deleteRightPlaces() })
+    dragContainer.dragging.emitter._handlers.dragstart.push((e) => { showRightPlaces(e.subjectEl.id) })
+    dragContainer.dragging.emitter._handlers.dragend.push(() => { deleteRightPlaces() })
   } //if the courses still not arrived from the server we displaying spinner
 
   render() {
@@ -74,9 +76,10 @@ export class eventsContainer extends Component {
               <div
                 style={{ backgroundColor: event.user.color, display: event.course_hours_remaining === '00:00' ? 'none' : '' }}
                 className='fc-event draggable tool-tip'
+                id={event._id}
                 timetableid={event._id}
                 title={event.performance.title}
-                id={event.performance._id}
+                course_id={event.performance._id}
                 serial_num={event.performance.serial_num}
                 key={event._id}
                 id_number={event.user.id_number}
@@ -88,6 +91,7 @@ export class eventsContainer extends Component {
                 course_hours_remaining={event.course_hours_remaining}
                 year={event.performance.year}
                 backgroundcolor={event.user.color}
+                constraints={event.user.constraints}
               >
                 <div onClick={() => { getUserDetailsAlert(event.user) }} className='clickable cut-text'>
                   {this.props.t.name}: {event.user.first_name}{' '}

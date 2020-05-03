@@ -112,7 +112,6 @@ const SubmitSchedule = props => {
       general_comments,
       critical_comments
     });
-    //updateSchedule({ sunday, monday, tuesday, wednesday, thursday, friday });
   }
 
   return (
