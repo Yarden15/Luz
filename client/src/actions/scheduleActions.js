@@ -769,20 +769,20 @@ const minutesToTimeStamp = (totalMinutes) => {
   let timeStamp = '';
   let minutes;
   let hours;
-  if (totalMinutes >= 0) {
-    timeStamp = (parseInt(totalMinutes / 60)).toString() + ':' + (totalMinutes % 60).toString();
-    minutes = totalMinutes % 60;
-    hours = parseInt(totalMinutes / 60);
 
-    minutes < 10 ? minutes = '0' + minutes : minutes = minutes.toString();
-    hours < 10 ? hours = '0' + hours : hours = hours.toString();
-    timeStamp = hours + ':' + minutes;
+  if (totalMinutes < 0) {
+    totalMinutes = Math.abs(totalMinutes);
+    timeStamp = '-';
   }
-  if (timeStamp === '00:00')
-    timeStamp = ''
+  minutes = totalMinutes % 60;
+  hours = parseInt(totalMinutes / 60);
+
+  minutes < 10 ? minutes = '0' + minutes : minutes = minutes.toString();
+  hours < 10 ? hours = '0' + hours : hours = hours.toString();
+  timeStamp += hours + ':' + minutes;
+
   return timeStamp;
 }
-
 // const exportTableToExcel = (filename = '') => {
 //   var table = $('.fc-timeGridWeek-view');
 //   var downloadLink;
