@@ -341,3 +341,12 @@ const unlockSubmitAll = async () => {
     console.log(err);
   }
 }
+
+export const add_constraints = async (new_constraints) => {
+  try {
+    await axios.put('api/users/me/constraints', { new_constraints });
+    console.log('constraints added')
+  } catch (err) {
+    console.log(err);
+  }
+}

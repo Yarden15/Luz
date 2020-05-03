@@ -8,12 +8,12 @@ const UserSchema = mongoose.Schema({
       ref: 'performances',
     },
   ],
-  constraints: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'constraints',
-    },
-  ],
+  // constraints: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: 'constraints',
+  //   },
+  // ],
   organization: {
     type: String,
     required: true,
@@ -68,6 +68,32 @@ const UserSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  constraints: {
+    type: Object,
+    default: {
+      sunday_start: '',
+      sunday_end: '',
+      sunday_notes: '',
+      monday_start: '',
+      monday_end: '',
+      monday_notes: '',
+      tuesday_start: '',
+      tuesday_end: '',
+      tuesday_notes: '',
+      wednesday_start: '',
+      wednesday_end: '',
+      wednesday_notes: '',
+      thursday_start: '',
+      thursday_end: '',
+      thursday_notes: '',
+      friday_start: '',
+      friday_end: '',
+      friday_notes: '',
+      course_comments: '',
+      general_comments: '',
+      critical_comments: ''
+    }
+  }
 });
 
 module.exports = mongoose.model('user', UserSchema);

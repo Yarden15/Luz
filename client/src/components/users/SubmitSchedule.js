@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
 import { loadUser } from '../../actions/authActions';
+import { add_constraints } from '../../actions/userActions';
 
 const SubmitSchedule = props => {
   // Load user in this component
@@ -11,28 +12,29 @@ const SubmitSchedule = props => {
   });
 
   let userSchedule = {
-    sunday_start: '',
-    sunday_end: '',
-    sunday_notes: '',
-    monday_start: '',
-    monday_end: '',
-    monday_notes: '',
-    tuesday_start: '',
-    tuesday_end: '',
-    tuesday_notes: '',
-    wednesday_start: '',
-    wednesday_end: '',
-    wednesday_notes: '',
-    thursday_start: '',
-    thursday_end: '',
-    thursday_notes: '',
-    friday_start: '',
-    friday_end: '',
-    friday_notes: '',
-    course_comments: '',
-    general_comments: '',
-    critical_comments: ''
+    sunday_start: props.authObj.user.constraints.sunday_start,
+    sunday_end: props.authObj.user.constraints.sunday_end,
+    sunday_notes: props.authObj.user.constraints.sunday_notes,
+    monday_start: props.authObj.user.constraints.monday_start,
+    monday_end: props.authObj.user.constraints.monday_end,
+    monday_notes: props.authObj.user.constraints.monday_notes,
+    tuesday_start: props.authObj.user.constraints.tuesday_start,
+    tuesday_end: props.authObj.user.constraints.tuesday_end,
+    tuesday_notes: props.authObj.user.constraints.tuesday_notes,
+    wednesday_start: props.authObj.user.constraints.wednesday_start,
+    wednesday_end: props.authObj.user.constraints.wednesday_end,
+    wednesday_notes: props.authObj.user.constraints.wednesday_notes,
+    thursday_start: props.authObj.user.constraints.thursday_start,
+    thursday_end: props.authObj.user.constraints.thursday_end,
+    thursday_notes: props.authObj.user.constraints.thursday_notes,
+    friday_start: props.authObj.user.constraints.friday_start,
+    friday_end: props.authObj.user.constraints.friday_end,
+    friday_notes: props.authObj.user.constraints.friday_notes,
+    course_comments: props.authObj.user.constraints.course_comments,
+    general_comments: props.authObj.user.constraints.general_comments,
+    critical_comments: props.authObj.user.constraints.critical_comments
   };
+
   const [schedule, setSchedule] = useState(
     {
       sunday_start: userSchedule.sunday_start,
@@ -59,7 +61,8 @@ const SubmitSchedule = props => {
     }
   );
 
-  const { sunday_start,
+  const {
+    sunday_start,
     sunday_end,
     sunday_notes,
     monday_start,
@@ -79,13 +82,14 @@ const SubmitSchedule = props => {
     friday_notes,
     course_comments,
     general_comments,
-    critical_comments } = schedule;
+    critical_comments
+  } = schedule;
 
   const onChange = e => setSchedule({ ...schedule, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
     e.preventDefault();
-    console.log(
+    add_constraints({
       sunday_start,
       sunday_end,
       sunday_notes,
@@ -106,7 +110,8 @@ const SubmitSchedule = props => {
       friday_notes,
       course_comments,
       general_comments,
-      critical_comments);
+      critical_comments
+    });
     //updateSchedule({ sunday, monday, tuesday, wednesday, thursday, friday });
   }
 

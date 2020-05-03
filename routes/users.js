@@ -616,4 +616,38 @@ router.put(
   }
 );
 
+// @route   PUT api/users/me/constraints
+// @desc    Change user detailes (User own details)
+// @access  Private
+router.put('/me/constraints', auth, async (req, res) => {
+  // Validations of the form will take place here
+  const errors = validationResult(req);
+  // According to validation send errors if there are
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  // Pull from the req.body the fields to update user
+  const { new_constraints } = req.body;
+  try {
+    //  Find the user by id
+    let user = await User.findById(req.user.id);
+
+    // User not found in DB
+    if (!user) return res.status(404).json({ msg: 'User not found' });
+
+    // Update in the array of courses in user Model the new course
+    await User.update(
+      { _id: req.user.id },
+      {
+        $set: { constraints: new_constraints, submitted_schedule: true },
+      }
+    );
+
+    res.status(200).send('new_constraints_added');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 module.exports = router;

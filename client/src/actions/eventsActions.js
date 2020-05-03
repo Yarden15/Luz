@@ -275,43 +275,40 @@ export const getUserDetailsAlert = (user) => {
       <table class="table">
        <tbody class=${dir}>
         <tr>
-         <td><div>${t.sunday}: 08:00 - 15:00</div>
-         <div> ${t.notes}: אני אוכל ביום ראשון בשעה 11:00</div></td>
+         <td><div>${t.sunday}: ${user.constraints.sunday_start} - ${user.constraints.sunday_end}</div>
+         <div> ${t.notes}: ${user.constraints.sunday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.monday}: 08:00 - 15:00</div>
-         <div> ${t.notes}: לא יכול ללמד בנביאים</div></td>
+         <td><div>${t.monday}: ${user.constraints.monday_start} - ${user.constraints.monday_end}</div>
+         <div> ${t.notes}: ${user.constraints.monday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.tuesday}: 10:00 - 17:00</div>
-         <div> ${t.notes}:</div></td>
+         <td><div>${t.tuesday}: ${user.constraints.tuesday_start} - ${user.constraints.tuesday_end}</div>
+         <div> ${t.notes}: ${user.constraints.tuesday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.wednesday}: 08:00 - 13:30</div>
-         <div> ${t.notes}: מוציא את הילד מהגן</div></td>
+         <td><div>${t.wednesday}: ${user.constraints.wednesday_start} - ${user.constraints.wednesday_end}</div>
+         <div> ${t.notes}: ${user.constraints.wednesday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.thursday}: 08:00 - 17:00</div>
-         <div> ${t.notes}: מעדיף כמה שיותר לעבוד בחמישי</div></td>
+         <td><div>${t.thursday}: ${user.constraints.thursday_start} - ${user.constraints.thursday_end}</div>
+         <div> ${t.notes}: ${user.constraints.thursday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.friday}: 08:00 - 18:00</div>
-         <div> ${t.notes}: </div></td>
+         <td><div>${t.friday}: ${user.constraints.friday_start} - ${user.constraints.friday_end}</div>
+         <div> ${t.notes}: ${user.constraints.friday_notes}</div></td>
         </tr>
         <tr>
         <td><div>${t.hours_per_course}:</div>
-        <div>דיסקרטית: 3 שעות
-        אלגברה: 3 שעות
-        מבני נתונים: 3 שעות
-        לוגיקה: שעתיים</div></td>
+        <div>${user.constraints.course_comments}</div></td>
        </tr>
         <tr>
         <td><div>${t.general_comments}:</div>
-        <div>אין</div></td>
+        <div>${user.constraints.general_comments}</div></td>
        </tr>
        <tr>
        <td class='red-text'><div>${t.critical_comments}:</div>
-       <div>מעדיף ללמד שעות רצוף ולא עם הפסקות באמצע</div></td>
+       <div>${user.constraints.critical_comments}</div></td>
       </tr>
       </tbody>
       </div>`,
