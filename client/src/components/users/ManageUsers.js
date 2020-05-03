@@ -43,8 +43,8 @@ export class ManageUsers extends Component {
                     <th>{this.props.t.reset_password}</th>
                     <th>{this.props.t.submitted_a_schedule}</th>
                     <th>
-                      <span className='clickable' onClick={() => { lockSubmitAllAlert() }}>חסום את כולם</span>
-                      /<span className='clickable' onClick={() => { unlockSubmitAllAlert() }}>אפשר את כולם</span>
+                      <span className='clickable' onClick={() => { lockSubmitAllAlert() }}>{this.props.t.block_everyone}</span>
+                      /<span className='clickable' onClick={() => { unlockSubmitAllAlert() }}>{this.props.t.allow_everyone}</span>
                     </th>
                   </tr>
                 </thead>

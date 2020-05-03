@@ -252,8 +252,8 @@ export const lockSubmitAlert = (user) => {
     cancelButtonText: t.literals.cancel,
   }).then((result) => {
     if (result.value) {
+      console.log(user._id)
       lockSubmit(user._id);
-      getUsers();
     }
   });
 }
@@ -270,14 +270,14 @@ export const unlockSubmitAlert = (user) => {
   }).then((result) => {
     if (result.value) {
       unlockSubmit(user._id);
-      getUsers();
     }
   });
 }
 
 const unlockSubmit = async (user) => {
   try {
-    await axios.put(`/api/users/manage/${user._id}`);
+    await axios.put(`/api/users/manage/allow_submit/${user}`);
+    getUsers();
   } catch (err) {
     console.log(err);
   }
@@ -285,7 +285,8 @@ const unlockSubmit = async (user) => {
 
 const lockSubmit = async (user) => {
   try {
-    await axios.put(`/api/users/manage/${user._id}`);
+    await axios.put(`/api/users/manage/block_submit/${user}`);
+    getUsers();
   } catch (err) {
     console.log(err);
   }
@@ -303,7 +304,6 @@ export const unlockSubmitAllAlert = () => {
   }).then((result) => {
     if (result.value) {
       unlockSubmitAll();
-      getUsers();
     }
   });
 }
@@ -320,14 +320,14 @@ export const lockSubmitAllAlert = () => {
   }).then((result) => {
     if (result.value) {
       lockSubmitAll();
-      getUsers();
     }
   });
 }
 
 const lockSubmitAll = async () => {
   try {
-    await axios.put('');
+    await axios.put('/api/users/manage/block_submit_all');
+    getUsers();
   } catch (err) {
     console.log(err);
   }
@@ -335,7 +335,8 @@ const lockSubmitAll = async () => {
 
 const unlockSubmitAll = async () => {
   try {
-    await axios.put('');
+    await axios.put('/api/users/manage/allow_submit_all');
+    getUsers();
   } catch (err) {
     console.log(err);
   }

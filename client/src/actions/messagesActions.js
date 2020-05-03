@@ -40,13 +40,13 @@ export const createNewMessage = async () => {
 
   if (text) {
     saveOnDB(text);
-    getAds()
   }
 }
 
 const saveOnDB = async content => {
   try {
     const res = await axios.post('/api/ads/manage', { content });
+    getAds();
     popupAlert(res.data.title, res.data.msg, res.data.type);
   } catch (err) {
     console.log(err);

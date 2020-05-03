@@ -453,4 +453,167 @@ router.delete('/manage/:id', Authorization, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route   PUT api/manage/block_submit/:id
+// @desc    Blocks the user from submitting a schedule
+// @access  Private
+router.put(
+  '/manage/block_submit/:id',
+  [
+    Authorization,
+  ],
+  async (req, res) => {
+    // Validations of the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      //  Find the user by id
+      let user = await User.findById(req.params.id);
+
+      // User not found in DB
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      // Pull the organization of manager to know what organization field for UserSchema
+      let manager = await User.findById(req.user.id).select('organization');
+
+      //  The manager not authorize to change the specific user requested
+      if (user.organization !== manager.organization) {
+        res.status(401).json({ msg: 'Not allowed to change user detailes' });
+      }
+
+      // Update in the array of courses in user Model the new course
+      await User.update(
+        { _id: req.params.id },
+        {
+          $set: { can_submit: false },
+        }
+      );
+
+      res.status(200).send('user_details_changed');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   PUT api/manage/block_submit/:id
+// @desc    Allows the user to submit a schedule
+// @access  Private
+router.put(
+  '/manage/allow_submit/:id',
+  [
+    Authorization,
+  ],
+  async (req, res) => {
+    // Validations of the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      //  Find the user by id
+      let user = await User.findById(req.params.id);
+
+      // User not found in DB
+      if (!user) return res.status(404).json({ msg: 'User not found' });
+
+      // Pull the organization of manager to know what organization field for UserSchema
+      let manager = await User.findById(req.user.id).select('organization');
+
+      //  The manager not authorize to change the specific user requested
+      if (user.organization !== manager.organization) {
+        res.status(401).json({ msg: 'Not allowed to change user detailes' });
+      }
+
+      // Update in the array of courses in user Model the new course
+      await User.update(
+        { _id: req.params.id },
+        {
+          $set: { can_submit: true },
+        }
+      );
+
+      res.status(200).send('user_details_changed');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   PUT api/manage/allow_submit_all/
+// @desc    Allows the all users to submit a schedule
+// @access  Private
+router.put(
+  '/manage/allow_submit_all',
+  [
+    Authorization,
+  ],
+  async (req, res) => {
+    // Validations of the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let manager = await User.findById(req.user.id).select('organization');
+      await User.updateMany(
+        { organization: manager.organization },
+        {
+          $set: { can_submit: true }
+        }
+      );
+
+      res.status(200).send('user_details_changed');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   PUT api/manage/block_submit_all/
+// @desc    Allows the all users to submit a schedule
+// @access  Private
+router.put(
+  '/manage/block_submit_all',
+  [
+    Authorization,
+  ],
+  async (req, res) => {
+    // Validations of the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let manager = await User.findById(req.user.id).select('organization');
+      await User.updateMany(
+        { organization: manager.organization },
+        {
+          $set: { can_submit: false }
+        }
+      );
+
+      res.status(200).send('user_details_changed');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 module.exports = router;
