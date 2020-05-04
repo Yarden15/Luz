@@ -16,10 +16,12 @@ defineLang(lang[0] || 'en');
 
 ReactDOM.render(
   <Fragment>
-    <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </BrowserRouter >
+    <HashRouter>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter >
+    </HashRouter>
   </Fragment>
   , document.getElementById('root'));
