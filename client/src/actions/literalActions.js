@@ -23,7 +23,6 @@ export const defineLang = (lang) => {
       break;
   }
   changeLangScheds();
-
 }
 
 export const toggleLangMenu = () => {

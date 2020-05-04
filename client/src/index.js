@@ -8,8 +8,11 @@ import { Provider } from 'react-redux';
 import { defineLang } from "./actions/literalActions";
 import { loadUser } from './actions/authActions';
 
-defineLang('he');
+let lang = navigator.language;
+lang = lang.split('-');
+
 loadUser();
+defineLang(lang[0] || 'en');
 
 ReactDOM.render(
   <Fragment>
