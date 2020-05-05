@@ -224,8 +224,8 @@ export const selectCalendar = (id) => {
 const addEvent = (info, id) => {
   //check if this legal action
   info.schedId = id;
-  let eventId = uuid();
-  info.draggedEl.id = eventId;
+  // let eventId = uuid();
+  // info.draggedEl.id = eventId;
 
   let event = createEventObj(info, id, 'create');
   //save on the shcedule array
@@ -519,7 +519,7 @@ const createEventObj = (info, schedId, status) => {
   if (status === 'create') {
     event = {
       schedId,
-      eventId: info.event._def.publicId,
+      eventId: uuid(),
       timeTableId: info.draggedEl.getAttribute('timeTableId'),
       title: info.draggedEl.getAttribute('title'),
       id_number: info.draggedEl.getAttribute('id_number'),
@@ -649,12 +649,15 @@ export const searchAndUpdate = (state, id, schedId, color) => {
 export const showRightPlaces = (id) => {
   let events = store.getState().event.events;
   let userConstraints;
+
   for (let i = 0; i < events.length; i++) {
     if (events[i]._id === id) {
       userConstraints = events[i].user.constraints
       break;
     }
   }
+
+  if (userConstraints === undefined) return;
 
   let sunday = {
     groupId: 'good',
