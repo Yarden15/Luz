@@ -673,7 +673,7 @@ router.post(
       }
 
       await User.updateOne(
-        { _id: userdId },
+        { userdId },
         {
           $push: {
             performances: {
