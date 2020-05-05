@@ -425,7 +425,7 @@ const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, p
 
 const updateEventOnTheUser = async (startTime, endTime, userId, eventId) => {
   try {
-    await axios.put('api/users/manage/performance', { startTime, endTime, userId, schedId, eventId })
+    await axios.put('api/users/manage/performance', { startTime, endTime, userId, eventId })
   } catch (err) {
     console.log(err);
   }
