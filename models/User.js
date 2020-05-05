@@ -4,8 +4,14 @@ const UserSchema = mongoose.Schema({
   // Array of users that participate in the performance
   performances: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'performances',
+      performance: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'performances',
+      },
+      startTime: { type: String },
+      endTime: { type: String },
+      eventId: { type: String },
+      schedId: { type: String },
     },
   ],
   // constraints: [
@@ -91,9 +97,9 @@ const UserSchema = mongoose.Schema({
       friday_notes: '',
       course_comments: '',
       general_comments: '',
-      critical_comments: ''
-    }
-  }
+      critical_comments: '',
+    },
+  },
 });
 
 module.exports = mongoose.model('user', UserSchema);
