@@ -43,8 +43,10 @@ export const getSchedules = async () => {
         let event = {
           sched_id: schedules[i].sched_id,
           timeTableId: schedules[i].events[j].timeTableId._id,
+          course_id: schedules[i].events[j].timeTableId.performance._id,
           eventId: schedules[i].events[j].eventId,
           title: schedules[i].events[j].timeTableId.performance.title,
+          userid: schedules[i].events[j].timeTableId.user._id,
           id_number: schedules[i].events[j].timeTableId.user.id_number,
           serial_num: schedules[i].events[j].timeTableId.performance.serial_num,
           first_name: schedules[i].events[j].timeTableId.user.first_name,
@@ -236,6 +238,10 @@ const addEvent = (info, id) => {
   });
 
   checkOnServer(event);
+  console.log(info.event._def)
+  // addEventOnTheUser(getTimeFromEvent(info.event._instance.range.start), getTimeFromEvent(info.event._instance.range.end), info.event._def.extendedProps.userid, id, info.event._def.extendedProps.eventid, info.event._def.extendedProps.course_id);
+  console.log(event)
+  addEventOnTheUser(event.startTime, event.endTime, event.userid, event.schedId, event.eventId, event.course_id)
 };
 //this method works when the user clicks on the save button
 const saveButtonClicked = () => {
@@ -314,6 +320,7 @@ export const eventClick = (eventClick) => {
       sumAllCoursesHours();
       saveButtonClicked();
       Alert.fire(t.deleted, t.the_event_has_been_deleted, 'success');
+      deleteEventOnTheUser(eventClick.event._def.extendedProps.userid, eventClick.event._def.extendedProps.eventId)
     }
   });
 };
@@ -399,6 +406,32 @@ export const createSchdule = () => {
 
 }
 
+const deleteEventOnTheUser = async (userId, eventId) => {
+  try {
+    await axios.delete('api/users/manage/performance', { userId, eventId })
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, performanceId) => {
+  try {
+    await axios.post('api/users/manage/performance', { startTime, endTime, userId, schedId, eventId, performanceId })
+    console.log('success')
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const updateEventOnTheUser = async (startTime, endTime, userId, eventId) => {
+  try {
+    console.log(startTime, endTime, userId, eventId)
+    // await axios.put('api/users/manage/performance', { startTime, endTime, userId, schedId, eventId })
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 //popup message to insert title for the calendar
 export const enterNameSchedule = () => {
   let t = store.getState().literals.literals;
@@ -472,13 +505,12 @@ export const deleteSchedule = async (sched_id) => {
 
 const eventChanged = (info, schedId) => {
   let event = createEventObj(info, schedId, 'change');
-
   store.dispatch({
     type: EVENT_CHANGED,
     payload: event,
   });
-
   checkOnServer(event);
+  updateEventOnTheUser(event.startTime, event.endTime, event.userid, event.eventId);
   forceSchedsUpdate(store.getState().schedule.current);
 };
 
@@ -521,6 +553,8 @@ const createEventObj = (info, schedId, status) => {
       timeTableId: info.draggedEl.getAttribute('timeTableId'),
       title: info.draggedEl.getAttribute('title'),
       id_number: info.draggedEl.getAttribute('id_number'),
+      userid: info.draggedEl.getAttribute('userid'),
+      course_id: info.draggedEl.getAttribute('course_id'),
       serial_num: info.draggedEl.getAttribute('serial_num'),
       first_name: info.draggedEl.getAttribute('first_name'),
       last_name: info.draggedEl.getAttribute('last_name'),
@@ -545,6 +579,8 @@ const createEventObj = (info, schedId, status) => {
       eventId: info.event._def.extendedProps.eventId,
       title: info.event._def.title,
       timetableid: info.event._def.extendedProps.timetableid,
+      userid: info.event._def.extendedProps.userid,
+      course_id: info.event._def.extendedProps.course_id,
       id_number: info.event._def.extendedProps.id_number,
       serial_num: info.event._def.extendedProps.serial_num,
       first_name: info.event._def.extendedProps.first_name,

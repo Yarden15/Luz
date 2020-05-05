@@ -21,11 +21,13 @@ export class eventsContainer extends Component {
         let id = eventEl.getAttribute('id');
         let id_number = eventEl.getAttribute('id_number');
         let serial_num = eventEl.getAttribute('serial_num');
+        let userid = eventEl.getAttribute('userid');
         let first_name = eventEl.getAttribute('first_name');
         let last_name = eventEl.getAttribute('last_name');
         let semester = eventEl.getAttribute('semester');
         let location = eventEl.getAttribute('location');
         let course_hours = eventEl.getAttribute('course_hours');
+        let course_id = eventEl.getAttribute('course_id');
         let course_hours_remaining = eventEl.getAttribute('course_hours_remaining');
         let year = eventEl.getAttribute('year');
         let backgroundColor = eventEl.getAttribute('backgroundColor');
@@ -37,11 +39,13 @@ export class eventsContainer extends Component {
           timetableid,
           id,
           id_number,
+          userid,
           serial_num,
           first_name,
           last_name,
           semester,
           location,
+          course_id,
           course_hours,
           course_hours_remaining,
           year,
@@ -82,6 +86,7 @@ export class eventsContainer extends Component {
                 course_id={event.performance._id}
                 serial_num={event.performance.serial_num}
                 key={event._id}
+                userid={event.user._id}
                 id_number={event.user.id_number}
                 first_name={event.user.first_name}
                 last_name={event.user.last_name}
