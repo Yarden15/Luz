@@ -170,6 +170,7 @@ export const createCalendar = (
         editable={true}
         droppable={true}
         eventDragStart={(e) => { showRightPlaces(e.event._def.extendedProps.timeTableId) }}
+        eventDragStop={() => { deleteRightPlaces() }}
         eventDrop={function (info) {
           deleteRightPlaces();
           eventChanged(info, id);
@@ -811,9 +812,3 @@ const minutesToTimeStamp = (totalMinutes) => {
 
   return timeStamp;
 }
-// const exportTableToExcel = (filename = '') => {
-//   var table = $('.fc-timeGridWeek-view');
-//   var downloadLink;
-//   var dataType = 'application/vnd.ms-excel';
-//   var tableHtml = table[0].table2excel({ name: 'yarden' })
-// }

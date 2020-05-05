@@ -7,6 +7,7 @@ import Spinner from '../layout/Spinner';
 import { getLocations } from '../../actions/adminActions';
 import { getUsers } from '../../actions/userActions';
 import { loadUser } from '../../actions/authActions';
+import { sortEventByFirst, sortEvents, sortEventByLast, sortEventByID, sortEventBySN, sortEventByTitle, sortEventByYear, sortEventBySemester, sortEventByLocation, sortEventByHours, sortEventByColor } from '../../actions/utilities';
 
 export class ManageEvents extends Component {
   componentDidMount() {
@@ -37,16 +38,16 @@ export class ManageEvents extends Component {
               <table>
                 <thead>
                   <tr >
-                    <th>{this.props.t.course_title}</th>
-                    <th>{this.props.t.serial_num}</th>
-                    <th>{this.props.t.year}</th>
-                    <th>{this.props.t.semester}</th>
-                    <th>{this.props.t.location}</th>
-                    <th>{this.props.t.course_hours}</th>
-                    <th onClick={() => { }}>{this.props.t.first_name}</th>
-                    <th onClick={() => { }}>{this.props.t.last_name}</th>
-                    <th onClick={() => { }}>{this.props.t.id}</th>
-                    <th onClick={() => { }}>{this.props.t.user_color}</th>
+                    <th onClick={() => { sortEvents(sortEventByTitle) }}>{this.props.t.course_title}</th>
+                    <th onClick={() => { sortEvents(sortEventBySN) }}>{this.props.t.serial_num}</th>
+                    <th onClick={() => { sortEvents(sortEventByYear) }}>{this.props.t.year}</th>
+                    <th onClick={() => { sortEvents(sortEventBySemester) }}>{this.props.t.semester}</th>
+                    <th onClick={() => { sortEvents(sortEventByLocation) }}>{this.props.t.location}</th>
+                    <th onClick={() => { sortEvents(sortEventByHours) }}>{this.props.t.course_hours}</th>
+                    <th onClick={() => { sortEvents(sortEventByFirst) }}>{this.props.t.first_name}</th>
+                    <th onClick={() => { sortEvents(sortEventByLast) }}>{this.props.t.last_name}</th>
+                    <th onClick={() => { sortEvents(sortEventByID) }}>{this.props.t.id}</th>
+                    <th onClick={() => { sortEvents(sortEventByColor) }}>{this.props.t.user_color}</th>
                     <th>{this.props.t.delete_event}</th>
                   </tr>
                 </thead>

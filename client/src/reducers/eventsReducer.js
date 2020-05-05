@@ -1,4 +1,4 @@
-import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_COURSES, INITIAL_EVENT, SORT_COURSES, FILTER_EVENTS_BY_LOCATION, FILTER_EVENTS_BY_SEMESTER, FILTER_EVENTS_BY_YEAR, FILTER_EVENTS_BY_COURSE_TITLE, FILTER_EVENTS_BY_LAST_NAME, FILTER_EVENTS_BY_FIRST_NAME, DISPLAY_ALL_EVENTS } from '../actions/types';
+import { GET_EVENTS, SET_LOADING, EVENT_ERROR, GET_COURSES, INITIAL_EVENT, SORT_COURSES, FILTER_EVENTS_BY_LOCATION, FILTER_EVENTS_BY_SEMESTER, FILTER_EVENTS_BY_YEAR, FILTER_EVENTS_BY_COURSE_TITLE, FILTER_EVENTS_BY_LAST_NAME, FILTER_EVENTS_BY_FIRST_NAME, DISPLAY_ALL_EVENTS, SORT_EVENTS } from '../actions/types';
 
 const initialState = {
   events: [],
@@ -45,6 +45,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         courses: newArray,
+        loading: false
+      }
+    case SORT_EVENTS:
+      let newArrayToSort = state.events;
+      newArrayToSort.sort(action.payload)
+      return {
+        ...state,
+        courses: newArrayToSort,
         loading: false
       }
     case DISPLAY_ALL_EVENTS:

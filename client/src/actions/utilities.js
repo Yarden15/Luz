@@ -143,7 +143,6 @@ export const sortCourseBySN = (a, b) => {
 export const sortCourseByHours = (a, b) => {
   a = a.course_hours.split(':');
   b = b.course_hours.split(':');
-  console.log(a.course_hours, b.course_hours)
 
   if (parseInt(a[0]) === parseInt(b[0]))
     return (parseInt(a[1]) - parseInt(b[1]))
@@ -197,39 +196,115 @@ export const sortEvents = (func) => {
     payload: func
   });
 }
-//sorts events by first name
-export const sortEventByFirst = () => {
+//sorts events by course title
+export const sortEventByTitle = (a, b) => {
+  const nameA = a.performance.title.toUpperCase();
+  const nameB = b.performance.title.toUpperCase();
 
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
+}
+//sorts events by first name
+export const sortEventByFirst = (a, b) => {
+  const nameA = a.user.first_name.toUpperCase();
+  const nameB = b.user.first_name.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
 }
 //sorts events by last name
-export const sortEventByLast = () => {
+export const sortEventByLast = (a, b) => {
+  const nameA = a.user.last_name.toUpperCase();
+  const nameB = b.user.last_name.toUpperCase();
 
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
 }
 //sorts events by serial number
-export const sortEventBySN = () => {
-
+export const sortEventBySN = (a, b) => {
+  return a.performance.serial_num - b.performance.serial_num;
 }
 //sorts events by year
-export const sortEventByYear = () => {
+export const sortEventByYear = (a, b) => {
+  const nameA = a.performance.year.toUpperCase();
+  const nameB = b.performance.year.toUpperCase();
 
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
 }
 //sorts events by semester
-export const sortEventBySemester = () => {
+export const sortEventBySemester = (a, b) => {
+  const nameA = a.performance.semester.toUpperCase();
+  const nameB = b.performance.semester.toUpperCase();
 
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
 }
 //sorts events by location
-export const sortEventByLocation = () => {
+export const sortEventByLocation = (a, b) => {
+  const nameA = a.performance.location.toUpperCase();
+  const nameB = b.performance.location.toUpperCase();
 
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
 }
 //sorts events by hours
-export const sortEventByHours = () => {
+export const sortEventByHours = (a, b) => {
+  a = a.performance.course_hours.split(':');
+  b = b.performance.course_hours.split(':');
 
+  if (parseInt(a[0]) === parseInt(b[0]))
+    return (parseInt(a[1]) - parseInt(b[1]))
+  else
+    return (parseInt(a[0]) - parseInt(b[0]));
 }
 //sorts events by ID
-export const sortEventByID = () => {
-
+export const sortEventByID = (a, b) => {
+  return a.user.id_number - b.user.id_number;
 }
 //sorts events by color
-export const sortEventByColor = () => {
+export const sortEventByColor = (a, b) => {
+  const colorA = hexToHSL(a.user.color);
+  const colorB = hexToHSL(b.user.color);
 
+  let comparison = 0;
+  if (
+    (colorA.h < colorB.h)
+    || (colorA.h === colorB.h && colorA.s < colorB.s)
+    || (colorA.h === colorB.h && colorA.s === colorB.s && colorA.l < colorB.l)) {
+    comparison = 1;
+  } else {
+    comparison = -1;
+  }
+  return comparison;
 }
