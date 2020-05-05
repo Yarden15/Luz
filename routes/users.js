@@ -649,7 +649,7 @@ router.post(
       performanceId,
       startTime,
       endTime,
-      usedId,
+      userdId,
       schedId,
       eventId,
     } = req.body;
@@ -660,7 +660,7 @@ router.post(
       let manager = await User.findById(req.user.id).select('organization');
 
       // Check if there another user that have been created with the same email
-      let user = await User.findOne({ _id: usedId });
+      let user = await User.findOne({ _id: userdId });
 
       // If there is already a user with the email that entered
       if (!user) {
@@ -673,7 +673,7 @@ router.post(
       }
 
       await User.updateOne(
-        { _id: usedId },
+        { _id: userdId },
         {
           $push: {
             performances: {
