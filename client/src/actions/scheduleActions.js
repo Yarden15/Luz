@@ -239,9 +239,6 @@ const addEvent = (info, id) => {
   });
 
   checkOnServer(event);
-  console.log(info.event._def)
-  // addEventOnTheUser(getTimeFromEvent(info.event._instance.range.start), getTimeFromEvent(info.event._instance.range.end), info.event._def.extendedProps.userid, id, info.event._def.extendedProps.eventid, info.event._def.extendedProps.course_id);
-  console.log(event)
   addEventOnTheUser(event.startTime, event.endTime, event.userid, event.schedId, event.eventId, event.course_id)
 };
 //this method works when the user clicks on the save button
@@ -410,6 +407,7 @@ export const createSchdule = () => {
 const deleteEventOnTheUser = async (userId, eventId) => {
   try {
     await axios.delete('api/users/manage/performance', { userId, eventId })
+    console.log('event deleted')
     getUsers();
   } catch (err) {
     console.log(err);
@@ -418,7 +416,6 @@ const deleteEventOnTheUser = async (userId, eventId) => {
 
 const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, performanceId) => {
   try {
-    console.log(userId)
     await axios.post('api/users/manage/performance', {
       startTime,
       endTime,
