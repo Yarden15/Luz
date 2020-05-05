@@ -22,6 +22,7 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
+import { getUsers } from './userActions';
 
 export const cleanSchedules = () => {
   setLoading();
@@ -259,9 +260,6 @@ const addEvent = (info, id) => {
   });
 
   checkOnServer(event);
-  console.log(info.event._def);
-  // addEventOnTheUser(getTimeFromEvent(info.event._instance.range.start), getTimeFromEvent(info.event._instance.range.end), info.event._def.extendedProps.userid, id, info.event._def.extendedProps.eventid, info.event._def.extendedProps.course_id);
-  console.log(event);
   addEventOnTheUser(
     event.startTime,
     event.endTime,
@@ -477,7 +475,7 @@ const addEventOnTheUser = async (
       eventId,
       performanceId,
     });
-    console.log('success');
+    getUsers();
   } catch (err) {
     console.log(err);
   }
@@ -491,6 +489,7 @@ const updateEventOnTheUser = async (startTime, endTime, userId, eventId) => {
       userId,
       eventId,
     });
+    getUsers();
   } catch (err) {
     console.log(err);
   }
