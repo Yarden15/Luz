@@ -43,7 +43,7 @@ export const getSchedules = async () => {
         let event = {
           sched_id: schedules[i].sched_id,
           timeTableId: schedules[i].events[j].timeTableId._id,
-          eventId: uuid(),
+          eventId: schedules[i].events[j].eventId,
           title: schedules[i].events[j].timeTableId.performance.title,
           id_number: schedules[i].events[j].timeTableId.user.id_number,
           serial_num: schedules[i].events[j].timeTableId.performance.serial_num,
@@ -99,7 +99,6 @@ export const saveAllSchedules = async () => {
 const saveSchedule = async (sched_id, title, semester, year, location, events) => {
   try {
     await axios.post('/api/schedules', { sched_id, title, semester, year, location, events });
-    // popupAlert('congratulations', res.data, 'regular');
   } catch (error) {
     console.error(error);
   }
@@ -225,8 +224,6 @@ export const selectCalendar = (id) => {
 const addEvent = (info, id) => {
   //check if this legal action
   info.schedId = id;
-  // let eventId = uuid();
-  // info.draggedEl.id = eventId;
 
   let event = createEventObj(info, id, 'create');
   //save on the shcedule array

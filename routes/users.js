@@ -651,3 +651,13 @@ router.put('/me/constraints', auth, async (req, res) => {
   }
 });
 module.exports = router;
+
+
+//delete api/users/manage/performance
+//userId eventId
+
+//post api/users/manage/performance
+//start end userId schedId eventId
+
+//update api/users/manage/performance
+//start end userId schedId eventId
