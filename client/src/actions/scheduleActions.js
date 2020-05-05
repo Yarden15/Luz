@@ -10,7 +10,7 @@ import {
   RENAME_SCHED,
   CLEAN_SCHEDULES,
   CLEAR_SCHEDULE,
-  STOP_LOADING_SCHED
+  STOP_LOADING_SCHED,
 } from './types';
 import Alert from 'sweetalert2';
 import FullCalendar from '@fullcalendar/react';
@@ -26,9 +26,9 @@ import { popupAlert } from './alertsActions';
 export const cleanSchedules = () => {
   setLoading();
   store.dispatch({
-    type: CLEAN_SCHEDULES
+    type: CLEAN_SCHEDULES,
   });
-}
+};
 //get schedules from db
 export const getSchedules = async () => {
   try {
@@ -53,7 +53,8 @@ export const getSchedules = async () => {
           last_name: schedules[i].events[j].timeTableId.user.last_name,
           semester: schedules[i].events[j].timeTableId.performance.semester,
           location: schedules[i].events[j].timeTableId.performance.location,
-          course_hours: schedules[i].events[j].timeTableId.performance.course_hours,
+          course_hours:
+            schedules[i].events[j].timeTableId.performance.course_hours,
           year: schedules[i].events[j].timeTableId.performance.year,
           startTime: schedules[i].events[j].startTime,
           endTime: schedules[i].events[j].endTime,
@@ -61,7 +62,7 @@ export const getSchedules = async () => {
           borderColor: 'black',
           color: schedules[i].events[j].timeTableId.user.color,
           textColor: 'white',
-          errors: []
+          errors: [],
         };
         convertEvents.push(event);
       }
@@ -90,17 +91,31 @@ export const saveAllSchedules = async () => {
       await axios.post('/api/schedules', {
         sched_id: scheds[id].id,
         title: scheds[id].title,
-        events: scheds[id].calendar.props.children.props.events
+        events: scheds[id].calendar.props.children.props.events,
       });
     } catch (err) {
       console.log(err);
     }
   });
-}
+};
 
-const saveSchedule = async (sched_id, title, semester, year, location, events) => {
+const saveSchedule = async (
+  sched_id,
+  title,
+  semester,
+  year,
+  location,
+  events
+) => {
   try {
-    await axios.post('/api/schedules', { sched_id, title, semester, year, location, events });
+    await axios.post('/api/schedules', {
+      sched_id,
+      title,
+      semester,
+      year,
+      location,
+      events,
+    });
   } catch (error) {
     console.error(error);
   }
@@ -116,7 +131,7 @@ const stopLoading = () => {
   store.dispatch({
     type: STOP_LOADING_SCHED,
   });
-}
+};
 
 //create new schedule and push him to array
 export const createCalendar = (
@@ -126,7 +141,7 @@ export const createCalendar = (
   semester,
   events = [],
   newSched = 1,
-  id = uuid(),
+  id = uuid()
 ) => {
   let t = store.getState().literals.literals;
   let calendarRef = React.createRef();
@@ -170,8 +185,12 @@ export const createCalendar = (
         selectHelper={true}
         editable={true}
         droppable={true}
-        eventDragStart={(e) => { showRightPlaces(e.event._def.extendedProps.timeTableId) }}
-        eventDragStop={() => { deleteRightPlaces() }}
+        eventDragStart={(e) => {
+          showRightPlaces(e.event._def.extendedProps.timeTableId);
+        }}
+        eventDragStop={() => {
+          deleteRightPlaces();
+        }}
         eventDrop={function (info) {
           deleteRightPlaces();
           eventChanged(info, id);
@@ -183,7 +202,9 @@ export const createCalendar = (
           forceSchedsUpdate(id);
           saveButtonClicked();
         }}
-        eventResizeStart={(e) => { showRightPlaces(e.event._def.extendedProps.timeTableId) }}
+        eventResizeStart={(e) => {
+          showRightPlaces(e.event._def.extendedProps.timeTableId);
+        }}
         eventResize={function (info) {
           eventChanged(info, id);
           sumAllCoursesHours();
@@ -193,8 +214,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-            ' ' +
-            info.event.extendedProps.last_name
+              ' ' +
+              info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}
@@ -238,10 +259,17 @@ const addEvent = (info, id) => {
   });
 
   checkOnServer(event);
-  console.log(info.event._def)
+  console.log(info.event._def);
   // addEventOnTheUser(getTimeFromEvent(info.event._instance.range.start), getTimeFromEvent(info.event._instance.range.end), info.event._def.extendedProps.userid, id, info.event._def.extendedProps.eventid, info.event._def.extendedProps.course_id);
-  console.log(event)
-  addEventOnTheUser(event.startTime, event.endTime, event.userid, event.schedId, event.eventId, event.course_id)
+  console.log(event);
+  addEventOnTheUser(
+    event.startTime,
+    event.endTime,
+    event.userid,
+    event.schedId,
+    event.eventId,
+    event.course_id
+  );
 };
 //this method works when the user clicks on the save button
 const saveButtonClicked = () => {
@@ -268,18 +296,18 @@ const clearSchedule = () => {
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
     confirmButtonText: t.ok,
-    cancelButtonText: t.cancel
+    cancelButtonText: t.cancel,
   }).then((result) => {
     if (result.value) {
       store.dispatch({
         type: CLEAR_SCHEDULE,
       });
-      forceSchedsUpdate(id)
+      forceSchedsUpdate(id);
       saveButtonClicked();
       sumAllCoursesHours();
     }
-  })
-}
+  });
+};
 
 //popup window when the user clicking on the event into the calendar
 export const eventClick = (eventClick) => {
@@ -292,9 +320,9 @@ export const eventClick = (eventClick) => {
       eventClick.event.extendedProps.first_name +
       ' ' +
       eventClick.event.extendedProps.last_name +
-      `\n` + eventClick.event.extendedProps.serial_num,
-    html:
-      `<div class=${dir} >
+      `\n` +
+      eventClick.event.extendedProps.serial_num,
+    html: `<div class=${dir} >
         <h3 class='center-horizontaly'>${t.errors}</h3>
         <ul>
           <li>קורסים מתנגשים</li>
@@ -314,13 +342,16 @@ export const eventClick = (eventClick) => {
         payload: {
           sched_id: eventClick.event._calendar.component.context.options.id,
           event_id: eventClick.event._def.extendedProps.eventId,
-        }
+        },
       });
       forceSchedsUpdate(store.getState().schedule.current);
       sumAllCoursesHours();
       saveButtonClicked();
       Alert.fire(t.deleted, t.the_event_has_been_deleted, 'success');
-      deleteEventOnTheUser(eventClick.event._def.extendedProps.userid, eventClick.event._def.extendedProps.eventId)
+      deleteEventOnTheUser(
+        eventClick.event._def.extendedProps.userid,
+        eventClick.event._def.extendedProps.eventId
+      );
     }
   });
 };
@@ -334,8 +365,10 @@ const createLocationSelectElement = () => {
       <div>${t.location}</div>` +
     `<select id="create-sched-location" class="swal2-input" dir=${dir} name="location">` +
     `<option className=${dir} defaultValue></option>`;
-  adminObj.locations.map(location => (
-    htmlLocation += (`<option className={props.dir} value='${location.name}'>${location.name}</option>`)));
+  adminObj.locations.map(
+    (location) =>
+      (htmlLocation += `<option className={props.dir} value='${location.name}'>${location.name}</option>`)
+  );
   htmlLocation = htmlLocation + `</select ></div>`;
 
   var htmlObject = document.createElement('div');
@@ -343,12 +376,12 @@ const createLocationSelectElement = () => {
   htmlLocation = htmlObject.firstChild;
 
   return htmlLocation;
-}
+};
 
 export const createSchdule = () => {
   let t = store.getState().literals.literals;
   let dir = store.getState().literals.dir;
-  let htmlLocation = createLocationSelectElement()
+  let htmlLocation = createLocationSelectElement();
   let createSchedAlert = {
     title: t.create_new_schedule,
     focusConfirm: false,
@@ -379,57 +412,89 @@ export const createSchdule = () => {
       title: document.getElementById('create-sched-title').value,
       year: document.getElementById('create-sched-year').value,
       semester: document.getElementById('create-sched-semester').value,
-      location: document.getElementById('create-sched-location').value
+      location: document.getElementById('create-sched-location').value,
     }),
   };
 
   const createSched = async () => {
     const alertVal = await Alert.fire(createSchedAlert);
     let newSched = (alertVal && alertVal.value) || alertVal.dismiss;
-    if ((newSched && newSched !== 'cancel')) {
-      if (newSched.title === '' ||
-        newSched.location === ''
-        || newSched.semester === ''
-        || newSched.year === '') {
+    if (newSched && newSched !== 'cancel') {
+      if (
+        newSched.title === '' ||
+        newSched.location === '' ||
+        newSched.semester === '' ||
+        newSched.year === ''
+      ) {
         await Alert.fire({ type: 'error', title: t.all_fields_are_required });
         createSched();
       } else {
-        createCalendar(newSched.title, newSched.year, newSched.location, newSched.semester);
+        createCalendar(
+          newSched.title,
+          newSched.year,
+          newSched.location,
+          newSched.semester
+        );
         let current = store.getState().schedule.current;
         let sched = store.getState().schedule.schedules[current];
-        let events = sched.calendarRef.current.props.events
-        saveSchedule(sched.id, sched.title, sched.semester, sched.year, sched.location, events)
+        let events = sched.calendarRef.current.props.events;
+        saveSchedule(
+          sched.id,
+          sched.title,
+          sched.semester,
+          sched.year,
+          sched.location,
+          events
+        );
       }
     }
-  }
+  };
   createSched();
-
-}
+};
 
 const deleteEventOnTheUser = async (userId, eventId) => {
   try {
-    await axios.delete('api/users/manage/performance', { userId, eventId })
+    await axios.put(`api/users/manage/performance/delete`, { userId, eventId });
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, performanceId) => {
+const addEventOnTheUser = async (
+  startTime,
+  endTime,
+  userId,
+  schedId,
+  eventId,
+  performanceId
+) => {
   try {
-    await axios.post('api/users/manage/performance', { startTime, endTime, userId, schedId, eventId, performanceId })
-    console.log('success')
+    await axios.post('api/users/manage/performance', {
+      startTime,
+      endTime,
+      userId,
+      schedId,
+      eventId,
+      performanceId,
+    });
+    console.log('success');
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 const updateEventOnTheUser = async (startTime, endTime, userId, eventId) => {
   try {
-    await axios.put('api/users/manage/performance', { startTime, endTime, userId, eventId })
+    await axios.put('api/users/manage/performance', {
+      startTime,
+      endTime,
+      userId,
+      eventId,
+    });
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 //popup message to insert title for the calendar
 export const enterNameSchedule = () => {
@@ -509,7 +574,12 @@ const eventChanged = (info, schedId) => {
     payload: event,
   });
   checkOnServer(event);
-  updateEventOnTheUser(event.startTime, event.endTime, event.userid, event.eventId);
+  updateEventOnTheUser(
+    event.startTime,
+    event.endTime,
+    event.userid,
+    event.eventId
+  );
   forceSchedsUpdate(store.getState().schedule.current);
 };
 
@@ -529,9 +599,7 @@ const getTimeFromEvent = (time) => {
   minutes =
     time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
   hours =
-    time.getUTCHours() < 10
-      ? '0' + (time.getUTCHours())
-      : time.getUTCHours();
+    time.getUTCHours() < 10 ? '0' + time.getUTCHours() : time.getUTCHours();
 
   return hours + ':' + minutes;
 };
@@ -685,7 +753,7 @@ export const showRightPlaces = (id) => {
 
   for (let i = 0; i < events.length; i++) {
     if (events[i]._id === id) {
-      userConstraints = events[i].user.constraints
+      userConstraints = events[i].user.constraints;
       break;
     }
   }
@@ -765,34 +833,44 @@ export const showRightPlaces = (id) => {
     color: '#257e4a',
   };
 
-  let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
+  let calendar = store.getState().schedule.schedules[
+    store.getState().schedule.current
+  ].calendarRef;
   if (userConstraints.sunday_start) calendar.current.calendar.addEvent(sunday);
   if (userConstraints.monday_start) calendar.current.calendar.addEvent(monday);
-  if (userConstraints.tuesday_start) calendar.current.calendar.addEvent(tuesday);
-  if (userConstraints.wednesday_start) calendar.current.calendar.addEvent(wednesday);
-  if (userConstraints.thursday_start) calendar.current.calendar.addEvent(thursday);
+  if (userConstraints.tuesday_start)
+    calendar.current.calendar.addEvent(tuesday);
+  if (userConstraints.wednesday_start)
+    calendar.current.calendar.addEvent(wednesday);
+  if (userConstraints.thursday_start)
+    calendar.current.calendar.addEvent(thursday);
   if (userConstraints.friday_start) calendar.current.calendar.addEvent(friday);
-}
+};
 
 export const deleteRightPlaces = () => {
-  let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
+  let calendar = store.getState().schedule.schedules[
+    store.getState().schedule.current
+  ].calendarRef;
   let events = calendar.current.props.events;
-  let newEvents = []
+  let newEvents = [];
   for (let i = 0; i < events.length; i++) {
-    if (events[i].groupId !== "good")
-      newEvents.push(events[i])
+    if (events[i].groupId !== 'good') newEvents.push(events[i]);
   }
   calendar.current.calendar.removeAllEvents();
   calendar.current.calendar.addEventSource(newEvents);
-}
+};
 
 export const sumAllCoursesHours = () => {
-  let schedule = store.getState().schedule.schedules[store.getState().schedule.current];
+  let schedule = store.getState().schedule.schedules[
+    store.getState().schedule.current
+  ];
   if (schedule) {
     let events = store.getState().event.events;
     let schedEvents = schedule.calendar.props.children.props.events;
 
-    events.forEach((event) => { event.course_hours_remaining = event.performance.course_hours });
+    events.forEach((event) => {
+      event.course_hours_remaining = event.performance.course_hours;
+    });
 
     for (let i = 0; i < schedEvents.length; i++) {
       let timeTableId = schedEvents[i].timeTableId;
@@ -800,18 +878,26 @@ export const sumAllCoursesHours = () => {
       events.forEach((event) => {
         if (event._id === timeTableId)
           total_remaining = event.course_hours_remaining;
-      })
+      });
 
-      let totalMinutes = calculateDiffBetweenTimes(schedEvents[i].startTime, schedEvents[i].endTime);
-      let timeStamp = minutesToTimeStamp(calculateDiffBetweenTimes(minutesToTimeStamp(totalMinutes), total_remaining));
+      let totalMinutes = calculateDiffBetweenTimes(
+        schedEvents[i].startTime,
+        schedEvents[i].endTime
+      );
+      let timeStamp = minutesToTimeStamp(
+        calculateDiffBetweenTimes(
+          minutesToTimeStamp(totalMinutes),
+          total_remaining
+        )
+      );
 
       store.dispatch({
-        type: "UPDATE_HOURS_REMAINING",
-        payload: { timeStamp, timeTableId }
-      })
+        type: 'UPDATE_HOURS_REMAINING',
+        payload: { timeStamp, timeTableId },
+      });
     }
   }
-}
+};
 
 //this method gets 2 strings of time stamp and return the differance in minutes (int)
 const calculateDiffBetweenTimes = (start, end) => {
@@ -821,10 +907,10 @@ const calculateDiffBetweenTimes = (start, end) => {
   start = parseInt(start[0] + start[1]);
   end = parseInt(end[0] + end[1]);
 
-  let totalMinutes = (end - start) - diffHours * 40;
+  let totalMinutes = end - start - diffHours * 40;
 
   return totalMinutes;
-}
+};
 //this method gets minutes (int) and convert to time stamp (string)
 const minutesToTimeStamp = (totalMinutes) => {
   let timeStamp = '';
@@ -838,9 +924,9 @@ const minutesToTimeStamp = (totalMinutes) => {
   minutes = totalMinutes % 60;
   hours = parseInt(totalMinutes / 60);
 
-  minutes < 10 ? minutes = '0' + minutes : minutes = minutes.toString();
-  hours < 10 ? hours = '0' + hours : hours = hours.toString();
+  minutes < 10 ? (minutes = '0' + minutes) : (minutes = minutes.toString());
+  hours < 10 ? (hours = '0' + hours) : (hours = hours.toString());
   timeStamp += hours + ':' + minutes;
 
   return timeStamp;
-}
+};

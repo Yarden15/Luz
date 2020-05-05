@@ -14,12 +14,6 @@ const UserSchema = mongoose.Schema({
       schedId: { type: String },
     },
   ],
-  // constraints: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'constraints',
-  //   },
-  // ],
   organization: {
     type: String,
     required: true,

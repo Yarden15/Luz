@@ -591,7 +591,6 @@ router.put('/manage/block_submit_all', [Authorization], async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
 // @route   PUT api/users/me/constraints
 // @desc    Change user detailes (User own details)
 // @access  Private
@@ -626,8 +625,7 @@ router.put('/me/constraints', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
-
-// @route   POST api/users
+// @route   POST api/users/manage/performance
 // @desc    Register a user
 // @access  Private for Users with the role of 'Manager'
 router.post(
@@ -694,8 +692,7 @@ router.post(
     }
   }
 );
-
-// @route   PUT api/users
+// @route   PUT api/users/manage/performance
 // @desc    Update performance in user array
 // @access  Private for Users with the role of 'Manager'
 router.put(
@@ -715,6 +712,7 @@ router.put(
     // Pull from the req.body the fields to create new instance
     // Pull from the req.body the fields to create new instance
     const { startTime, endTime, userId, eventId } = req.body;
+
     // Try catch for a Promise
     try {
       // Pull the organization of manager to know what organization field for UserSchema
@@ -733,16 +731,15 @@ router.put(
         res.status(401).json({ msg: 'Not allowed to deal with user' });
       }
 
-      await User.updateOne(
-        { _id: userId, eventId },
+      await User.findOneAndUpdate(
+        { _id: userId, 'performances.eventId': eventId },
         {
           $set: {
-            performances: {
-              startTime,
-              endTime,
-            },
+            'performances.$.startTime': startTime,
+            'performances.$.endTime': endTime,
           },
-        }
+        },
+        { new: true }
       );
 
       res.send('performance_successfully_deleted_from_user');
@@ -752,11 +749,11 @@ router.put(
     }
   }
 );
-// @route   DELETE api/users
+// @route   DELETE api/users/manage/performance/delete
 // @desc    Delete performance drom user array
 // @access  Private for Users with the role of 'Manager'
-router.delete(
-  '/manage/performance',
+router.put(
+  '/manage/performance/delete',
   [
     // Middleware- Authorization function that gives acces to relevant users (manager)
     Authorization,
@@ -790,13 +787,11 @@ router.delete(
         res.status(401).json({ msg: 'Not allowed to deal with user' });
       }
 
-      await User.updateOne(
+      await User.findOneAndUpdate(
         { _id: userId },
         {
           $pull: {
-            performances: {
-              eventId,
-            },
+            performances: { eventId },
           },
         }
       );
@@ -810,12 +805,3 @@ router.delete(
 );
 
 module.exports = router;
-
-//delete api/users/manage/performance
-//userId eventId
-
-//post api/users/manage/performance
-//start end userId schedId eventId
-
-//update api/users/manage/performance
-//start end userId schedId eventId
