@@ -649,7 +649,7 @@ router.post(
       performanceId,
       startTime,
       endTime,
-      userdId,
+      userId,
       schedId,
       eventId,
     } = req.body;
@@ -660,7 +660,7 @@ router.post(
       let manager = await User.findById(req.user.id).select('organization');
 
       // Check if there another user that have been created with the same email
-      let user = await User.findOne({ userdId });
+      let user = await User.findOne({ _id: userId });
 
       // If there is already a user with the email that entered
       if (!user) {
@@ -673,7 +673,7 @@ router.post(
       }
 
       await User.updateOne(
-        { userdId },
+        { _id: userId },
         {
           $push: {
             performances: {
@@ -714,14 +714,14 @@ router.put(
 
     // Pull from the req.body the fields to create new instance
     // Pull from the req.body the fields to create new instance
-    const { startTime, endTime, userdId, eventId } = req.body;
+    const { startTime, endTime, userId, eventId } = req.body;
     // Try catch for a Promise
     try {
       // Pull the organization of manager to know what organization field for UserSchema
       let manager = await User.findById(req.user.id).select('organization');
 
       // Check if there another user that have been created with the same email
-      let user = await User.findOne({ _id: userdId });
+      let user = await User.findOne({ _id: userId });
 
       // If there is already a user with the email that entered
       if (!user) {
@@ -734,7 +734,7 @@ router.put(
       }
 
       await User.updateOne(
-        { _id: userdId, eventId },
+        { _id: userId, eventId },
         {
           $set: {
             performances: {
@@ -770,7 +770,7 @@ router.delete(
     }
 
     // Pull from the req.body the fields to create new instance
-    const { userdId, eventId } = req.body;
+    const { userId, eventId } = req.body;
 
     // Try catch for a Promise
     try {
@@ -778,7 +778,7 @@ router.delete(
       let manager = await User.findById(req.user.id).select('organization');
 
       // Check if there another user that have been created with the same email
-      let user = await User.findOne({ _id: userdId });
+      let user = await User.findOne({ _id: userId });
 
       // If there is already a user with the email that entered
       if (!user) {
@@ -791,7 +791,7 @@ router.delete(
       }
 
       await User.updateOne(
-        { _id: userdId },
+        { _id: userId },
         {
           $pull: {
             performances: {
