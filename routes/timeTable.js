@@ -123,13 +123,13 @@ router.post(
       timeTableFields.performance = performance._id;
       timeTableFields.organization = man.organization;
       timeTableFields.course_hours_remaining = performance.course_hours;
-      // Update in the array of courses in user Model the new course
-      await User.update(
-        { _id: user._id },
-        {
-          $push: { performances: performance._id },
-        }
-      );
+      // // Update in the array of courses in user Model the new course
+      // await User.update(
+      //   { _id: user._id },
+      //   {
+      //     $push: { performances: performance._id },
+      //   }
+      // );
 
       // Create new ModelSchema of event timeTable
       const newTimeTable = new TimeTable(timeTableFields);
