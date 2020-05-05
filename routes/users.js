@@ -660,7 +660,7 @@ router.post(
       let manager = await User.findById(req.user.id).select('organization');
 
       // Check if there another user that have been created with the same email
-      let user = await User.findOne({ _id: userdId });
+      let user = await User.findOne({ userdId });
 
       // If there is already a user with the email that entered
       if (!user) {
@@ -688,6 +688,120 @@ router.post(
       );
 
       res.send('performance_successfully_saved_for_user');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   PUT api/users
+// @desc    Update performance in user array
+// @access  Private for Users with the role of 'Manager'
+router.put(
+  '/manage/performance',
+  [
+    // Middleware- Authorization function that gives acces to relevant users (manager)
+    Authorization,
+  ],
+  async (req, res) => {
+    // Validations f the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Pull from the req.body the fields to create new instance
+    // Pull from the req.body the fields to create new instance
+    const { startTime, endTime, userdId, eventId } = req.body;
+    // Try catch for a Promise
+    try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let manager = await User.findById(req.user.id).select('organization');
+
+      // Check if there another user that have been created with the same email
+      let user = await User.findOne({ _id: userdId });
+
+      // If there is already a user with the email that entered
+      if (!user) {
+        return res.status(400).json('User not found');
+      }
+
+      //  The manager not authorize to perform action on this user
+      if (user.organization !== manager.organization) {
+        res.status(401).json({ msg: 'Not allowed to deal with user' });
+      }
+
+      await User.updateOne(
+        { _id: userdId, eventId },
+        {
+          $set: {
+            performances: {
+              startTime,
+              endTime,
+            },
+          },
+        }
+      );
+
+      res.send('performance_successfully_deleted_from_user');
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+// @route   DELETE api/users
+// @desc    Delete performance drom user array
+// @access  Private for Users with the role of 'Manager'
+router.delete(
+  '/manage/performance',
+  [
+    // Middleware- Authorization function that gives acces to relevant users (manager)
+    Authorization,
+  ],
+  async (req, res) => {
+    // Validations f the form will take place here
+    const errors = validationResult(req);
+    // According to validation send errors if there are
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // Pull from the req.body the fields to create new instance
+    const { userdId, eventId } = req.body;
+
+    // Try catch for a Promise
+    try {
+      // Pull the organization of manager to know what organization field for UserSchema
+      let manager = await User.findById(req.user.id).select('organization');
+
+      // Check if there another user that have been created with the same email
+      let user = await User.findOne({ _id: userdId });
+
+      // If there is already a user with the email that entered
+      if (!user) {
+        return res.status(400).json('User not found');
+      }
+
+      //  The manager not authorize to perform action on this user
+      if (user.organization !== manager.organization) {
+        res.status(401).json({ msg: 'Not allowed to deal with user' });
+      }
+
+      await User.updateOne(
+        { _id: userdId },
+        {
+          $pull: {
+            performances: {
+              eventId,
+            },
+          },
+        }
+      );
+
+      res.send('performance_successfully_deleted_from_user');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
