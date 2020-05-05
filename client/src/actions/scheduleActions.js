@@ -22,6 +22,7 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
+import { getUsers } from './userActions';
 
 export const cleanSchedules = () => {
   setLoading();
@@ -409,6 +410,7 @@ export const createSchdule = () => {
 const deleteEventOnTheUser = async (userId, eventId) => {
   try {
     await axios.delete('api/users/manage/performance', { userId, eventId })
+    getUsers();
   } catch (err) {
     console.log(err);
   }
@@ -416,8 +418,16 @@ const deleteEventOnTheUser = async (userId, eventId) => {
 
 const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, performanceId) => {
   try {
-    await axios.post('api/users/manage/performance', { startTime, endTime, userId, schedId, eventId, performanceId })
-    console.log('success')
+    console.log(userId)
+    await axios.post('api/users/manage/performance', {
+      startTime,
+      endTime,
+      userId,
+      schedId,
+      eventId,
+      performanceId
+    })
+    getUsers();
   } catch (err) {
     console.log(err);
   }
@@ -425,7 +435,13 @@ const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, p
 
 const updateEventOnTheUser = async (startTime, endTime, userId, eventId) => {
   try {
-    await axios.put('api/users/manage/performance', { startTime, endTime, userId, eventId })
+    await axios.put('api/users/manage/performance', {
+      startTime,
+      endTime,
+      userId,
+      eventId
+    });
+    getUsers();
   } catch (err) {
     console.log(err);
   }
