@@ -11,6 +11,8 @@ import {
   CLEAN_SCHEDULES,
   CLEAR_SCHEDULE,
   STOP_LOADING_SCHED,
+  EVENT_ERROR,
+  GET_EVENTS
 } from './types';
 import Alert from 'sweetalert2';
 import FullCalendar from '@fullcalendar/react';
@@ -22,7 +24,6 @@ import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
-import { getUsers } from './userActions';
 
 export const cleanSchedules = () => {
   setLoading();
@@ -188,6 +189,7 @@ export const createCalendar = (
         droppable={true}
         eventDragStart={(e) => {
           showRightPlaces(e.event._def.extendedProps.timeTableId);
+          showWrongPlaces(e.event._def.extendedProps.timeTableId)
         }}
         eventDragStop={() => {
           deleteBackgroundEvents();
@@ -205,6 +207,7 @@ export const createCalendar = (
         }}
         eventResizeStart={(e) => {
           showRightPlaces(e.event._def.extendedProps.timeTableId);
+          showWrongPlaces(e.event._def.extendedProps.timeTableId);
         }}
         eventResize={function (info) {
           eventChanged(info, id);
@@ -236,6 +239,21 @@ export const createCalendar = (
     return { calendar, title, id, semester, location, year, calendarRef };
   }
 };
+const refreshEvents = async () => {
+  try {
+    const res = await axios.get('/api/timetables');
+    store.dispatch({
+      type: GET_EVENTS,
+      payload: res.data,
+    });
+  } catch (error) {
+    store.dispatch({
+      type: EVENT_ERROR,
+      payload: error.response.data,
+    });
+  }
+};
+
 //select calendar to display
 export const selectCalendar = (id) => {
   store.dispatch({
@@ -455,6 +473,7 @@ export const createSchdule = () => {
 const deleteEventOnTheUser = async (userId, eventId) => {
   try {
     await axios.put(`api/users/manage/performance/delete`, { userId, eventId });
+    refreshEvents();
   } catch (err) {
     console.log(err);
   }
@@ -481,7 +500,7 @@ const addEventOnTheUser = async (
       daysOfWeek,
       title
     });
-    getUsers();
+    refreshEvents();
   } catch (err) {
     console.log(err);
   }
@@ -496,7 +515,7 @@ const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfW
       eventId,
       daysOfWeek
     });
-    getUsers();
+    refreshEvents();
   } catch (err) {
     console.log(err);
   }
