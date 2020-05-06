@@ -215,8 +215,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-              ' ' +
-              info.event.extendedProps.last_name
+            ' ' +
+            info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}
@@ -266,7 +266,9 @@ const addEvent = (info, id) => {
     event.userid,
     event.schedId,
     event.eventId,
-    event.course_id
+    event.course_id,
+    event.daysOfWeek,
+    event.title
   );
 };
 //this method works when the user clicks on the save button
@@ -464,7 +466,9 @@ const addEventOnTheUser = async (
   userId,
   schedId,
   eventId,
-  performanceId
+  performanceId,
+  daysOfWeek,
+  title
 ) => {
   try {
     await axios.post('api/users/manage/performance', {
@@ -474,6 +478,8 @@ const addEventOnTheUser = async (
       schedId,
       eventId,
       performanceId,
+      daysOfWeek,
+      title
     });
     getUsers();
   } catch (err) {
@@ -481,13 +487,14 @@ const addEventOnTheUser = async (
   }
 };
 
-const updateEventOnTheUser = async (startTime, endTime, userId, eventId) => {
+const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfWeek) => {
   try {
     await axios.put('api/users/manage/performance', {
       startTime,
       endTime,
       userId,
       eventId,
+      daysOfWeek
     });
     getUsers();
   } catch (err) {
@@ -577,7 +584,8 @@ const eventChanged = (info, schedId) => {
     event.startTime,
     event.endTime,
     event.userid,
-    event.eventId
+    event.eventId,
+    event.daysOfWeek
   );
   forceSchedsUpdate(store.getState().schedule.current);
 };

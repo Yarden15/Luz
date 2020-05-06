@@ -350,3 +350,18 @@ export const add_constraints = async (new_constraints) => {
     console.log(err);
   }
 }
+
+export const getMySchedule = () => {
+  let userEvents = store.getState().auth.user.performances;
+  let events = [];
+  console.log(userEvents)
+  userEvents.forEach((event) => {
+    events.push({
+      title: event.title,
+      startTime: event.startTime,
+      endTime: event.endTime,
+      daysOfWeek: event.daysOfWeek
+    })
+  })
+  return events;
+}

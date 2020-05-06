@@ -650,6 +650,8 @@ router.post(
       userId,
       schedId,
       eventId,
+      daysOfWeek,
+      title
     } = req.body;
 
     // Try catch for a Promise
@@ -680,6 +682,8 @@ router.post(
               endTime,
               schedId,
               eventId,
+              daysOfWeek,
+              title
             },
           },
         }
@@ -711,7 +715,7 @@ router.put(
 
     // Pull from the req.body the fields to create new instance
     // Pull from the req.body the fields to create new instance
-    const { startTime, endTime, userId, eventId } = req.body;
+    const { startTime, endTime, userId, eventId, daysOfWeek } = req.body;
 
     // Try catch for a Promise
     try {
@@ -737,6 +741,7 @@ router.put(
           $set: {
             'performances.$.startTime': startTime,
             'performances.$.endTime': endTime,
+            'performances.$.daysOfWeek': daysOfWeek,
           },
         },
         { new: true }

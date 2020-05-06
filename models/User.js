@@ -8,10 +8,12 @@ const UserSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'performances',
       },
+      title: { type: String },
       startTime: { type: String },
       endTime: { type: String },
       eventId: { type: String },
       schedId: { type: String },
+      daysOfWeek: { type: Array }
     },
   ],
   organization: {
