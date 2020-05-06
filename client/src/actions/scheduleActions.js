@@ -190,10 +190,10 @@ export const createCalendar = (
           showRightPlaces(e.event._def.extendedProps.timeTableId);
         }}
         eventDragStop={() => {
-          deleteRightPlaces();
+          deleteBackgroundEvents();
         }}
         eventDrop={function (info) {
-          deleteRightPlaces();
+          deleteBackgroundEvents();
           eventChanged(info, id);
           sumAllCoursesHours();
           saveButtonClicked();
@@ -754,6 +754,34 @@ export const searchAndUpdate = (state, id, schedId, color) => {
   }
 };
 
+export const showWrongPlaces = (id) => {
+  let events = store.getState().event.events;
+  let userPerformances = [];
+  let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
+
+  for (let i = 0; i < events.length; i++) {
+    if (events[i]._id === id) {
+      userPerformances = events[i].user.performances;
+      break;
+    }
+  }
+  userPerformances.forEach((event) => {
+    calendar.current.calendar.addEvent({
+      groupId: 'wrong',
+      title: 'test',
+      first_name: '',
+      last_name: '',
+      startTime: event.startTime,
+      endTime: event.endTime,
+      daysOfWeek: event.daysOfWeek,
+      overlap: true,
+      rendering: 'background',
+      color: '#ff596e',
+    });
+  })
+
+}
+
 export const showRightPlaces = (id) => {
   let events = store.getState().event.events;
   let userConstraints;
@@ -840,9 +868,8 @@ export const showRightPlaces = (id) => {
     color: '#257e4a',
   };
 
-  let calendar = store.getState().schedule.schedules[
-    store.getState().schedule.current
-  ].calendarRef;
+  let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
+
   if (userConstraints.sunday_start) calendar.current.calendar.addEvent(sunday);
   if (userConstraints.monday_start) calendar.current.calendar.addEvent(monday);
   if (userConstraints.tuesday_start)
@@ -854,14 +881,14 @@ export const showRightPlaces = (id) => {
   if (userConstraints.friday_start) calendar.current.calendar.addEvent(friday);
 };
 
-export const deleteRightPlaces = () => {
+export const deleteBackgroundEvents = () => {
   let calendar = store.getState().schedule.schedules[
     store.getState().schedule.current
   ].calendarRef;
   let events = calendar.current.props.events;
   let newEvents = [];
   for (let i = 0; i < events.length; i++) {
-    if (events[i].groupId !== 'good') newEvents.push(events[i]);
+    if (events[i].groupId !== 'good' || events[i].groupId !== 'wrong') newEvents.push(events[i]);
   }
   calendar.current.calendar.removeAllEvents();
   calendar.current.calendar.addEventSource(newEvents);

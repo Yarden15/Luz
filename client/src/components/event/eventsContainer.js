@@ -2,7 +2,7 @@ import { Draggable } from '@fullcalendar/interaction'; // needed for dayClick
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEvents, getUserDetailsAlert, getCourseDetailsAlert } from '../../actions/eventsActions';
-import { showRightPlaces, deleteRightPlaces } from '../../actions/scheduleActions';
+import { showRightPlaces, showWrongPlaces, deleteBackgroundEvents } from '../../actions/scheduleActions';
 import Spinner from '../layout/Spinner';
 
 
@@ -54,8 +54,11 @@ export class eventsContainer extends Component {
         };
       },
     });
-    dragContainer.dragging.emitter._handlers.dragstart.push((e) => { showRightPlaces(e.subjectEl.id) })
-    dragContainer.dragging.emitter._handlers.dragend.push(() => { deleteRightPlaces() })
+    dragContainer.dragging.emitter._handlers.dragstart.push((e) => {
+      showRightPlaces(e.subjectEl.id);
+      showWrongPlaces(e.subjectEl.id);
+    })
+    dragContainer.dragging.emitter._handlers.dragend.push(() => { deleteBackgroundEvents() })
   } //if the courses still not arrived from the server we displaying spinner
 
   render() {
