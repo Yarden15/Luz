@@ -249,6 +249,7 @@ const refreshEvents = async () => {
       type: GET_EVENTS,
       payload: res.data,
     });
+    sumAllCoursesHours();
   } catch (error) {
     store.dispatch({
       type: EVENT_ERROR,
