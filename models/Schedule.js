@@ -31,7 +31,7 @@ const ScheduleSchema = mongoose.Schema({
       startTime: { type: String },
       endTime: { type: String },
       eventId: { type: String },
-      daysOfWeek: { type: Array },
+      daysOfWeek: { type: Array }
     },
   ],
   // events: {

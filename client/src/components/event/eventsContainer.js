@@ -101,7 +101,7 @@ export class eventsContainer extends Component {
                 backgroundcolor={event.user.color}
                 constraints={event.user.constraints}
               >
-                <div onClick={() => { getUserDetailsAlert(event.user) }} className='clickable cut-text'>
+                <div onClick={() => { getUserDetailsAlert(event.user, event.performance) }} className='clickable cut-text'>
                   {this.props.t.name}: {event.user.first_name}{' '}
                   {event.user.last_name}
                 </div>

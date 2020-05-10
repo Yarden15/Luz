@@ -601,9 +601,15 @@ router.put('/me/constraints', auth, async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
   // Pull from the req.body the fields to update user
   const { new_constraints } = req.body;
+
+  let constraintsObj = {
+    semesterA: new_constraints['semesterA'],
+    semesterB: new_constraints['semesterB'],
+    semesterC: new_constraints['semesterC']
+  }
+
   try {
     //  Find the user by id
     let user = await User.findById(req.user.id);
@@ -612,10 +618,10 @@ router.put('/me/constraints', auth, async (req, res) => {
     if (!user) return res.status(404).json({ msg: 'User not found' });
 
     // Update in the array of courses in user Model the new course
-    await User.update(
+    await User.updateOne(
       { _id: req.user.id },
       {
-        $set: { constraints: new_constraints, submitted_schedule: true },
+        $set: { constraints: constraintsObj, submitted_schedule: true },
       }
     );
 
@@ -651,7 +657,8 @@ router.post(
       schedId,
       eventId,
       daysOfWeek,
-      title
+      title,
+      semester
     } = req.body;
 
     // Try catch for a Promise
@@ -671,7 +678,6 @@ router.post(
       if (user.organization !== manager.organization) {
         res.status(401).json({ msg: 'Not allowed to change user detailes' });
       }
-
       await User.updateOne(
         { _id: userId },
         {
@@ -683,7 +689,8 @@ router.post(
               schedId,
               eventId,
               daysOfWeek,
-              title
+              title,
+              semester
             },
           },
         }

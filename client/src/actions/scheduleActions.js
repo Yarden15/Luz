@@ -189,7 +189,8 @@ export const createCalendar = (
         droppable={true}
         eventDragStart={(e) => {
           showRightPlaces(e.event._def.extendedProps.timeTableId);
-          showWrongPlaces(e.event._def.extendedProps.timeTableId)
+          showWrongPlaces(e.event._def.extendedProps.timeTableId);
+          sumAllCoursesHours();
         }}
         eventDragStop={() => {
           deleteBackgroundEvents();
@@ -197,22 +198,24 @@ export const createCalendar = (
         eventDrop={function (info) {
           deleteBackgroundEvents();
           eventChanged(info, id);
-          sumAllCoursesHours();
           saveButtonClicked();
+          sumAllCoursesHours();
         }}
         eventReceive={function (info) {
           addEvent(info, id);
           forceSchedsUpdate(id);
           saveButtonClicked();
+          sumAllCoursesHours();
         }}
         eventResizeStart={(e) => {
           showRightPlaces(e.event._def.extendedProps.timeTableId);
           showWrongPlaces(e.event._def.extendedProps.timeTableId);
+          sumAllCoursesHours();
         }}
         eventResize={function (info) {
           eventChanged(info, id);
-          sumAllCoursesHours();
           saveButtonClicked();
+          sumAllCoursesHours();
         }}
         eventLimit={true}
         eventRender={function (info) {
@@ -286,7 +289,8 @@ const addEvent = (info, id) => {
     event.eventId,
     event.course_id,
     event.daysOfWeek,
-    event.title
+    event.title,
+    event.semester
   );
 };
 //this method works when the user clicks on the save button
@@ -479,15 +483,8 @@ const deleteEventOnTheUser = async (userId, eventId) => {
   }
 };
 
-const addEventOnTheUser = async (
-  startTime,
-  endTime,
-  userId,
-  schedId,
-  eventId,
-  performanceId,
-  daysOfWeek,
-  title
+const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, performanceId, daysOfWeek,
+  title, semester
 ) => {
   try {
     await axios.post('api/users/manage/performance', {
@@ -498,7 +495,8 @@ const addEventOnTheUser = async (
       eventId,
       performanceId,
       daysOfWeek,
-      title
+      title,
+      semester
     });
     refreshEvents();
   } catch (err) {
@@ -513,7 +511,8 @@ const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfW
       endTime,
       userId,
       eventId,
-      daysOfWeek
+      daysOfWeek,
+
     });
     refreshEvents();
   } catch (err) {
@@ -777,6 +776,7 @@ export const showWrongPlaces = (id) => {
   let events = store.getState().event.events;
   let userPerformances = [];
   let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
+  let semester = store.getState().schedule.schedules[store.getState().schedule.current].semester;
 
   for (let i = 0; i < events.length; i++) {
     if (events[i]._id === id) {
@@ -785,33 +785,42 @@ export const showWrongPlaces = (id) => {
     }
   }
   userPerformances.forEach((event) => {
-    calendar.current.calendar.addEvent({
-      groupId: 'wrong',
-      title: 'test',
-      first_name: '',
-      last_name: '',
-      startTime: event.startTime,
-      endTime: event.endTime,
-      daysOfWeek: event.daysOfWeek,
-      overlap: true,
-      rendering: 'background',
-      color: '#ff596e',
-    });
+    if (event.semester === semester) {
+      calendar.current.calendar.addEvent({
+        groupId: 'wrong',
+        title: 'test',
+        first_name: '',
+        last_name: '',
+        startTime: event.startTime,
+        endTime: event.endTime,
+        daysOfWeek: event.daysOfWeek,
+        overlap: true,
+        rendering: 'background',
+        color: '#ff596e',
+      });
+    }
   })
-
 }
 
 export const showRightPlaces = (id) => {
   let events = store.getState().event.events;
   let userConstraints;
+  let semester;
 
   for (let i = 0; i < events.length; i++) {
     if (events[i]._id === id) {
       userConstraints = events[i].user.constraints;
+      semester = events[i].performance.semester;
       break;
     }
   }
-
+  if (semester === 'a') {
+    semester = 'semesterA'
+  } else if (semester === 'b') {
+    semester = 'semesterB'
+  } else if (semester === 'summer') {
+    semester = 'semesterC'
+  }
   if (userConstraints === undefined) return;
 
   let sunday = {
@@ -819,8 +828,8 @@ export const showRightPlaces = (id) => {
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: userConstraints.sunday_start,
-    endTime: userConstraints.sunday_end,
+    startTime: userConstraints[semester].sunday_start,
+    endTime: userConstraints[semester].sunday_end,
     daysOfWeek: [0],
     overlap: true,
     rendering: 'background',
@@ -831,8 +840,8 @@ export const showRightPlaces = (id) => {
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: userConstraints.monday_start,
-    endTime: userConstraints.monday_end,
+    startTime: userConstraints[semester].monday_start,
+    endTime: userConstraints[semester].monday_end,
     daysOfWeek: [1],
     overlap: true,
     rendering: 'background',
@@ -843,8 +852,8 @@ export const showRightPlaces = (id) => {
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: userConstraints.tuesday_start,
-    endTime: userConstraints.tuesday_end,
+    startTime: userConstraints[semester].tuesday_start,
+    endTime: userConstraints[semester].tuesday_end,
     daysOfWeek: [2],
     overlap: true,
     rendering: 'background',
@@ -855,8 +864,8 @@ export const showRightPlaces = (id) => {
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: userConstraints.wednesday_start,
-    endTime: userConstraints.wednesday_end,
+    startTime: userConstraints[semester].wednesday_start,
+    endTime: userConstraints[semester].wednesday_end,
     daysOfWeek: [3],
     overlap: true,
     rendering: 'background',
@@ -867,8 +876,8 @@ export const showRightPlaces = (id) => {
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: userConstraints.thursday_start,
-    endTime: userConstraints.thursday_end,
+    startTime: userConstraints[semester].thursday_start,
+    endTime: userConstraints[semester].thursday_end,
     daysOfWeek: [4],
     overlap: true,
     rendering: 'background',
@@ -879,8 +888,8 @@ export const showRightPlaces = (id) => {
     title: 'test',
     first_name: '',
     last_name: '',
-    startTime: userConstraints.friday_start,
-    endTime: userConstraints.friday_end,
+    startTime: userConstraints[semester].friday_start,
+    endTime: userConstraints[semester].friday_end,
     daysOfWeek: [5],
     overlap: true,
     rendering: 'background',
@@ -889,15 +898,12 @@ export const showRightPlaces = (id) => {
 
   let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
 
-  if (userConstraints.sunday_start) calendar.current.calendar.addEvent(sunday);
-  if (userConstraints.monday_start) calendar.current.calendar.addEvent(monday);
-  if (userConstraints.tuesday_start)
-    calendar.current.calendar.addEvent(tuesday);
-  if (userConstraints.wednesday_start)
-    calendar.current.calendar.addEvent(wednesday);
-  if (userConstraints.thursday_start)
-    calendar.current.calendar.addEvent(thursday);
-  if (userConstraints.friday_start) calendar.current.calendar.addEvent(friday);
+  if (userConstraints[semester].sunday_start) calendar.current.calendar.addEvent(sunday);
+  if (userConstraints[semester].monday_start) calendar.current.calendar.addEvent(monday);
+  if (userConstraints[semester].tuesday_start) calendar.current.calendar.addEvent(tuesday);
+  if (userConstraints[semester].wednesday_start) calendar.current.calendar.addEvent(wednesday);
+  if (userConstraints[semester].thursday_start) calendar.current.calendar.addEvent(thursday);
+  if (userConstraints[semester].friday_start) calendar.current.calendar.addEvent(friday);
 };
 
 export const deleteBackgroundEvents = () => {

@@ -264,7 +264,15 @@ export const filterEvents = (search) => {
   }
 }
 
-export const getUserDetailsAlert = (user) => {
+export const getUserDetailsAlert = (user, course) => {
+  let semester;
+  if (course.semester === 'a') {
+    semester = 'semesterA'
+  } else if (course.semester === 'b') {
+    semester = 'semesterB'
+  } else if (course.semester === 'summer') {
+    semester = 'semesterC'
+  }
   let t = store.getState().literals.literals;
   let dir = store.getState().literals.dir;
   Alert.fire({
@@ -275,40 +283,40 @@ export const getUserDetailsAlert = (user) => {
       <table class="table">
        <tbody class=${dir}>
         <tr>
-         <td><div>${t.sunday}: ${user.constraints.sunday_start} - ${user.constraints.sunday_end}</div>
-         <div> ${t.notes}: ${user.constraints.sunday_notes}</div></td>
+         <td><div>${t.sunday}: ${user.constraints[semester].sunday_start} - ${user.constraints[semester].sunday_end}</div>
+         <div> ${t.notes}: ${user.constraints[semester].sunday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.monday}: ${user.constraints.monday_start} - ${user.constraints.monday_end}</div>
-         <div> ${t.notes}: ${user.constraints.monday_notes}</div></td>
+         <td><div>${t.monday}: ${user.constraints[semester].monday_start} - ${user.constraints[semester].monday_end}</div>
+         <div> ${t.notes}: ${user.constraints[semester].monday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.tuesday}: ${user.constraints.tuesday_start} - ${user.constraints.tuesday_end}</div>
-         <div> ${t.notes}: ${user.constraints.tuesday_notes}</div></td>
+         <td><div>${t.tuesday}: ${user.constraints[semester].tuesday_start} - ${user.constraints[semester].tuesday_end}</div>
+         <div> ${t.notes}: ${user.constraints[semester].tuesday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.wednesday}: ${user.constraints.wednesday_start} - ${user.constraints.wednesday_end}</div>
-         <div> ${t.notes}: ${user.constraints.wednesday_notes}</div></td>
+         <td><div>${t.wednesday}: ${user.constraints[semester].wednesday_start} - ${user.constraints[semester].wednesday_end}</div>
+         <div> ${t.notes}: ${user.constraints[semester].wednesday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.thursday}: ${user.constraints.thursday_start} - ${user.constraints.thursday_end}</div>
-         <div> ${t.notes}: ${user.constraints.thursday_notes}</div></td>
+         <td><div>${t.thursday}: ${user.constraints[semester].thursday_start} - ${user.constraints[semester].thursday_end}</div>
+         <div> ${t.notes}: ${user.constraints[semester].thursday_notes}</div></td>
         </tr>
         <tr>
-         <td><div>${t.friday}: ${user.constraints.friday_start} - ${user.constraints.friday_end}</div>
-         <div> ${t.notes}: ${user.constraints.friday_notes}</div></td>
+         <td><div>${t.friday}: ${user.constraints[semester].friday_start} - ${user.constraints[semester].friday_end}</div>
+         <div> ${t.notes}: ${user.constraints[semester].friday_notes}</div></td>
         </tr>
         <tr>
         <td><div>${t.hours_per_course}:</div>
-        <div>${user.constraints.course_comments}</div></td>
+        <div>${user.constraints[semester].course_comments}</div></td>
        </tr>
         <tr>
         <td><div>${t.general_comments}:</div>
-        <div>${user.constraints.general_comments}</div></td>
+        <div>${user.constraints[semester].general_comments}</div></td>
        </tr>
        <tr>
        <td class='red-text'><div>${t.critical_comments}:</div>
-       <div>${user.constraints.critical_comments}</div></td>
+       <div>${user.constraints[semester].critical_comments}</div></td>
       </tr>
       </tbody>
       </div>`,
