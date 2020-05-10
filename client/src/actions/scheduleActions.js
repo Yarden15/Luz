@@ -785,7 +785,7 @@ export const showWrongPlaces = (id) => {
     }
   }
   userPerformances.forEach((event) => {
-    if (event.semester === semester) {
+    if (event.semester === semester || semester === 'yearly') {
       calendar.current.calendar.addEvent({
         groupId: 'wrong',
         title: 'test',
