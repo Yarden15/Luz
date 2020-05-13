@@ -22,6 +22,7 @@ const Home = props => {
 
   return (
     <Fragment>
+      {props.authObj.user && <div className='center-horizontaly'>{props.t.hello} {props.authObj.user.first_name} {props.authObj.user.last_name}</div>}
       <Menu />
       <MessageBoard />
     </Fragment>
@@ -31,7 +32,8 @@ const Home = props => {
 const mapStateToProps = state => {
   return {
     authObj: state.auth,
-    dir: state.literals.dir
+    dir: state.literals.dir,
+    t: state.literals.literals
   };
 };
 
