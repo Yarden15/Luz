@@ -351,17 +351,17 @@ export const add_constraints = async (new_constraints) => {
   }
 }
 
-export const getMySchedule = () => {
+export const getMySchedule = (semester) => {
   let userEvents = store.getState().auth.user.performances;
   let events = [];
-  console.log(userEvents)
   userEvents.forEach((event) => {
-    events.push({
-      title: event.title,
-      startTime: event.startTime,
-      endTime: event.endTime,
-      daysOfWeek: event.daysOfWeek
-    })
+    if (event.semester === semester)
+      events.push({
+        title: event.title,
+        startTime: event.startTime,
+        endTime: event.endTime,
+        daysOfWeek: event.daysOfWeek
+      })
   })
   return events;
 }

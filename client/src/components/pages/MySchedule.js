@@ -9,6 +9,16 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { getMySchedule } from '../../actions/userActions';
 
 export class MySchedule extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = { semester: 'a' };
+  }
+  handleChange(e) {
+    this.setState({ semester: e.target.value });
+  }
+
   render() {
     if (0) {
       return (
@@ -24,6 +34,14 @@ export class MySchedule extends Component {
         <Fragment>
           <Menu />
           <div><h1 className='center-horizontaly text-center'>{this.props.t.my_schedule}</h1></div>
+          <div className={`form-group ${this.props.dir}`}>
+            <label htmlFor='semester'>{this.props.t.semester}</label>
+            <select id="select-semester" className={this.props.dir} dir={this.props.dir} name="semester"
+              onChange={(e) => { this.handleChange(e) }}>
+              <option className={this.props.dir} value={'a'}>{this.props.t.a}</option>
+              <option className={this.props.dir} value={'b'}>{this.props.t.b}</option>
+              <option className={this.props.dir} value={'summer'}>{this.props.t.summer}</option></select>
+          </div>
           <div className='calendar'>
             <FullCalendar
               defaultView='timeGridWeek'
@@ -47,7 +65,7 @@ export class MySchedule extends Component {
               editable={false}
               droppable={false}
               eventLimit={false}
-              events={getMySchedule()}
+              events={getMySchedule(this.state.semester)}
               locale={this.props.lang.lang}
               dir={this.props.lang.dir}
             />
@@ -63,6 +81,7 @@ const mapStateToProps = state => {
     userObj: state.user,
     authObj: state.auth,
     t: state.literals.literals,
+    dir: state.literals.dir,
     lang: state.literals
   };
 };
