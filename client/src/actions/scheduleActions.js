@@ -9,7 +9,6 @@ import {
   CHANGE_LANG_SCHEDS,
   RENAME_SCHED,
   CLEAN_SCHEDULES,
-  CLEAR_SCHEDULE,
   STOP_LOADING_SCHED,
   EVENT_ERROR,
   GET_EVENTS
@@ -155,14 +154,14 @@ export const createCalendar = (
         defaultView='timeGridWeek'
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         customButtons={{
-          clear: {
-            text: t.clear,
-            click: function () {
-              clearSchedule();
-              saveButtonClicked();
-              // exportTableToExcel()
-            },
-          },
+          // clear: {
+          //   text: t.clear,
+          //   click: function () {
+          //     clearSchedule();
+          //     saveButtonClicked();
+          //     // exportTableToExcel()
+          //   },
+          // },
           rename: {
             text: t.rename,
             click: function () {
@@ -308,29 +307,29 @@ const saveButtonClicked = () => {
   );
 };
 
-const clearSchedule = () => {
-  let t = store.getState().literals.literals;
-  let id = store.getState().schedule.current;
+// const clearSchedule = () => {
+//   let t = store.getState().literals.literals;
+//   let id = store.getState().schedule.current;
 
-  Alert.fire({
-    title: t.delete_all_events_msg,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: t.ok,
-    cancelButtonText: t.cancel,
-  }).then((result) => {
-    if (result.value) {
-      store.dispatch({
-        type: CLEAR_SCHEDULE,
-      });
-      forceSchedsUpdate(id);
-      saveButtonClicked();
-      sumAllCoursesHours();
-    }
-  });
-};
+//   Alert.fire({
+//     title: t.delete_all_events_msg,
+//     icon: 'warning',
+//     showCancelButton: true,
+//     confirmButtonColor: '#3085d6',
+//     cancelButtonColor: '#d33',
+//     confirmButtonText: t.ok,
+//     cancelButtonText: t.cancel,
+//   }).then((result) => {
+//     if (result.value) {
+//       store.dispatch({
+//         type: CLEAR_SCHEDULE,
+//       });
+//       forceSchedsUpdate(id);
+//       saveButtonClicked();
+//       sumAllCoursesHours();
+//     }
+//   });
+// };
 
 //popup window when the user clicking on the event into the calendar
 export const eventClick = (eventClick) => {
