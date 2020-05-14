@@ -146,5 +146,6 @@
   "allow_everyone": "Allow everyone",
   "block_everyone": "Block everyone",
   "hours_per_course": "Hours per course",
-  "errors": "Errors"
+  "errors": "Errors",
+  "show_schedule": "Show Schedule"
 }

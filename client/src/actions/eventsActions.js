@@ -7,8 +7,10 @@ import {
   cleanSchedules,
   getSchedules,
   saveAllSchedules,
+  createScheduleAlert
 } from './scheduleActions';
 import Alert from 'sweetalert2';
+import $ from 'jquery';
 
 // Get events form DataBase
 export const getEvents = async () => {
@@ -319,10 +321,27 @@ export const getUserDetailsAlert = (user, course) => {
        <div>${user.constraints[semester].critical_comments}</div></td>
       </tr>
       </tbody>
-      </div>`,
+      </table>
+      </div>
+      <div class=${dir}>${t.show_schedule}</divclass=>
+      <div id=${course._id + user._id + '-a'} class='clickable ${dir}'>${t.semester} ${t.a}</div>
+      <div id=${course._id + user._id + '-b'} class='clickable ${dir}'>${t.semester} ${t.b}</div>
+      <div id=${course._id + user._id + '-c'} class='clickable ${dir}'>${t.semester} ${t.summer}</div>`,
     confirmButtonText: t.ok,
   })
+
+  $(document).on('click', '#' + course._id + user._id + '-a', function () {
+    createScheduleAlert(user, 'a')
+  })
+  $(document).on('click', '#' + course._id + user._id + '-b', function () {
+    createScheduleAlert(user, 'b')
+  })
+  $(document).on('click', '#' + course._id + user._id + '-c', function () {
+    createScheduleAlert(user, 'summer')
+  })
+
 }
+
 
 export const getCourseDetailsAlert = (course, course_hours_remaining) => {
   let t = store.getState().literals.literals;

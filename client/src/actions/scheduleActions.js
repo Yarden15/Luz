@@ -19,10 +19,12 @@ import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClic
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
 import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
+import { getUsers } from './userActions';
 
 export const cleanSchedules = () => {
   setLoading();
@@ -248,6 +250,7 @@ const refreshEvents = async () => {
       type: GET_EVENTS,
       payload: res.data,
     });
+    getUsers();
     sumAllCoursesHours();
   } catch (error) {
     store.dispatch({
@@ -989,3 +992,72 @@ const minutesToTimeStamp = (totalMinutes) => {
 
   return timeStamp;
 };
+
+export const createScheduleAlert = (user, semester) => {
+  let schedule = createScheduleForUser(user, semester);
+  let t = store.getState().literals.literals;
+  Alert.fire({
+    title:
+      user.first_name + ' ' + user.last_name + '\n' + t.semester + ' ' + t[semester],
+    html: `<div id='sched-of-user'></div>`,
+    width: '1000px',
+    confirmButtonText: t.ok,
+  })
+  ReactDOM.render(schedule, document.getElementById('sched-of-user'))
+}
+const createScheduleForUser = (user, semester) => {
+  let events = getEventsForUser(user, semester);
+  console.log(events)
+  let schedule = (<div id='calendar-alert'>
+    <FullCalendar
+      defaultView='timeGridWeek'
+      header={{
+        center: '',
+        left: '',
+        right: '',
+      }}
+      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+      hiddenDays={[6]}
+      allDaySlot={false}
+      slotDuration='00:30:00'
+      snapDuration='00:05:00'
+      minTime='07:00:00'
+      maxTime='23:00:00'
+      height='auto'
+      titleFormat={{ weekday: 'long' }}
+      columnHeaderFormat={{ weekday: 'long' }}
+      selectable={false}
+      selectHelper={false}
+      editable={false}
+      droppable={false}
+      eventLimit={false}
+      events={events}
+      locale={store.getState().literals.lang}
+      dir={store.getState().literals.dir}
+    />
+  </div>)
+
+  return schedule;
+}
+
+const getEventsForUser = (user, semester) => {
+  let users = store.getState().user.users;
+  let userEvents;
+  users.forEach((userToCheck) => {
+    if (userToCheck._id === user._id) {
+      userEvents = userToCheck.performances;
+    }
+  })
+
+  let events = [];
+  userEvents.forEach((event) => {
+    if (event.semester === semester)
+      events.push({
+        title: event.title,
+        startTime: event.startTime,
+        endTime: event.endTime,
+        daysOfWeek: event.daysOfWeek
+      })
+  })
+  return events;
+}

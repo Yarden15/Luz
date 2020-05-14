@@ -56,7 +56,7 @@ label {
 .clickable {
   &:hover {
     text-decoration: underline;
-    // background-color:;
+    cursor: pointer;
   }
 }
 

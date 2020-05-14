@@ -147,5 +147,6 @@
   "allow_everyone": "אפשר לכולם",
   "block_everyone": "חסום את כולם",
   "hours_per_course": "שעות לכל קורס",
-  "errors": "שגיאות"
+  "errors": "שגיאות",
+  "show_schedule": "הצג לוח זמנים"
 }
