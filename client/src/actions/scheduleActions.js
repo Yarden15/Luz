@@ -1003,13 +1003,13 @@ export const createScheduleAlert = (user, semester) => {
   let t = store.getState().literals.literals;
   Alert.fire({
     title:
-      user.first_name + ' ' + user.last_name + ' - ' + t.semester + ' ' + t[semester],
+      user.first_name + ' ' + user.last_name + '\n' + t.semester + ' ' + t[semester],
     html: `<div id='sched-of-user'></div>`,
     width: '1000px',
     confirmButtonText: t.ok
   })
   //for the events will be in the right places
-  setTimeout(renderSchedule, 150);
+  setTimeout(renderSchedule, 500);
 
   function renderSchedule() {
     ReactDOM.render(schedule, document.getElementById('sched-of-user'))
