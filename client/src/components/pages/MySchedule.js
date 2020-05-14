@@ -58,7 +58,6 @@ export class MySchedule extends Component {
               minTime='07:00:00'
               maxTime='23:00:00'
               height='auto'
-              width='800'
               titleFormat={{ weekday: 'long' }}
               columnHeaderFormat={{ weekday: 'long' }}
               selectable={false}

@@ -41,7 +41,7 @@ export const getSchedules = async () => {
 
     for (let i = 0; i < schedules.length; i++) {
       let convertEvents = [];
-
+      //create the event obj 
       for (let j = 0; j < schedules[i].events.length; j++) {
         let event = {
           sched_id: schedules[i].sched_id,
@@ -70,7 +70,7 @@ export const getSchedules = async () => {
         convertEvents.push(event);
       }
 
-      createCalendar(
+      createCalendar(//create the schedule with the events afer thay converted
         schedules[i].title,
         schedules[i].year,
         schedules[i].location,
@@ -86,7 +86,7 @@ export const getSchedules = async () => {
     console.error(error);
   }
 };
-
+//this method saved all schedules
 export const saveAllSchedules = async () => {
   let scheds = store.getState().schedule.schedules;
   Object.keys(scheds).forEach(async function (id) {
@@ -101,7 +101,7 @@ export const saveAllSchedules = async () => {
     }
   });
 };
-
+//this method saved one schedule on the db
 const saveSchedule = async (
   sched_id,
   title,
@@ -233,16 +233,17 @@ export const createCalendar = (
       />
     </div>
   );
-  if (newSched) {
+  if (newSched) {//if new schedule, adds the schedule on the state
     store.dispatch({
       type: CREATE_CALENDAR,
       payload: { calendar, title, id, semester, location, year, calendarRef },
     });
     sumAllCoursesHours();
-  } else {
+  } else {//if we change the lang of the schedule
     return { calendar, title, id, semester, location, year, calendarRef };
   }
 };
+//when the user added events we refreshed the event for the validations
 const refreshEvents = async () => {
   try {
     const res = await axios.get('/api/timetables');
@@ -250,8 +251,8 @@ const refreshEvents = async () => {
       type: GET_EVENTS,
       payload: res.data,
     });
-    getUsers();
-    sumAllCoursesHours();
+    getUsers();//update the users list
+    sumAllCoursesHours();//sum the courses again
   } catch (error) {
     store.dispatch({
       type: EVENT_ERROR,
@@ -268,12 +269,13 @@ export const selectCalendar = (id) => {
   });
   sumAllCoursesHours();
 };
-
+//this method called when the user add new event to schedule
 const addEvent = (info, id) => {
   //check if this legal action
   info.schedId = id;
 
-  let event = createEventObj(info, id, 'create');
+  let event = createEventObj(info, id, 'create');//create new event and than push it to the schedule
+  //on the reducer
   //save on the shcedule array
   store.dispatch({
     type: ADD_EVENT,
@@ -283,8 +285,8 @@ const addEvent = (info, id) => {
     },
   });
 
-  checkOnServer(event);
-  addEventOnTheUser(
+  checkOnServer(event);//check the action on the server (validations)
+  addEventOnTheUser(//add the event on the user performances
     event.startTime,
     event.endTime,
     event.userid,
@@ -335,8 +337,10 @@ const saveButtonClicked = () => {
 // };
 
 //popup window when the user clicking on the event into the calendar
-export const eventClick = (eventClick) => {
-  let t = store.getState().literals.literals;
+
+//
+export const eventClick = (eventClick) => {//this method popup message with info of the event and
+  let t = store.getState().literals.literals;//with delete button 
   let dir = store.getState().literals.dir;
   Alert.fire({
     title:
@@ -361,7 +365,7 @@ export const eventClick = (eventClick) => {
     confirmButtonText: t.remove_event,
     cancelButtonText: t.cancel,
   }).then((result) => {
-    if (result.value) {
+    if (result.value) {//if the user clicked on delete
       store.dispatch({
         type: DELETE_EVENT,
         payload: {
@@ -380,7 +384,7 @@ export const eventClick = (eventClick) => {
     }
   });
 };
-
+//this method create the select element for location when we creats new schedule
 const createLocationSelectElement = () => {
   let t = store.getState().literals.literals;
   let dir = store.getState().literals.dir;
@@ -402,7 +406,7 @@ const createLocationSelectElement = () => {
 
   return htmlLocation;
 };
-
+//this method create popup alert with fields to create new schedule
 export const createSchdule = () => {
   let t = store.getState().literals.literals;
   let dir = store.getState().literals.dir;
@@ -411,17 +415,17 @@ export const createSchdule = () => {
     title: t.create_new_schedule,
     focusConfirm: false,
     html:
-      `<div>${t.enter_title_please}</div>` +
+      `<div>${t.enter_title_please}</div>` +//field 1 - title
       `<input id="create-sched-title" class="swal2-input">` +
-      htmlLocation.innerHTML +
-      `<div>${t.year}</div>` +
+      htmlLocation.innerHTML +//field 2 - location (there is function that create this field)
+      `<div>${t.year}</div>` +//field 3 - year
       `<select id="create-sched-year" class="swal2-input" dir=${dir}>
       <option class=${dir} defaultValue></option>
       <option class=${dir} value='a'>${t.a}</option>
       <option class=${dir} value='b'>${t.b}</option>
       <option class=${dir} value='c'>${t.c}</option>
       <option class=${dir} value='d'>${t.d}</option></select>` +
-      `<div>${t.semester}</div>` +
+      `<div>${t.semester}</div>` + //field 4 - semester
       `<select id="create-sched-semester" class="swal2-input" dir=${dir}>
       <option class=${dir} defaultValue></option>
       <option class=${dir} value='a'>${t.a}</option>
@@ -433,14 +437,14 @@ export const createSchdule = () => {
     cancelButtonText: t.cancel,
     cancelButtonColor: '#d33',
     allowOutsideClick: false,
-    preConfirm: () => ({
+    preConfirm: () => ({ //after the user click on confirm we taking the values
       title: document.getElementById('create-sched-title').value,
       year: document.getElementById('create-sched-year').value,
       semester: document.getElementById('create-sched-semester').value,
       location: document.getElementById('create-sched-location').value,
     }),
   };
-
+  //this method popup alert the alert for create new schedule and checks if there is empty fields
   const createSched = async () => {
     const alertVal = await Alert.fire(createSchedAlert);
     let newSched = (alertVal && alertVal.value) || alertVal.dismiss;
@@ -477,6 +481,7 @@ export const createSchdule = () => {
   createSched();
 };
 
+//this method deletes event on the user and updates on the DB
 const deleteEventOnTheUser = async (userId, eventId) => {
   try {
     await axios.put(`api/users/manage/performance/delete`, { userId, eventId });
@@ -485,7 +490,7 @@ const deleteEventOnTheUser = async (userId, eventId) => {
     console.log(err);
   }
 };
-
+//this method adds event on the user and updates on the DB
 const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, performanceId, daysOfWeek,
   title, semester
 ) => {
@@ -992,22 +997,27 @@ const minutesToTimeStamp = (totalMinutes) => {
 
   return timeStamp;
 };
-
+//this method popup alert with the schedule of the user 
 export const createScheduleAlert = (user, semester) => {
   let schedule = createScheduleForUser(user, semester);
   let t = store.getState().literals.literals;
   Alert.fire({
     title:
-      user.first_name + ' ' + user.last_name + '\n' + t.semester + ' ' + t[semester],
+      user.first_name + ' ' + user.last_name + ' - ' + t.semester + ' ' + t[semester],
     html: `<div id='sched-of-user'></div>`,
     width: '1000px',
-    confirmButtonText: t.ok,
+    confirmButtonText: t.ok
   })
-  ReactDOM.render(schedule, document.getElementById('sched-of-user'))
+  //for the events will be in the right places
+  setTimeout(renderSchedule, 150);
+
+  function renderSchedule() {
+    ReactDOM.render(schedule, document.getElementById('sched-of-user'))
+  }
 }
+//sub function that return the schdule of the user for the alert
 const createScheduleForUser = (user, semester) => {
   let events = getEventsForUser(user, semester);
-  console.log(events)
   let schedule = (<div id='calendar-alert'>
     <FullCalendar
       defaultView='timeGridWeek'
@@ -1039,7 +1049,7 @@ const createScheduleForUser = (user, semester) => {
 
   return schedule;
 }
-
+//this method search the user from the users and push the events of the user to array
 const getEventsForUser = (user, semester) => {
   let users = store.getState().user.users;
   let userEvents;
