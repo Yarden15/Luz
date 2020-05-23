@@ -7,6 +7,18 @@ router.post('/', async (req, res) => {
   const { schedules, errors, events, users, event } = req.body;
   let popupMsg = { 'popup': false, 'errors': [] };
   let user = getUser(event.userid, users)
+  let schedule = getSchedule(event.schedId, schedules);
+
+  //checks year
+  if(event.year !== schedule.year){
+    addErrorToMsg('invalid_year',popupMsg);
+    addEventToErrors(event,'invalid_year',errors);
+  }
+  //checks semester
+  if(event.semester !== schedule.semester){
+    addErrorToMsg('invalid_semester',popupMsg);
+    addEventToErrors(event,'invalid_semester',errors);
+  }
   //checks if the user gives this day/hour
   if (checksUserSchedule(event, user)) {
     addErrorToMsg('not_in_time', popupMsg);
