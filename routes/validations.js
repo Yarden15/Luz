@@ -10,14 +10,14 @@ router.post('/', async (req, res) => {
   let schedule = getSchedule(event.schedId, schedules);
 
   //checks year
-  if(event.year !== schedule.year){
-    addErrorToMsg('invalid_year',popupMsg);
-    addEventToErrors(event,'invalid_year',errors);
+  if (event.year !== schedule.year) {
+    addErrorToMsg('invalid_year', popupMsg);
+    addEventToErrors(event, 'invalid_year', errors);
   }
   //checks semester
-  if(event.semester !== schedule.semester){
-    addErrorToMsg('invalid_semester',popupMsg);
-    addEventToErrors(event,'invalid_semester',errors);
+  if (event.semester !== schedule.semester) {
+    addErrorToMsg('invalid_semester', popupMsg);
+    addEventToErrors(event, 'invalid_semester', errors);
   }
   //checks if the user gives this day/hour
   if (checksUserSchedule(event, user)) {
@@ -91,6 +91,8 @@ const checkTimeClash = (event1, event2) => {
     return true;
   else if (event2.startTime <= event1.startTime && event2.endTime > event1.startTime)
     return true;
+  else
+    return false;
 }
 const checkTimeInSchedule = (userSched, event) => {
   if (userSched.startTime > event.startTime || userSched.endTime < event.endTime)
