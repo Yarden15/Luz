@@ -56,8 +56,7 @@ export const getSchedules = async () => {
           last_name: schedules[i].events[j].timeTableId.user.last_name,
           semester: schedules[i].events[j].timeTableId.performance.semester,
           location: schedules[i].events[j].timeTableId.performance.location,
-          course_hours:
-            schedules[i].events[j].timeTableId.performance.course_hours,
+          course_hours: schedules[i].events[j].timeTableId.performance.course_hours,
           year: schedules[i].events[j].timeTableId.performance.year,
           startTime: schedules[i].events[j].startTime,
           endTime: schedules[i].events[j].endTime,
@@ -618,10 +617,12 @@ const eventChanged = (info, schedId) => {
 
 const checkOnServer = async (event) => {
   let schedules = castToArray(store.getState().schedule.schedules);
+  let errors = store.getState().schedule.errorsEvents;
+  let events = store.getState().event.events;
+  let users = store.getState().user.users;
   try {
-    const res = await axios.post('/api/validations', { event, schedules });
-    if (res.data.event1 !== undefined && res.data.event2 !== undefined)
-      updateStatus(res.data);
+    const res = await axios.post('/api/validations', { schedules, errors, events, users, event });
+    console.log(res.data)
   } catch (error) {
     console.error(error);
   }
