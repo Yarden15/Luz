@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
 
 router.post('/', async (req, res) => {
   // Pull from the req.body the fields to validate
   const { schedules, errors, events, users, event } = req.body;
+  //create the popup message
   let popupMsg = { 'popup': false, 'errors': [] };
+  //getting the user of the event
   let user = getUser(event.userid, users)
+  //getting the schedule of the event
   let schedule = getSchedule(event.schedId, schedules);
 
   //checks year
@@ -14,17 +16,17 @@ router.post('/', async (req, res) => {
     addErrorToMsg('invalid_year', popupMsg);
     addEventToErrors(event, 'invalid_year', errors);
   }
-  //checks semester
+  //Checks the semester
   if (event.semester !== schedule.semester) {
     addErrorToMsg('invalid_semester', popupMsg);
     addEventToErrors(event, 'invalid_semester', errors);
   }
-  //checks if the user gives this day/hour
+  //Checks if the user gives this day/hour
   if (checksUserSchedule(event, user)) {
     addErrorToMsg('not_in_time', popupMsg);
     addEventToErrors(event, 'not_in_time', errors)
   }
-  //check for collisions between events of the same user
+  //Checks for collisions between events of the same user
   let alreadyPushed = false;
   for (let i = 0; i < schedules.length; i++) {
     for (let j = 0; j < schedules[i].events.length; j++) {
@@ -47,15 +49,9 @@ router.post('/', async (req, res) => {
     }
   }
 
-  // if (event.remaining_hours[0] === '-') {
-  //   popupMsg.popup = true;
-  //   popupMsg.errors.push('passed_houres');
-  //   errors.push({
-  //     sched_id: event.schedId,
-  //     event_id: event.eventId,
-  //     type: 'passed_houres'
-  //   })
-  // }
+  //Checks if the course goes beyond its time
+
+  //return the errors and the message for the user
   res.json({ errors, popupMsg })
 })
 
@@ -140,10 +136,9 @@ const getUser = (id, users) => {
 const getSchedule = (id, schedules) => {
   for (let i = 0; i < schedules.length; i++) {
     if (id === schedules[i].id)
-      return schedules[i]
+      return schedules[i];
   }
 }
-
 
 module.exports = router;
 
