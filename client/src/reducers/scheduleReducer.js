@@ -1,5 +1,4 @@
-import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED, CLEAN_SCHEDULES, UPDATE_EVENT, INITIAL_SCHEDULE, CLEAR_SCHEDULE, STOP_LOADING_SCHED } from '../actions/types';
-import { searchAndUpdate } from '../actions/scheduleActions';
+import { GET_SCHEDULES, SET_LOADING_SCHED, SCHEDULE_ERROR, CREATE_CALENDAR, SELECT_CALENDAR, DELETE_SCHEDULE, ADD_EVENT, DELETE_EVENT, EVENT_CHANGED, CHANGE_LANG_SCHEDS, RENAME_SCHED, CLEAN_SCHEDULES,INITIAL_SCHEDULE, CLEAR_SCHEDULE, STOP_LOADING_SCHED, UPDATE_ERRORS_ARRAY, DELETE_FROM_ERRORS } from '../actions/types';
 const initialState = {
   schedules: {},
   errorsEvents: [],
@@ -95,13 +94,22 @@ export default (state = initialState, action) => {
         ...state,
         counter: state.counter + 1
       }
-    case UPDATE_EVENT:
-      searchAndUpdate(state, action.payload.id1, action.payload.sched1Id, action.payload.color);
-      searchAndUpdate(state, action.payload.id2, action.payload.sched2Id, action.payload.color);
+    case UPDATE_ERRORS_ARRAY:
       return {
         ...state,
         counter: state.counter + 1,
-        schedules: state.schedules
+        errorsEvents: action.payload
+      }
+    case DELETE_FROM_ERRORS:
+      let errorsArray = state.errorsEvents;
+      for (let i = 0; i < state.errorsEvents.length; i++) {
+        if (action.payload === state.errorsEvents[i].event.eventId)
+          errorsArray.splice(i, 1)
+      }
+      return {
+        ...state,
+        counter: state.counter + 1,
+        errorsEvents: errorsArray
       }
     case CLEAR_SCHEDULE:
       let schedToClear = state.schedules;

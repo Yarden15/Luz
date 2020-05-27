@@ -82,9 +82,11 @@ const closeAlert = () => {
 };
 
 export const register = async FormData => {
+  let msg = []
   try {
     const res = await axios.post('/api/users/manage', FormData);
-    popupAlert('congratulations', res.data, 'regular');
+    msg.push(res.data)
+    popupAlert('congratulations', msg, 'regular');
     return true;
   } catch (err) {
     store.dispatch({

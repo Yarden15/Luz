@@ -51,9 +51,11 @@ const setLoading = () => {
 };
 // Create new course
 export const createCourse = async (FormData) => {
+  let msg = [];
   try {
     const res = await axios.post('/api/performances/manage', FormData);
-    popupAlert('congratulations', res.data, 'regular');
+    msg.push(res.data)
+    popupAlert('congratulations', msg, 'regular');
   } catch (err) {
     store.dispatch({
       type: REGISTER_FAIL,
@@ -106,9 +108,11 @@ export const createEvent = async (userId, courseId) => {
     displayAlert();
   } else {
     let form = { userId, courseId, group_name: '' };
+    let msg = [];
     try {
       const res = await axios.post('/api/timetables', form);
-      popupAlert('congratulations', res.data, 'regular');
+      msg.push(res.data)
+      popupAlert('congratulations', msg, 'regular');
     } catch (err) {
       store.dispatch({
         type: REGISTER_FAIL,
@@ -130,13 +134,15 @@ export const getCourseById = (id) => {
 };
 
 export const updateCourse = async (course) => {
+  let msg = [];
   try {
     saveAllSchedules();
     const res = await axios.put(`/api/performances/${course._id}`, course);
+    msg.push(res.data.msg);
     getCourses();
     cleanSchedules();
     getSchedules();
-    popupAlert('congratulations', res.data.msg, 'regular');
+    popupAlert('congratulations', msg, 'regular');
   } catch (err) {
     console.error(err);
   }

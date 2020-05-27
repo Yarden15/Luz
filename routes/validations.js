@@ -10,21 +10,36 @@ router.post('/', async (req, res) => {
   let user = getUser(event.userid, users)
   //getting the schedule of the event
   let schedule = getSchedule(event.schedId, schedules);
+  //array of errors that fixed
+  let fixed_errors = [];
+  //update event on errors
+  for (let i = 0; i < errors.length; i++) {
+    if (event.eventId === errors[i].event.eventId)
+      errors[i].event = event;
+  }
 
   //checks year
   if (event.year !== schedule.year) {
     addErrorToMsg('invalid_year', popupMsg);
     addEventToErrors(event, 'invalid_year', errors);
+  } else {
+    checkAndRemove(event.eventId, 'invalid_year', errors, fixed_errors);
   }
   //Checks the semester
   if (event.semester !== schedule.semester) {
+    console.log(event.semester, schedule.semester)
     addErrorToMsg('invalid_semester', popupMsg);
     addEventToErrors(event, 'invalid_semester', errors);
+  } else {
+    checkAndRemove(event.eventId, 'invalid_semester', errors, fixed_errors);
   }
+
   //Checks if the user gives this day/hour
   if (checksUserSchedule(event, user)) {
     addErrorToMsg('not_in_time', popupMsg);
     addEventToErrors(event, 'not_in_time', errors)
+  } else {
+    checkAndRemove(event.eventId, 'not_in_time', errors, fixed_errors);
   }
   //Checks for collisions between events of the same user
   let alreadyPushed = false;
@@ -50,9 +65,75 @@ router.post('/', async (req, res) => {
   }
 
   //Checks if the course goes beyond its time
+  let errors_ids = [];
+  // check for the user if there are events that not collision anymore
+  for (let i = 0; i < errors.length; i++) {
+    let remove = true;
+    for (let j = 0; j < schedules.length; j++) {
+      for (let k = 0; k < schedules[j].events.length; k++) {
+        if (checkTimeClash(errors[i].event, schedules[j].events[k]) &&
+          parseInt(errors[i].event.daysOfWeek[0]) == parseInt(schedules[j].events[k].daysOfWeek[0]) &&
+          errors[i].event.semester === schedules[j].events[k].semester &&
+          errors[i].event.eventId !== schedules[j].events[k].eventId) {
+          remove = false;
+        }
+      }
+    }
+    if (remove) {
+      errors_ids.push(errors[i].event.eventId);
+      remove = true;
+    }
+  }
+  for (let i = 0; i < errors_ids.length; i++) {
+    checkAndRemove(errors_ids[i], 'clash_with_events', errors, fixed_errors);
+  }
+
+  // for (let i = 0; i < user.performances.length; i++) {
+  //   let remove = true;
+  //   for (let j = 0; j < user.performances.length; j++) {
+  //     if (checkTimeClash(user.performances[i], user.performances[j]) &&
+  //       user.performances[i].daysOfWeek[0] === user.performances[j].daysOfWeek[0] &&
+  //       user.performances[i].semester === user.performances[j].semester &&
+  //       user.performances[i].eventId !== user.performances[j].eventId) {
+
+  //       remove = false;
+  //       break;
+  //     }
+  //   }
+
+  // }
 
   //return the errors and the message for the user
-  res.json({ errors, popupMsg })
+  res.json({ errors, fixed_errors, popupMsg })
+})
+
+router.put('/delete', async (req, res) => {
+  const { schedules, errors } = req.body;
+  let fixed_errors = [];
+  //Checks if the course goes beyond its time
+  let errors_ids = [];
+  // check for the user if there are events that not collision anymore
+  for (let i = 0; i < errors.length; i++) {
+    let remove = true;
+    for (let j = 0; j < schedules.length; j++) {
+      for (let k = 0; k < schedules[j].events.length; k++) {
+        if (checkTimeClash(errors[i].event, schedules[j].events[k]) &&
+          parseInt(errors[i].event.daysOfWeek[0]) == parseInt(schedules[j].events[k].daysOfWeek[0]) &&
+          errors[i].event.semester === schedules[j].events[k].semester &&
+          errors[i].event.eventId !== schedules[j].events[k].eventId) {
+          remove = false;
+        }
+      }
+    }
+    if (remove) {
+      errors_ids.push(errors[i].event.eventId);
+      remove = true;
+    }
+  }
+  for (let i = 0; i < errors_ids.length; i++) {
+    checkAndRemove(errors_ids[i], 'clash_with_events', errors, fixed_errors);
+  }
+  res.json({ errors: [], fixed_errors, popupMsg: [] })
 })
 
 const addErrorToMsg = (type, popupMsg) => {
@@ -72,12 +153,12 @@ const addEventToErrors = (event, type, errors) => {
   for (let i = 0; i < errors.length; i++) {
     if (event.eventId === errors[i].event_id && errors[i].type === type) {
       addEvent = false;
+      errors[i].event = event;
     }
   }
   if (addEvent) {
     errors.push({
-      sched_id: event.schedId,
-      event_id: event.eventId,
+      event: event,
       type: type
     });
   }
@@ -95,6 +176,7 @@ const checkTimeInSchedule = (userSched, event) => {
     return true;
   return false;
 }
+
 const getSemester = (semester) => {
   if (semester === 'a') {
     return 'semesterA'
@@ -127,12 +209,14 @@ const checksHours = (day_start, day_end, event_start, event_end) => {
     return false;
   return checkTimeInSchedule({ startTime: day_start, endTime: day_end }, { startTime: event_start, endTime: event_end })
 }
+//get user ID and array of users and return the user object
 const getUser = (id, users) => {
   for (let i = 0; i < users.length; i++) {
     if (id === users[i]._id)
       return users[i]
   }
 }
+//get schedule ID and array of schedules and return the schedule object
 const getSchedule = (id, schedules) => {
   for (let i = 0; i < schedules.length; i++) {
     if (id === schedules[i].id)
@@ -140,6 +224,25 @@ const getSchedule = (id, schedules) => {
   }
 }
 
+
+const checkAndRemove = (eventId, type, errors, fixed_errors) => {
+  for (let i = 0; i < errors.length; i++) {
+    if (errors[i].event.eventId === eventId && errors[i].type === type) {
+      fixed_errors.push({ event: errors[i].event, type: errors[i].type })
+      errors.splice(i, 1);
+    }
+  }
+}
+
 module.exports = router;
 
 
+//לבדוק אם מערך התיקון עובד כמו שצריך
+
+
+// console.log("title: ", errors[i].event.title, schedules[j].events[k].title)
+// console.log("days: ", parseInt(errors[i].event.daysOfWeek[0]), parseInt(schedules[j].events[k].daysOfWeek[0]))
+// console.log("ids: ", errors[i].event.eventId !== schedules[j].events[k].eventId)
+// console.log("time: ", checkTimeClash(errors[i].event, schedules[j].events[k]))
+// console.log("days: ", parseInt(errors[i].event.daysOfWeek[0]) == parseInt(schedules[j].events[k].daysOfWeek[0]))
+// console.log("semester: ", errors[i].event.semester === schedules[j].events[k].semester)

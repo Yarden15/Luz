@@ -148,5 +148,9 @@
   "block_everyone": "חסום את כולם",
   "hours_per_course": "שעות לכל קורס",
   "errors": "שגיאות",
-  "show_schedule": "הצג לוח זמנים"
+  "show_schedule": "הצג לוח זמנים",
+  "clash_with_events": "התנגשות בין אירועים",
+  "not_in_time": "זמן האירוע לא לפי הזמן של המשתמש",
+  "invalid_semester": "אירוע שובץ בסמסטר לא נכון",
+  "invalid_year": "אירוע שובץ בשנה לא נכונה"
 }

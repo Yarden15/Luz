@@ -73,13 +73,15 @@ export const getUserById = (id) => {
 };
 //update user by the admin
 export const updateUser = async (user) => {
+  let msg = [];
   try {
     saveAllSchedules();
     const res = await axios.put(`/api/users/manage/details/${user._id}`, user);
+    msg.push(res.data);
     getUsers();
     cleanSchedules();
     getSchedules();
-    popupAlert('congratulations', res.data, 'regular');
+    popupAlert('congratulations', msg, 'regular');
   } catch (err) {
     console.error(err);
   }
@@ -131,11 +133,11 @@ export const handleResetPassword = (id) => {
 };
 
 const resetPassword = async (userId, password) => {
+  let msg = [];
   try {
-    const res = await axios.put(`/api/users/manage/pass/${userId}`, {
-      password: password,
-    });
-    popupAlert('congratulations', res.data, 'regular');
+    const res = await axios.put(`/api/users/manage/pass/${userId}`, { password: password });
+    msg.push(res.data);
+    popupAlert('congratulations', msg, 'regular');
   } catch (err) {
     console.error(err);
   }
@@ -216,28 +218,31 @@ export const getRole = async () => {
 }
 
 export const updateByTheUser = async (updateDetails) => {
+  let msg = [];
   try {
     saveAllSchedules();
     const res = await axios.put('/api/users/me/details', updateDetails);
+    msg.push(res.data);
     getUsers();
     cleanSchedules();
     getSchedules();
     loadUser();
-    popupAlert('congratulations', res.data, 'regular');
+    popupAlert('congratulations', msg, 'regular');
   } catch (err) {
     console.error(err);
   }
 }
 
 const changePasswordByTheUser = async (newPassword, oldPassword) => {
+  let msg = [];
   try {
-    const res = await axios.put(`/api/users/me/pass/`, {
-      newPassword, oldPassword
-    });
-    popupAlert('congratulations', res.data, 'regular');
+    const res = await axios.put(`/api/users/me/pass/`, { newPassword, oldPassword });
+    msg.push(res.data);
+    popupAlert('congratulations', msg, 'regular');
   } catch (err) {
     console.log(err.response.data.msg)
-    popupAlert('error', err.response.data.msg, 'error');
+    msg.push(err.response.data.msg)
+    popupAlert('error', msg, 'error');
   }
 };
 

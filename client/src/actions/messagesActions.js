@@ -44,10 +44,12 @@ export const createNewMessage = async () => {
 }
 
 const saveOnDB = async content => {
+  let msg = [];
   try {
     const res = await axios.post('/api/ads/manage', { content });
+    msg.push(res.data.msg);
     getAds();
-    popupAlert(res.data.title, res.data.msg, res.data.type);
+    popupAlert(res.data.title, msg, res.data.type);
   } catch (err) {
     console.log(err);
   }
@@ -71,9 +73,11 @@ export const deleteAdAlert = id => {
 };
 
 const deleteAd = async id => {
+  let msg = [];
   try {
     const res = await axios.delete(`/api/ads/manage/${id}`);
-    popupAlert('congratulations', res.data.msg, res.data.type);
+    msg.push(res.data.msg);
+    popupAlert('congratulations', msg, res.data.type);
     getAds();
   } catch (err) {
     console.log(err);

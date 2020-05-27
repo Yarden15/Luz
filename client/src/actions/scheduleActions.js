@@ -11,7 +11,9 @@ import {
   CLEAN_SCHEDULES,
   STOP_LOADING_SCHED,
   EVENT_ERROR,
-  GET_EVENTS
+  GET_EVENTS,
+  UPDATE_ERRORS_ARRAY,
+  DELETE_FROM_ERRORS
 } from './types';
 import Alert from 'sweetalert2';
 import FullCalendar from '@fullcalendar/react';
@@ -44,7 +46,7 @@ export const getSchedules = async () => {
       //create the event obj 
       for (let j = 0; j < schedules[i].events.length; j++) {
         let event = {
-          sched_id: schedules[i].sched_id,
+          schedId: schedules[i].sched_id,
           timeTableId: schedules[i].events[j].timeTableId._id,
           course_id: schedules[i].events[j].timeTableId.performance._id,
           eventId: schedules[i].events[j].eventId,
@@ -284,7 +286,7 @@ const addEvent = (info, id) => {
     },
   });
 
-  checkOnServer(event);//check the action on the server (validations)
+
   addEventOnTheUser(//add the event on the user performances
     event.startTime,
     event.endTime,
@@ -294,7 +296,8 @@ const addEvent = (info, id) => {
     event.course_id,
     event.daysOfWeek,
     event.title,
-    event.semester
+    event.semester,
+    event
   );
 };
 //this method works when the user clicks on the save button
@@ -353,9 +356,6 @@ export const eventClick = (eventClick) => {//this method popup message with info
     html: `<div class=${dir} >
         <h3 class='center-horizontaly'>${t.errors}</h3>
         <ul>
-          <li>קורסים מתנגשים</li>
-          <li>חורג מהזמן של הקורס</li>
-          <li>המרצה שובץ בזמן לא רצוי</li>
         </ul>
       </div>`,
     showCancelButton: true,
@@ -372,6 +372,8 @@ export const eventClick = (eventClick) => {//this method popup message with info
           event_id: eventClick.event._def.extendedProps.eventId,
         },
       });
+      deleteFromErrors(eventClick.event._def.extendedProps.eventId);
+      checkCollisionsAfterDelete();
       forceSchedsUpdate(store.getState().schedule.current);
       sumAllCoursesHours();
       saveButtonClicked();
@@ -383,6 +385,24 @@ export const eventClick = (eventClick) => {//this method popup message with info
     }
   });
 };
+
+const checkCollisionsAfterDelete = async () => {
+  let schedules = castToArray(store.getState().schedule.schedules);
+  let errors = store.getState().schedule.errorsEvents;
+  try {
+    const res = await axios.put(`api/validations/delete/`, { schedules, errors });
+    updateStatus(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const deleteFromErrors = (eventId) => {
+  store.dispatch({
+    type: DELETE_FROM_ERRORS,
+    payload: { eventId }
+  });
+}
 //this method create the select element for location when we creats new schedule
 const createLocationSelectElement = () => {
   let t = store.getState().literals.literals;
@@ -491,7 +511,7 @@ const deleteEventOnTheUser = async (userId, eventId) => {
 };
 //this method adds event on the user and updates on the DB
 const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, performanceId, daysOfWeek,
-  title, semester
+  title, semester, event
 ) => {
   try {
     await axios.post('api/users/manage/performance', {
@@ -506,12 +526,13 @@ const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, p
       semester
     });
     refreshEvents();
+    checkOnServer(event);
   } catch (err) {
     console.log(err);
   }
 };
 
-const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfWeek) => {
+const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfWeek, event) => {
   try {
     await axios.put('api/users/manage/performance', {
       startTime,
@@ -522,6 +543,7 @@ const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfW
 
     });
     refreshEvents();
+    checkOnServer(event);
   } catch (err) {
     console.log(err);
   }
@@ -586,9 +608,11 @@ export const deleteAlert = (schedule) => {
 };
 
 export const deleteSchedule = async (sched_id) => {
+  let msg = [];
   try {
     const res = await axios.delete(`/api/schedules/manage/${sched_id}`);
-    popupAlert('schedule_deleted', res.data, 'regular');
+    msg.push(res.data)
+    popupAlert('schedule_deleted', msg, 'regular');
   } catch (error) {
     console.error(error);
   }
@@ -604,13 +628,14 @@ const eventChanged = (info, schedId) => {
     type: EVENT_CHANGED,
     payload: event,
   });
-  checkOnServer(event);
+
   updateEventOnTheUser(
     event.startTime,
     event.endTime,
     event.userid,
     event.eventId,
-    event.daysOfWeek
+    event.daysOfWeek,
+    event
   );
   forceSchedsUpdate(store.getState().schedule.current);
 };
@@ -623,6 +648,8 @@ const checkOnServer = async (event) => {
   try {
     const res = await axios.post('/api/validations', { schedules, errors, events, users, event });
     console.log(res.data)
+    updateStatus(res.data);
+
   } catch (error) {
     console.error(error);
   }
@@ -730,6 +757,9 @@ const castToArray = (schedules) => {
     schedsArray.push({
       title: schedules[key].title,
       id: schedules[key].id,
+      semester: schedules[key].semester,
+      year: schedules[key].year,
+      location: schedules[key].location,
       events: schedules[key].calendar.props.children.props.events,
     });
   }
@@ -738,46 +768,42 @@ const castToArray = (schedules) => {
 };
 
 const updateStatus = (res) => {
-  if (res.type === 'error' || res.type === 'warning') {
-    popupAlert(res.type, res.msg, res.type);
+  //update errors array
+  store.dispatch({
+    type: UPDATE_ERRORS_ARRAY,
+    payload: res.errors
+  })
 
-    //update events
-    store.dispatch({
-      type: 'UPDATE_EVENT',
-      payload: {
-        color: 'red',
-        id1: res.event1.eventId,
-        id2: res.event2.eventId,
-        sched1Id: res.sched1Id,
-        sched2Id: res.sched2Id,
-      },
-    });
-  } else {
-    store.dispatch({
-      type: 'UPDATE_EVENT',
-      payload: {
-        color: '',
-        id1: res.event1.eventId,
-        id2: res.event1.eventId,
-        sched1Id: res.sched1Id,
-        sched2Id: res.sched1Id,
-      },
-    });
+  for (let i = 0; i < res.errors.length; i++) {
+    searchAndUpdateColor(res.errors[i].event.eventId, res.errors[i].event.schedId, 'red')
   }
+
+  for (let i = 0; i < res.fixed_errors.length; i++) {
+    let changeColor = true;
+    for (let j = 0; j < res.errors.length; j++) {
+      if (res.fixed_errors[i].event.eventId === res.errors[j].event.eventId) {
+        changeColor = false;
+        break;
+      }
+    }
+    if (changeColor)
+      searchAndUpdateColor(res.fixed_errors[i].event.eventId, res.fixed_errors[i].event.schedId, 'black')
+  }
+
   forceSchedsUpdate(store.getState().schedule.current);
+
+  if (res.popupMsg.popup) {
+    popupAlert('errors', res.popupMsg.errors, 'error');
+  }
 };
 
-export const searchAndUpdate = (state, id, schedId, color) => {
-  let length =
-    state.schedules[schedId].calendar.props.children.props.events.length;
+export const searchAndUpdateColor = (id, schedId, color) => {
+  let schedules = store.getState().schedule.schedules;
+  let length = schedules[schedId].calendar.props.children.props.events.length;
+
   for (let i = 0; i < length; i++) {
-    if (
-      state.schedules[schedId].calendar.props.children.props.events[i]
-        .eventId === id
-    )
-      state.schedules[schedId].calendar.props.children.props.events[
-        i
-      ].borderColor = color;
+    if (schedules[schedId].calendar.props.children.props.events[i].eventId === id)
+      schedules[schedId].calendar.props.children.props.events[i].borderColor = color;
   }
 };
 

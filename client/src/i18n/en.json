@@ -147,5 +147,8 @@
   "block_everyone": "Block everyone",
   "hours_per_course": "Hours per course",
   "errors": "Errors",
-  "show_schedule": "Show Schedule"
+  "clash_with_events": "Collision between events",
+  "not_in_time": "Event time is not according to the user's schedule",
+  "invalid_semester": "The event was assigned to the wrong semester",
+  "invalid_year": "The event was assigned to the wrong year"
 }
