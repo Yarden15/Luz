@@ -272,13 +272,11 @@ const checkCourseTime = (schedule, events, event) => {
   }
   timeOnSched = minutesToTimeStamp(timeOnSched);
   for (let i = 0; i < events.length; i++) {
-    console.log(event)
     if (event.timeTableId === events[i]._id) {
       course_hours = events[i].performance.course_hours;
       break;
     }
   }
-  console.log(timeOnSched, course_hours)
   return (timeOnSched > course_hours)
 }
 
