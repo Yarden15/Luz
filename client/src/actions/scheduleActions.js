@@ -81,6 +81,11 @@ export const getSchedules = async () => {
         schedules[i].sched_id
       );
     }
+    for (let i = 0; i < schedules.length; i++) {
+      for (let j = 0; j < schedules[i].events.length; j++) {
+        checkOnServer(schedules[i].event[j])
+      }
+    }
     sumAllCoursesHours();
     stopLoading();
   } catch (error) {

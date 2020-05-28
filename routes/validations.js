@@ -33,6 +33,13 @@ router.post('/', async (req, res) => {
   } else {
     checkAndRemove(event.eventId, 'invalid_semester', errors, fixed_errors);
   }
+  //Checks the location
+  if (event.location !== schedule.location) {
+    addErrorToMsg('invalid_location', popupMsg);
+    addEventToErrors(event, 'invalid_location', errors);
+  } else {
+    checkAndRemove(event.eventId, 'invalid_location', errors, fixed_errors);
+  }
 
   //Checks if the user gives this day/hour
   if (checksUserSchedule(event, user)) {
@@ -151,7 +158,7 @@ const addErrorToMsg = (type, popupMsg) => {
 const addEventToErrors = (event, type, errors) => {
   let addEvent = true;
   for (let i = 0; i < errors.length; i++) {
-    if (event.eventId === errors[i].event_id && errors[i].type === type) {
+    if (event.eventId === errors[i].event.eventId && errors[i].type === type) {
       addEvent = false;
       errors[i].event = event;
     }
