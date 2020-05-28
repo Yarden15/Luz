@@ -711,7 +711,7 @@ const createEventObj = (info, schedId, status) => {
       schedId,
       eventId: info.event._def.extendedProps.eventId,
       title: info.event._def.title,
-      timetableid: info.event._def.extendedProps.timetableid,
+      timeTableId: info.event._def.extendedProps.timeTableId,
       userid: info.event._def.extendedProps.userid,
       course_id: info.event._def.extendedProps.course_id,
       id_number: info.event._def.extendedProps.id_number,

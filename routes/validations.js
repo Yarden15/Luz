@@ -27,7 +27,6 @@ router.post('/', async (req, res) => {
   }
   //Checks the semester
   if (event.semester !== schedule.semester) {
-    console.log(event.semester, schedule.semester)
     addErrorToMsg('invalid_semester', popupMsg);
     addEventToErrors(event, 'invalid_semester', errors);
   } else {
@@ -94,21 +93,13 @@ router.post('/', async (req, res) => {
   for (let i = 0; i < errors_ids.length; i++) {
     checkAndRemove(errors_ids[i], 'clash_with_events', errors, fixed_errors);
   }
-
-  // for (let i = 0; i < user.performances.length; i++) {
-  //   let remove = true;
-  //   for (let j = 0; j < user.performances.length; j++) {
-  //     if (checkTimeClash(user.performances[i], user.performances[j]) &&
-  //       user.performances[i].daysOfWeek[0] === user.performances[j].daysOfWeek[0] &&
-  //       user.performances[i].semester === user.performances[j].semester &&
-  //       user.performances[i].eventId !== user.performances[j].eventId) {
-
-  //       remove = false;
-  //       break;
-  //     }
-  //   }
-
-  // }
+  //Checks if the course goes beyond its times 
+  if (checkCourseTime(schedule, events, event)) {
+    addErrorToMsg('time_exception', popupMsg);
+    addEventToErrors(event, 'time_exception', errors);
+  } else {
+    checkAndRemove(event.eventId, 'time_exception', errors, fixed_errors);
+  }
 
   //return the errors and the message for the user
   res.json({ errors, fixed_errors, popupMsg })
@@ -241,15 +232,55 @@ const checkAndRemove = (eventId, type, errors, fixed_errors) => {
   }
 }
 
+const calculateDiffBetweenTimes = (start, end) => {
+  start = start.split(':');
+  end = end.split(':');
+  let diffHours = parseInt(end[0]) - parseInt(start[0]);
+  start = parseInt(start[0] + start[1]);
+  end = parseInt(end[0] + end[1]);
+
+  let totalMinutes = end - start - diffHours * 40;
+
+  return totalMinutes;
+};
+
+const minutesToTimeStamp = (totalMinutes) => {
+  let timeStamp = '';
+  let minutes;
+  let hours;
+
+  if (totalMinutes < 0) {
+    totalMinutes = Math.abs(totalMinutes);
+    timeStamp = '-';
+  }
+  minutes = totalMinutes % 60;
+  hours = parseInt(totalMinutes / 60);
+
+  minutes < 10 ? (minutes = '0' + minutes) : (minutes = minutes.toString());
+  hours < 10 ? (hours = '0' + hours) : (hours = hours.toString());
+  timeStamp += hours + ':' + minutes;
+
+  return timeStamp;
+};
+
+const checkCourseTime = (schedule, events, event) => {
+  let timeOnSched = 0;
+  let course_hours;
+  for (let i = 0; i < schedule.events.length; i++) {
+    if (event.eventId === schedule.events[i].eventId)
+      timeOnSched += calculateDiffBetweenTimes(schedule.events[i].startTime, schedule.events[i].endTime);
+  }
+  timeOnSched = minutesToTimeStamp(timeOnSched);
+  for (let i = 0; i < events.length; i++) {
+    console.log(event)
+    if (event.timeTableId === events[i]._id) {
+      course_hours = events[i].performance.course_hours;
+      break;
+    }
+  }
+  console.log(timeOnSched, course_hours)
+  return (timeOnSched > course_hours)
+}
+
 module.exports = router;
 
-
-//לבדוק אם מערך התיקון עובד כמו שצריך
-
-
-// console.log("title: ", errors[i].event.title, schedules[j].events[k].title)
-// console.log("days: ", parseInt(errors[i].event.daysOfWeek[0]), parseInt(schedules[j].events[k].daysOfWeek[0]))
-// console.log("ids: ", errors[i].event.eventId !== schedules[j].events[k].eventId)
-// console.log("time: ", checkTimeClash(errors[i].event, schedules[j].events[k]))
-// console.log("days: ", parseInt(errors[i].event.daysOfWeek[0]) == parseInt(schedules[j].events[k].daysOfWeek[0]))
-// console.log("semester: ", errors[i].event.semester === schedules[j].events[k].semester)
