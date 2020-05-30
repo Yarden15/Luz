@@ -74,12 +74,13 @@ router.put('/me/details', auth, async (req, res) => {
   }
 
   // Pull from the req.body the fields to update user
-  const { first_name, last_name } = req.body;
+  const { first_name, last_name, email } = req.body;
 
   // Build user object
   const userFields = {};
   if (first_name) userFields.first_name = first_name;
   if (last_name) userFields.last_name = last_name;
+  if (email) userFields.email = email;
 
   try {
     //  Find the user by id
@@ -89,14 +90,14 @@ router.put('/me/details', auth, async (req, res) => {
     if (!user) return res.status(404).json({ msg: 'User not found' });
 
     // Update in the array of courses in user Model the new course
-    await User.update(
+    await User.updateOne(
       { _id: req.user.id },
       {
         $set: userFields,
       }
     );
 
-    res.status(200).send('User detailes has been changed');
+    res.status(200).send('user_details_changed');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

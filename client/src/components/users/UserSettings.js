@@ -28,7 +28,7 @@ const UserSettings = (props) => {
 
   const onSubmit = e => {
     e.preventDefault();
-    updateByTheUser({ first_name, last_name })
+    updateByTheUser({ first_name, last_name, email })
   };
 
   return (
@@ -38,18 +38,6 @@ const UserSettings = (props) => {
         <h1>{props.t.user_details}</h1>
         <form onSubmit={onSubmit}>
           <div className={`form-group ${props.dir}`}>
-            <label htmlFor='email'>{props.t.email_address}</label>
-            <input
-              type='email'
-              name='email'
-              value={email}
-              readOnly="readOnly"
-              onChange={onChange}
-              dir={props.dir}
-              required
-            ></input>
-          </div>
-          <div className={`form-group ${props.dir}`}>
             <label htmlFor='id_number'>{props.t.id}</label>
             <input
               type='text'
@@ -57,6 +45,17 @@ const UserSettings = (props) => {
               value={id_number}
               onChange={onChange}
               readOnly="readOnly"
+              dir={props.dir}
+              required
+            ></input>
+          </div>
+          <div className={`form-group ${props.dir}`}>
+            <label htmlFor='email'>{props.t.email_address}</label>
+            <input
+              type='email'
+              name='email'
+              value={email}
+              onChange={onChange}
               dir={props.dir}
               required
             ></input>

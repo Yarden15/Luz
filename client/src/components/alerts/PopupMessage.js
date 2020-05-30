@@ -10,11 +10,11 @@ const PopupMessage = props => {
       <div id='popup-container' className={`popup-msg msg-${props.type} ${props.dir}`}>
         <i className="fas fa-times" onClick={closePopup}></i>
         <h4>{props.t[props.title]}</h4>
-        <ol>
+        <ul>
           {props.msg.map(message => (
             <li key={uuid()}>{props.t[message]}</li>
           ))}
-        </ol>
+        </ul>
 
       </div>
     )
