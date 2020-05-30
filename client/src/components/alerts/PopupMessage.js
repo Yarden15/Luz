@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { closePopup } from '../../actions/alertsActions';
-
+import uuid from 'react-uuid';
 
 
 const PopupMessage = props => {
@@ -12,7 +12,7 @@ const PopupMessage = props => {
         <h4>{props.t[props.title]}</h4>
         <ol>
           {props.msg.map(message => (
-            <li>{props.t[message]}</li>
+            <li key={uuid()}>{props.t[message]}</li>
           ))}
         </ol>
 
