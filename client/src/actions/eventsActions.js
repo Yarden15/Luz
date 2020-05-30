@@ -111,6 +111,7 @@ export const createEvent = async (userId, courseId) => {
     let msg = [];
     try {
       const res = await axios.post('/api/timetables', form);
+      getEvents();
       msg.push(res.data)
       popupAlert('congratulations', msg, 'regular');
     } catch (err) {
