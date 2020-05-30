@@ -81,9 +81,10 @@ export const getSchedules = async () => {
         schedules[i].sched_id
       );
     }
+    schedules = castToArray(store.getState().schedule.schedules);
     for (let i = 0; i < schedules.length; i++) {
       for (let j = 0; j < schedules[i].events.length; j++) {
-        checkOnServer(schedules[i].event[j])
+        checkOnServer(schedules[i].events[j], false)
       }
     }
     sumAllCoursesHours();
@@ -396,7 +397,7 @@ const checkCollisionsAfterDelete = async () => {
   let errors = store.getState().schedule.errorsEvents;
   try {
     const res = await axios.put(`api/validations/delete/`, { schedules, errors });
-    updateStatus(res.data);
+    updateStatus(res.data, true);
   } catch (err) {
     console.log(err);
   }
@@ -531,7 +532,7 @@ const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, p
       semester
     });
     refreshEvents();
-    checkOnServer(event);
+    checkOnServer(event, true);
   } catch (err) {
     console.log(err);
   }
@@ -548,7 +549,7 @@ const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfW
 
     });
     refreshEvents();
-    checkOnServer(event);
+    checkOnServer(event, true);
   } catch (err) {
     console.log(err);
   }
@@ -645,7 +646,7 @@ const eventChanged = (info, schedId) => {
   forceSchedsUpdate(store.getState().schedule.current);
 };
 
-const checkOnServer = async (event) => {
+const checkOnServer = async (event, withMsg) => {
   let schedules = castToArray(store.getState().schedule.schedules);
   let errors = store.getState().schedule.errorsEvents;
   let events = store.getState().event.events;
@@ -653,7 +654,7 @@ const checkOnServer = async (event) => {
   try {
     const res = await axios.post('/api/validations', { schedules, errors, events, users, event });
     console.log(res.data)
-    updateStatus(res.data);
+    updateStatus(res.data, withMsg);
 
   } catch (error) {
     console.error(error);
@@ -772,7 +773,7 @@ const castToArray = (schedules) => {
   return schedsArray;
 };
 
-const updateStatus = (res) => {
+const updateStatus = (res, withMsg) => {
   //update errors array
   store.dispatch({
     type: UPDATE_ERRORS_ARRAY,
@@ -797,7 +798,7 @@ const updateStatus = (res) => {
 
   forceSchedsUpdate(store.getState().schedule.current);
 
-  if (res.popupMsg.popup) {
+  if (res.popupMsg.popup && withMsg) {
     popupAlert('errors', res.popupMsg.errors, 'error');
   }
 };

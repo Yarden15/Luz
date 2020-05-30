@@ -47,6 +47,7 @@ router.post('/', async (req, res) => {
   } else {
     checkAndRemove(event.eventId, 'not_in_time', errors, fixed_errors);
   }
+
   //Checks for collisions between events of the same user
   let alreadyPushed = false;
   for (let i = 0; i < schedules.length; i++) {
@@ -54,7 +55,7 @@ router.post('/', async (req, res) => {
       if (event.eventId !== schedules[i].events[j].eventId) { //checks is not the same event
         if (schedules[i].events[j].userid === event.userid) { //checks is the same user
           if (schedules[i].events[j].semester === event.semester) {//checks for semesters
-            if (event.daysOfWeek[0] == schedules[i].events[j].daysOfWeek[0]) { //checks if is the same day
+            if (parseInt(event.daysOfWeek[0]) == parseInt(schedules[i].events[j].daysOfWeek[0])) { //checks if is the same day
               if (checkTimeClash(event, schedules[i].events[j])) {
                 addEventToErrors(schedules[i].events[j], 'clash_with_events', errors);
                 if (!alreadyPushed) {
