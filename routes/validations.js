@@ -81,6 +81,7 @@ router.post('/', async (req, res) => {
         if (checkTimeClash(errors[i].event, schedules[j].events[k]) &&
           parseInt(errors[i].event.daysOfWeek[0]) == parseInt(schedules[j].events[k].daysOfWeek[0]) &&
           errors[i].event.semester === schedules[j].events[k].semester &&
+          errors[i].event.userid === schedules[j].events[k].userid &&
           errors[i].event.eventId !== schedules[j].events[k].eventId) {
           remove = false;
         }
@@ -88,7 +89,7 @@ router.post('/', async (req, res) => {
     }
     if (remove) {
       errors_ids.push(errors[i].event.eventId);
-      remove = true;
+      remove = false;
     }
   }
   for (let i = 0; i < errors_ids.length; i++) {
