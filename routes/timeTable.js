@@ -8,6 +8,7 @@ const { check, validationResult } = require('express-validator');
 const TimeTable = require('../models/TimeTable');
 const User = require('../models/User');
 const Performance = require('../models/Performance');
+const Schedule = require('../models/Schedule');
 
 // @route   GET api/timeTable
 // @desc    Get all timeTable
@@ -166,8 +167,25 @@ router.delete('/:id', authorization, async (req, res) => {
       });
     }
 
-    // Promise- find the timetable and remove it from db
-    await TimeTable.findByIdAndRemove(req.params.id);
+    // Promise- find TimeTable
+    let timeTable = await TimeTable.findOne({ _id: req.params.id });
+
+    // Delete the Performance in the user table
+    await User.updateMany({
+      $pull: {
+        performances: { performance: timeTable.performance },
+      },
+      multi: true,
+    });
+    // Delete the timetable in every board it appears
+    await Schedule.updateMany({
+      $pull: {
+        events: { timeTableId: timeTable._id },
+      },
+      multi: true,
+    });
+    // Delete timetable from DB
+    await TimeTable.findByIdAndDelete(req.params.id);
 
     // Response- msg to indicate that timetable has been removed
     res.json({ msg: 'timetable removed' });

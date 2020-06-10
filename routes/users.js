@@ -410,6 +410,7 @@ router.delete('/manage/:id', Authorization, async (req, res) => {
     // Promise- find the TimeTables and remove it from db
     let timeTables = await TimeTable.find({ user: req.params.id });
 
+    // Delete all the timtables that the user was involve in the schedules
     for (let i = 0; i < timeTables.length; i++) {
       await Schedule.updateMany({
         $pull: {
@@ -419,6 +420,7 @@ router.delete('/manage/:id', Authorization, async (req, res) => {
       });
       await TimeTable.findByIdAndDelete(timeTables[i]._id);
     }
+
     // // Promise- find the userin schedule and remove it from db
     // await Schedule.find({ organization: user.organization })
     //   .populate({
@@ -610,8 +612,8 @@ router.put('/me/constraints', auth, async (req, res) => {
   let constraintsObj = {
     semesterA: new_constraints['semesterA'],
     semesterB: new_constraints['semesterB'],
-    semesterC: new_constraints['semesterC']
-  }
+    semesterC: new_constraints['semesterC'],
+  };
 
   try {
     //  Find the user by id
@@ -661,7 +663,7 @@ router.post(
       eventId,
       daysOfWeek,
       title,
-      semester
+      semester,
     } = req.body;
 
     // Try catch for a Promise
@@ -693,7 +695,7 @@ router.post(
               eventId,
               daysOfWeek,
               title,
-              semester
+              semester,
             },
           },
         }
