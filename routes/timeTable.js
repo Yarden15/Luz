@@ -27,7 +27,8 @@ router.get('/', authorization, async (req, res) => {
       .populate({
         path: 'user',
         model: User,
-        select: 'id_number first_name last_name color email constraints performances',
+        select:
+          'id_number first_name last_name color email constraints performances',
       });
 
     // Response- events in table
@@ -144,5 +145,36 @@ router.post(
     }
   }
 );
+// @route   DELETE api/timetables/:id
+// @desc    Delete timetable
+// @access  Private- Manager only
+router.delete('/:id', authorization, async (req, res) => {
+  try {
+    //   Find the timetable in DB by id
+    let timetable = await TimeTable.findById(req.params.id);
+    // Not found
+    if (!timetable) {
+      return res.status(404).json({ msg: 'TimeTable not found' });
+    }
+    // Pull the organization of manager to know what organization field for UserSchema
+    let user = await User.findById(req.user.id).select('organization');
+
+    //  The manager not authorize to change the specific user requested
+    if (user.organization !== timetable.organization) {
+      res.status(401).json({
+        msg: 'Not allowed to delete performance- not the same organization',
+      });
+    }
+
+    // Promise- find the timetable and remove it from db
+    await TimeTable.findByIdAndRemove(req.params.id);
+
+    // Response- msg to indicate that timetable has been removed
+    res.json({ msg: 'timetable removed' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
