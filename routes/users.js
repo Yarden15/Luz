@@ -336,6 +336,7 @@ router.put(
 
     // Pull from the req.body the fields to update user
     const {
+      email,
       id_number,
       first_name,
       last_name,
@@ -347,6 +348,7 @@ router.put(
 
     // Build user object
     const userFields = {};
+    if (email) userFields.email = email;
     if (id_number) userFields.id_number = id_number;
     if (first_name) userFields.first_name = first_name;
     if (last_name) userFields.last_name = last_name;

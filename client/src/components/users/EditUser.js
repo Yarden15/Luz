@@ -52,7 +52,6 @@ const EditUser = props => {
               type='email'
               name='email'
               value={email}
-              readOnly="readOnly"
               onChange={onChange}
               dir={props.dir}
               required
