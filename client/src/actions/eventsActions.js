@@ -11,6 +11,7 @@ import {
 } from './scheduleActions';
 import Alert from 'sweetalert2';
 import $ from 'jquery';
+import { getUsers } from './userActions';
 
 // Get events form DataBase
 export const getEvents = async () => {
@@ -215,6 +216,7 @@ const deleteEvent = async id => {
     getEvents();
     cleanSchedules();
     getSchedules();
+    getUsers();
     Alert.fire(
       t.literals.deleted,
       t.literals.the_event_has_been_deleted,
