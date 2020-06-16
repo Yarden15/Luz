@@ -7,7 +7,8 @@ import {
   cleanSchedules,
   getSchedules,
   saveAllSchedules,
-  createScheduleAlert
+  createScheduleAlert,
+  sumAllCoursesHours
 } from './scheduleActions';
 import Alert from 'sweetalert2';
 import $ from 'jquery';
@@ -228,10 +229,15 @@ const deleteEvent = async id => {
 };
 
 export const filterEvents = (search) => {
-  console.log(search)
   store.dispatch({
     type: DISPLAY_ALL_EVENTS,
   });
+  let id = store.getState().schedule.current;
+  if (id !== null) {
+    let schedule = store.getState().schedule.schedules[id];
+    sumAllCoursesHours();
+    displayEventBySchedule(schedule.year, schedule.semester, schedule.location);
+  }
   switch (search.type) {
     case 'first_name':
       store.dispatch({
@@ -274,7 +280,23 @@ export const filterEvents = (search) => {
       break;
   }
 }
-
+export const displayEventBySchedule = (year, semester, location) => {
+  store.dispatch({
+    type: DISPLAY_ALL_EVENTS,
+  });
+  store.dispatch({
+    type: FILTER_EVENTS_BY_YEAR,
+    payload: year
+  });
+  store.dispatch({
+    type: FILTER_EVENTS_BY_SEMESTER,
+    payload: semester
+  });
+  store.dispatch({
+    type: FILTER_EVENTS_BY_LOCATION,
+    payload: location
+  });
+}
 export const getUserDetailsAlert = (user, course) => {
   let semester;
   if (course.semester === 'a') {

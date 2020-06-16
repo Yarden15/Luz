@@ -27,6 +27,7 @@ import store from '../store';
 import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
 import { getUsers } from './userActions';
+import { displayEventBySchedule } from './eventsActions';
 
 export const cleanSchedules = () => {
   setLoading();
@@ -274,7 +275,11 @@ export const selectCalendar = (id) => {
     type: SELECT_CALENDAR,
     payload: id,
   });
-  sumAllCoursesHours();
+  if (id !== null) {
+    let schedule = store.getState().schedule.schedules[id];
+    sumAllCoursesHours();
+    displayEventBySchedule(schedule.year, schedule.semester, schedule.location);
+  }
 };
 //this method called when the user add new event to schedule
 const addEvent = (info, id) => {
@@ -440,8 +445,6 @@ export const createSchdule = () => {
     title: t.create_new_schedule,
     focusConfirm: false,
     html:
-      `<div>${t.enter_title_please}</div>` +//field 1 - title
-      `<input id="create-sched-title" class="swal2-input">` +
       htmlLocation.innerHTML +//field 2 - location (there is function that create this field)
       `<div>${t.year}</div>` +//field 3 - year
       `<select id="create-sched-year" class="swal2-input" dir=${dir}>
@@ -463,7 +466,7 @@ export const createSchdule = () => {
     cancelButtonColor: '#d33',
     allowOutsideClick: false,
     preConfirm: () => ({ //after the user click on confirm we taking the values
-      title: document.getElementById('create-sched-title').value,
+      title: 'schedule',
       year: document.getElementById('create-sched-year').value,
       semester: document.getElementById('create-sched-semester').value,
       location: document.getElementById('create-sched-location').value,
@@ -961,9 +964,7 @@ export const deleteBackgroundEvents = () => {
 };
 
 export const sumAllCoursesHours = () => {
-  let schedule = store.getState().schedule.schedules[
-    store.getState().schedule.current
-  ];
+  let schedule = store.getState().schedule.schedules[store.getState().schedule.current];
   if (schedule) {
     let events = store.getState().event.events;
     let schedEvents = schedule.calendar.props.children.props.events;
@@ -996,6 +997,7 @@ export const sumAllCoursesHours = () => {
         payload: { timeStamp, timeTableId },
       });
     }
+    displayEventBySchedule(schedule.year, schedule.semester, schedule.location);
   }
 };
 
