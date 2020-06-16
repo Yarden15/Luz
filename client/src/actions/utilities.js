@@ -222,6 +222,19 @@ export const sortEventByFirst = (a, b) => {
   }
   return comparison;
 }
+//sorts events by name
+export const sortEventByFirstLast = (a, b) => {
+  const nameA = a.user.first_name.toUpperCase() + a.user.last_name.toUpperCase();
+  const nameB = b.user.first_name.toUpperCase() + b.user.last_name.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
+}
 //sorts events by last name
 export const sortEventByLast = (a, b) => {
   const nameA = a.user.last_name.toUpperCase();

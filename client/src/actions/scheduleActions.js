@@ -28,6 +28,7 @@ import uuid from 'react-uuid';
 import { popupAlert } from './alertsActions';
 import { getUsers } from './userActions';
 import { displayEventBySchedule } from './eventsActions';
+import { sortEventByFirstLast } from './utilities';
 
 export const cleanSchedules = () => {
   setLoading();
@@ -278,7 +279,7 @@ export const selectCalendar = (id) => {
   if (id !== null) {
     let schedule = store.getState().schedule.schedules[id];
     sumAllCoursesHours();
-    displayEventBySchedule(schedule.year, schedule.semester, schedule.location);
+    displayEventBySchedule(schedule.year, schedule.semester, schedule.location, sortEventByFirstLast);
   }
 };
 //this method called when the user add new event to schedule
@@ -998,7 +999,7 @@ export const sumAllCoursesHours = () => {
         payload: { timeStamp, timeTableId },
       });
     }
-    displayEventBySchedule(schedule.year, schedule.semester, schedule.location);
+    displayEventBySchedule(schedule.year, schedule.semester, schedule.location, sortEventByFirstLast);
   }
 };
 

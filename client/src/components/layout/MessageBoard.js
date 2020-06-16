@@ -10,7 +10,7 @@ export class MessageBoard extends Component {
     getAds()
   }
   render() {
-    if (this.props.eventObj.loading) {
+    if (this.props.eventObj.loading || this.props.authObj.loading) {
       return (
         <div id='schedules-spinner'>
           <Spinner />
@@ -31,11 +31,11 @@ export class MessageBoard extends Component {
               ))}
             </ul>
           </div>
-          <button
+          {(this.props.authObj.user.scheduler || this.props.authObj.user.manager) && <button
             id="btn-tables"
             className='btn btn-primary btn-block center-horizontaly btn-nfm'
             onClick={() => { createNewMessage(); }}
-          >{this.props.t.write_a_new_ad}</button>
+          >{this.props.t.write_a_new_ad}</button>}
         </Fragment>
       );
     }

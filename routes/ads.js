@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Auth = require('../middleware/auth');
+const Authorization = require('../middleware/authorization');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
 const Ads = require('../models/Ads');
@@ -30,7 +31,7 @@ router.get('/manage', Auth, async (req, res) => {
 // @route   POST api/ads/manage
 // @desc    Add ads to Organization
 // @access  Private Only users can do it
-router.post('/manage', [Auth], async (req, res) => {
+router.post('/manage', [Authorization], async (req, res) => {
   // Validations f the form will take place here
   const errors = validationResult(req);
   // According to validation send errors if there are
@@ -62,7 +63,7 @@ router.post('/manage', [Auth], async (req, res) => {
 // @route   DELETE api/ads/manage/:id
 // @desc    Delete ad from DB and all what relevent
 // @access  Private- users only
-router.delete('/manage/:id', Auth, async (req, res) => {
+router.delete('/manage/:id', [Authorization], async (req, res) => {
   try {
     //   Find the ad by id
     let ad = await Ads.findById(req.params.id);

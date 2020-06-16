@@ -1,4 +1,4 @@
-import { GET_EVENTS, EVENT_ERROR, SET_LOADING, REGISTER_FAIL, GET_COURSES, FILTER_EVENTS_BY_LOCATION, FILTER_EVENTS_BY_SEMESTER, FILTER_EVENTS_BY_YEAR, FILTER_EVENTS_BY_COURSE_TITLE, FILTER_EVENTS_BY_LAST_NAME, FILTER_EVENTS_BY_FIRST_NAME, DISPLAY_ALL_EVENTS } from './types';
+import { GET_EVENTS, EVENT_ERROR, SET_LOADING, REGISTER_FAIL, GET_COURSES, FILTER_EVENTS_BY_LOCATION, FILTER_EVENTS_BY_SEMESTER, FILTER_EVENTS_BY_YEAR, FILTER_EVENTS_BY_COURSE_TITLE, FILTER_EVENTS_BY_LAST_NAME, FILTER_EVENTS_BY_FIRST_NAME, DISPLAY_ALL_EVENTS, SORT_DISPLAY_EVENTS } from './types';
 import axios from 'axios';
 import store from '../store';
 import { popupAlert } from './alertsActions';
@@ -13,6 +13,7 @@ import {
 import Alert from 'sweetalert2';
 import $ from 'jquery';
 import { getUsers } from './userActions';
+import { sortEventByFirstLast } from './utilities';
 
 // Get events form DataBase
 export const getEvents = async () => {
@@ -236,7 +237,7 @@ export const filterEvents = (search) => {
   if (id !== null) {
     let schedule = store.getState().schedule.schedules[id];
     sumAllCoursesHours();
-    displayEventBySchedule(schedule.year, schedule.semester, schedule.location);
+    displayEventBySchedule(schedule.year, schedule.semester, schedule.location, sortEventByFirstLast);
   }
   switch (search.type) {
     case 'first_name':
@@ -280,7 +281,7 @@ export const filterEvents = (search) => {
       break;
   }
 }
-export const displayEventBySchedule = (year, semester, location) => {
+export const displayEventBySchedule = (year, semester, location, func) => {
   store.dispatch({
     type: DISPLAY_ALL_EVENTS,
   });
@@ -295,6 +296,11 @@ export const displayEventBySchedule = (year, semester, location) => {
   store.dispatch({
     type: FILTER_EVENTS_BY_LOCATION,
     payload: location
+  });
+
+  store.dispatch({
+    type: SORT_DISPLAY_EVENTS,
+    payload: func
   });
 }
 export const getUserDetailsAlert = (user, course) => {
