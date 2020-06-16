@@ -38,10 +38,7 @@ const FilterEvents = (props) => {
             <option dir={props.dir} value={''}>{props.t.filter_by}</option>
             <option dir={props.dir} value={'first_name'}>{props.t.first_name}</option>
             <option dir={props.dir} value={'last_name'}>{props.t.last_name}</option>
-            <option dir={props.dir} value={'course_title'}>{props.t.course_title}</option>
-            <option dir={props.dir} value={'year'}>{props.t.year}</option>
-            <option dir={props.dir} value={'location'}>{props.t.location}</option>
-            <option dir={props.dir} value={'semester'}>{props.t.semester}</option></select>
+            <option dir={props.dir} value={'course_title'}>{props.t.course_title}</option></select>
         }
         {/* if the type of the filter is first name or last name or course title we display text input */}
         {((type === 'first_name' || type === 'last_name' || type === 'course_title') && state) && <input type="text" name="text" value={text} className="swal2-input filter-event" dir={props.dir} onChange={onChange} />}
