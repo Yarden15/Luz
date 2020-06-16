@@ -172,12 +172,12 @@ export const createCalendar = (
           //     // exportTableToExcel()
           //   },
           // },
-          rename: {
-            text: t.rename,
-            click: function () {
-              renameSched();
-            },
-          },
+          // rename: {
+          //   text: t.rename,
+          //   click: function () {
+          //     renameSched();
+          //   },
+          // },
         }}
         header={{
           center: '',
@@ -476,7 +476,8 @@ export const createSchdule = () => {
   const createSched = async () => {
     const alertVal = await Alert.fire(createSchedAlert);
     let newSched = (alertVal && alertVal.value) || alertVal.dismiss;
-    if (newSched && newSched !== 'cancel') {
+    console.log(newSched)
+    if (newSched && newSched !== 'cancel' && newSched !== 'esc') {
       if (
         newSched.title === '' ||
         newSched.location === '' ||
