@@ -9,12 +9,9 @@ const Ads = require('../models/Ads');
 
 router.post('/manage/reminder', [Authorization], async (req, res) => {
   let transporter = nodemailer.createTransport({
-    host: 'smtp.mail.yahoo.com',
-    port: 465,
-    service:'yahoo',
-    secure: false,
+    service: 'gmail',
     auth: {
-      user: 'luzzzapp@yahoo.com',
+      user: 'luzzzapp@gmail.com',
       pass: 'Yarden15'
     }
   });
