@@ -25,7 +25,6 @@ export default (state = initialState, action) => {
         loading: true
       };
     case EVENT_ERROR:
-      console.error(action.payload);
       return {
         ...state,
         error: action.payload,
@@ -75,7 +74,6 @@ export default (state = initialState, action) => {
         displayEvents: filteredArray
       };
     case FILTER_EVENTS_BY_LAST_NAME:
-      console.log(state.events)
       let filteredArrayLast = state.displayEvents.filter((event) => { return !event.user.last_name.indexOf(action.payload) })
       return {
         ...state,
@@ -94,7 +92,6 @@ export default (state = initialState, action) => {
         displayEvents: filteredArrayYear
       };
     case FILTER_EVENTS_BY_SEMESTER:
-      console.log(action.payload);
       let filteredArraySemester = state.displayEvents.filter((event) => { return event.performance.semester === action.payload })
       return {
         ...state,

@@ -91,3 +91,86 @@ const createLocation = async name => {
     popupAlert('congratulations', msg, 'error');
   }
 }
+
+export const createEmailAlert = () => {
+  let t = store.getState().literals.literals;
+  let dir = store.getState().literals.dir;
+  let EmailAlert = {
+    title: t.create_new_schedule,
+    focusConfirm: false,
+    html:
+      `<div class=${dir}>${t.send_to}</div>` +
+      `<select id="send-to" class="swal2-input" dir=${dir}>
+      <option class=${dir} defaultValue></option>
+      <option class=${dir} value='all'>${t.all}</option>
+      <option class=${dir} value='admins'>${t.admins}</option>
+      <option class=${dir} value='lecturers'>${t.lecturers}</option></select>`
+      +
+      `<div class=${dir}>${t.subject}</div>` +
+      `<input type="text" id="subject-email" class="swal2-input" dir=${dir}></input>` +
+      `<div className="comment ${dir}">
+      <div class=${dir}>${t.message}</div>
+      <textarea dir=${dir} id="message-email" class="swal2-input" cols="40" rows="5" ></textarea>
+    </div>`,
+    showCancelButton: true,
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel,
+    cancelButtonColor: '#d33',
+    allowOutsideClick: false,
+    preConfirm: () => ({ //after the user click on confirm we taking the values
+      sendTo: document.getElementById('send-to').value,
+      subject: document.getElementById('subject-email').value,
+      message: document.getElementById('message-email').value,
+    }),
+  };
+
+  //this method popup alert the alert for create new email and checks if there is empty fields
+  const createEmail = async () => {
+    const alertVal = await Alert.fire(EmailAlert);
+    let newEmail = (alertVal && alertVal.value) || alertVal.dismiss;
+    if (newEmail && newEmail !== 'cancel' && newEmail !== 'esc') {
+      if (
+        newEmail.sendTo === '' ||
+        newEmail.subject === '' ||
+        newEmail.message === ''
+      ) {
+        await Alert.fire({ type: 'error', title: t.all_fields_are_required });
+        createEmail();
+      } else {
+        sendGeneralEmail(newEmail.sendTo, newEmail.subject, newEmail.message)
+      }
+    }
+  }
+  createEmail();
+}
+
+const sendGeneralEmail = async (sendTo, subject, message) => {
+  let users = store.getState().user.users;
+  let emails = [];
+
+  if (sendTo === 'all') {
+    users.forEach(user => { emails.push(user.email); });
+  } else if (sendTo === 'lecturers') {
+    users.forEach(user => {
+      if (user.lecturer)
+        emails.push(user.email);
+    });
+  } else if (sendTo === 'admins') {
+    users.forEach(user => {
+      if (user.manager || user.scheduler)
+        emails.push(user.email);
+    })
+  }
+
+  let msg = [];
+  let t = store.getState().literals.literals;
+  try {
+    await axios.post(`/api/emails/manage/general_mail`, { emails, subject, message });
+    msg.push('send_mail_success_msg');
+    popupAlert('send_mail_success_title', msg, 'regular');
+  } catch (error) {
+    console.error(error);
+    msg.push('error_send_mail');
+    popupAlert('error', msg, 'error');
+  }
+}

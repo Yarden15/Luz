@@ -257,7 +257,6 @@ export const lockSubmitAlert = (user) => {
     cancelButtonText: t.literals.cancel,
   }).then((result) => {
     if (result.value) {
-      console.log(user._id)
       lockSubmit(user._id);
     }
   });
@@ -279,6 +278,65 @@ export const unlockSubmitAlert = (user) => {
   });
 }
 
+export const sendEmailAlert = (email) => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.send_email_msg,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
+    if (result.value) {
+      sendEmail(email);
+    }
+  });
+}
+
+export const sendReminderForAllAlert = () => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.send_email_all_msg,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
+    if (result.value) {
+      sendReminderForAll();
+    }
+  });
+}
+
+export const sendReminderForAll = async () => {
+  let emails = [];
+  let users = store.getState().user.users;
+
+  for (let i = 0; i < users.length; i++) {
+    if (!users[i].submitted_schedule && users[i].lecturer)
+      emails.push(users[i].email)
+  }
+
+  sendEmail(emails);
+}
+
+export const sendEmail = async (emails) => {
+  let msg = [];
+  let t = store.getState().literals.literals;
+  try {
+    await axios.post(`/api/emails/manage/reminder`, { emails });
+    msg.push('send_mail_success_msg');
+    console.log(msg)
+    popupAlert('send_mail_success_title', msg, 'regular');
+  } catch (error) {
+    console.error(error);
+    msg.push('error_send_mail');
+    popupAlert('error', msg, 'error');
+  }
+}
+
 const unlockSubmit = async (user) => {
   try {
     await axios.put(`/api/users/manage/allow_submit/${user}`);
@@ -291,6 +349,30 @@ const unlockSubmit = async (user) => {
 const lockSubmit = async (user) => {
   try {
     await axios.put(`/api/users/manage/block_submit/${user}`);
+    getUsers();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const resetSubmitAlert = () => {
+  let t = store.getState().literals;
+  Alert.fire({
+    title: t.literals.reset_submit_msg,
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: t.literals.ok,
+    cancelButtonText: t.literals.cancel,
+  }).then((result) => {
+    if (result.value) {
+      resetSubmit();
+    }
+  });
+}
+const resetSubmit = async () => {
+  try {
+    await axios.put(`/api/users/manage/reset_submit/`);
     getUsers();
   } catch (err) {
     console.log(err);
@@ -350,7 +432,6 @@ const unlockSubmitAll = async () => {
 export const add_constraints = async (new_constraints) => {
   try {
     await axios.put('api/users/me/constraints', { new_constraints });
-    console.log('constraints added')
   } catch (err) {
     console.log(err);
   }

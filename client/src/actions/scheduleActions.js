@@ -477,7 +477,6 @@ export const createSchdule = () => {
   const createSched = async () => {
     const alertVal = await Alert.fire(createSchedAlert);
     let newSched = (alertVal && alertVal.value) || alertVal.dismiss;
-    console.log(newSched)
     if (newSched && newSched !== 'cancel' && newSched !== 'esc') {
       if (
         newSched.title === '' ||

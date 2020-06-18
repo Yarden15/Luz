@@ -1,8 +1,9 @@
 import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import { getEvents } from '../../actions/eventsActions';
-import { createNewMessage, getAds, deleteAdAlert } from '../../actions/messagesActions';
+import { createNewMessage, getAds, deleteAdAlert} from '../../actions/messagesActions';
 import Spinner from '../layout/Spinner';
+import { createEmailAlert } from '../../actions/adminActions';
 
 export class MessageBoard extends Component {
   componentDidMount() {
@@ -31,11 +32,16 @@ export class MessageBoard extends Component {
               ))}
             </ul>
           </div>
-          {(this.props.authObj.user.scheduler || this.props.authObj.user.manager) && <button
+          {(this.props.authObj.user.scheduler || this.props.authObj.user.manager) && <Fragment> <button
             id="btn-tables"
             className='btn btn-primary btn-block center-horizontaly btn-nfm'
             onClick={() => { createNewMessage(); }}
-          >{this.props.t.write_a_new_ad}</button>}
+          >{this.props.t.write_a_new_ad}</button>
+            <button
+              id="btn-tables"
+              className='btn btn-primary btn-block center-horizontaly btn-nfm'
+              onClick={() => { createEmailAlert(); }}
+            >{this.props.t.send_email}</button></Fragment>}
         </Fragment>
       );
     }

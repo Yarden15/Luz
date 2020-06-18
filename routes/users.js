@@ -596,6 +596,35 @@ router.put('/manage/block_submit_all', [Authorization], async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route   PUT api/manage/reset_submit/
+// @desc    changes for all users submitted_schedule = false
+// @access  Private
+router.put('/manage/reset_submit', [Authorization], async (req, res) => {
+  // Validations of the form will take place here
+  const errors = validationResult(req);
+  // According to validation send errors if there are
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    // Pull the organization of manager to know what organization field for UserSchema
+    let manager = await User.findById(req.user.id).select('organization');
+    await User.updateMany(
+      { organization: manager.organization },
+      {
+        $set: { submitted_schedule: false },
+      }
+    );
+
+    res.status(200).send('user_details_changed');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   PUT api/users/me/constraints
 // @desc    Change user detailes (User own details)
 // @access  Private

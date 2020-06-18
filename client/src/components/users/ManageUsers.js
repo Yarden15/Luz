@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Menu from '../layout/Menu';
-import { getUsers, deleteUserAlert, handleResetPassword, unlockSubmitAlert, lockSubmitAlert, unlockSubmitAllAlert, lockSubmitAllAlert } from '../../actions/userActions';
+import { getUsers, deleteUserAlert, handleResetPassword, unlockSubmitAlert, lockSubmitAlert, unlockSubmitAllAlert, lockSubmitAllAlert, sendEmailAlert, sendReminderForAllAlert, resetSubmitAlert } from '../../actions/userActions';
 import Spinner from '../layout/Spinner';
 import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor } from '../../actions/utilities';
 import { loadUser } from '../../actions/authActions';
@@ -38,14 +38,18 @@ export class ManageUsers extends Component {
                     <th onClick={() => { sortUsers(sortUsersByID) }}>{this.props.t.id}</th>
                     <th onClick={() => { sortUsers(sortUsersByEmail) }}>{this.props.t.email_address}</th>
                     <th onClick={() => { sortUsers(sortUsersByColor) }}>{this.props.t.user_color}</th>
-                    <th>{this.props.t.delete_user}</th>
-                    <th>{this.props.t.edit_user}</th>
-                    <th>{this.props.t.reset_password}</th>
-                    <th>{this.props.t.submitted_a_schedule}</th>
+                    <th>
+                      <i onClick={() => { sendReminderForAllAlert() }} className="far fa-envelope"></i>
+                      <i onClick={() => { resetSubmitAlert() }} className="fas fa-redo"></i>
+                      {this.props.t.submitted_a_schedule}
+                    </th>
                     <th>
                       <span className='clickable' onClick={() => { lockSubmitAllAlert() }}>{this.props.t.block_everyone}</span>
                       /<span className='clickable' onClick={() => { unlockSubmitAllAlert() }}>{this.props.t.allow_everyone}</span>
                     </th>
+                    <th>{this.props.t.reset_password}</th>
+                    <th>{this.props.t.edit_user}</th>
+                    <th>{this.props.t.delete_user}</th>
                   </tr>
                 </thead>
                 <tbody className={this.props.dir}>
@@ -57,8 +61,14 @@ export class ManageUsers extends Component {
                       <td>{user.email}</td>
                       <td style={{ background: user.color }}></td>
                       <td style={{ textAlign: 'center' }}>
-                        <i className="far fa-trash-alt center-horizontaly"
-                          onClick={() => { deleteUserAlert(user) }}></i>
+                        {user.submitted_schedule ? <i className="fas fa-check"></i> :
+                          <i className="fas fa-times" onClick={() => { sendEmailAlert(user.email) }}></i>}
+                      </td>
+                      <td style={{ textAlign: 'center' }}>
+                        {user.can_submit ? <i className="fas fa-lock-open" onClick={() => { lockSubmitAlert(user) }}></i> :
+                          <i className="fas fa-lock" onClick={() => { unlockSubmitAlert(user); }}></i>}
+                      </td>
+                      <td style={{ textAlign: 'center' }}><i className="fas fa-key center-horizontaly" onClick={() => { handleResetPassword(user._id) }}></i>
                       </td>
                       <td style={{ textAlign: 'center' }}>
                         <Link to={`/edituser/${user._id}`}>
@@ -66,14 +76,9 @@ export class ManageUsers extends Component {
                           </i>
                         </Link>
                       </td>
-                      <td style={{ textAlign: 'center' }}><i className="fas fa-key center-horizontaly" onClick={() => { handleResetPassword(user._id) }}></i></td>
                       <td style={{ textAlign: 'center' }}>
-                        {user.submitted_schedule ? <i className="fas fa-check"></i> :
-                          <i className="fas fa-times"></i>}
-                      </td>
-                      <td style={{ textAlign: 'center' }}>
-                        {user.can_submit ? <i className="fas fa-lock-open" onClick={() => { lockSubmitAlert(user) }}></i> :
-                          <i className="fas fa-lock" onClick={() => { unlockSubmitAlert(user); }}></i>}
+                        <i className="far fa-trash-alt center-horizontaly"
+                          onClick={() => { deleteUserAlert(user) }}></i>
                       </td>
                     </tr>
                   ))}

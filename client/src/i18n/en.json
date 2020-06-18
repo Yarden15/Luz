@@ -74,6 +74,8 @@
   "adjusting_lecturer_for_course": "Adjusting lecturer for Course",
   "manage_adjusting_lecturer_for_course": "Manage adjusting lecturer for Course",
   "lecturers": "Lecturers",
+  "admins": "Admins",
+  "all": "All",
   "name": "Name",
   "select_course": "Please choose a course please",
   "select_user": "Please select a user please",
@@ -152,5 +154,14 @@
   "invalid_semester": "The event was assigned to the wrong semester",
   "invalid_year": "The event was assigned to the wrong year",
   "invalid_location": "The event was assigned to the wrong location",
-  "time_exception": "The event exceeds the time"
+  "time_exception": "The event exceeds the time",
+  "send_email_msg": "Do you want to send a reminder to the user?",
+  "reset_submit_msg": "האם ברצונך לאפס את הנתונים עבור הגשת לוח זמנים",
+  "send_email": "שלח מייל",
+  "send_to": "Send to",
+  "subject": "Subject",
+  "message": "Message",
+  "send_mail_success_msg": "The email was successfully sent",
+  "send_mail_success_title": "Sent",
+  "error_send_mail": "The email was not sent"
 }

@@ -74,6 +74,8 @@
   "adjusting_lecturer_for_course": "שיוך מרצה לקורס",
   "manage_adjusting_lecturer_for_course": "ניהול שיוך מרצה לקורס",
   "lecturers": "מרצים",
+  "admins": "מנהלים",
+  "all": "כולם",
   "name": "שם",
   "select_course": "בחר קורס בבקשה",
   "select_user": "בחר משתמש בבקשה",
@@ -165,5 +167,15 @@
   "about_p22": ".MongoDB -ובמסד הנתונים השתמשנו ב Node.js - Express -בצד שרת האתר כתוב ב ,Redux ובעזרת React.js-בצד לקוח האתר כתוב ב",
   "about_p23": ":באתר השתמשנו בספריות",
   "about_p3": ".מקווים שהאתר ישרת אתכם נאמנה",
-  "contact_us": ":צור קשר"
+  "contact_us": ":צור קשר",
+  "send_email_msg": "האם ברצונך לשלוח למשתמש תזכורת למייל",
+  "send_email_all_msg": "האם ברצונך לשלוח לכל המשתמשים שלא הגישו תזכורת למייל",
+  "reset_submit_msg": "האם ברצונך לאפס את הנתונים עבור הגשת לוח זמנים",
+  "send_email": "שלח מייל",
+  "send_to": "שלח אל",
+  "subject": "נושא",
+  "message": "הודעה",
+  "send_mail_success_msg": "המייל נשלח בהצלחה",
+  "send_mail_success_title": "נשלח",
+  "error_send_mail": "המייל לא נשלח"
 }
