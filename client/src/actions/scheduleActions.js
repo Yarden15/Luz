@@ -412,7 +412,6 @@ export const eventClick = (eventClick) => {
 };
 
 const checkCollisionsAfterDelete = async (event) => {
-  console.log(event)
   let schedules = castToArray(store.getState().schedule.schedules);
   let errors = store.getState().schedule.errorsEvents;
   let events = store.getState().event.events;

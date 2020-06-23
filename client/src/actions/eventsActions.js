@@ -263,7 +263,6 @@ export const filterEvents = (search) => {
         type: FILTER_EVENTS_BY_YEAR,
         payload: search.year
       });
-      console.log(search.year)
       break;
     case 'semester':
       store.dispatch({

@@ -19,7 +19,6 @@ export const getLocations = async () => {
 
 export const deleteLocationAlert = location => {
   let t = store.getState().literals;
-  console.log(location);
   Alert.fire({
     title: t.literals.delete_schedule_title_part,
     html:
