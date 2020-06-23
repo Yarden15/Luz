@@ -13,7 +13,7 @@ import {
   EVENT_ERROR,
   GET_EVENTS,
   UPDATE_ERRORS_ARRAY,
-  DELETE_FROM_ERRORS
+  DELETE_FROM_ERRORS,
 } from './types';
 import Alert from 'sweetalert2';
 import FullCalendar from '@fullcalendar/react';
@@ -45,7 +45,7 @@ export const getSchedules = async () => {
 
     for (let i = 0; i < schedules.length; i++) {
       let convertEvents = [];
-      //create the event obj 
+      //create the event obj
       for (let j = 0; j < schedules[i].events.length; j++) {
         let event = {
           schedId: schedules[i].sched_id,
@@ -60,7 +60,8 @@ export const getSchedules = async () => {
           last_name: schedules[i].events[j].timeTableId.user.last_name,
           semester: schedules[i].events[j].timeTableId.performance.semester,
           location: schedules[i].events[j].timeTableId.performance.location,
-          course_hours: schedules[i].events[j].timeTableId.performance.course_hours,
+          course_hours:
+            schedules[i].events[j].timeTableId.performance.course_hours,
           year: schedules[i].events[j].timeTableId.performance.year,
           startTime: schedules[i].events[j].startTime,
           endTime: schedules[i].events[j].endTime,
@@ -73,7 +74,8 @@ export const getSchedules = async () => {
         convertEvents.push(event);
       }
 
-      createCalendar(//create the schedule with the events afer thay converted
+      createCalendar(
+        //create the schedule with the events afer thay converted
         schedules[i].title,
         schedules[i].year,
         schedules[i].location,
@@ -86,7 +88,7 @@ export const getSchedules = async () => {
     schedules = castToArray(store.getState().schedule.schedules);
     for (let i = 0; i < schedules.length; i++) {
       for (let j = 0; j < schedules[i].events.length; j++) {
-        checkOnServer(schedules[i].events[j], false)
+        checkOnServer(schedules[i].events[j], false);
       }
     }
     sumAllCoursesHours();
@@ -164,22 +166,24 @@ export const createCalendar = (
         id={id}
         defaultView='timeGridWeek'
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        customButtons={{
-          // clear: {
-          //   text: t.clear,
-          //   click: function () {
-          //     clearSchedule();
-          //     saveButtonClicked();
-          //     // exportTableToExcel()
-          //   },
-          // },
-          // rename: {
-          //   text: t.rename,
-          //   click: function () {
-          //     renameSched();
-          //   },
-          // },
-        }}
+        customButtons={
+          {
+            // clear: {
+            //   text: t.clear,
+            //   click: function () {
+            //     clearSchedule();
+            //     saveButtonClicked();
+            //     // exportTableToExcel()
+            //   },
+            // },
+            // rename: {
+            //   text: t.rename,
+            //   click: function () {
+            //     renameSched();
+            //   },
+            // },
+          }
+        }
         header={{
           center: '',
           left: '',
@@ -231,8 +235,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-            ' ' +
-            info.event.extendedProps.last_name
+              ' ' +
+              info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}
@@ -242,13 +246,15 @@ export const createCalendar = (
       />
     </div>
   );
-  if (newSched) {//if new schedule, adds the schedule on the state
+  if (newSched) {
+    //if new schedule, adds the schedule on the state
     store.dispatch({
       type: CREATE_CALENDAR,
       payload: { calendar, title, id, semester, location, year, calendarRef },
     });
     sumAllCoursesHours();
-  } else {//if we change the lang of the schedule
+  } else {
+    //if we change the lang of the schedule
     return { calendar, title, id, semester, location, year, calendarRef };
   }
 };
@@ -260,8 +266,8 @@ const refreshEvents = async () => {
       type: GET_EVENTS,
       payload: res.data,
     });
-    getUsers();//update the users list
-    sumAllCoursesHours();//sum the courses again
+    getUsers(); //update the users list
+    sumAllCoursesHours(); //sum the courses again
   } catch (error) {
     store.dispatch({
       type: EVENT_ERROR,
@@ -279,7 +285,12 @@ export const selectCalendar = (id) => {
   if (id !== null) {
     let schedule = store.getState().schedule.schedules[id];
     sumAllCoursesHours();
-    displayEventBySchedule(schedule.year, schedule.semester, schedule.location, sortEventByFirstLast);
+    displayEventBySchedule(
+      schedule.year,
+      schedule.semester,
+      schedule.location,
+      sortEventByFirstLast
+    );
   }
 };
 //this method called when the user add new event to schedule
@@ -287,7 +298,7 @@ const addEvent = (info, id) => {
   //check if this legal action
   info.schedId = id;
 
-  let event = createEventObj(info, id, 'create');//create new event and than push it to the schedule
+  let event = createEventObj(info, id, 'create'); //create new event and than push it to the schedule
   //on the reducer
   //save on the shcedule array
   store.dispatch({
@@ -298,8 +309,8 @@ const addEvent = (info, id) => {
     },
   });
 
-
-  addEventOnTheUser(//add the event on the user performances
+  addEventOnTheUser(
+    //add the event on the user performances
     event.startTime,
     event.endTime,
     event.userid,
@@ -353,8 +364,9 @@ const saveButtonClicked = () => {
 //popup window when the user clicking on the event into the calendar
 
 //
-export const eventClick = (eventClick) => {//this method popup message with info of the event and
-  let t = store.getState().literals.literals;//with delete button 
+export const eventClick = (eventClick) => {
+  //this method popup message with info of the event and
+  let t = store.getState().literals.literals; //with delete button
   let dir = store.getState().literals.dir;
   Alert.fire({
     title:
@@ -376,7 +388,8 @@ export const eventClick = (eventClick) => {//this method popup message with info
     confirmButtonText: t.remove_event,
     cancelButtonText: t.cancel,
   }).then((result) => {
-    if (result.value) {//if the user clicked on delete
+    if (result.value) {
+      //if the user clicked on delete
       store.dispatch({
         type: DELETE_EVENT,
         payload: {
@@ -402,19 +415,22 @@ const checkCollisionsAfterDelete = async () => {
   let schedules = castToArray(store.getState().schedule.schedules);
   let errors = store.getState().schedule.errorsEvents;
   try {
-    const res = await axios.put(`api/validations/delete/`, { schedules, errors });
+    const res = await axios.put(`api/validations/delete/`, {
+      schedules,
+      errors,
+    });
     updateStatus(res.data, true);
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 const deleteFromErrors = (eventId) => {
   store.dispatch({
     type: DELETE_FROM_ERRORS,
-    payload: { eventId }
+    payload: { eventId },
   });
-}
+};
 //this method create the select element for location when we creats new schedule
 const createLocationSelectElement = () => {
   let t = store.getState().literals.literals;
@@ -446,8 +462,8 @@ export const createSchdule = () => {
     title: t.create_new_schedule,
     focusConfirm: false,
     html:
-      htmlLocation.innerHTML +//field 2 - location (there is function that create this field)
-      `<div>${t.year}</div>` +//field 3 - year
+      htmlLocation.innerHTML + //field 2 - location (there is function that create this field)
+      `<div>${t.year}</div>` + //field 3 - year
       `<select id="create-sched-year" class="swal2-input" dir=${dir}>
       <option class=${dir} defaultValue></option>
       <option class=${dir} value='a'>${t.a}</option>
@@ -466,7 +482,8 @@ export const createSchdule = () => {
     cancelButtonText: t.cancel,
     cancelButtonColor: '#d33',
     allowOutsideClick: false,
-    preConfirm: () => ({ //after the user click on confirm we taking the values
+    preConfirm: () => ({
+      //after the user click on confirm we taking the values
       title: 'schedule',
       year: document.getElementById('create-sched-year').value,
       semester: document.getElementById('create-sched-semester').value,
@@ -520,8 +537,17 @@ const deleteEventOnTheUser = async (userId, eventId) => {
   }
 };
 //this method adds event on the user and updates on the DB
-const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, performanceId, daysOfWeek,
-  title, semester, event
+const addEventOnTheUser = async (
+  startTime,
+  endTime,
+  userId,
+  schedId,
+  eventId,
+  performanceId,
+  daysOfWeek,
+  title,
+  semester,
+  event
 ) => {
   try {
     await axios.post('api/users/manage/performance', {
@@ -533,7 +559,7 @@ const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, p
       performanceId,
       daysOfWeek,
       title,
-      semester
+      semester,
     });
     refreshEvents();
     checkOnServer(event, true);
@@ -542,7 +568,14 @@ const addEventOnTheUser = async (startTime, endTime, userId, schedId, eventId, p
   }
 };
 
-const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfWeek, event) => {
+const updateEventOnTheUser = async (
+  startTime,
+  endTime,
+  userId,
+  eventId,
+  daysOfWeek,
+  event
+) => {
   try {
     await axios.put('api/users/manage/performance', {
       startTime,
@@ -550,7 +583,6 @@ const updateEventOnTheUser = async (startTime, endTime, userId, eventId, daysOfW
       userId,
       eventId,
       daysOfWeek,
-
     });
     refreshEvents();
     checkOnServer(event, true);
@@ -619,9 +651,16 @@ export const deleteAlert = (schedule) => {
 
 export const deleteSchedule = async (sched_id) => {
   let msg = [];
+  let events = store.getState().schedule.schedules[sched_id].calendarRef.current
+    .props.events;
+
   try {
+    // Delete all the events appear in schedule on all users personaly schedule
+    for (let i = 0; i < events.length; i++) {
+      deleteEventOnTheUser(events[i].userid, events[i].eventId);
+    }
     const res = await axios.delete(`/api/schedules/manage/${sched_id}`);
-    msg.push(res.data)
+    msg.push(res.data);
     popupAlert('schedule_deleted', msg, 'regular');
   } catch (error) {
     console.error(error);
@@ -656,10 +695,15 @@ const checkOnServer = async (event, withMsg) => {
   let events = store.getState().event.events;
   let users = store.getState().user.users;
   try {
-    const res = await axios.post('/api/validations', { schedules, errors, events, users, event });
-    console.log(res.data)
+    const res = await axios.post('/api/validations', {
+      schedules,
+      errors,
+      events,
+      users,
+      event,
+    });
+    console.log(res.data);
     updateStatus(res.data, withMsg);
-
   } catch (error) {
     console.error(error);
   }
@@ -781,11 +825,15 @@ const updateStatus = (res, withMsg) => {
   //update errors array
   store.dispatch({
     type: UPDATE_ERRORS_ARRAY,
-    payload: res.errors
-  })
+    payload: res.errors,
+  });
 
   for (let i = 0; i < res.errors.length; i++) {
-    searchAndUpdateColor(res.errors[i].event.eventId, res.errors[i].event.schedId, 'red')
+    searchAndUpdateColor(
+      res.errors[i].event.eventId,
+      res.errors[i].event.schedId,
+      'red'
+    );
   }
 
   for (let i = 0; i < res.fixed_errors.length; i++) {
@@ -797,7 +845,11 @@ const updateStatus = (res, withMsg) => {
       }
     }
     if (changeColor)
-      searchAndUpdateColor(res.fixed_errors[i].event.eventId, res.fixed_errors[i].event.schedId, 'black')
+      searchAndUpdateColor(
+        res.fixed_errors[i].event.eventId,
+        res.fixed_errors[i].event.schedId,
+        'black'
+      );
   }
 
   forceSchedsUpdate(store.getState().schedule.current);
@@ -812,16 +864,24 @@ export const searchAndUpdateColor = (id, schedId, color) => {
   let length = schedules[schedId].calendar.props.children.props.events.length;
 
   for (let i = 0; i < length; i++) {
-    if (schedules[schedId].calendar.props.children.props.events[i].eventId === id)
-      schedules[schedId].calendar.props.children.props.events[i].borderColor = color;
+    if (
+      schedules[schedId].calendar.props.children.props.events[i].eventId === id
+    )
+      schedules[schedId].calendar.props.children.props.events[
+        i
+      ].borderColor = color;
   }
 };
 
 export const showWrongPlaces = (id) => {
   let events = store.getState().event.events;
   let userPerformances = [];
-  let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
-  let semester = store.getState().schedule.schedules[store.getState().schedule.current].semester;
+  let calendar = store.getState().schedule.schedules[
+    store.getState().schedule.current
+  ].calendarRef;
+  let semester = store.getState().schedule.schedules[
+    store.getState().schedule.current
+  ].semester;
 
   for (let i = 0; i < events.length; i++) {
     if (events[i]._id === id) {
@@ -844,8 +904,8 @@ export const showWrongPlaces = (id) => {
         color: '#ff596e',
       });
     }
-  })
-}
+  });
+};
 
 export const showRightPlaces = (id) => {
   let events = store.getState().event.events;
@@ -860,11 +920,11 @@ export const showRightPlaces = (id) => {
     }
   }
   if (semester === 'a') {
-    semester = 'semesterA'
+    semester = 'semesterA';
   } else if (semester === 'b') {
-    semester = 'semesterB'
+    semester = 'semesterB';
   } else if (semester === 'summer') {
-    semester = 'semesterC'
+    semester = 'semesterC';
   }
   if (userConstraints === undefined) return;
 
@@ -941,14 +1001,22 @@ export const showRightPlaces = (id) => {
     color: '#257e4a',
   };
 
-  let calendar = store.getState().schedule.schedules[store.getState().schedule.current].calendarRef;
+  let calendar = store.getState().schedule.schedules[
+    store.getState().schedule.current
+  ].calendarRef;
 
-  if (userConstraints[semester].sunday_start) calendar.current.calendar.addEvent(sunday);
-  if (userConstraints[semester].monday_start) calendar.current.calendar.addEvent(monday);
-  if (userConstraints[semester].tuesday_start) calendar.current.calendar.addEvent(tuesday);
-  if (userConstraints[semester].wednesday_start) calendar.current.calendar.addEvent(wednesday);
-  if (userConstraints[semester].thursday_start) calendar.current.calendar.addEvent(thursday);
-  if (userConstraints[semester].friday_start) calendar.current.calendar.addEvent(friday);
+  if (userConstraints[semester].sunday_start)
+    calendar.current.calendar.addEvent(sunday);
+  if (userConstraints[semester].monday_start)
+    calendar.current.calendar.addEvent(monday);
+  if (userConstraints[semester].tuesday_start)
+    calendar.current.calendar.addEvent(tuesday);
+  if (userConstraints[semester].wednesday_start)
+    calendar.current.calendar.addEvent(wednesday);
+  if (userConstraints[semester].thursday_start)
+    calendar.current.calendar.addEvent(thursday);
+  if (userConstraints[semester].friday_start)
+    calendar.current.calendar.addEvent(friday);
 };
 
 export const deleteBackgroundEvents = () => {
@@ -958,14 +1026,17 @@ export const deleteBackgroundEvents = () => {
   let events = calendar.current.props.events;
   let newEvents = [];
   for (let i = 0; i < events.length; i++) {
-    if (events[i].groupId !== 'good' || events[i].groupId !== 'wrong') newEvents.push(events[i]);
+    if (events[i].groupId !== 'good' || events[i].groupId !== 'wrong')
+      newEvents.push(events[i]);
   }
   calendar.current.calendar.removeAllEvents();
   calendar.current.calendar.addEventSource(newEvents);
 };
 
 export const sumAllCoursesHours = () => {
-  let schedule = store.getState().schedule.schedules[store.getState().schedule.current];
+  let schedule = store.getState().schedule.schedules[
+    store.getState().schedule.current
+  ];
   if (schedule) {
     let events = store.getState().event.events;
     let schedEvents = schedule.calendar.props.children.props.events;
@@ -998,7 +1069,12 @@ export const sumAllCoursesHours = () => {
         payload: { timeStamp, timeTableId },
       });
     }
-    displayEventBySchedule(schedule.year, schedule.semester, schedule.location, sortEventByFirstLast);
+    displayEventBySchedule(
+      schedule.year,
+      schedule.semester,
+      schedule.location,
+      sortEventByFirstLast
+    );
   }
 };
 
@@ -1033,58 +1109,66 @@ const minutesToTimeStamp = (totalMinutes) => {
 
   return timeStamp;
 };
-//this method popup alert with the schedule of the user 
+//this method popup alert with the schedule of the user
 export const createScheduleAlert = (user, semester) => {
   let schedule = createScheduleForUser(user, semester);
   let t = store.getState().literals.literals;
   Alert.fire({
     title:
-      user.first_name + ' ' + user.last_name + '\n' + t.semester + ' ' + t[semester],
+      user.first_name +
+      ' ' +
+      user.last_name +
+      '\n' +
+      t.semester +
+      ' ' +
+      t[semester],
     html: `<div id='sched-of-user'></div>`,
     width: '1000px',
-    confirmButtonText: t.ok
-  })
+    confirmButtonText: t.ok,
+  });
   //for the events will be in the right places
   setTimeout(renderSchedule, 500);
 
   function renderSchedule() {
-    ReactDOM.render(schedule, document.getElementById('sched-of-user'))
+    ReactDOM.render(schedule, document.getElementById('sched-of-user'));
   }
-}
+};
 //sub function that return the schdule of the user for the alert
 const createScheduleForUser = (user, semester) => {
   let events = getEventsForUser(user, semester);
-  let schedule = (<div id='calendar-alert'>
-    <FullCalendar
-      defaultView='timeGridWeek'
-      header={{
-        center: '',
-        left: '',
-        right: '',
-      }}
-      plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-      hiddenDays={[6]}
-      allDaySlot={false}
-      slotDuration='00:30:00'
-      snapDuration='00:05:00'
-      minTime='07:00:00'
-      maxTime='23:00:00'
-      height='auto'
-      titleFormat={{ weekday: 'long' }}
-      columnHeaderFormat={{ weekday: 'long' }}
-      selectable={false}
-      selectHelper={false}
-      editable={false}
-      droppable={false}
-      eventLimit={false}
-      events={events}
-      locale={store.getState().literals.lang}
-      dir={store.getState().literals.dir}
-    />
-  </div>)
+  let schedule = (
+    <div id='calendar-alert'>
+      <FullCalendar
+        defaultView='timeGridWeek'
+        header={{
+          center: '',
+          left: '',
+          right: '',
+        }}
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        hiddenDays={[6]}
+        allDaySlot={false}
+        slotDuration='00:30:00'
+        snapDuration='00:05:00'
+        minTime='07:00:00'
+        maxTime='23:00:00'
+        height='auto'
+        titleFormat={{ weekday: 'long' }}
+        columnHeaderFormat={{ weekday: 'long' }}
+        selectable={false}
+        selectHelper={false}
+        editable={false}
+        droppable={false}
+        eventLimit={false}
+        events={events}
+        locale={store.getState().literals.lang}
+        dir={store.getState().literals.dir}
+      />
+    </div>
+  );
 
   return schedule;
-}
+};
 //this method search the user from the users and push the events of the user to array
 const getEventsForUser = (user, semester) => {
   let users = store.getState().user.users;
@@ -1093,7 +1177,7 @@ const getEventsForUser = (user, semester) => {
     if (userToCheck._id === user._id) {
       userEvents = userToCheck.performances;
     }
-  })
+  });
 
   let events = [];
   userEvents.forEach((event) => {
@@ -1102,8 +1186,8 @@ const getEventsForUser = (user, semester) => {
         title: event.title,
         startTime: event.startTime,
         endTime: event.endTime,
-        daysOfWeek: event.daysOfWeek
-      })
-  })
+        daysOfWeek: event.daysOfWeek,
+      });
+  });
   return events;
-}
+};
