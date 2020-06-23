@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const ExcelJS = require('exceljs');
 const Authorization = require('../middleware/authorization');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
@@ -84,6 +85,11 @@ router.post('/manage/general_mail', [Authorization], async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
+});
+
+router.post('/manage/export_schedule', [Authorization], async (req, res) => {
+  const workbook = new Excel.Workbook();
+  await workbook.xlsx.readFile(filename);
 });
 
 module.exports = router;
