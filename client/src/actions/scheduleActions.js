@@ -646,31 +646,31 @@ export const deleteAlert = (schedule) => {
   }).then((result) => {
     if (result.value) {
       // It will remove schedule
-      deleteSchedule(schedule.id);
-      Alert.fire(t.deleted, t.the_schedule_has_been_deleted, 'success');
+      deleteSchedule(schedule);
     }
   });
 };
 
-export const deleteSchedule = async (sched_id) => {
+export const deleteSchedule = async (schedule) => {
+  let t = store.getState().literals.literals;
   let msg = [];
-  let events = store.getState().schedule.schedules[sched_id].calendarRef.current
-    .props.events;
+  let events = schedule.calendar.props.children.props.events;
 
   try {
     // Delete all the events appear in schedule on all users personaly schedule
     for (let i = 0; i < events.length; i++) {
       deleteEventOnTheUser(events[i].userid, events[i].eventId);
     }
-    const res = await axios.delete(`/api/schedules/manage/${sched_id}`);
+    const res = await axios.delete(`/api/schedules/manage/${schedule.id}`);
     msg.push(res.data);
     popupAlert('schedule_deleted', msg, 'regular');
+    Alert.fire(t.deleted, t.the_schedule_has_been_deleted, 'success');
   } catch (error) {
     console.error(error);
   }
   store.dispatch({
     type: DELETE_SCHEDULE,
-    payload: sched_id,
+    payload: schedule.id,
   });
 };
 
