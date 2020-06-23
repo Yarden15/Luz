@@ -91,7 +91,7 @@ router.post('/', async (req, res) => {
         if (
           checkTimeClash(errors[i].event, schedules[j].events[k]) &&
           parseInt(errors[i].event.daysOfWeek[0]) ==
-            parseInt(schedules[j].events[k].daysOfWeek[0]) &&
+          parseInt(schedules[j].events[k].daysOfWeek[0]) &&
           errors[i].event.semester === schedules[j].events[k].semester &&
           errors[i].event.userid === schedules[j].events[k].userid &&
           errors[i].event.eventId !== schedules[j].events[k].eventId
@@ -121,7 +121,7 @@ router.post('/', async (req, res) => {
       );
     }
   } else {
-    checkAndRemove(event.eventId, 'time_exception', errors, fixed_errors);
+    checkAndRemove(event, 'time_exception', errors, fixed_errors);
   }
 
   //return the errors and the message for the user
@@ -129,10 +129,27 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/delete', async (req, res) => {
-  const { schedules, errors } = req.body;
+  const { schedules, errors,event,events } = req.body;
   let fixed_errors = [];
   //Checks if the course goes beyond its time
   let errors_ids = [];
+  //getting the schedule of the event
+  let schedule = getSchedule(event.schedId, schedules);
+  //Checks if the course goes beyond its times
+  let courseTimeErrors = checkCourseTime(schedule, events, event);
+  if (courseTimeErrors.exceed_from_time) {
+    addErrorToMsg('time_exception', popupMsg);
+    for (let i = 0; i < courseTimeErrors.same_events.length; i++) {
+      addEventToErrors(
+        courseTimeErrors.same_events[i],
+        'time_exception',
+        errors
+      );
+    }
+  } else {
+    checkAndRemove(event, 'time_exception', errors, fixed_errors);
+  }
+
   // check for the user if there are events that not collision anymore
   for (let i = 0; i < errors.length; i++) {
     let remove = true;
@@ -141,7 +158,7 @@ router.put('/delete', async (req, res) => {
         if (
           checkTimeClash(errors[i].event, schedules[j].events[k]) &&
           parseInt(errors[i].event.daysOfWeek[0]) ==
-            parseInt(schedules[j].events[k].daysOfWeek[0]) &&
+          parseInt(schedules[j].events[k].daysOfWeek[0]) &&
           errors[i].event.semester === schedules[j].events[k].semester &&
           errors[i].event.eventId !== schedules[j].events[k].eventId
         ) {
@@ -290,15 +307,14 @@ const getSchedule = (id, schedules) => {
   }
 };
 
-const checkAndRemove = (eventId, type, errors, fixed_errors) => {
+const checkAndRemove = (eventId, type, errors, fixed_errors, event) => {
+
   if (type === 'time_exception') {
     for (let i = 0; i < errors.length; i++) {
-      if (
-        event.timeTableId === errors[i].timeTableId &&
-        errors[i].type === type
-      ) {
+      if (eventId.timeTableId === errors[i].event.timeTableId && errors[i].type === type) {
         fixed_errors.push({ event: errors[i].event, type: errors[i].type });
         errors.splice(i, 1);
+        i--;
       }
     }
   } else {
@@ -306,6 +322,7 @@ const checkAndRemove = (eventId, type, errors, fixed_errors) => {
       if (errors[i].event.eventId === eventId && errors[i].type === type) {
         fixed_errors.push({ event: errors[i].event, type: errors[i].type });
         errors.splice(i, 1);
+        i--;
       }
     }
   }

@@ -235,8 +235,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-              ' ' +
-              info.event.extendedProps.last_name
+            ' ' +
+            info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}
@@ -398,7 +398,7 @@ export const eventClick = (eventClick) => {
         },
       });
       deleteFromErrors(eventClick.event._def.extendedProps.eventId);
-      checkCollisionsAfterDelete();
+      checkCollisionsAfterDelete(eventClick.event._def.extendedProps);
       forceSchedsUpdate(store.getState().schedule.current);
       sumAllCoursesHours();
       saveButtonClicked();
@@ -411,13 +411,17 @@ export const eventClick = (eventClick) => {
   });
 };
 
-const checkCollisionsAfterDelete = async () => {
+const checkCollisionsAfterDelete = async (event) => {
+  console.log(event)
   let schedules = castToArray(store.getState().schedule.schedules);
   let errors = store.getState().schedule.errorsEvents;
+  let events = store.getState().event.events;
   try {
     const res = await axios.put(`api/validations/delete/`, {
       schedules,
       errors,
+      events,
+      event
     });
     updateStatus(res.data, true);
   } catch (err) {
