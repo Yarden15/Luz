@@ -177,5 +177,6 @@
   "message": "הודעה",
   "send_mail_success_msg": "המייל נשלח בהצלחה",
   "send_mail_success_title": "נשלח",
-  "error_send_mail": "המייל לא נשלח"
+  "error_send_mail": "המייל לא נשלח",
+  "export": "ייצא"
 }

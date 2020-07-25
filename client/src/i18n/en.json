@@ -163,5 +163,6 @@
   "message": "Message",
   "send_mail_success_msg": "The email was successfully sent",
   "send_mail_success_title": "Sent",
-  "error_send_mail": "The email was not sent"
+  "error_send_mail": "The email was not sent",
+  "export": "Export"
 }
