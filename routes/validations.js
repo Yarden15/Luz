@@ -129,7 +129,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/delete', async (req, res) => {
-  const { schedules, errors,event,events } = req.body;
+  const { schedules, errors, event, events } = req.body;
   let fixed_errors = [];
   //Checks if the course goes beyond its time
   let errors_ids = [];
@@ -365,12 +365,13 @@ const checkCourseTime = (schedule, events, event) => {
   let same_events = [];
 
   for (let i = 0; i < schedule.events.length; i++) {
-    if (event.timeTableId === schedule.events[i].timeTableId)
+    if (event.timeTableId === schedule.events[i].timeTableId) {
       same_events.push(schedule.events[i]);
-    timeOnSched += calculateDiffBetweenTimes(
-      schedule.events[i].startTime,
-      schedule.events[i].endTime
-    );
+      timeOnSched += calculateDiffBetweenTimes(
+        schedule.events[i].startTime,
+        schedule.events[i].endTime
+      );
+    }
   }
   timeOnSched = minutesToTimeStamp(timeOnSched);
   for (let i = 0; i < events.length; i++) {

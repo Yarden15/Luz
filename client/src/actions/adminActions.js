@@ -95,7 +95,6 @@ export const createEmailAlert = () => {
   let t = store.getState().literals.literals;
   let dir = store.getState().literals.dir;
   let EmailAlert = {
-    title: t.create_new_schedule,
     focusConfirm: false,
     html:
       `<div class=${dir}>${t.send_to}</div>` +
@@ -159,17 +158,66 @@ const sendGeneralEmail = async (sendTo, subject, message) => {
       if (user.manager || user.scheduler)
         emails.push(user.email);
     })
+  } else {
+    emails.push(sendTo);
   }
 
   let msg = [];
   let t = store.getState().literals.literals;
   try {
-    await axios.post(`/api/emails/manage/general_mail`, { emails, subject, message });
-    msg.push('send_mail_success_msg');
-    popupAlert('send_mail_success_title', msg, 'regular');
+    if (emails.length) {
+      await axios.post(`/api/emails/manage/general_mail`, { emails, subject, message });
+      msg.push('send_mail_success_msg');
+      popupAlert('send_mail_success_title', msg, 'regular');
+    }
+    else {
+      msg.push('no_recipients_msg');
+      popupAlert('no_recipients', msg, 'regular');
+    }
   } catch (error) {
     console.error(error);
     msg.push('error_send_mail');
     popupAlert('error', msg, 'error');
   }
+}
+
+export const EmailToUser = (email) => {
+  let t = store.getState().literals.literals;
+  let dir = store.getState().literals.dir;
+  let EmailAlert = {
+    title: email,
+    focusConfirm: false,
+    html:
+      `<div class=${dir}>${t.subject}</div>` +
+      `<input type="text" id="subject-email" class="swal2-input" dir=${dir}></input>` +
+      `<div className="comment ${dir}">
+      <div class=${dir}>${t.message}</div>
+      <textarea dir=${dir} id="message-email" class="swal2-input" cols="40" rows="5" ></textarea>
+    </div>`,
+    showCancelButton: true,
+    confirmButtonText: t.ok,
+    cancelButtonText: t.cancel,
+    cancelButtonColor: '#d33',
+    allowOutsideClick: false,
+    preConfirm: () => ({ //after the user click on confirm we taking the values
+      subject: document.getElementById('subject-email').value,
+      message: document.getElementById('message-email').value,
+    }),
+  };
+  const createEmail = async () => {
+    const alertVal = await Alert.fire(EmailAlert);
+    let newEmail = (alertVal && alertVal.value) || alertVal.dismiss;
+    if (newEmail && newEmail !== 'cancel' && newEmail !== 'esc') {
+      if (
+        newEmail.subject === '' ||
+        newEmail.message === ''
+      ) {
+        await Alert.fire({ type: 'error', title: t.all_fields_are_required });
+        createEmail();
+      } else {
+        sendGeneralEmail(email, newEmail.subject, newEmail.message)
+      }
+    }
+  }
+  createEmail();
 }

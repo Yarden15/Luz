@@ -6,6 +6,7 @@ import { getUsers, deleteUserAlert, handleResetPassword, unlockSubmitAlert, lock
 import Spinner from '../layout/Spinner';
 import { sortUsers, sortUsersByFirstName, sortUsersByLastName, sortUsersByID, sortUsersByEmail, sortUsersByColor } from '../../actions/utilities';
 import { loadUser } from '../../actions/authActions';
+import { EmailToUser } from '../../actions/adminActions';
 
 export class ManageUsers extends Component {
   componentDidMount() {
@@ -58,7 +59,7 @@ export class ManageUsers extends Component {
                       <td>{user.first_name}</td>
                       <td>{user.last_name}</td>
                       <td>{user.id_number}</td>
-                      <td>{user.email}</td>
+                      <td className='clickable' onClick={() => { EmailToUser(user.email) }}>{user.email}</td>
                       <td style={{ background: user.color }}></td>
                       <td style={{ textAlign: 'center' }}>
                         {user.submitted_schedule ? <i className="fas fa-check"></i> :
