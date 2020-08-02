@@ -31,7 +31,7 @@ import { displayEventBySchedule } from './eventsActions';
 import { sortEventByFirstLast } from './utilities';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import XLSX from 'xlsx';
+
 
 export const cleanSchedules = () => {
   setLoading();
