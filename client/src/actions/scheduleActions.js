@@ -29,6 +29,9 @@ import { popupAlert } from './alertsActions';
 import { getUsers } from './userActions';
 import { displayEventBySchedule } from './eventsActions';
 import { sortEventByFirstLast } from './utilities';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import XLSX from 'xlsx';
 
 export const cleanSchedules = () => {
   setLoading();
@@ -166,28 +169,26 @@ export const createCalendar = (
         id={id}
         defaultView='timeGridWeek'
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        customButtons={
-          {
-            // clear: {
-            //   text: t.clear,
-            //   click: function () {
-            //     clearSchedule();
-            //     saveButtonClicked();
-            //     // exportTableToExcel()
-            //   },
-            // },
-            // rename: {
-            //   text: t.rename,
-            //   click: function () {
-            //     renameSched();
-            //   },
-            // },
-          }
-        }
+        customButtons={{
+          // clear: {
+          //   text: t.clear,
+          //   click: function () {
+          //     clearSchedule();
+          //     saveButtonClicked();
+          //     // exportTableToExcel()
+          //   },
+          // },
+          export: {
+            text: t.export,
+            click: function () {
+              exportSched();
+            },
+          },
+        }}
         header={{
           center: '',
           left: '',
-          right: 'clear rename',
+          right: 'clear export',
         }}
         hiddenDays={[6]}
         allDaySlot={false}
@@ -235,8 +236,8 @@ export const createCalendar = (
         eventRender={function (info) {
           info.el.append(
             info.event.extendedProps.first_name +
-            ' ' +
-            info.event.extendedProps.last_name
+              ' ' +
+              info.event.extendedProps.last_name
           );
         }}
         eventClick={eventClick}
@@ -420,7 +421,7 @@ const checkCollisionsAfterDelete = async (event) => {
       schedules,
       errors,
       events,
-      event
+      event,
     });
     updateStatus(res.data, true);
   } catch (err) {
@@ -612,26 +613,26 @@ export const enterNameSchedule = () => {
   });
 };
 
-const renameSched = () => {
+const exportSched = async () => {
   let t = store.getState().literals.literals;
-  Alert.fire({
-    title: t.enter_title_please,
-    input: 'text',
-    showCancelButton: true,
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: t.ok,
-    cancelButtonText: t.cancel,
-    inputValidator: (result) => {
-      if (!result) return t.you_must_insert_input;
-    },
-  }).then((result) => {
-    if (result.value) {
-      store.dispatch({
-        type: RENAME_SCHED,
-        payload: result.value,
-      });
-    }
+
+  var toPrint = document.getElementById('calendar_print_area');
+  html2canvas(toPrint).then((canvas) => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+    });
+    const imgProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save('calendar.pdf');
   });
+
+  // console.log(t);
+  // try {
+  //   await axios.post('/api/emails/manage/exportschedule');
+  // } catch (err) {}
 };
 
 export const deleteAlert = (schedule) => {
