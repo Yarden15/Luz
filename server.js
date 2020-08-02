@@ -9,8 +9,11 @@ const app = express();
 connectDB();
 
 // Init middleware
-app.use(express.json({ extended: false }));
+// app.use(express.json({ extended: false }));
 app.use(express.static(path.join(__dirname, 'client/build')));
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/public/index.html'));
