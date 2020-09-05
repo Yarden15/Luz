@@ -22,7 +22,7 @@ router.post('/manage/reminder', [Authorization], async (req, res) => {
     service: 'gmail',
     auth: {
       user: 'luzzzapp@gmail.com',
-      pass: 'Yarden15',
+      pass: 'LuzApp15',
     },
   });
 
