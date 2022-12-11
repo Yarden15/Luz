@@ -31,7 +31,7 @@
     "config": "^3.2.4",
     "core-js": "^3.6.5",
     "exceljs": "^4.0.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-validator": "^6.3.0",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^3.10.1",
